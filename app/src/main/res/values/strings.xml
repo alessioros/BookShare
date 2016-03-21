@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BookShare</string>
+    <string name="scan">Scan a Book</string>
+</resources>
