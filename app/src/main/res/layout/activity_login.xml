@@ -51,7 +51,7 @@
         android:paddingLeft="@dimen/input_padding"
         android:layout_below="@id/line"
         android:background="@color/white"
-        android:layout_width="@dimen/login_input"
+        android:layout_width="@dimen/input_width"
         android:layout_height="@dimen/input_height" />
 
     <ImageView
@@ -62,7 +62,7 @@
         android:layout_toRightOf="@id/email"
         android:layout_marginTop="55dp"
         android:layout_below="@id/line"
-        android:layout_marginLeft="-45dp" />
+        android:layout_marginLeft="-40dp" />
 
     <EditText
         android:id="@+id/password"
@@ -75,7 +75,7 @@
         android:background="@color/white"
         android:paddingLeft="@dimen/input_padding"
         android:layout_centerHorizontal="true"
-        android:layout_width="@dimen/login_input"
+        android:layout_width="@dimen/input_width"
         android:layout_height="@dimen/input_height" />
 
     <ImageView
@@ -86,11 +86,11 @@
         android:layout_toRightOf="@id/password"
         android:layout_marginTop="22dp"
         android:layout_below="@id/email"
-        android:layout_marginLeft="-43dp" />
+        android:layout_marginLeft="-38dp" />
 
     <Button
         android:id="@+id/login_button"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="50dp"
         android:layout_below="@id/password"
         android:layout_width="@dimen/login_input"
         android:layout_height="@dimen/input_height"
