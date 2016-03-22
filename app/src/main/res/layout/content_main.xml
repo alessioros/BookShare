@@ -8,15 +8,48 @@
     tools:context="it.polimi.alessiorossotti.bookscanner.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <Button
-        android:id="@+id/scan_button"
+    <AutoCompleteTextView
+        android:id="@+id/searchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:dropDownVerticalOffset="5dp"
+        android:dropDownWidth="wrap_content"
+        android:inputType="textAutoComplete|textAutoCorrect"
+        android:popupBackground="#FFFFFF"
+        android:textColor="#000000" />
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
         android:padding="10dp"
-        android:background="#ff333333"
-        android:textColor="#ffcccccc"
+            android:textSize="25dp"
+            android:textAlignment="center"
+            android:background="@color/colorPrimary"
+            android:textColor="#ffffff"
+            android:text="@string/search" />
+
+        <Button
+            android:id="@+id/scan_button"
+            android:layout_width="230dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/search_button"
+            android:layout_centerHorizontal="true"
+            android:padding="10dp"
+            android:textSize="25dp"
+            android:textAlignment="center"
+            android:background="@color/colorPrimary"
+            android:textColor="#ffffff"
         android:text="@string/scan" />
 
+    </RelativeLayout>
 </RelativeLayout>

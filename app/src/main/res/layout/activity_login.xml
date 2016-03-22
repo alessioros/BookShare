@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    tools:context="it.polimi.dima.bookshare.activities.LoginActivity"
+    android:background="@color/colorPrimaryLight">
+
+    <ImageView
+        android:id="@+id/logo_image"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginTop="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_bookshare_tr" />
+
+    <TextView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo_image"
+        android:text="@string/app_name"
+        android:textSize="40sp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:shadowColor="@color/white"
+        android:shadowRadius="1.5"
+        android:shadowDx="1"
+        android:shadowDy="1" />
+
+    <EditText
+        android:id="@+id/email"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/input_login"
+        android:textColorHint="@color/input_login_hint"
+        android:layout_marginTop="55dp"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/input_padding"
+        android:layout_below="@id/logo"
+        android:background="@color/white"
+        android:layout_width="@dimen/login_input"
+        android:layout_height="@dimen/input_height" />
+
+    <EditText
+        android:id="@+id/password"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textColor="@color/input_login"
+        android:textColorHint="@color/input_login_hint"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/email"
+        android:background="@color/white"
+        android:padding="@dimen/input_padding"
+        android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/login_input"
+        android:layout_height="@dimen/input_height" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_marginTop="45dp"
+        android:layout_below="@id/password"
+        android:layout_width="@dimen/login_input"
+        android:layout_height="@dimen/input_height"
+        android:layout_centerHorizontal="true"
+        android:text="@string/login"
+        android:background="@color/white"
+        android:textColor="@color/colorPrimaryLight"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_button"
+        android:layout_marginTop="30dp"
+        android:text="@string/register"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

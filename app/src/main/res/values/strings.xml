@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">BookShare</string>
     <string name="scan">Scan a Book</string>
+    <string name="search">Search</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Don\'t you have an account? Register</string>
+
 </resources>
