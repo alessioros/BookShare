@@ -51,5 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 LoginActivity.this.finish();
             }
         });
+
+        login.setTypeface(aller);
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.dima.bookshare.activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -40,8 +41,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         Button scanB = (Button) findViewById(R.id.scan_button);
+        Button searchB = (Button) findViewById(R.id.search_button);
 
         scanB.setOnClickListener(this);
+        Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
+        scanB.setTypeface(aller);
+        searchB.setTypeface(all);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
