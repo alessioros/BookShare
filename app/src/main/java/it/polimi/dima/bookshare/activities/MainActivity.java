@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scanB.setOnClickListener(this);
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
         scanB.setTypeface(aller);
-        searchB.setTypeface(all);
+        searchB.setTypeface(aller);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
