@@ -2,6 +2,7 @@ package it.polimi.dima.bookshare.activities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -32,6 +33,13 @@ public class BookActivity extends AppCompatActivity {
         TextView bookAuthor = (TextView) findViewById(R.id.book_author);
         TextView bookPublisher = (TextView) findViewById(R.id.book_publisher);
         TextView bookDescription = (TextView) findViewById(R.id.book_description);
+
+        Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
+
+        bookTitle.setTypeface(aller);
+        bookAuthor.setTypeface(aller);
+        bookPublisher.setTypeface(aller);
+        bookDescription.setTypeface(aller);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
