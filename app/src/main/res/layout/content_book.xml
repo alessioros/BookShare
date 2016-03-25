@@ -92,6 +92,18 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:layout_below="@id/ruler" />
+
+            <Button
+                android:id="@+id/add_button"
+                android:layout_width="@dimen/login_input"
+                android:layout_height="@dimen/input_height"
+                android:text="@string/add_book"
+                android:background="@color/colorPrimaryLight"
+                android:textColor="@color/white"
+                android:layout_below="@id/book_description"
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true" />
+
         </RelativeLayout>
 
     </ScrollView>

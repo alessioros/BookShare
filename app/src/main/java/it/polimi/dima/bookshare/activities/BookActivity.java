@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ public class BookActivity extends AppCompatActivity {
         TextView bookAuthor = (TextView) findViewById(R.id.book_author);
         TextView bookPublisher = (TextView) findViewById(R.id.book_publisher);
         TextView bookDescription = (TextView) findViewById(R.id.book_description);
+        Button addButton = (Button) findViewById(R.id.add_button);
 
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
 
@@ -40,6 +42,14 @@ public class BookActivity extends AppCompatActivity {
         bookAuthor.setTypeface(aller);
         bookPublisher.setTypeface(aller);
         bookDescription.setTypeface(aller);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // add book to DynamoDB
+            }
+        });
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
