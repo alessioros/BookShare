@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //check we have a valid result
         if (scanningResult != null) {
             //get content from Intent Result
-            String scanContent = scanningResult.getContents();
+            final String scanContent = scanningResult.getContents();
             //get format name of data scanned
             String scanFormat = scanningResult.getFormatName();
 
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onResponse(JSONObject response) {
 
                     Intent bookIntent = new Intent(MainActivity.this, BookActivity.class);
+                    bookIntent.putExtra("ISBN",scanContent);
 
                     try {
 
@@ -138,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         }
                         startActivity(bookIntent);
+                        finish();
 
                     } catch (JSONException e) {
                         e.printStackTrace();

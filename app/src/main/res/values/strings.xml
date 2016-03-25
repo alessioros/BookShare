@@ -5,7 +5,8 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="loginfb">Login with FB</string>
     <string name="register">Don\'t you have an account? Register</string>
     <string name="add_book">Add Book</string>
-
+    <string name="facebook_app_id">"1716685071920315"</string>
 </resources>
