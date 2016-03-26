@@ -52,12 +52,11 @@ public class DynamoDBManager {
         AmazonDynamoDBClient ddb = clientManager
                 .ddb();
 
-        KeySchemaElement kse = new KeySchemaElement().withAttributeName(
-                "ISBN").withKeyType(KeyType.HASH);
-        AttributeDefinition ad = new AttributeDefinition().withAttributeName(
-                "ISBN").withAttributeType(ScalarAttributeType.N);
-        ProvisionedThroughput pt = new ProvisionedThroughput()
-                .withReadCapacityUnits(5l).withWriteCapacityUnits(5l);
+        KeySchemaElement kse = new KeySchemaElement().withAttributeName("ISBN").withKeyType(KeyType.HASH);
+
+        AttributeDefinition ad = new AttributeDefinition().withAttributeName("ISBN").withAttributeType(ScalarAttributeType.S);
+
+        ProvisionedThroughput pt = new ProvisionedThroughput().withReadCapacityUnits(5l).withWriteCapacityUnits(5l);
 
         CreateTableRequest request = new CreateTableRequest()
                 .withTableName(Constants.BOOK_TABLE_NAME)
@@ -68,7 +67,7 @@ public class DynamoDBManager {
         try {
             Log.d(TAG, "Sending Create table request");
             ddb.createTable(request);
-            Log.d(TAG, "Create request response successfully recieved");
+            Log.d(TAG, "Create request response successfully received");
         } catch (AmazonServiceException ex) {
             Log.e(TAG, "Error sending create table request", ex);
             clientManager
@@ -133,8 +132,7 @@ public class DynamoDBManager {
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
         try {
-            PaginatedScanList<Book> result = mapper.scan(
-                    Book.class, scanExpression);
+            PaginatedScanList<Book> result = mapper.scan(Book.class, scanExpression);
 
             ArrayList<Book> resultList = new ArrayList<Book>();
             for (Book book : result) {

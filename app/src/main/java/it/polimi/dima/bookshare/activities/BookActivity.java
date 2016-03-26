@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +19,8 @@ import java.net.URL;
 
 import it.polimi.dima.bookshare.Book;
 import it.polimi.dima.bookshare.DynamoDBManager;
+import it.polimi.dima.bookshare.DynamoDBManagerTask;
+import it.polimi.dima.bookshare.DynamoDBManagerType;
 import it.polimi.dima.bookshare.R;
 
 public class BookActivity extends AppCompatActivity {
@@ -53,10 +56,7 @@ public class BookActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // add book to DynamoDB
-                new DynamoDBManagerTask()
-                        .execute(DynamoDBManagerType.CREATE_TABLE);
-                new DynamoDBManagerTask()
-                        .execute(DynamoDBManagerType.INSERT_BOOK);
+                new DynamoDBManagerTask(BookActivity.this,book).execute(DynamoDBManagerType.INSERT_BOOK);
 
             }
         });
@@ -102,7 +102,7 @@ public class BookActivity extends AppCompatActivity {
         }
     }
 
-    private class DynamoDBManagerTask extends
+    /*private class DynamoDBManagerTask extends
             AsyncTask<DynamoDBManagerType, Void, DynamoDBManagerTaskResult> {
 
         protected DynamoDBManagerTaskResult doInBackground(DynamoDBManagerType... types) {
@@ -125,7 +125,7 @@ public class BookActivity extends AppCompatActivity {
                 }
             } else if (types[0] == DynamoDBManagerType.LIST_BOOKS) {
                 if (tableStatus.equalsIgnoreCase("ACTIVE")) {
-                    DDBM.getBookList();
+                    Log.i("BOOKLIST",DDBM.getBookList().toString());
                 }
             } else if (types[0] == DynamoDBManagerType.CLEAN_UP) {
                 if (tableStatus.equalsIgnoreCase("ACTIVE")) {
@@ -189,6 +189,6 @@ public class BookActivity extends AppCompatActivity {
         public void setTableStatus(String tableStatus) {
             this.tableStatus = tableStatus;
         }
-    }
+    }*/
 
 }

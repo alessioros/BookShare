@@ -63,7 +63,7 @@ public class Book {
         this.hardCover = hardCover;
     }
 
-    @DynamoDBAttribute(attributeName = "Price")
+    @DynamoDBAttribute(attributeName = "Description")
     public String getDescription() {
         return description;
     }

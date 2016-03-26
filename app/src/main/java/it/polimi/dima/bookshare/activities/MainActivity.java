@@ -23,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import it.polimi.dima.bookshare.DynamoDBManagerTask;
+import it.polimi.dima.bookshare.DynamoDBManagerType;
 import it.polimi.dima.bookshare.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -47,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
         scanB.setTypeface(aller);
         searchB.setTypeface(aller);
+
+        new DynamoDBManagerTask(MainActivity.this,null).execute(DynamoDBManagerType.CREATE_TABLE);
+
+        new DynamoDBManagerTask(MainActivity.this,null).execute(DynamoDBManagerType.LIST_BOOKS);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -139,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         }
                         startActivity(bookIntent);
-                        finish();
 
                     } catch (JSONException e) {
                         e.printStackTrace();

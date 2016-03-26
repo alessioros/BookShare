@@ -107,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                         setFacebookSession(loginResult.getAccessToken());
                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(i);
+                        finish();
                     }
 
                     @Override
