@@ -6,16 +6,13 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexHas
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 
-/**
- * Created by matteo on 25/03/16.
- */
 @DynamoDBTable(tableName = Constants.BOOK_TABLE_NAME)
 public class Book {
     private String isbn;
     private String title;
     private String author;
-    private int price;
-    private Boolean hardCover;
+    private float price;
+    private int pageCount;
     private String description;
 
     @DynamoDBIndexRangeKey(attributeName = "Title")
@@ -37,11 +34,11 @@ public class Book {
     }
 
     @DynamoDBAttribute(attributeName = "Price")
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -54,15 +51,6 @@ public class Book {
         this.isbn = isbn;
     }
 
-    @DynamoDBAttribute(attributeName = "Hardcover")
-    public Boolean getHardCover() {
-        return hardCover;
-    }
-
-    public void setHardCover(Boolean hardCover) {
-        this.hardCover = hardCover;
-    }
-
     @DynamoDBAttribute(attributeName = "Description")
     public String getDescription() {
         return description;
@@ -71,5 +59,15 @@ public class Book {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @DynamoDBAttribute(attributeName = "pageCount")
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
+    }
+
 
 }

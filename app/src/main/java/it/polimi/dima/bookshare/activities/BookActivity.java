@@ -79,6 +79,26 @@ public class BookActivity extends AppCompatActivity {
                 book.setAuthor(extras.getString("author" + i) + " ");
             }
 
+            try {
+
+                float price = extras.getFloat("price");
+                bookPublisher.append(price + " ");
+                book.setPrice(price);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+
+                int pageCount = extras.getInt("pageCount");
+                bookPublisher.append(pageCount + " ");
+                book.setPageCount(pageCount);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             if (extras.getString("publisher") != null)
                 bookPublisher.append(extras.getString("publisher") + " ");
             if (extras.getString("publishedDate") != null)

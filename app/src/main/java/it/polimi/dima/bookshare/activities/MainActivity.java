@@ -145,11 +145,34 @@ public class MainActivity extends AppCompatActivity
                             }
 
                             try {
+                                JSONObject saleInfo = volumeInfo.getJSONObject("saleInfo");
+
+                                JSONObject listPrice = saleInfo.getJSONObject("listPrice");
+
+                                Float price = Float.parseFloat(listPrice.getString("amount"));
+
+                                bookIntent.putExtra("price", price);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
                                 String title = new String(volumeInfo.getString("title").getBytes("ISO-8859-1"), "UTF-8");
                                 bookIntent.putExtra("title", title);
 
                             } catch (Exception e) {
 
+                                e.printStackTrace();
+                            }
+
+                            try {
+
+                                int pageCount = Integer.parseInt(volumeInfo.getString("pageCount"));
+
+                                bookIntent.putExtra("pageCount", pageCount);
+
+                            } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
