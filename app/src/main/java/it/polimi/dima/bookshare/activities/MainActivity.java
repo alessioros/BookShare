@@ -1,5 +1,6 @@
 package it.polimi.dima.bookshare.activities;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -43,6 +44,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.fragments.LibraryFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -129,11 +131,17 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.library) {
 
-        } else if (id == R.id.nav_slideshow) {
+            Fragment fragment = LibraryFragment.newInstance();
+
+            getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+            getSupportActionBar().setTitle("Library");
+
+        } else if (id == R.id.settings) {
 
         }
 
