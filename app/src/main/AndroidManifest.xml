@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Login Activity-->
+        <!-- Login Activity -->
         <activity
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"
@@ -44,8 +44,9 @@
 
         <activity
             android:name=".activities.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

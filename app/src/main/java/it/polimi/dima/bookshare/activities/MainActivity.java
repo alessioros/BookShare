@@ -1,12 +1,19 @@
 package it.polimi.dima.bookshare.activities;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -23,11 +30,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import it.polimi.dima.bookshare.DynamoDBManagerTask;
-import it.polimi.dima.bookshare.DynamoDBManagerType;
 import it.polimi.dima.bookshare.R;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +47,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("BookShare");
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         Button scanB = (Button) findViewById(R.id.scan_button);
-        Button searchB = (Button) findViewById(R.id.search_button);
 
-        scanB.setOnClickListener(this);
-        Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
-        scanB.setTypeface(aller);
-        searchB.setTypeface(aller);
+        scanB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        new DynamoDBManagerTask(MainActivity.this,null).execute(DynamoDBManagerType.CREATE_TABLE);
+                IntentIntegrator scanIntegrator = new IntentIntegrator(MainActivity.this);
+                scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
+                scanIntegrator.setPrompt("Scan an ISBN");
+                scanIntegrator.initiateScan();
+            }
+        });
+    }
 
-        new DynamoDBManagerTask(MainActivity.this,null).execute(DynamoDBManagerType.LIST_BOOKS);
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -62,8 +108,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (scanningResult != null) {
             //get content from Intent Result
             final String scanContent = scanningResult.getContents();
-            //get format name of data scanned
-            String scanFormat = scanningResult.getFormatName();
 
             Toast toast = Toast.makeText(getApplicationContext(),
                     "ISBN " + scanContent + " founded", Toast.LENGTH_SHORT);
@@ -78,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onResponse(JSONObject response) {
 
                     Intent bookIntent = new Intent(MainActivity.this, BookActivity.class);
-                    bookIntent.putExtra("ISBN",scanContent);
+                    bookIntent.putExtra("ISBN", scanContent);
 
                     try {
 
@@ -100,9 +144,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 e.printStackTrace();
                             }
 
+                            try {
+                                String title = new String(volumeInfo.getString("title").getBytes("ISO-8859-1"), "UTF-8");
+                                bookIntent.putExtra("title", title);
 
-                            String title = volumeInfo.getString("title");
-                            bookIntent.putExtra("title", title);
+                            } catch (Exception e) {
+
+                                e.printStackTrace();
+                            }
 
                             try {
                                 JSONArray authors = volumeInfo.getJSONArray("authors");
@@ -110,19 +159,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 for (int j = 0; j < authors.length(); j++) {
 
-                                    String author = authors.getString(i);
+                                    String author = new String(authors.getString(i).getBytes("ISO-8859-1"), "UTF-8");
                                     bookIntent.putExtra("author" + j, author);
                                 }
 
-                            } catch (JSONException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
                             try {
                                 String publisher = volumeInfo.getString("publisher");
-                                bookIntent.putExtra("publisher", publisher);
+                                bookIntent.putExtra("publisher", new String(publisher.getBytes("ISO-8859-1"), "UTF-8"));
 
-                            } catch (JSONException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
@@ -135,10 +184,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
 
                             try {
-                                String description = volumeInfo.getString("description");
-                                bookIntent.putExtra("description", description);
 
-                            } catch (JSONException e) {
+                                String description = volumeInfo.getString("description");
+                                bookIntent.putExtra("description", new String(description.getBytes("ISO-8859-1"), "UTF-8"));
+
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
@@ -173,17 +223,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     "No book scan data received!", Toast.LENGTH_SHORT);
             toast.show();
         }
+
     }
-
-    @Override
-    public void onClick(View v) {
-
-        if (v.getId() == R.id.scan_button) {
-            IntentIntegrator scanIntegrator = new IntentIntegrator(this);
-            scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
-            scanIntegrator.setPrompt("Scan an ISBN");
-            scanIntegrator.initiateScan();
-        }
-    }
-
 }

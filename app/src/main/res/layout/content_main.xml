@@ -4,52 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="it.polimi.alessiorossotti.bookscanner.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context="it.polimi.dima.bookshare.activities.MainActivity"
+    tools:showIn="@layout/app_bar_main">
 
-    <AutoCompleteTextView
-        android:id="@+id/searchBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:dropDownVerticalOffset="5dp"
-        android:dropDownWidth="wrap_content"
-        android:inputType="textAutoComplete|textAutoCorrect"
-        android:popupBackground="#FFFFFF"
-        android:textColor="#000000" />
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/scan_button"
+        android:layout_width="@dimen/main_button_width"
+        android:layout_height="@dimen/main_button_height"
+        android:layout_marginTop="80dp"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
-
-        <Button
-            android:id="@+id/search_button"
-            android:layout_width="@dimen/main_button_width"
-            android:layout_height="@dimen/main_button_height"
-            android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:padding="10dp"
-            android:textSize="25dp"
-            android:textAlignment="center"
-            android:background="@color/colorPrimaryLight"
-            android:textColor="#ffffff"
-            android:text="@string/search" />
-
-        <Button
-            android:id="@+id/scan_button"
-            android:layout_width="@dimen/main_button_width"
-            android:layout_height="@dimen/main_button_height"
-            android:layout_marginTop="80dp"
-            android:layout_below="@+id/search_button"
-            android:layout_centerHorizontal="true"
-            android:padding="10dp"
-            android:textSize="25dp"
-            android:textAlignment="center"
-            android:background="@color/colorPrimaryLight"
-            android:textColor="#ffffff"
+        android:textSize="@dimen/main_button_text"
+        android:textAlignment="center"
+        android:background="@color/colorPrimaryLight"
+        android:textColor="#ffffff"
         android:text="@string/scan" />
 
-    </RelativeLayout>
 </RelativeLayout>

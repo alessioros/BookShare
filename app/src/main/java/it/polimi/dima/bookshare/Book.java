@@ -11,10 +11,10 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
  */
 @DynamoDBTable(tableName = Constants.BOOK_TABLE_NAME)
 public class Book {
+    private String isbn;
     private String title;
     private String author;
     private int price;
-    private String isbn;
     private Boolean hardCover;
     private String description;
 

@@ -3,17 +3,13 @@ package it.polimi.dima.bookshare.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,25 +55,22 @@ public class LoginActivity extends AppCompatActivity {
          */
         CognitoSyncClientManager.init(this);
 
-
         TextView title = (TextView) findViewById(R.id.logo);
         EditText email = (EditText) findViewById(R.id.email);
         EditText password = (EditText) findViewById(R.id.password);
         TextView register = (TextView) findViewById(R.id.register);
+        Button login = (Button) findViewById(R.id.login_button);
+        Button loginFB = (Button) findViewById(R.id.login_fb);
 
         Typeface zaguatica = Typeface.createFromAsset(getAssets(), "fonts/zaguatica-Bold.otf");
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
-
-        //Drawable icEmail = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_mail);
-        //icEmail.setBounds(0, 0, 20, email.getMeasuredHeight());
-        //email.setCompoundDrawables(icEmail, null, null, null);
 
         title.setTypeface(zaguatica);
         email.setTypeface(aller);
         password.setTypeface(aller);
         register.setTypeface(aller);
-
-        Button login = (Button) findViewById(R.id.login_button);
+        login.setTypeface(aller);
+        loginFB.setTypeface(aller);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,10 +83,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        login.setTypeface(aller);
-
-        Button loginFB = (Button) findViewById(R.id.login_fb);
-
         loginFB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                 LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
+
                         new GetFbName(loginResult).execute();
                         setFacebookSession(loginResult.getAccessToken());
                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
@@ -129,8 +119,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
-
-        loginFB.setTypeface(aller);
     }
 
     @Override

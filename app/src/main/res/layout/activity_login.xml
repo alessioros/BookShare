@@ -46,7 +46,7 @@
         android:inputType="textEmailAddress"
         android:textColor="@color/input_login"
         android:textColorHint="@color/input_login_hint"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
         android:paddingLeft="@dimen/input_padding"
         android:layout_below="@id/line"
@@ -60,7 +60,7 @@
         android:background="@drawable/mail"
         android:layout_toEndOf="@id/email"
         android:layout_toRightOf="@id/email"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="45dp"
         android:layout_below="@id/line"
         android:layout_marginLeft="-40dp" />
 
@@ -90,7 +90,7 @@
 
     <Button
         android:id="@+id/login_button"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:layout_below="@id/password"
         android:layout_width="@dimen/login_input"
         android:layout_height="@dimen/input_height"
@@ -123,4 +123,5 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
