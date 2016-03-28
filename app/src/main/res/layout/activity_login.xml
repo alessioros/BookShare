@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     tools:context="it.polimi.dima.bookshare.activities.LoginActivity"
-    android:background="@color/colorPrimaryLight">
+    android:background="@drawable/side_nav_bar">
 
     <ImageView
         android:id="@+id/logo_image"

@@ -1,6 +1,9 @@
 package it.polimi.dima.bookshare.activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -23,12 +28,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import it.polimi.dima.bookshare.R;
 
@@ -70,6 +82,35 @@ public class MainActivity extends AppCompatActivity
                 scanIntegrator.initiateScan();
             }
         });
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        Profile userProfile = Profile.getCurrentProfile();
+
+        TextView username = (TextView) findViewById(R.id.username);
+
+        Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
+
+        username.setTypeface(aller);
+        username.setText(userProfile.getName());
+
+        CircularImageView userImage = (CircularImageView) findViewById(R.id.userImage);
+
+        try {
+
+            Uri imageUri = userProfile.getProfilePictureUri(300, 300);
+
+            Picasso.with(getApplicationContext()).load(imageUri).into(userImage);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return true;
     }
 
     @Override
