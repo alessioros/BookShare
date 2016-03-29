@@ -1,20 +1,11 @@
 package it.polimi.dima.bookshare;
 
 import android.content.Context;
-import android.renderscript.Sampler;
 import android.util.Log;
 
 import com.amazonaws.AmazonServiceException;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribute;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexHashKey;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBQueryExpression;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapperConfig;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedQueryList;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
@@ -32,13 +23,9 @@ import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryResult;
 import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
-import com.facebook.Profile;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -274,11 +261,16 @@ public class DynamoDBManager {
 
                 Book book = new Book();
 
+
                 AttributeValue attribute = (AttributeValue) item.get("ISBN");
                 book.setIsbn(attribute.getS());
 
-                attribute = (AttributeValue) item.get("Description");
-                book.setDescription(attribute.getS());
+                try {
+                    attribute = (AttributeValue) item.get("Description");
+                    book.setDescription(attribute.getS());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 attribute = (AttributeValue) item.get("Title");
                 book.setTitle(attribute.getS());
@@ -286,14 +278,22 @@ public class DynamoDBManager {
                 attribute = (AttributeValue) item.get("ownerID");
                 book.setOwnerID(attribute.getS());
 
-                attribute = (AttributeValue) item.get("pageCount");
-                book.setPageCount(Integer.parseInt(attribute.getN()));
-
-                attribute = (AttributeValue) item.get("Author");
-                book.setAuthor(attribute.getS());
+                try {
+                    attribute = (AttributeValue) item.get("pageCount");
+                    book.setPageCount(Integer.parseInt(attribute.getN()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 try {
+                    attribute = (AttributeValue) item.get("Author");
+                    book.setAuthor(attribute.getS());
 
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
                     attribute = (AttributeValue) item.get("imgURL");
                     book.setImgURL(attribute.getS());
 
