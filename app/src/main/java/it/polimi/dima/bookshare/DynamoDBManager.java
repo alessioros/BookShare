@@ -274,9 +274,6 @@ public class DynamoDBManager {
 
                 Book book = new Book();
 
-                /*Log.i(TAG,item.toString());
-                book = mapper.load(Book.class, item.get("ISBN").toString());*/
-
                 AttributeValue attribute = (AttributeValue) item.get("ISBN");
                 book.setIsbn(attribute.getS());
 

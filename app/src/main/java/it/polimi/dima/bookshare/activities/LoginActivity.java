@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookAuthorizationException;
@@ -137,8 +138,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setFacebookSession(AccessToken accessToken) {
         Log.i("Token", "facebook token: " + accessToken.getToken());
-        CognitoSyncClientManager.addLogins("graph.facebook.com",
-                accessToken.getToken());
+        CognitoSyncClientManager.addLogins("graph.facebook.com", accessToken.getToken());
+        new SaveCredentials().execute();
     }
 
     private class GetFbName extends AsyncTask<Void, Void, String> {
@@ -187,6 +188,25 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Unable to get user name from Facebook",
                         Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+
+    private class SaveCredentials extends AsyncTask<Void, Void, String> {
+
+        public SaveCredentials() {
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            CognitoSyncClientManager.getCredentialsProvider().getCredentials();
+            return "done";
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+
         }
     }
 }

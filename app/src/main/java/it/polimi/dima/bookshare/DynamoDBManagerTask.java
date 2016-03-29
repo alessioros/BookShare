@@ -10,8 +10,7 @@ import com.facebook.Profile;
 /**
  * Created by matteo on 26/03/16.
  */
-public class DynamoDBManagerTask extends
-        AsyncTask<DynamoDBManagerType, Void, DynamoDBManagerTaskResult> {
+public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, DynamoDBManagerTaskResult> {
 
     private Context context;
     private Book book;

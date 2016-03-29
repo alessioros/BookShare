@@ -1,12 +1,15 @@
 package it.polimi.dima.bookshare;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.auth.CognitoCredentialsProvider;
 import com.amazonaws.mobileconnectors.cognito.CognitoSyncManager;
 import com.amazonaws.regions.Regions;
+import com.facebook.login.LoginResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,8 +42,7 @@ public class CognitoSyncClientManager {
 
         if (syncClient != null) return;
 
-        credentialsProvider = new CognitoCachingCredentialsProvider(context, IDENTITY_POOL_ID,
-                REGION);
+        credentialsProvider = new CognitoCachingCredentialsProvider(context, IDENTITY_POOL_ID, REGION);
         Log.i(TAG, "Developer authenticated identities is not configured");
 
         syncClient = new CognitoSyncManager(context, REGION, credentialsProvider);
@@ -84,7 +86,7 @@ public class CognitoSyncClientManager {
      *
      * @return
      */
-    public CognitoCredentialsProvider getCredentialsProvider() {
+    public static CognitoCredentialsProvider getCredentialsProvider() {
         return credentialsProvider;
     }
 }
