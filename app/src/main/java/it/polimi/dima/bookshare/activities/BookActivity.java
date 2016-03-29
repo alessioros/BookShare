@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,6 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.Profile;
 
 import java.io.IOException;
 import java.net.URL;
@@ -55,6 +58,8 @@ public class BookActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                book.setOwnerID(Profile.getCurrentProfile().getId());
+
                 // add book to DynamoDB
                 new DynamoDBManagerTask(BookActivity.this,book).execute(DynamoDBManagerType.INSERT_BOOK);
 
@@ -81,16 +86,6 @@ public class BookActivity extends AppCompatActivity {
 
             try {
 
-                float price = extras.getFloat("price");
-                bookPublisher.append(price + " ");
-                book.setPrice(price);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            try {
-
                 int pageCount = extras.getInt("pageCount");
                 bookPublisher.append(pageCount + " ");
                 book.setPageCount(pageCount);
@@ -113,6 +108,9 @@ public class BookActivity extends AppCompatActivity {
             try {
 
                 URL url = new URL(extras.getString("imgURL"));
+
+                book.setImgURL(extras.getString("imgURL"));
+
                 Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                 bookImage.setImageBitmap(image);
 

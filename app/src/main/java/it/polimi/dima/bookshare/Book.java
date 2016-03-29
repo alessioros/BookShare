@@ -11,9 +11,10 @@ public class Book {
     private String isbn;
     private String title;
     private String author;
-    private float price;
     private int pageCount;
     private String description;
+    private String ownerID;
+    private String imgURL;
 
     @DynamoDBIndexRangeKey(attributeName = "Title")
     public String getTitle() {
@@ -31,15 +32,6 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    @DynamoDBAttribute(attributeName = "Price")
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
     }
 
     @DynamoDBHashKey(attributeName = "ISBN")
@@ -69,5 +61,22 @@ public class Book {
         this.pageCount = pageCount;
     }
 
+    @DynamoDBAttribute(attributeName = "ownerID")
+    public String getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(String ownerID) {
+        this.ownerID = ownerID;
+    }
+
+    @DynamoDBAttribute(attributeName = "imgURL")
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
 
 }
