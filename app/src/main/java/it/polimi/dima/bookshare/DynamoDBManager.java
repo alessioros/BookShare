@@ -272,16 +272,11 @@ public class DynamoDBManager {
 
             for (Map item : queryResult.getItems()) {
 
-                Book book;
-                Log.i(TAG,item.toString());
-                book = mapper.load(Book.class, item.get("ISBN").toString());
+                Book book = new Book();
 
-                book.setIsbn((item.get("ISBN").toString()));
-                book.setDescription(item.get("Description").toString());
-                book.setTitle(item.get("Title").toString());
-                book.setOwnerID(item.get("ownerID").toString());
-                //book.setPageCount(Integer.parseInt(item.get("pageCount").toString()));
-                book.setAuthor(item.get("Author").toString());
+                /*Log.i(TAG,item.toString());
+                book = mapper.load(Book.class, item.get("ISBN").toString());*/
+
                 AttributeValue attribute = (AttributeValue) item.get("ISBN");
                 book.setIsbn(attribute.getS());
 
@@ -302,7 +297,8 @@ public class DynamoDBManager {
 
                 try {
 
-                    book.setImgURL(item.get("imgURL").toString());
+                    attribute = (AttributeValue) item.get("imgURL");
+                    book.setImgURL(attribute.getS());
 
                 } catch (Exception e) {
                     e.printStackTrace();
