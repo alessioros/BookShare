@@ -10,6 +10,7 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexHashKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapperConfig;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedQueryList;
@@ -269,8 +270,11 @@ public class DynamoDBManager {
 
             for (Map item : queryResult.getItems()) {
 
-                Book book = new Book();
+                Book book;
+                Log.i(TAG,item.toString());
+                book = mapper.load(Book.class, item.get("ISBN").toString());
 
+                /*
                 book.setIsbn((item.get("ISBN").toString()));
                 book.setDescription(item.get("Description").toString());
                 book.setTitle(item.get("Title").toString());
@@ -284,7 +288,7 @@ public class DynamoDBManager {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
 
                 userBooks.add(book);
             }

@@ -22,9 +22,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import it.polimi.dima.bookshare.FragmentIntentIntegrator;
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.activities.BookActivity;
-import it.polimi.dima.bookshare.activities.MainActivity;
 import it.polimi.dima.bookshare.activities.VerticalOrientationCA;
 
 public class HomeFragment extends Fragment {
@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
+                FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(HomeFragment.this);
                 scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
                 scanIntegrator.setPrompt("Scan an ISBN");
                 scanIntegrator.initiateScan();
@@ -73,12 +73,10 @@ public class HomeFragment extends Fragment {
             //get content from Intent Result
             final String scanContent = scanningResult.getContents();
 
-            Toast toast = Toast.makeText(getActivity(),
-                    "ISBN " + scanContent + " founded", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getActivity(), "ISBN " + scanContent + " founded", Toast.LENGTH_SHORT);
             toast.show();
 
-            String url = "https://www.googleapis.com/books/v1/volumes?" +
-                    "q=isbn:" + scanContent + "&key=AIzaSyB7cvzVLJ1GLM7fqmoHNvYrkt4EAGR_sCA";
+            String url = "https://www.googleapis.com/books/v1/volumes?" + "q=isbn:" + scanContent + "&key=AIzaSyB7cvzVLJ1GLM7fqmoHNvYrkt4EAGR_sCA";
 
             final JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 

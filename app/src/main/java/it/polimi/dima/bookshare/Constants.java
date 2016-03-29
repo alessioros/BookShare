@@ -11,5 +11,6 @@ public class Constants {
     // Note that spaces are not allowed in the table name
     public static final String TEST_TABLE_NAME = "Sample";
     public static final String BOOK_TABLE_NAME = "Books";
+    public static final String BOOK_LIST_NAME = "BookList";
 
 }

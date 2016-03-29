@@ -3,13 +3,17 @@ package it.polimi.dima.bookshare.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,16 +48,20 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
-        //If access token is already here, set fb session
-        final AccessToken fbAccessToken = AccessToken.getCurrentAccessToken();
-        if (fbAccessToken != null) {
-            setFacebookSession(fbAccessToken);
-        }
-
         /**
          * Initializes the sync client. This must be call before you can use it.
          */
         CognitoSyncClientManager.init(this);
+
+
+        //If access token is already here, set fb session
+        final AccessToken fbAccessToken = AccessToken.getCurrentAccessToken();
+        if (fbAccessToken != null) {
+            setFacebookSession(fbAccessToken);
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }
 
         TextView title = (TextView) findViewById(R.id.logo);
         EditText email = (EditText) findViewById(R.id.email);

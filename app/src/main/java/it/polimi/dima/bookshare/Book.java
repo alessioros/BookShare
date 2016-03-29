@@ -6,8 +6,13 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexHas
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 
+import java.io.Serializable;
+
+/**
+ * Created by matteo on 25/03/16.
+ */
 @DynamoDBTable(tableName = Constants.BOOK_TABLE_NAME)
-public class Book {
+public class Book implements Serializable{
     private String isbn;
     private String title;
     private String author;
