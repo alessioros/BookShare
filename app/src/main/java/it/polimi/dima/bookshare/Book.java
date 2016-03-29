@@ -61,7 +61,7 @@ public class Book {
         this.pageCount = pageCount;
     }
 
-    @DynamoDBAttribute(attributeName = "ownerID")
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "ownerID")
     public String getOwnerID() {
         return ownerID;
     }

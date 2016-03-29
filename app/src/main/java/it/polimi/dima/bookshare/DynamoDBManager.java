@@ -1,6 +1,7 @@
 package it.polimi.dima.bookshare;
 
 import android.content.Context;
+import android.renderscript.Sampler;
 import android.util.Log;
 
 import com.amazonaws.AmazonServiceException;
@@ -11,9 +12,13 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRan
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedQueryList;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.DeleteTableRequest;
 import com.amazonaws.services.dynamodbv2.model.DescribeTableRequest;
@@ -21,10 +26,17 @@ import com.amazonaws.services.dynamodbv2.model.DescribeTableResult;
 import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
 import com.amazonaws.services.dynamodbv2.model.KeyType;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
+import com.amazonaws.services.dynamodbv2.model.QueryRequest;
+import com.amazonaws.services.dynamodbv2.model.QueryResult;
 import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by matteo on 25/03/16.
@@ -227,6 +239,64 @@ public class DynamoDBManager {
         }
     }
 
+    public static ArrayList<Book> getBooks(String ownerID) {
+
+        ArrayList<Book> userBooks = new ArrayList<>();
+
+        AmazonDynamoDBClient ddb = clientManager
+                .ddb();
+
+        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
+
+        // Create our map of values
+        Map keyConditions = new HashMap();
+
+        // Specify our key conditions (ownerId == "ownerID")
+        Condition hashKeyCondition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ.toString())
+                .withAttributeValueList(new AttributeValue().withS(ownerID));
+        keyConditions.put("ownerID", hashKeyCondition);
+
+        Map lastEvaluatedKey = null;
+        do {
+            QueryRequest queryRequest = new QueryRequest()
+                    .withTableName(Constants.BOOK_TABLE_NAME)
+                    .withKeyConditions(keyConditions)
+                    .withExclusiveStartKey(lastEvaluatedKey)
+                    .withIndexName("ownerID-index");
+
+            QueryResult queryResult = ddb.query(queryRequest);
+
+            for (Map item : queryResult.getItems()) {
+
+                Book book = new Book();
+
+                book.setIsbn((item.get("ISBN").toString()));
+                book.setDescription(item.get("Description").toString());
+                book.setTitle(item.get("Title").toString());
+                book.setOwnerID(item.get("ownerID").toString());
+                //book.setPageCount(Integer.parseInt(item.get("pageCount").toString()));
+                book.setAuthor(item.get("Author").toString());
+
+                try {
+
+                    book.setImgURL(item.get("imgURL").toString());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                userBooks.add(book);
+            }
+
+            // If the response lastEvaluatedKey has contents,
+            // that means there are more results
+            lastEvaluatedKey = queryResult.getLastEvaluatedKey();
+
+        } while (lastEvaluatedKey != null);
+
+        return userBooks;
+    }
 
 }
 

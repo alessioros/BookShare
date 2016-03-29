@@ -172,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String response) {
-            dialog.dismiss();
+
             if (response != null) {
                 Toast.makeText(LoginActivity.this, "Hello " + response, Toast.LENGTH_LONG).show();
             } else {

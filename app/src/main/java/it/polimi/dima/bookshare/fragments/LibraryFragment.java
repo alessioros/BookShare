@@ -8,9 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.Profile;
 import java.util.ArrayList;
-
 import it.polimi.dima.bookshare.Book;
+import it.polimi.dima.bookshare.DynamoDBManager;
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 
@@ -43,7 +44,14 @@ public class LibraryFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         // retrieve books
-        ArrayList<Book> mBooks = new ArrayList<>();
+
+        DynamoDBManager DDBM = new DynamoDBManager(getActivity());
+        ArrayList<Book> mBooks = DDBM.getBooks(Profile.getCurrentProfile().getId());
+
+        for (Book book : mBooks) {
+
+            System.out.println("BOOK " + book.getTitle());
+        }
 
         recyclerView.setAdapter(new LibraryAdapter(mBooks));
 

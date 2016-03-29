@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.facebook.Profile;
+
 /**
  * Created by matteo on 26/03/16.
  */
@@ -45,6 +47,11 @@ public class DynamoDBManagerTask extends
             if (tableStatus.equalsIgnoreCase("ACTIVE")) {
                 DDBM.cleanUp();
             }
+        } else if (types[0] == DynamoDBManagerType.GET_USER_BOOKS) {
+            if (tableStatus.equalsIgnoreCase("ACTIVE")) {
+
+                DDBM.getBooks(Profile.getCurrentProfile().getId());
+            }
         }
 
         return result;
@@ -76,6 +83,9 @@ public class DynamoDBManagerTask extends
                 && result.getTaskType() == DynamoDBManagerType.INSERT_BOOK) {
             Toast.makeText(context,
                     "Book inserted successfully!", Toast.LENGTH_SHORT).show();
+        } else if (result.getTableStatus().equalsIgnoreCase("ACTIVE")
+                && result.getTaskType() == DynamoDBManagerType.GET_USER_BOOKS) {
+
         }
     }
 }

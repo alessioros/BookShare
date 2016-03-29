@@ -10,18 +10,4 @@
     tools:context="it.polimi.dima.bookshare.activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <Button
-        android:id="@+id/scan_button"
-        android:layout_width="@dimen/main_button_width"
-        android:layout_height="@dimen/main_button_height"
-        android:layout_marginTop="80dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:padding="10dp"
-        android:textSize="@dimen/main_button_text"
-        android:textAlignment="center"
-        android:background="@color/colorPrimaryLight"
-        android:textColor="#ffffff"
-        android:text="@string/scan" />
-
 </RelativeLayout>
