@@ -179,7 +179,7 @@ public class HomeFragment extends Fragment {
 
 
                         }
-                        startActivity(bookIntent);
+                        getActivity().startActivity(bookIntent);
 
                     } catch (JSONException e) {
                         e.printStackTrace();

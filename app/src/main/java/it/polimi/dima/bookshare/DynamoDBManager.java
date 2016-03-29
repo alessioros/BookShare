@@ -10,6 +10,7 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexHashKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBQueryExpression;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapperConfig;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
@@ -31,6 +32,7 @@ import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryResult;
 import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
+import com.facebook.Profile;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -274,13 +276,29 @@ public class DynamoDBManager {
                 Log.i(TAG,item.toString());
                 book = mapper.load(Book.class, item.get("ISBN").toString());
 
-                /*
                 book.setIsbn((item.get("ISBN").toString()));
                 book.setDescription(item.get("Description").toString());
                 book.setTitle(item.get("Title").toString());
                 book.setOwnerID(item.get("ownerID").toString());
                 //book.setPageCount(Integer.parseInt(item.get("pageCount").toString()));
                 book.setAuthor(item.get("Author").toString());
+                AttributeValue attribute = (AttributeValue) item.get("ISBN");
+                book.setIsbn(attribute.getS());
+
+                attribute = (AttributeValue) item.get("Description");
+                book.setDescription(attribute.getS());
+
+                attribute = (AttributeValue) item.get("Title");
+                book.setTitle(attribute.getS());
+
+                attribute = (AttributeValue) item.get("ownerID");
+                book.setOwnerID(attribute.getS());
+
+                attribute = (AttributeValue) item.get("pageCount");
+                book.setPageCount(Integer.parseInt(attribute.getN()));
+
+                attribute = (AttributeValue) item.get("Author");
+                book.setAuthor(attribute.getS());
 
                 try {
 
@@ -288,7 +306,7 @@ public class DynamoDBManager {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                }*/
+                }
 
                 userBooks.add(book);
             }

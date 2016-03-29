@@ -50,12 +50,7 @@ public class LibraryFragment extends Fragment {
         DynamoDBManager DDBM = new DynamoDBManager(getActivity());
         ArrayList<Book> mBooks = DDBM.getBooks(Profile.getCurrentProfile().getId());
 
-        for (Book book : mBooks) {
-
-            System.out.println("BOOK " + book.getTitle());
-        }
-
-        recyclerView.setAdapter(new LibraryAdapter(mBooks));
+        recyclerView.setAdapter(new LibraryAdapter(mBooks, getActivity()));
 
         return view;
     }
