@@ -5,7 +5,9 @@ import android.util.Log;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBQueryExpression;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedQueryList;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
@@ -27,6 +29,7 @@ import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Created by matteo on 25/03/16.
@@ -51,8 +54,7 @@ public class DynamoDBManager {
 
         Log.d(TAG, "Create table called");
 
-        AmazonDynamoDBClient ddb = clientManager
-                .ddb();
+        AmazonDynamoDBClient ddb = clientManager.ddb();
 
         KeySchemaElement kse = new KeySchemaElement().withAttributeName("ISBN").withKeyType(KeyType.HASH);
 
@@ -72,8 +74,7 @@ public class DynamoDBManager {
             Log.d(TAG, "Create request response successfully received");
         } catch (AmazonServiceException ex) {
             Log.e(TAG, "Error sending create table request", ex);
-            clientManager
-                    .wipeCredentialsOnAuthError(ex);
+            clientManager.wipeCredentialsOnAuthError(ex);
         }
     }
 
@@ -83,11 +84,9 @@ public class DynamoDBManager {
     public static String getBookTableStatus() {
 
         try {
-            AmazonDynamoDBClient ddb = clientManager
-                    .ddb();
+            AmazonDynamoDBClient ddb = clientManager.ddb();
 
-            DescribeTableRequest request = new DescribeTableRequest()
-                    .withTableName(Constants.BOOK_TABLE_NAME);
+            DescribeTableRequest request = new DescribeTableRequest().withTableName(Constants.BOOK_TABLE_NAME);
             DescribeTableResult result = ddb.describeTable(request);
 
             String status = result.getTable().getTableStatus();
@@ -106,8 +105,7 @@ public class DynamoDBManager {
      * Insert book in table
      */
     public static void insertBook(Book book) {
-        AmazonDynamoDBClient ddb = clientManager
-                .ddb();
+        AmazonDynamoDBClient ddb = clientManager.ddb();
         DynamoDBMapper mapper = new DynamoDBMapper(ddb);
 
         try {
@@ -196,8 +194,7 @@ public class DynamoDBManager {
      */
     public static void deleteUser(Book book) {
 
-        AmazonDynamoDBClient ddb = clientManager
-                .ddb();
+        AmazonDynamoDBClient ddb = clientManager.ddb();
         DynamoDBMapper mapper = new DynamoDBMapper(ddb);
 
         try {
@@ -311,6 +308,60 @@ public class DynamoDBManager {
         } while (lastEvaluatedKey != null);
 
         return userBooks;
+    }
+
+    /*
+     * Scans the table and returns the list of books searched
+     */
+    public ArrayList<Book> getBookListSearch(String query) {
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+        try {
+            PaginatedScanList<Book> result = mapper.scan(Book.class, scanExpression);
+
+            ArrayList<Book> resultList = new ArrayList<Book>();
+            for (Book book : result) {
+                if(Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(book.getTitle()).find()){
+                    resultList.add(book);
+                    Log.i(TAG,book.getTitle());
+                }
+            }
+            return resultList;
+
+        } catch (AmazonServiceException ex) {
+            clientManager.wipeCredentialsOnAuthError(ex);
+        }
+
+        return null;
+    }
+
+    /*
+    FUNCTION NOT WORKING
+    query that gets the book on GSI Title
+     */
+    public PaginatedQueryList<Book> getBookListSearchQueryTitle(String query) {
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
+
+        try {
+            final Book book = new Book();
+            book.setTitle(query);
+            final DynamoDBQueryExpression<Book> queryExpression = new DynamoDBQueryExpression<>();
+            queryExpression.setHashKeyValues(book);
+            queryExpression.setIndexName("Title");
+            queryExpression.setConsistentRead(false);   // cannot use consistent read on GSI
+            final PaginatedQueryList<Book> results = mapper.query(Book.class, queryExpression);
+            return results;
+
+        } catch (AmazonServiceException ex) {
+            clientManager.wipeCredentialsOnAuthError(ex);
+        }
+
+        return null;
     }
 
 }
