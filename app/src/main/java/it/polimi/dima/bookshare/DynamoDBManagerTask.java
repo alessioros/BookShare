@@ -14,15 +14,17 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
 
     private Context context;
     private Book book;
+    private User user;
 
-    public DynamoDBManagerTask(Context context,Book book) {
-        this.context=context;
-        this.book=book;
+    public DynamoDBManagerTask(Context context, Book book, User user) {
+        this.context = context;
+        this.book = book;
+        this.user = user;
     }
 
     protected DynamoDBManagerTaskResult doInBackground(DynamoDBManagerType... types) {
 
-        DynamoDBManager DDBM=new DynamoDBManager(context);
+        DynamoDBManager DDBM = new DynamoDBManager(context);
 
         String tableStatus = DDBM.getBookTableStatus();
 
@@ -51,14 +53,23 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
 
                 DDBM.getBooks(Profile.getCurrentProfile().getId());
             }
-        }
+        } else if (types[0] == DynamoDBManagerType.CREATE_TABLE_USERS) {
+            if (tableStatus.equalsIgnoreCase("ACTIVE")) {
 
+                DDBM.createTableUsers();
+            }
+        } else if (types[0] == DynamoDBManagerType.INSERT_USER) {
+            if (tableStatus.equalsIgnoreCase("ACTIVE")) {
+                DDBM.insertUser(user);
+            }
+        }
         return result;
+
     }
 
     protected void onPostExecute(DynamoDBManagerTaskResult result) {
 
-        if (result.getTaskType() == DynamoDBManagerType.CREATE_TABLE) {
+        if (result.getTaskType() == DynamoDBManagerType.CREATE_TABLE || result.getTaskType() == DynamoDBManagerType.CREATE_TABLE_USERS) {
 
             if (result.getTableStatus().length() != 0) {
                 Toast.makeText(
@@ -85,6 +96,10 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
         } else if (result.getTableStatus().equalsIgnoreCase("ACTIVE")
                 && result.getTaskType() == DynamoDBManagerType.GET_USER_BOOKS) {
 
+        } else if (result.getTableStatus().equalsIgnoreCase("ACTIVE")
+                && result.getTaskType() == DynamoDBManagerType.INSERT_USER) {
+            Toast.makeText(context,
+                    "User inserted successfully!", Toast.LENGTH_SHORT).show();
         }
     }
 }

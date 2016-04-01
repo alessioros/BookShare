@@ -14,7 +14,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.Book;
+import it.polimi.dima.bookshare.DynamoDBManager;
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.User;
 
 /**
  * Created by matteo on 31/03/16.
@@ -48,6 +50,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         holder.mAuthor.setText(book.getAuthor());
         holder.mAuthor.setTypeface(aller);
 
+        DynamoDBManager DDBM=new DynamoDBManager(context);
+        User owner=DDBM.getUser(book.getOwnerID());
+        holder.mOwner.setText(owner.getName()+" "+owner.getSurname()+", "+owner.getCity());
+        holder.mOwner.setTypeface(aller);
+
     }
 
     @Override
@@ -55,11 +62,11 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         return mBooks.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public final View mView;
         public final ImageView mImage;
-        public final TextView mTitle,mAuthor;
+        public final TextView mTitle,mAuthor,mOwner;
 
         public ViewHolder(View view) {
 
@@ -68,6 +75,15 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             mImage = (ImageView) view.findViewById(R.id.card_image);
             mTitle = (TextView) view.findViewById(R.id.card_title);
             mAuthor = (TextView) view.findViewById(R.id.card_author);
+            mOwner = (TextView) view.findViewById(R.id.card_owner);
+            view.setOnClickListener(this);
+            view.setClickable(true);
+        }
+
+        @Override
+        public void onClick(View view) {
+
+
 
         }
     }

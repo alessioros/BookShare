@@ -61,7 +61,7 @@ public class BookActivity extends AppCompatActivity {
                 book.setOwnerID(Profile.getCurrentProfile().getId());
 
                 // add book to DynamoDB
-                new DynamoDBManagerTask(BookActivity.this,book).execute(DynamoDBManagerType.INSERT_BOOK);
+                new DynamoDBManagerTask(BookActivity.this,book,null).execute(DynamoDBManagerType.INSERT_BOOK);
 
             }
         });

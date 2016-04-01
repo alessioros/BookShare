@@ -364,5 +364,77 @@ public class DynamoDBManager {
         return null;
     }
 
+    /*
+    *                                     USERS
+    * */
+
+    public static void createTableUsers() {
+
+        Log.d(TAG, "Create table called");
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+
+        KeySchemaElement kse = new KeySchemaElement().withAttributeName("UserID").withKeyType(KeyType.HASH);
+
+        AttributeDefinition ad = new AttributeDefinition().withAttributeName("UserID").withAttributeType(ScalarAttributeType.S);
+
+        ProvisionedThroughput pt = new ProvisionedThroughput().withReadCapacityUnits(5l).withWriteCapacityUnits(5l);
+
+        CreateTableRequest request = new CreateTableRequest()
+                .withTableName(Constants.USER_TABLE_NAME)
+                .withKeySchema(kse)
+                .withAttributeDefinitions(ad)
+                .withProvisionedThroughput(pt);
+
+        try {
+            Log.d(TAG, "Sending Create table request");
+            ddb.createTable(request);
+            Log.d(TAG, "Create request response successfully received");
+        } catch (AmazonServiceException ex) {
+            Log.e(TAG, "Error sending create table request", ex);
+            clientManager.wipeCredentialsOnAuthError(ex);
+        }
+    }
+
+    /*
+     * Insert user in table
+     */
+    public static void insertUser(User user) {
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
+
+        try {
+
+            Log.d(TAG, "Inserting book");
+            mapper.save(user);
+            Log.d(TAG, "Book inserted");
+
+        } catch (AmazonServiceException ex) {
+            Log.e(TAG, "Error inserting book");
+            clientManager
+                    .wipeCredentialsOnAuthError(ex);
+        }
+    }
+
+    /*
+     * Retrieves all of the attribute/value pairs for the specified user.
+     */
+    public static User getUser(String userID) {
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
+
+        try {
+            User user = mapper.load(User.class, userID);
+
+            return user;
+
+        } catch (AmazonServiceException ex) {
+            clientManager.wipeCredentialsOnAuthError(ex);
+        }
+
+        return null;
+    }
+
 }
 
