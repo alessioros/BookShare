@@ -81,6 +81,7 @@
             android:name=".activities.SearchActivity"
             android:label="@string/title_activity_search"
             android:theme="@style/AppTheme.NoActionBar">
+
             <!-- This intent-filter identifies this activity as "searchable" -->
 
             <intent-filter>
@@ -95,12 +96,17 @@
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
-
         </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name=".activities.BookDetail"
+            android:label="@string/title_activity_book_detail"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.MainActivity"></activity>
     </application>
 
 </manifest>

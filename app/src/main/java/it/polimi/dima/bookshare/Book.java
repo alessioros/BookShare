@@ -1,5 +1,8 @@
 package it.polimi.dima.bookshare;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribute;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexHashKey;
@@ -12,7 +15,7 @@ import java.io.Serializable;
  * Created by matteo on 25/03/16.
  */
 @DynamoDBTable(tableName = Constants.BOOK_TABLE_NAME)
-public class Book implements Serializable{
+public class Book implements Parcelable{
     private String isbn;
     private String title;
     private String author;
@@ -20,6 +23,8 @@ public class Book implements Serializable{
     private String description;
     private String ownerID;
     private String imgURL;
+
+    public Book() {}
 
     @DynamoDBIndexRangeKey(attributeName = "Title")
     public String getTitle() {
@@ -84,4 +89,41 @@ public class Book implements Serializable{
         this.imgURL = imgURL;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // write your object's data to the passed-in Parcel
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(imgURL);
+        out.writeString(title);
+        out.writeString(isbn);
+        out.writeString(author);
+        out.writeInt(pageCount);
+        out.writeString(description);
+        out.writeString(ownerID);
+    }
+
+    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
+
+    public Book(Parcel in) {
+        this.imgURL = in.readString();
+        this.title = in.readString();
+        this.isbn = in.readString();
+        this.author = in.readString();
+        this.pageCount = in.readInt();
+        this.description = in.readString();
+        this.ownerID = in.readString();
+    }
 }

@@ -1,6 +1,8 @@
 package it.polimi.dima.bookshare.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import it.polimi.dima.bookshare.Book;
 import it.polimi.dima.bookshare.DynamoDBManager;
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.User;
+import it.polimi.dima.bookshare.activities.BookDetail;
 
 /**
  * Created by matteo on 31/03/16.
@@ -83,8 +86,10 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         @Override
         public void onClick(View view) {
 
-
-
+            Intent startDetail=new Intent(context, BookDetail.class);
+            startDetail.putExtra("Book",mBooks.get(getLayoutPosition()));
+            context.startActivity(startDetail);
+            ((Activity)context).finish();
         }
     }
 }
