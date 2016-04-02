@@ -87,17 +87,13 @@ public class BookActivity extends AppCompatActivity {
             try {
 
                 int pageCount = extras.getInt("pageCount");
-                bookPublisher.append(pageCount + " ");
+                bookPublisher.append(pageCount + " pages");
                 book.setPageCount(pageCount);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            if (extras.getString("publisher") != null)
-                bookPublisher.append(extras.getString("publisher") + " ");
-            if (extras.getString("publishedDate") != null)
-                bookPublisher.append(extras.getString("publishedDate"));
             if (extras.getString("description") != null){
 
                 bookDescription.append(extras.getString("description"));

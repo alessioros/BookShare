@@ -1,6 +1,7 @@
 package it.polimi.dima.bookshare.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +11,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import it.polimi.dima.bookshare.Book;
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.activities.MyBookDetail;
 
 public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHolder> {
 
@@ -40,9 +40,26 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Book book = mBooks.get(position);
+        final Book book = mBooks.get(position);
 
         Picasso.with(context).load(book.getImgURL()).into(holder.mImage);
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, MyBookDetail.class);
+
+                intent.putExtra("title",book.getTitle());
+                intent.putExtra("author",book.getAuthor());
+                intent.putExtra("description",book.getDescription());
+                intent.putExtra("pageCount",book.getPageCount());
+                intent.putExtra("imgURL",book.getImgURL());
+                intent.putExtra("isbn",book.getIsbn());
+
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

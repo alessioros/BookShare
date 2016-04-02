@@ -192,7 +192,7 @@ public class DynamoDBManager {
     /*
      * Deletes the specified book and all of its attribute/value pairs.
      */
-    public static void deleteUser(Book book) {
+    public static void deleteBook(Book book) {
 
         AmazonDynamoDBClient ddb = clientManager.ddb();
         DynamoDBMapper mapper = new DynamoDBMapper(ddb);

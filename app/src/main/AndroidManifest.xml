@@ -105,8 +105,12 @@
         <activity
             android:name=".activities.BookDetail"
             android:label="@string/title_activity_book_detail"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.MainActivity"></activity>
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".activities.MyBookDetail">
+        </activity>
     </application>
 
 </manifest>

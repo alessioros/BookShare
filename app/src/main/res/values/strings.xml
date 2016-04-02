@@ -8,6 +8,10 @@
     <string name="loginfb">Login with FB</string>
     <string name="register">Don\'t you have an account? Register</string>
     <string name="add_book">Add Book</string>
+    <string name="del_book">Delete Book</string>
+    <string name="delete_confirm">Are you sure ?</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
     <string name="facebook_app_id">"1716685071920315"</string>
     <string name="title_activity_library">LibraryActivity</string>
     <string name="title_activity_main">MainActivity</string>
