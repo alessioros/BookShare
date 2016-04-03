@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
 
-
+                getSupportActionBar().setTitle("Library");
 
             }
         }else{
@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Fragment fragment = HomeFragment.newInstance();
 
             getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+            getSupportActionBar().setTitle("BookShare");
 
         }
 
