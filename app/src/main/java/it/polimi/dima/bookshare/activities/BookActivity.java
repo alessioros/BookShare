@@ -1,6 +1,5 @@
 package it.polimi.dima.bookshare.activities;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,12 +18,10 @@ import com.facebook.Profile;
 import java.io.IOException;
 import java.net.URL;
 
-import it.polimi.dima.bookshare.fragments.HomeFragment;
-import it.polimi.dima.bookshare.fragments.LibraryFragment;
-import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
-import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.tables.Book;
 
 public class BookActivity extends AppCompatActivity {
 
@@ -64,6 +61,7 @@ public class BookActivity extends AppCompatActivity {
                 // add book to DynamoDB
                 new DynamoDBManagerTask(BookActivity.this,book,null).execute(DynamoDBManagerType.INSERT_BOOK);
 
+                // redirects to library after 0.5 seconds, allowing library to display the new book
                 new Handler().postDelayed(new Runnable() {
 
                     @Override
