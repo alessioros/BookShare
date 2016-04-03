@@ -3,12 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/book_list"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/fragment_library" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/book_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/fragment_library" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="@dimen/fab_size"
+            android:layout_height="@dimen/fab_size"
+            android:background="@color/colorPrimaryLight"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/ic_add"
+            android:scaleType="center"
+            app:layout_behavior="it.polimi.dima.bookshare.utils.ScrollFABBehaviour" />
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </FrameLayout>
