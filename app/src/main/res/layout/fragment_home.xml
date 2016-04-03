@@ -10,13 +10,76 @@
     tools:context="it.polimi.dima.bookshare.activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <ImageView
+        android:id="@+id/profile_header"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="fitCenter"
+        android:background="@drawable/profile_header" />
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/user_image"
+        android:layout_width="@dimen/side_img_width"
+        android:layout_height="@dimen/side_img_height"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="90dp"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="2dp"
+        app:civ_shadow="false"
+        app:civ_shadow_radius="5"
+        android:layout_centerHorizontal="true"
+        app:civ_shadow_color="@color/white" />
+
+    <RelativeLayout
+        android:id="@+id/profile_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="50dp"
+        android:paddingBottom="25dp"
+        android:layout_below="@id/profile_header">
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/user_credits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/user_name" />
+
+        <TextView
+            android:id="@+id/user_books"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/user_credits" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/profile_info"
+        android:background="@color/black_overlay"></View>
+
     <Button
         android:id="@+id/scan_button"
         android:layout_width="@dimen/main_button_width"
         android:layout_height="@dimen/main_button_height"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_below="@id/profile_info"
         android:padding="10dp"
         android:textSize="@dimen/main_button_text"
         android:textAlignment="center"
