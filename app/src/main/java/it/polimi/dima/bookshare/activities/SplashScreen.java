@@ -1,4 +1,4 @@
-package it.polimi.dima.bookshare;
+package it.polimi.dima.bookshare.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import it.polimi.dima.bookshare.activities.LoginActivity;
+import it.polimi.dima.bookshare.R;
 
 public class SplashScreen extends AppCompatActivity {
 

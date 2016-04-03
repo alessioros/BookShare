@@ -11,8 +11,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import it.polimi.dima.bookshare.Book;
-import it.polimi.dima.bookshare.DynamoDBManager;
+import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.SearchResultsAdapter;
 

@@ -24,8 +24,6 @@ import com.facebook.Profile;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
-import it.polimi.dima.bookshare.DynamoDBManagerTask;
-import it.polimi.dima.bookshare.DynamoDBManagerType;
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.fragments.HomeFragment;
 import it.polimi.dima.bookshare.fragments.LibraryFragment;

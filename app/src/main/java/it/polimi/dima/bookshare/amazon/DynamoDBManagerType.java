@@ -1,4 +1,4 @@
-package it.polimi.dima.bookshare;
+package it.polimi.dima.bookshare.amazon;
 
 /**
  * Created by matteo on 26/03/16.

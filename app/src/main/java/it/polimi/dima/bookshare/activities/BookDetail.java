@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
-import it.polimi.dima.bookshare.Book;
+import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.R;
 
 public class BookDetail extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package it.polimi.dima.bookshare;
+package it.polimi.dima.bookshare.tables;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,7 +9,7 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexHas
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 
-import java.io.Serializable;
+import it.polimi.dima.bookshare.amazon.Constants;
 
 /**
  * Created by matteo on 25/03/16.

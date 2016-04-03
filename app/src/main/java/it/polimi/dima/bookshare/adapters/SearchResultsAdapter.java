@@ -15,10 +15,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import it.polimi.dima.bookshare.Book;
-import it.polimi.dima.bookshare.DynamoDBManager;
+import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.R;
-import it.polimi.dima.bookshare.User;
+import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.activities.BookDetail;
 
 /**

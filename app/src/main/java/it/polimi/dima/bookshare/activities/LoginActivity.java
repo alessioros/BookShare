@@ -4,23 +4,17 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookAuthorizationException;
@@ -38,11 +32,11 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
-import it.polimi.dima.bookshare.CognitoSyncClientManager;
-import it.polimi.dima.bookshare.DynamoDBManagerTask;
-import it.polimi.dima.bookshare.DynamoDBManagerType;
+import it.polimi.dima.bookshare.amazon.CognitoSyncClientManager;
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.R;
-import it.polimi.dima.bookshare.User;
+import it.polimi.dima.bookshare.tables.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -149,15 +143,24 @@ public class LoginActivity extends AppCompatActivity {
     private void setFacebookSession(AccessToken accessToken) {
         Log.i("Token", "facebook token: " + accessToken.getToken());
         CognitoSyncClientManager.addLogins("graph.facebook.com", accessToken.getToken());
+
         if(!sp.getBoolean("Registered",false)) {
+
             user=new User();
-            user.setUserID(Profile.getCurrentProfile().getId());
-            user.setName(Profile.getCurrentProfile().getFirstName());
-            user.setSurname(Profile.getCurrentProfile().getLastName());
-            user.setImgURL(Profile.getCurrentProfile().getProfilePictureUri(200, 200).toString());
-            user.setCity("Milano");
-            new DynamoDBManagerTask(LoginActivity.this,null,user).execute(DynamoDBManagerType.INSERT_USER);
-            sp.edit().putBoolean("Registered", true).apply();
+
+            try {
+
+                user.setUserID(Profile.getCurrentProfile().getId());
+                user.setName(Profile.getCurrentProfile().getFirstName());
+                user.setSurname(Profile.getCurrentProfile().getLastName());
+                user.setImgURL(Profile.getCurrentProfile().getProfilePictureUri(200, 200).toString());
+                user.setCity("Milano");
+                new DynamoDBManagerTask(LoginActivity.this, null, user).execute(DynamoDBManagerType.INSERT_USER);
+                sp.edit().putBoolean("Registered", true).apply();
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         new SaveCredentials().execute();
     }

@@ -1,8 +1,6 @@
 package it.polimi.dima.bookshare.activities;
 
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,11 +14,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.net.URL;
-
-import it.polimi.dima.bookshare.Book;
-import it.polimi.dima.bookshare.DynamoDBManager;
+import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.R;
 
 public class MyBookDetail extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package it.polimi.dima.bookshare;
+package it.polimi.dima.bookshare.amazon;
 
 import android.content.Context;
 import android.util.Log;
@@ -30,6 +30,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.tables.User;
 
 /**
  * Created by matteo on 25/03/16.

@@ -1,4 +1,4 @@
-package it.polimi.dima.bookshare;
+package it.polimi.dima.bookshare.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;

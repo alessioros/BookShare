@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import it.polimi.dima.bookshare.Book;
+import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.activities.MyBookDetail;
 

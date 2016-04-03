@@ -1,4 +1,4 @@
-package it.polimi.dima.bookshare;
+package it.polimi.dima.bookshare.amazon;
 
 import android.content.Context;
 import android.util.Log;

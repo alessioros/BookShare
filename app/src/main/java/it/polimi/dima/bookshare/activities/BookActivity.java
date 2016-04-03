@@ -3,27 +3,22 @@ package it.polimi.dima.bookshare.activities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.Profile;
 
 import java.io.IOException;
 import java.net.URL;
 
-import it.polimi.dima.bookshare.Book;
-import it.polimi.dima.bookshare.DynamoDBManager;
-import it.polimi.dima.bookshare.DynamoDBManagerTask;
-import it.polimi.dima.bookshare.DynamoDBManagerType;
+import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.R;
 
 public class BookActivity extends AppCompatActivity {

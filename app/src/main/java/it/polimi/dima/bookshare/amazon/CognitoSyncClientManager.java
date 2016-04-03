@@ -1,4 +1,4 @@
-package it.polimi.dima.bookshare;
+package it.polimi.dima.bookshare.amazon;
 
 import android.app.ProgressDialog;
 import android.content.Context;

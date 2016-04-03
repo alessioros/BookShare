@@ -1,4 +1,4 @@
-package it.polimi.dima.bookshare;
+package it.polimi.dima.bookshare.amazon;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -6,6 +6,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.Profile;
+
+import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.tables.User;
 
 /**
  * Created by matteo on 26/03/16.

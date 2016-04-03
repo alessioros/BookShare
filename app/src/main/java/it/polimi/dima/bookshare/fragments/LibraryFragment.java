@@ -10,10 +10,8 @@ import android.view.ViewGroup;
 
 import com.facebook.Profile;
 import java.util.ArrayList;
-import it.polimi.dima.bookshare.Book;
-import it.polimi.dima.bookshare.DynamoDBManager;
-import it.polimi.dima.bookshare.DynamoDBManagerTask;
-import it.polimi.dima.bookshare.DynamoDBManagerType;
+import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 

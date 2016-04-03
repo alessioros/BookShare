@@ -22,7 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import it.polimi.dima.bookshare.FragmentIntentIntegrator;
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.activities.BookActivity;
 import it.polimi.dima.bookshare.activities.VerticalOrientationCA;
