@@ -54,9 +54,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Fragment fragment = HomeFragment.newInstance();
+        if(getIntent().getExtras()!=null){
 
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+            Bundle extras = getIntent().getExtras();
+
+            if(extras.get("redirect").equals("library")){
+
+                Fragment fragment = LibraryFragment.newInstance();
+
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+
+
+            }
+        }else{
+
+            Fragment fragment = HomeFragment.newInstance();
+
+            getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+        }
+
 
     }
 

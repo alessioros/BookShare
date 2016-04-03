@@ -1,9 +1,12 @@
 package it.polimi.dima.bookshare.activities;
 
+import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -16,6 +19,8 @@ import com.facebook.Profile;
 import java.io.IOException;
 import java.net.URL;
 
+import it.polimi.dima.bookshare.fragments.HomeFragment;
+import it.polimi.dima.bookshare.fragments.LibraryFragment;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
@@ -24,6 +29,7 @@ import it.polimi.dima.bookshare.R;
 public class BookActivity extends AppCompatActivity {
 
     private Book book=null;
+    private static int REDIRECT_TIME_OUT = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,20 @@ public class BookActivity extends AppCompatActivity {
 
                 // add book to DynamoDB
                 new DynamoDBManagerTask(BookActivity.this,book,null).execute(DynamoDBManagerType.INSERT_BOOK);
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        Intent intent = new Intent(BookActivity.this, MainActivity.class);
+
+                        intent.putExtra("redirect", "library");
+                        startActivity(intent);
+
+                        finish();
+                    }
+                }, REDIRECT_TIME_OUT);
 
             }
         });

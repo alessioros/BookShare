@@ -22,6 +22,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLDecoder;
+
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.activities.BookActivity;
 import it.polimi.dima.bookshare.activities.VerticalOrientationCA;
@@ -94,83 +96,67 @@ public class HomeFragment extends Fragment {
 
                             JSONObject volumeInfo = jArray.getJSONObject(i).getJSONObject("volumeInfo");
 
+                            // ----- BOOK COVER -----
                             try {
                                 JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
 
-                                String imgURL = imageLinks.getString("thumbnail");
-
-                                bookIntent.putExtra("imgURL", imgURL);
+                                bookIntent.putExtra("imgURL", imageLinks.getString("thumbnail"));
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
+                            // ----- TITLE -----
                             try {
-                                JSONObject saleInfo = volumeInfo.getJSONObject("saleInfo");
 
-                                JSONObject listPrice = saleInfo.getJSONObject("listPrice");
-
-                                Float price = Float.parseFloat(listPrice.getString("amount"));
-
-                                bookIntent.putExtra("price", price);
+                                bookIntent.putExtra("title", URLDecoder.decode(volumeInfo.getString("title"), "UTF-8"));
 
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
+                            // ----- PAGE COUNT -----
                             try {
-                                String title = new String(volumeInfo.getString("title").getBytes("ISO-8859-1"), "UTF-8");
-                                bookIntent.putExtra("title", title);
-
-                            } catch (Exception e) {
-
-                                e.printStackTrace();
-                            }
-
-                            try {
-
-                                int pageCount = Integer.parseInt(volumeInfo.getString("pageCount"));
-
-                                bookIntent.putExtra("pageCount", pageCount);
+                                bookIntent.putExtra("pageCount", Integer.parseInt(volumeInfo.getString("pageCount")));
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
+                            // ----- AUTHORS -----
                             try {
                                 JSONArray authors = volumeInfo.getJSONArray("authors");
                                 bookIntent.putExtra("numAuth", authors.length());
 
                                 for (int j = 0; j < authors.length(); j++) {
 
-                                    String author = new String(authors.getString(i).getBytes("ISO-8859-1"), "UTF-8");
-                                    bookIntent.putExtra("author" + j, author);
+                                    bookIntent.putExtra("author" + j, URLDecoder.decode(authors.getString(i), "UTF-8"));
                                 }
 
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
+                            // ----- PUBLISHER -----
                             try {
-                                String publisher = volumeInfo.getString("publisher");
-                                bookIntent.putExtra("publisher", new String(publisher.getBytes("ISO-8859-1"), "UTF-8"));
+                                bookIntent.putExtra("publisher", URLDecoder.decode(volumeInfo.getString("publisher"), "UTF-8"));
 
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
+                            // ----- PUBLISHED DATE -----
                             try {
-                                String publishedDate = volumeInfo.getString("publishedDate");
-                                bookIntent.putExtra("publishedDate", publishedDate);
+                                bookIntent.putExtra("publishedDate", volumeInfo.getString("publishedDate"));
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
+                            // ----- DESCRIPTION -----
                             try {
 
-                                String description = volumeInfo.getString("description");
-                                bookIntent.putExtra("description", new String(description.getBytes("ISO-8859-1"), "UTF-8"));
+                                bookIntent.putExtra("description", URLDecoder.decode(volumeInfo.getString("description"), "UTF-8"));
 
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -183,7 +169,7 @@ public class HomeFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Toast toast = Toast.makeText(getActivity(),
-                                "No book founded", Toast.LENGTH_SHORT);
+                                "Sorry, no book founded on Google Books", Toast.LENGTH_SHORT);
                         toast.show();
                     }
 

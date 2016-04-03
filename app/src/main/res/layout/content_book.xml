@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="30dp"
             android:paddingBottom="30dp">
@@ -21,8 +21,9 @@
             <RelativeLayout
                 android:id="@+id/presentation"
                 android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="170dp">
+                android:layout_width="300dp"
+                android:minHeight="160dp"
+                android:layout_height="wrap_content">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/card_view"
@@ -36,27 +37,29 @@
 
                     <ImageView
                         android:id="@+id/book_image"
-                        android:layout_width="85dp"
-                        android:layout_height="131dp" />
+                        android:layout_width="90dp"
+                        android:layout_height="138dp"
+                        android:scaleType="fitXY"/>
 
                 </android.support.v7.widget.CardView>
 
                 <TextView
                     android:id="@+id/book_title"
                     android:layout_marginLeft="15dp"
-                    android:layout_width="150dp"
+                    android:layout_width="170dp"
                     android:textAlignment="center"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/black"
                     android:layout_toEndOf="@id/card_view"
                     android:layout_toRightOf="@id/card_view" />
 
                 <TextView
                     android:id="@+id/book_author"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginLeft="10dp"
                     android:textAlignment="center"
-                    android:layout_width="150dp"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:layout_below="@id/book_title"
@@ -65,10 +68,10 @@
 
                 <TextView
                     android:id="@+id/book_publisher"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginLeft="10dp"
                     android:textAlignment="center"
-                    android:layout_width="150dp"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     android:layout_below="@id/book_author"
@@ -82,6 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/presentation"
+                android:layout_marginTop="10dp"
                 android:background="@color/black_overlay" />
 
             <TextView
