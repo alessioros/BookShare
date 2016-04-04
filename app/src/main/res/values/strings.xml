@@ -9,6 +9,7 @@
     <string name="register">Don\'t you have an account? Register</string>
     <string name="add_book">Add Book</string>
     <string name="del_book">Delete Book</string>
+    <string name="lend_book">Ask Book</string>
     <string name="delete_confirm">Are you sure ?</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>

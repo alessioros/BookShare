@@ -3,9 +3,11 @@ package it.polimi.dima.bookshare.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -13,13 +15,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Profile;
 import com.squareup.picasso.Picasso;
 
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.R;
 
 public class MyBookDetail extends AppCompatActivity {
+
+    private Book book;
+    private static int REDIRECT_TIME_OUT = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +38,15 @@ public class MyBookDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        final Book book = new Book();
+        book = new Book();
+        Intent i = getIntent();
 
         ImageView bookImage = (ImageView) findViewById(R.id.book_image);
         TextView bookTitle = (TextView) findViewById(R.id.book_title);
         TextView bookAuthor = (TextView) findViewById(R.id.book_author);
         TextView bookPageCount = (TextView) findViewById(R.id.book_pagecount);
         TextView bookDescription = (TextView) findViewById(R.id.book_description);
-        Button deleteButton = (Button) findViewById(R.id.delete_button);
+
 
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
 
@@ -49,91 +58,97 @@ public class MyBookDetail extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
 
-            book.setIsbn(extras.getString("isbn"));
+            book = (Book) i.getParcelableExtra("book");
+            bookDescription.setText(book.getDescription());
+            bookAuthor.setText(book.getAuthor());
+            bookPageCount.setText(book.getPageCount()+"");
+            bookTitle.setText(book.getTitle());
+            Picasso.with(MyBookDetail.this).load(book.getImgURL()).into(bookImage);
 
-            bookTitle.setText(extras.getString("title"));
-
-            book.setTitle(extras.getString("title"));
-
-            bookAuthor.append(extras.getString("author") + " ");
-            book.setAuthor(extras.getString("author") + " ");
-
-
-            try {
-
-                int pageCount = extras.getInt("pageCount");
-                bookPageCount.append(pageCount+" pages");
-                book.setPageCount(pageCount);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (extras.getString("description") != null) {
-
-                bookDescription.append(extras.getString("description"));
-
-                book.setDescription(extras.getString("description"));
-            }
-
-            try {
-
-
-
-                book.setImgURL(extras.getString("imgURL"));
-
-                Picasso.with(MyBookDetail.this).load(extras.getString("imgURL")).into(bookImage);
-
-                /*URL url = new URL(extras.getString("imgURL"));
-                Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                bookImage.setImageBitmap(image);*/
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (i.getStringExtra("button").equals("delete")) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(MyBookDetail.this);
+            Button deleteButton = (Button) findViewById(R.id.delete_button);
+            deleteButton.setVisibility(Button.VISIBLE);
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MyBookDetail.this);
 
-                        try {
-                            DynamoDBManager DDMB = new DynamoDBManager(MyBookDetail.this);
-                            DDMB.deleteBook(book);
+                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
 
-                            Toast.makeText(MyBookDetail.this, "book deleted succesfully", Toast.LENGTH_SHORT).show();
+                            try {
+                                DynamoDBManager DDMB = new DynamoDBManager(MyBookDetail.this);
+                                DDMB.deleteBook(book);
 
-                            Intent intent = new Intent(MyBookDetail.this,MainActivity.class);
+                                Toast.makeText(MyBookDetail.this, "book deleted succesfully", Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(MyBookDetail.this, MainActivity.class);
+
+                                intent.putExtra("redirect", "library");
+                                startActivity(intent);
+
+                            } catch (Exception e) {
+
+                                Toast.makeText(MyBookDetail.this, "Error, action failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
+
+                    builder.setMessage(R.string.delete_confirm)
+                            .setTitle(R.string.del_book);
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+
+                }
+            });
+        }
+        else if(i.getStringExtra("button").equals("add")){
+            Button addButton = (Button) findViewById(R.id.add_button);
+            addButton.setVisibility(Button.VISIBLE);
+            addButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    book.setOwnerID(Profile.getCurrentProfile().getId());
+
+                    // add book to DynamoDB
+                    new DynamoDBManagerTask(MyBookDetail.this,book,null).execute(DynamoDBManagerType.INSERT_BOOK);
+
+                    // redirects to library after 0.5 seconds, allowing library to display the new book
+                    new Handler().postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+
+                            Intent intent = new Intent(MyBookDetail.this, MainActivity.class);
 
                             intent.putExtra("redirect", "library");
                             startActivity(intent);
 
-                        }catch (Exception e){
-
-                            Toast.makeText(MyBookDetail.this, "Error, action failed", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
-                    }
-                });
-                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });
+                    }, REDIRECT_TIME_OUT);
 
-                builder.setMessage(R.string.delete_confirm)
-                        .setTitle(R.string.del_book);
+                }
+            });
+        } else if(i.getStringExtra("button").equals("lend")){
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
+            Button lendButton = (Button) findViewById(R.id.lend_button);
+            lendButton.setVisibility(Button.VISIBLE);
 
 
-            }
-        });
+        }
     }
 
     @Override

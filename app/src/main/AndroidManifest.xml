@@ -54,10 +54,6 @@
         </activity>
 
         <!-- Book Activity -->
-        <activity
-            android:name=".activities.BookActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- Scanner Activity -->
         <activity
@@ -97,12 +93,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
-        <activity
-            android:name=".activities.BookDetail"
-            android:label="@string/title_activity_book_detail"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".activities.MyBookDetail">

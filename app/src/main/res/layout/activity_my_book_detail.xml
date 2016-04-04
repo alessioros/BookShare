@@ -99,9 +99,34 @@
 
             <Button
                 android:id="@+id/delete_button"
+                android:visibility="gone"
                 android:layout_width="@dimen/login_input"
                 android:layout_height="@dimen/input_height"
                 android:text="@string/del_book"
+                android:background="@color/colorPrimaryLight"
+                android:textColor="@color/white"
+                android:layout_below="@id/book_description"
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:id="@+id/add_button"
+                android:visibility="gone"
+                android:layout_width="@dimen/login_input"
+                android:layout_height="@dimen/input_height"
+                android:text="@string/add_book"
+                android:background="@color/colorPrimaryLight"
+                android:textColor="@color/white"
+                android:layout_below="@id/book_description"
+                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:id="@+id/lend_button"
+                android:visibility="gone"
+                android:layout_width="@dimen/login_input"
+                android:layout_height="@dimen/input_height"
+                android:text="@string/lend_book"
                 android:background="@color/colorPrimaryLight"
                 android:textColor="@color/white"
                 android:layout_below="@id/book_description"

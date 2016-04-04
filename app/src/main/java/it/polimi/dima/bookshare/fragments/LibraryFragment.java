@@ -29,7 +29,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
-import it.polimi.dima.bookshare.activities.BookActivity;
+import it.polimi.dima.bookshare.activities.MyBookDetail;
 import it.polimi.dima.bookshare.activities.VerticalOrientationCA;
 import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
@@ -87,7 +87,6 @@ public class LibraryFragment extends Fragment {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
         //retrieve result of scanning - instantiate ZXing object
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         //check we have a valid result
@@ -105,8 +104,11 @@ public class LibraryFragment extends Fragment {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    Intent bookIntent = new Intent(getActivity(), BookActivity.class);
-                    bookIntent.putExtra("ISBN", scanContent);
+                    Intent bookIntent = new Intent(getActivity(), MyBookDetail.class);
+                    //bookIntent.putExtra("ISBN", scanContent);
+                    Book book=new Book();
+                    book.setIsbn(scanContent);
+
 
                     try {
 
@@ -121,7 +123,8 @@ public class LibraryFragment extends Fragment {
                             try {
                                 JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
 
-                                bookIntent.putExtra("imgURL", imageLinks.getString("thumbnail"));
+                                //bookIntent.putExtra("imgURL", imageLinks.getString("thumbnail"));
+                                book.setImgURL(imageLinks.getString("thumbnail"));
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -130,7 +133,8 @@ public class LibraryFragment extends Fragment {
                             // ----- TITLE -----
                             try {
 
-                                bookIntent.putExtra("title", URLDecoder.decode(volumeInfo.getString("title"), "UTF-8"));
+                                //bookIntent.putExtra("title", URLDecoder.decode(volumeInfo.getString("title"), "UTF-8"));
+                                book.setTitle(URLDecoder.decode(volumeInfo.getString("title"), "UTF-8"));
 
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -138,7 +142,8 @@ public class LibraryFragment extends Fragment {
 
                             // ----- PAGE COUNT -----
                             try {
-                                bookIntent.putExtra("pageCount", Integer.parseInt(volumeInfo.getString("pageCount")));
+                                //bookIntent.putExtra("pageCount", Integer.parseInt(volumeInfo.getString("pageCount")));
+                                book.setPageCount(Integer.parseInt(volumeInfo.getString("PageCount")));
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -147,11 +152,12 @@ public class LibraryFragment extends Fragment {
                             // ----- AUTHORS -----
                             try {
                                 JSONArray authors = volumeInfo.getJSONArray("authors");
-                                bookIntent.putExtra("numAuth", authors.length());
+                                //bookIntent.putExtra("numAuth", authors.length());
 
                                 for (int j = 0; j < authors.length(); j++) {
 
-                                    bookIntent.putExtra("author" + j, URLDecoder.decode(authors.getString(i), "UTF-8"));
+                                    //bookIntent.putExtra("author" + j, URLDecoder.decode(authors.getString(i), "UTF-8"));
+                                    book.setAuthor(URLDecoder.decode(authors.getString(i), "UTF-8"));
                                 }
 
                             } catch (Exception e) {
@@ -160,31 +166,34 @@ public class LibraryFragment extends Fragment {
 
                             // ----- PUBLISHER -----
                             try {
-                                bookIntent.putExtra("publisher", URLDecoder.decode(volumeInfo.getString("publisher"), "UTF-8"));
+                                //bookIntent.putExtra("publisher", URLDecoder.decode(volumeInfo.getString("publisher"), "UTF-8"));
+                                book.setPublisher(URLDecoder.decode(volumeInfo.getString("publisher"), "UTF-8"));
 
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
                             // ----- PUBLISHED DATE -----
-                            try {
+                            /*try {
                                 bookIntent.putExtra("publishedDate", volumeInfo.getString("publishedDate"));
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                            }
+                            }*/
 
                             // ----- DESCRIPTION -----
                             try {
 
-                                bookIntent.putExtra("description", URLDecoder.decode(volumeInfo.getString("description"), "UTF-8"));
-
+                                //bookIntent.putExtra("description", URLDecoder.decode(volumeInfo.getString("description"), "UTF-8"));
+                                book.setDescription(URLDecoder.decode(volumeInfo.getString("description"), "UTF-8"));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
 
                         }
+                        bookIntent.putExtra("book",book);
+                        bookIntent.putExtra("button","add");
                         getActivity().startActivity(bookIntent);
 
                     } catch (JSONException e) {

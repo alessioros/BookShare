@@ -15,11 +15,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import it.polimi.dima.bookshare.tables.Book;
-import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.activities.MyBookDetail;
+import it.polimi.dima.bookshare.amazon.DynamoDBManager;
+import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.User;
-import it.polimi.dima.bookshare.activities.BookDetail;
 
 /**
  * Created by matteo on 31/03/16.
@@ -86,8 +86,9 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         @Override
         public void onClick(View view) {
 
-            Intent startDetail=new Intent(context, BookDetail.class);
-            startDetail.putExtra("Book",mBooks.get(getLayoutPosition()));
+            Intent startDetail=new Intent(context, MyBookDetail.class);
+            startDetail.putExtra("button","lend");
+            startDetail.putExtra("book",mBooks.get(getLayoutPosition()));
             context.startActivity(startDetail);
             ((Activity)context).finish();
         }

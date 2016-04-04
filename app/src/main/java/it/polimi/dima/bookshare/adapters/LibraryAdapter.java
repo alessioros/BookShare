@@ -49,13 +49,8 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, MyBookDetail.class);
-
-                intent.putExtra("title",book.getTitle());
-                intent.putExtra("author",book.getAuthor());
-                intent.putExtra("description",book.getDescription());
-                intent.putExtra("pageCount",book.getPageCount());
-                intent.putExtra("imgURL",book.getImgURL());
-                intent.putExtra("isbn",book.getIsbn());
+                intent.putExtra("book",book);
+                intent.putExtra("button","delete");
 
                 context.startActivity(intent);
             }

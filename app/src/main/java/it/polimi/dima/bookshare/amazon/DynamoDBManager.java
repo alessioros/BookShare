@@ -1,6 +1,7 @@
 package it.polimi.dima.bookshare.amazon;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.amazonaws.AmazonServiceException;
@@ -328,9 +329,9 @@ public class DynamoDBManager {
 
             ArrayList<Book> resultList = new ArrayList<Book>();
             for (Book book : result) {
-                if(Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(book.getTitle()).find()){
+                if(Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(book.getTitle()).find()
+                        && !book.getOwnerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID",null))){
                     resultList.add(book);
-                    Log.i(TAG,book.getTitle());
                 }
             }
             return resultList;
@@ -409,12 +410,12 @@ public class DynamoDBManager {
 
         try {
 
-            Log.d(TAG, "Inserting book");
+            Log.d(TAG, "Inserting user");
             mapper.save(user);
-            Log.d(TAG, "Book inserted");
+            Log.d(TAG, "User inserted");
 
         } catch (AmazonServiceException ex) {
-            Log.e(TAG, "Error inserting book");
+            Log.e(TAG, "Error inserting user");
             clientManager
                     .wipeCredentialsOnAuthError(ex);
         }

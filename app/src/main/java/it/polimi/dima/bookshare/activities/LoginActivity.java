@@ -144,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("Token", "facebook token: " + accessToken.getToken());
         CognitoSyncClientManager.addLogins("graph.facebook.com", accessToken.getToken());
 
-        if(!sp.getBoolean("Registered",false)) {
+        if(!sp.getBoolean("Registered",false) || sp.getString("ID",null)==null) {
 
             user=new User();
 
@@ -156,6 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                 user.setImgURL(Profile.getCurrentProfile().getProfilePictureUri(200, 200).toString());
                 user.setCity("Milano");
                 new DynamoDBManagerTask(LoginActivity.this, null, user).execute(DynamoDBManagerType.INSERT_USER);
+                sp.edit().putString("ID",user.getUserID()).apply();
                 sp.edit().putBoolean("Registered", true).apply();
 
             }catch (Exception e){
