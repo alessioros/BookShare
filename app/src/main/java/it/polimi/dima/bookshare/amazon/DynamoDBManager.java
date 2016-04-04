@@ -59,16 +59,18 @@ public class DynamoDBManager {
 
         AmazonDynamoDBClient ddb = clientManager.ddb();
 
-        KeySchemaElement kse = new KeySchemaElement().withAttributeName("ISBN").withKeyType(KeyType.HASH);
+        KeySchemaElement kseH = new KeySchemaElement().withAttributeName("ISBN").withKeyType(KeyType.HASH);
+        KeySchemaElement kseR = new KeySchemaElement().withAttributeName("ownerID").withKeyType(KeyType.RANGE);
 
-        AttributeDefinition ad = new AttributeDefinition().withAttributeName("ISBN").withAttributeType(ScalarAttributeType.S);
+        AttributeDefinition isbn = new AttributeDefinition().withAttributeName("ISBN").withAttributeType(ScalarAttributeType.S);
+        AttributeDefinition ownerID = new AttributeDefinition().withAttributeName("ownerID").withAttributeType(ScalarAttributeType.S);
 
         ProvisionedThroughput pt = new ProvisionedThroughput().withReadCapacityUnits(5l).withWriteCapacityUnits(5l);
 
         CreateTableRequest request = new CreateTableRequest()
                 .withTableName(Constants.BOOK_TABLE_NAME)
-                .withKeySchema(kse)
-                .withAttributeDefinitions(ad)
+                .withKeySchema(kseH,kseR)
+                .withAttributeDefinitions(isbn,ownerID)
                 .withProvisionedThroughput(pt);
 
         try {
@@ -119,8 +121,7 @@ public class DynamoDBManager {
 
         } catch (AmazonServiceException ex) {
             Log.e(TAG, "Error inserting book");
-            clientManager
-                    .wipeCredentialsOnAuthError(ex);
+            clientManager.wipeCredentialsOnAuthError(ex);
         }
     }
 

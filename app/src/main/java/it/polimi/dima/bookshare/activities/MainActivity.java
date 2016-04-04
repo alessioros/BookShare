@@ -27,6 +27,9 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.amazon.DynamoDBManager;
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.fragments.HomeFragment;
 import it.polimi.dima.bookshare.fragments.LibraryFragment;
 

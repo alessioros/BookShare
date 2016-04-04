@@ -7,6 +7,7 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribut
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexHashKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRangeKey;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 
 import it.polimi.dima.bookshare.amazon.Constants;
@@ -23,26 +24,9 @@ public class Book implements Parcelable{
     private String description;
     private String ownerID;
     private String imgURL;
+    private String publisher;
 
     public Book() {}
-
-    @DynamoDBIndexRangeKey(attributeName = "Title")
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    @DynamoDBIndexHashKey(attributeName = "Author")
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
 
     @DynamoDBHashKey(attributeName = "ISBN")
     public String getIsbn() {
@@ -51,6 +35,33 @@ public class Book implements Parcelable{
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    @DynamoDBRangeKey(attributeName = "ownerID")
+    public String getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(String ownerID) {
+        this.ownerID = ownerID;
+    }
+
+    @DynamoDBAttribute(attributeName = "Title")
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @DynamoDBAttribute(attributeName = "Author")
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     @DynamoDBAttribute(attributeName = "Description")
@@ -62,22 +73,13 @@ public class Book implements Parcelable{
         this.description = description;
     }
 
-    @DynamoDBAttribute(attributeName = "pageCount")
+    @DynamoDBAttribute(attributeName = "PageCount")
     public int getPageCount() {
         return pageCount;
     }
 
     public void setPageCount(int pageCount) {
         this.pageCount = pageCount;
-    }
-
-    @DynamoDBIndexHashKey(globalSecondaryIndexName = "ownerID")
-    public String getOwnerID() {
-        return ownerID;
-    }
-
-    public void setOwnerID(String ownerID) {
-        this.ownerID = ownerID;
     }
 
     @DynamoDBAttribute(attributeName = "imgURL")
@@ -88,6 +90,17 @@ public class Book implements Parcelable{
     public void setImgURL(String imgURL) {
         this.imgURL = imgURL;
     }
+
+    @DynamoDBAttribute(attributeName = "Publisher")
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+
 
     @Override
     public int describeContents() {
