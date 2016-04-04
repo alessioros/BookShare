@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("BookShare");
+        getSupportActionBar().setTitle("");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
 
                 getSupportActionBar().setTitle("Library");
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
 
             }
         }else{
@@ -79,9 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
 
-            getSupportActionBar().setTitle("BookShare");
-
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.zxing_transparent)));
+            getSupportActionBar().setTitle("");
 
         }
 
@@ -150,7 +150,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
 
-            getSupportActionBar().setTitle("Home");
+            getSupportActionBar().setTitle("");
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.zxing_transparent)));
 
         } else if (id == R.id.library) {
 
@@ -159,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
 
             getSupportActionBar().setTitle("Library");
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
 
         } else if (id == R.id.settings) {
 
