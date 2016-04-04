@@ -59,12 +59,14 @@ public class HomeFragment extends Fragment {
 
         CircularImageView userImage = (CircularImageView) view.findViewById(R.id.user_image);
         TextView userName = (TextView) view.findViewById(R.id.user_name);
+        TextView userLocation = (TextView) view.findViewById(R.id.user_location);
         TextView userBooks = (TextView) view.findViewById(R.id.user_books);
         TextView userCredits = (TextView) view.findViewById(R.id.user_credits);
 
         Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
 
         userName.setTypeface(aller);
+        userLocation.setTypeface(aller);
         userBooks.setTypeface(aller);
         userCredits.setTypeface(aller);
 
@@ -79,6 +81,8 @@ public class HomeFragment extends Fragment {
             Picasso.with(getActivity()).load(imageUri).into(userImage);
 
             userName.setText(userProfile.getName());
+
+            userLocation.setText("Milan, Italy");
 
             userBooks.setText("17 books shared");
 

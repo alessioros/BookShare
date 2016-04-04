@@ -16,20 +16,22 @@
         android:layout_height="180dp"
         android:scaleType="fitXY"
         android:alpha="1"
-        android:background="@drawable/profile_header_blue" />
+        android:background="@drawable/profile_header_other"
+        android:elevation="7dp" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/user_image"
         android:layout_width="@dimen/side_img_width"
         android:layout_height="@dimen/side_img_height"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="115dp"
         app:civ_border_color="@color/white"
-        app:civ_border_width="2dp"
-        app:civ_shadow="false"
-        app:civ_shadow_radius="5"
+        app:civ_border_width="3dp"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="3"
         android:layout_centerHorizontal="true"
-        app:civ_shadow_color="@color/white" />
+        app:civ_shadow_color="@color/black_overlay"
+        android:elevation="8dp" />
 
     <RelativeLayout
         android:id="@+id/profile_info"
@@ -47,14 +49,39 @@
             android:textSize="20sp"
             android:layout_centerHorizontal="true" />
 
+        <RelativeLayout
+            android:id="@+id/location_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_name"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:id="@+id/location_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_location" />
+
+            <TextView
+                android:id="@+id/user_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/location_icon"
+                android:layout_toRightOf="@id/location_icon"
+                android:layout_marginLeft="5dp"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/user_credits"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:textSize="16sp"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/user_name" />
+            android:layout_below="@id/location_info" />
 
         <TextView
             android:id="@+id/user_books"
@@ -72,7 +99,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/profile_info"
-        android:background="@color/black_overlay"></View>
+        android:background="@color/black_overlay"
+        android:elevation="2dp" />
 
     <Button
         android:id="@+id/scan_button"
