@@ -1,7 +1,5 @@
 package it.polimi.dima.bookshare.amazon;
 
-import java.util.Random;
-
 /**
  * Created by matteo on 25/03/16.
  */

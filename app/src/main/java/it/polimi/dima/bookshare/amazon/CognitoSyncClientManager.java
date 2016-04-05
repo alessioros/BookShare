@@ -1,15 +1,12 @@
 package it.polimi.dima.bookshare.amazon;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.auth.CognitoCredentialsProvider;
 import com.amazonaws.mobileconnectors.cognito.CognitoSyncManager;
 import com.amazonaws.regions.Regions;
-import com.facebook.login.LoginResult;
 
 import java.util.HashMap;
 import java.util.Map;
