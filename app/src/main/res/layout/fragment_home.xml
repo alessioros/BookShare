@@ -102,18 +102,4 @@
         android:background="@color/black_overlay"
         android:elevation="2dp" />
 
-    <Button
-        android:id="@+id/scan_button"
-        android:layout_width="@dimen/main_button_width"
-        android:layout_height="@dimen/main_button_height"
-        android:layout_marginTop="60dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/profile_info"
-        android:padding="10dp"
-        android:textSize="@dimen/main_button_text"
-        android:textAlignment="center"
-        android:background="@color/colorPrimaryLight"
-        android:textColor="#ffffff"
-        android:text="@string/scan" />
-
 </RelativeLayout>

@@ -105,8 +105,7 @@ public class LibraryFragment extends Fragment {
                 public void onResponse(JSONObject response) {
 
                     Intent bookIntent = new Intent(getActivity(), MyBookDetail.class);
-                    //bookIntent.putExtra("ISBN", scanContent);
-                    Book book=new Book();
+                    Book book = new Book();
                     book.setIsbn(scanContent);
 
 
@@ -123,7 +122,6 @@ public class LibraryFragment extends Fragment {
                             try {
                                 JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
 
-                                //bookIntent.putExtra("imgURL", imageLinks.getString("thumbnail"));
                                 book.setImgURL(imageLinks.getString("thumbnail"));
 
                             } catch (JSONException e) {
@@ -133,7 +131,6 @@ public class LibraryFragment extends Fragment {
                             // ----- TITLE -----
                             try {
 
-                                //bookIntent.putExtra("title", URLDecoder.decode(volumeInfo.getString("title"), "UTF-8"));
                                 book.setTitle(URLDecoder.decode(volumeInfo.getString("title"), "UTF-8"));
 
                             } catch (Exception e) {
@@ -142,8 +139,7 @@ public class LibraryFragment extends Fragment {
 
                             // ----- PAGE COUNT -----
                             try {
-                                //bookIntent.putExtra("pageCount", Integer.parseInt(volumeInfo.getString("pageCount")));
-                                book.setPageCount(Integer.parseInt(volumeInfo.getString("PageCount")));
+                                book.setPageCount(Integer.parseInt(volumeInfo.getString("pageCount")));
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -152,11 +148,9 @@ public class LibraryFragment extends Fragment {
                             // ----- AUTHORS -----
                             try {
                                 JSONArray authors = volumeInfo.getJSONArray("authors");
-                                //bookIntent.putExtra("numAuth", authors.length());
 
                                 for (int j = 0; j < authors.length(); j++) {
 
-                                    //bookIntent.putExtra("author" + j, URLDecoder.decode(authors.getString(i), "UTF-8"));
                                     book.setAuthor(URLDecoder.decode(authors.getString(i), "UTF-8"));
                                 }
 
@@ -166,7 +160,6 @@ public class LibraryFragment extends Fragment {
 
                             // ----- PUBLISHER -----
                             try {
-                                //bookIntent.putExtra("publisher", URLDecoder.decode(volumeInfo.getString("publisher"), "UTF-8"));
                                 book.setPublisher(URLDecoder.decode(volumeInfo.getString("publisher"), "UTF-8"));
 
                             } catch (Exception e) {
@@ -174,26 +167,25 @@ public class LibraryFragment extends Fragment {
                             }
 
                             // ----- PUBLISHED DATE -----
-                            /*try {
-                                bookIntent.putExtra("publishedDate", volumeInfo.getString("publishedDate"));
+                            try {
+                                book.setPublishedDate(volumeInfo.getString("publishedDate"));
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                            }*/
+                            }
 
                             // ----- DESCRIPTION -----
                             try {
-
-                                //bookIntent.putExtra("description", URLDecoder.decode(volumeInfo.getString("description"), "UTF-8"));
                                 book.setDescription(URLDecoder.decode(volumeInfo.getString("description"), "UTF-8"));
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
 
                         }
-                        bookIntent.putExtra("book",book);
-                        bookIntent.putExtra("button","add");
+                        bookIntent.putExtra("book", book);
+                        bookIntent.putExtra("button", "add");
                         getActivity().startActivity(bookIntent);
 
                     } catch (JSONException e) {

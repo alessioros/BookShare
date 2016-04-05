@@ -25,6 +25,7 @@ public class Book implements Parcelable{
     private String ownerID;
     private String imgURL;
     private String publisher;
+    private String publishedDate;
 
     public Book() {}
 
@@ -100,7 +101,14 @@ public class Book implements Parcelable{
         this.publisher = publisher;
     }
 
+    @DynamoDBAttribute(attributeName = "PublishedDate")
+    public String getPublishedDate() {
+        return publishedDate;
+    }
 
+    public void setPublishedDate(String publishedDate) {
+        this.publishedDate = publishedDate;
+    }
 
     @Override
     public int describeContents() {
@@ -110,13 +118,15 @@ public class Book implements Parcelable{
     // write your object's data to the passed-in Parcel
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeString(imgURL);
-        out.writeString(title);
         out.writeString(isbn);
+        out.writeString(title);
         out.writeString(author);
         out.writeInt(pageCount);
         out.writeString(description);
         out.writeString(ownerID);
+        out.writeString(imgURL);
+        out.writeString(publisher);
+        out.writeString(publishedDate);
     }
 
     // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
@@ -131,12 +141,15 @@ public class Book implements Parcelable{
     };
 
     public Book(Parcel in) {
-        this.imgURL = in.readString();
-        this.title = in.readString();
         this.isbn = in.readString();
+        this.title = in.readString();
         this.author = in.readString();
         this.pageCount = in.readInt();
         this.description = in.readString();
         this.ownerID = in.readString();
+        this.imgURL = in.readString();
+        this.publisher = in.readString();
+        this.publishedDate = in.readString();
+
     }
 }

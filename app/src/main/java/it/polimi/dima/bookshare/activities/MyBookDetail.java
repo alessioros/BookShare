@@ -46,6 +46,7 @@ public class MyBookDetail extends AppCompatActivity {
         TextView bookAuthor = (TextView) findViewById(R.id.book_author);
         TextView bookPageCount = (TextView) findViewById(R.id.book_pagecount);
         TextView bookDescription = (TextView) findViewById(R.id.book_description);
+        TextView bookPublisher = (TextView) findViewById(R.id.book_publisher);
 
 
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
@@ -54,6 +55,7 @@ public class MyBookDetail extends AppCompatActivity {
         bookAuthor.setTypeface(aller);
         bookPageCount.setTypeface(aller);
         bookDescription.setTypeface(aller);
+        bookPublisher.setTypeface(aller);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -63,6 +65,7 @@ public class MyBookDetail extends AppCompatActivity {
             bookAuthor.setText(book.getAuthor());
             bookPageCount.setText(book.getPageCount()+"");
             bookTitle.setText(book.getTitle());
+            bookPublisher.setText(book.getPublisher() + " - " + book.getPublishedDate());
             Picasso.with(MyBookDetail.this).load(book.getImgURL()).into(bookImage);
 
         }
@@ -94,6 +97,7 @@ public class MyBookDetail extends AppCompatActivity {
                             } catch (Exception e) {
 
                                 Toast.makeText(MyBookDetail.this, "Error, action failed", Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
                             }
                         }
                     });

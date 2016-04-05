@@ -281,7 +281,7 @@ public class DynamoDBManager {
                 book.setOwnerID(attribute.getS());
 
                 try {
-                    attribute = (AttributeValue) item.get("pageCount");
+                    attribute = (AttributeValue) item.get("PageCount");
                     book.setPageCount(Integer.parseInt(attribute.getN()));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -298,6 +298,22 @@ public class DynamoDBManager {
                 try {
                     attribute = (AttributeValue) item.get("imgURL");
                     book.setImgURL(attribute.getS());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    attribute = (AttributeValue) item.get("Publisher");
+                    book.setPublisher(attribute.getS());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    attribute = (AttributeValue) item.get("PublishedDate");
+                    book.setPublishedDate(attribute.getS());
 
                 } catch (Exception e) {
                     e.printStackTrace();
