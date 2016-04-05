@@ -112,8 +112,7 @@ public class RegistrationIntentService extends IntentService {
                         .withPlatformApplicationArn(ROLE_ARN)
                         .withToken(token);
 
-        CreatePlatformEndpointResult cpeRes = client
-                .createPlatformEndpoint(cpeReq);
+        CreatePlatformEndpointResult cpeRes = client.createPlatformEndpoint(cpeReq);
         client.createPlatformEndpoint(cpeReq).withEndpointArn(cpeRes.getEndpointArn());
 
 
