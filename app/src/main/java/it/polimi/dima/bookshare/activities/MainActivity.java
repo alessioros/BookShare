@@ -4,10 +4,9 @@ import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -29,11 +28,9 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import it.polimi.dima.bookshare.R;
-import it.polimi.dima.bookshare.amazon.DynamoDBManager;
-import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
-import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.fragments.HomeFragment;
 import it.polimi.dima.bookshare.fragments.LibraryFragment;
+import it.polimi.dima.bookshare.services.RegistrationIntentService;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -42,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent startRegistrationIntent=new Intent(MainActivity.this, RegistrationIntentService.class);
+        startService(startRegistrationIntent);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

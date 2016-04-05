@@ -3,6 +3,10 @@
     package="it.polimi.dima.bookshare">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <permission
+        android:name="it.polimi.dima.bookshare.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="it.polimi.dima.bookshare.permission.C2D_MESSAGE" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -55,6 +59,7 @@
 
         <!-- Book Activity -->
 
+
         <!-- Scanner Activity -->
         <activity
             android:name=".activities.VerticalOrientationCA"
@@ -94,9 +99,33 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity
-            android:name=".activities.MyBookDetail">
-        </activity>
+        <activity android:name=".activities.MyBookDetail"></activity>
+
+        <service
+            android:name=".services.RegistrationIntentService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".services.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="it.polimi.dima.bookshare" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

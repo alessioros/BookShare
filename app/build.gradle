@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
@@ -35,6 +36,8 @@ dependencies {
     compile 'com.amazonaws:aws-android-sdk-core:2.2.+'
     compile 'com.amazonaws:aws-android-sdk-cognito:2.2.+'
     compile 'com.amazonaws:aws-android-sdk-ddb-mapper:2.2.+'
+    compile "com.amazonaws:aws-android-sdk-sns:2.+"
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.mikhaellopez:circularimageview:3.0.2'
+    compile "com.google.android.gms:play-services-gcm:8.3.0"
 }
