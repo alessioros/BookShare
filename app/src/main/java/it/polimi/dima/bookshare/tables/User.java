@@ -17,6 +17,7 @@ public class User {
     private String surname;
     private String city;
     private String imgURL;
+    private int credits;
 
     @DynamoDBHashKey(attributeName = "UserID")
     public String getUserID() {
@@ -61,5 +62,14 @@ public class User {
 
     public void setImgURL(String imgURL) {
         this.imgURL = imgURL;
+    }
+
+    @DynamoDBAttribute(attributeName = "Credits")
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
     }
 }

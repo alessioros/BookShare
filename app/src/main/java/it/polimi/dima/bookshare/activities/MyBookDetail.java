@@ -63,9 +63,33 @@ public class MyBookDetail extends AppCompatActivity {
             book = (Book) i.getParcelableExtra("book");
             bookDescription.setText(book.getDescription());
             bookAuthor.setText(book.getAuthor());
-            bookPageCount.setText(book.getPageCount()+"");
+
+            if (book.getPageCount() != 0) {
+
+                bookPageCount.setText(book.getPageCount() + " pages");
+            }
+
             bookTitle.setText(book.getTitle());
-            bookPublisher.setText(book.getPublisher() + " - " + book.getPublishedDate());
+
+            try {
+                if (!book.getPublisher().equals(null) && !book.getPublishedDate().equals(null)) {
+
+                    bookPublisher.setText(book.getPublisher() + " - " + book.getPublishedDate());
+
+                } else if (!book.getPublisher().equals(null)) {
+
+                    bookPublisher.setText(book.getPublisher());
+
+                } else if (!book.getPublishedDate().equals(null)) {
+
+                    bookPublisher.setText(book.getPublishedDate());
+                }
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+
+
             Picasso.with(MyBookDetail.this).load(book.getImgURL()).into(bookImage);
 
         }

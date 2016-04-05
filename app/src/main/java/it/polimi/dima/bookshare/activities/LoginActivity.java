@@ -155,6 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                 user.setSurname(Profile.getCurrentProfile().getLastName());
                 user.setImgURL(Profile.getCurrentProfile().getProfilePictureUri(200, 200).toString());
                 user.setCity("Milano");
+                user.setCredits(20);
                 new DynamoDBManagerTask(LoginActivity.this, null, user).execute(DynamoDBManagerType.INSERT_USER);
                 sp.edit().putString("ID",user.getUserID()).apply();
                 sp.edit().putBoolean("Registered", true).apply();
