@@ -64,8 +64,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(getIntent().getExtras()!=null){
 
             Bundle extras = getIntent().getExtras();
+            String redirect = "";
 
-            if(extras.get("redirect").equals("library")){
+            try {
+
+                redirect = extras.get("redirect").toString();
+
+            } catch (NullPointerException e) {
+
+                Fragment fragment = HomeFragment.newInstance();
+
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+                getSupportActionBar().setTitle("");
+            }
+
+            if (redirect.equals("library")) {
 
                 Fragment fragment = LibraryFragment.newInstance();
 

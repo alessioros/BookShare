@@ -29,7 +29,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
-import it.polimi.dima.bookshare.activities.MyBookDetail;
+import it.polimi.dima.bookshare.activities.BookDetail;
 import it.polimi.dima.bookshare.activities.VerticalOrientationCA;
 import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
@@ -104,10 +104,9 @@ public class LibraryFragment extends Fragment {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    Intent bookIntent = new Intent(getActivity(), MyBookDetail.class);
+                    Intent bookIntent = new Intent(getActivity(), BookDetail.class);
                     Book book = new Book();
                     book.setIsbn(scanContent);
-
 
                     try {
 

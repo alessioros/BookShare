@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.tables.User;
 
 public class SplashScreen extends AppCompatActivity {
 
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 2000;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +26,17 @@ public class SplashScreen extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
 
+        if (getIntent().getExtras() != null) {
+
+            user = getIntent().getExtras().getParcelable("user");
+        }
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
 
-                Intent i = new Intent(SplashScreen.this, LoginActivity.class);
+                Intent i = new Intent(SplashScreen.this, MainActivity.class);
+                i.putExtra("user", user);
                 startActivity(i);
 
                 finish();

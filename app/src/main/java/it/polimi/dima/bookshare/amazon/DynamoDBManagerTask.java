@@ -19,10 +19,15 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
     private Book book;
     private User user;
 
-    public DynamoDBManagerTask(Context context, Book book, User user) {
+    public DynamoDBManagerTask(Context context, User user) {
+
+        this.context = context;
+        this.user = user;
+    }
+
+    public DynamoDBManagerTask(Context context, Book book) {
         this.context = context;
         this.book = book;
-        this.user = user;
     }
 
     protected DynamoDBManagerTaskResult doInBackground(DynamoDBManagerType... types) {

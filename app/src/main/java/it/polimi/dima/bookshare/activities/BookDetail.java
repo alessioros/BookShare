@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +23,7 @@ import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.R;
 
-public class MyBookDetail extends AppCompatActivity {
+public class BookDetail extends AppCompatActivity {
 
     private Book book;
     private static int REDIRECT_TIME_OUT = 500;
@@ -32,7 +31,7 @@ public class MyBookDetail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_book_detail);
+        setContentView(R.layout.activity_book_detail);
 
         getSupportActionBar().setTitle("Book Detail");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -90,7 +89,7 @@ public class MyBookDetail extends AppCompatActivity {
             }
 
 
-            Picasso.with(MyBookDetail.this).load(book.getImgURL()).into(bookImage);
+            Picasso.with(BookDetail.this).load(book.getImgURL()).into(bookImage);
 
         }
 
@@ -102,25 +101,25 @@ public class MyBookDetail extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MyBookDetail.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(BookDetail.this);
 
                     builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
 
                             try {
-                                DynamoDBManager DDMB = new DynamoDBManager(MyBookDetail.this);
+                                DynamoDBManager DDMB = new DynamoDBManager(BookDetail.this);
                                 DDMB.deleteBook(book);
 
-                                Toast.makeText(MyBookDetail.this, "book deleted succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BookDetail.this, "book deleted succesfully", Toast.LENGTH_SHORT).show();
 
-                                Intent intent = new Intent(MyBookDetail.this, MainActivity.class);
+                                Intent intent = new Intent(BookDetail.this, MainActivity.class);
 
                                 intent.putExtra("redirect", "library");
                                 startActivity(intent);
 
                             } catch (Exception e) {
 
-                                Toast.makeText(MyBookDetail.this, "Error, action failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BookDetail.this, "Error, action failed", Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
                             }
                         }
@@ -151,7 +150,7 @@ public class MyBookDetail extends AppCompatActivity {
                     book.setOwnerID(Profile.getCurrentProfile().getId());
 
                     // add book to DynamoDB
-                    new DynamoDBManagerTask(MyBookDetail.this,book,null).execute(DynamoDBManagerType.INSERT_BOOK);
+                    new DynamoDBManagerTask(BookDetail.this, book).execute(DynamoDBManagerType.INSERT_BOOK);
 
                     // redirects to library after 0.5 seconds, allowing library to display the new book
                     new Handler().postDelayed(new Runnable() {
@@ -159,7 +158,7 @@ public class MyBookDetail extends AppCompatActivity {
                         @Override
                         public void run() {
 
-                            Intent intent = new Intent(MyBookDetail.this, MainActivity.class);
+                            Intent intent = new Intent(BookDetail.this, MainActivity.class);
 
                             intent.putExtra("redirect", "library");
                             startActivity(intent);

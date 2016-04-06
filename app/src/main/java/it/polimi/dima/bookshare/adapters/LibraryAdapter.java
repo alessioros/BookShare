@@ -13,9 +13,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import it.polimi.dima.bookshare.activities.BookDetail;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.R;
-import it.polimi.dima.bookshare.activities.MyBookDetail;
 
 public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHolder> {
 
@@ -48,7 +48,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, MyBookDetail.class);
+                Intent intent = new Intent(context, BookDetail.class);
                 intent.putExtra("book",book);
                 intent.putExtra("button","delete");
 

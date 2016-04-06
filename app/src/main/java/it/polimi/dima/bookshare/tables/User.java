@@ -1,5 +1,8 @@
 package it.polimi.dima.bookshare.tables;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribute;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRangeKey;
@@ -7,17 +10,18 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 
 import it.polimi.dima.bookshare.amazon.Constants;
 
-/**
- * Created by matteo on 01/04/16.
- */
 @DynamoDBTable(tableName = Constants.USER_TABLE_NAME)
-public class User {
+public class User implements Parcelable {
     private String userID;
     private String name;
     private String surname;
     private String city;
+    private String country;
     private String imgURL;
     private int credits;
+
+    public User() {
+    }
 
     @DynamoDBHashKey(attributeName = "UserID")
     public String getUserID() {
@@ -46,7 +50,7 @@ public class User {
         this.surname = surname;
     }
 
-    @DynamoDBAttribute
+    @DynamoDBAttribute(attributeName = "City")
     public String getCity() {
         return city;
     }
@@ -71,5 +75,53 @@ public class User {
 
     public void setCredits(int credits) {
         this.credits = credits;
+    }
+
+    @DynamoDBAttribute(attributeName = "Country")
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // write your object's data to the passed-in Parcel
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(userID);
+        out.writeString(name);
+        out.writeString(surname);
+        out.writeString(city);
+        out.writeString(country);
+        out.writeString(imgURL);
+        out.writeInt(credits);
+    }
+
+    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    public User(Parcel in) {
+        this.userID = in.readString();
+        this.name = in.readString();
+        this.surname = in.readString();
+        this.city = in.readString();
+        this.country = in.readString();
+        this.imgURL = in.readString();
+        this.credits = in.readInt();
+
     }
 }

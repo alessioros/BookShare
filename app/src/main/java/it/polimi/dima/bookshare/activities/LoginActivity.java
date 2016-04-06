@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 import it.polimi.dima.bookshare.amazon.CognitoSyncClientManager;
+import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.R;
@@ -49,6 +52,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
         sp=PreferenceManager.getDefaultSharedPreferences(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -63,7 +71,8 @@ public class LoginActivity extends AppCompatActivity {
         final AccessToken fbAccessToken = AccessToken.getCurrentAccessToken();
         if (fbAccessToken != null) {
             setFacebookSession(fbAccessToken);
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            Intent i = new Intent(LoginActivity.this, SplashScreen.class);
+            i.putExtra("user", user);
             startActivity(i);
             finish();
         }
@@ -74,6 +83,19 @@ public class LoginActivity extends AppCompatActivity {
         TextView register = (TextView) findViewById(R.id.register);
         Button login = (Button) findViewById(R.id.login_button);
         Button loginFB = (Button) findViewById(R.id.login_fb);
+
+        /* ------- TEMPORARY INVISIBLE */
+        ImageView emailImg = (ImageView) findViewById(R.id.email_icon);
+        ImageView passImg = (ImageView) findViewById(R.id.password_icon);
+
+        emailImg.setVisibility(View.INVISIBLE);
+        passImg.setVisibility(View.INVISIBLE);
+        login.setVisibility(View.INVISIBLE);
+        password.setVisibility(View.INVISIBLE);
+        email.setVisibility(View.INVISIBLE);
+        register.setVisibility(View.INVISIBLE);
+
+        /* ------- */
 
         Typeface zaguatica = Typeface.createFromAsset(getAssets(), "fonts/zaguatica-Bold.otf");
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
@@ -89,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, SplashScreen.class);
                 startActivity(intent);
 
                 LoginActivity.this.finish();
@@ -106,9 +128,10 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
 
-                        new GetFbName(loginResult).execute();
                         setFacebookSession(loginResult.getAccessToken());
-                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent i = new Intent(LoginActivity.this, SplashScreen.class);
+                        i.putExtra("user", user);
+
                         startActivity(i);
                         finish();
                     }
@@ -144,21 +167,52 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("Token", "facebook token: " + accessToken.getToken());
         CognitoSyncClientManager.addLogins("graph.facebook.com", accessToken.getToken());
 
-        if(!sp.getBoolean("Registered",false) || sp.getString("ID",null)==null) {
+        try {
+
+            user = new DynamoDBManager(LoginActivity.this).getUser(accessToken.getUserId());
+            sp.edit().putString("ID", user.getUserID()).apply();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (user == null) {
 
             user=new User();
+
+            GraphRequest request = GraphRequest.newMeRequest(
+                    accessToken,
+                    new GraphRequest.GraphJSONObjectCallback() {
+                        @Override
+                        public void onCompleted(JSONObject object, GraphResponse response) {
+
+                            try {
+                                JSONObject jsonObject = response.getJSONObject().getJSONObject("location");
+
+                                String[] columns = jsonObject.getString("name").split(",");
+                                user.setCity(columns[0]);
+                                user.setCountry(columns[1]);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "location");
+            request.setParameters(parameters);
+            request.executeAsync();
 
             try {
 
                 user.setUserID(Profile.getCurrentProfile().getId());
                 user.setName(Profile.getCurrentProfile().getFirstName());
                 user.setSurname(Profile.getCurrentProfile().getLastName());
-                user.setImgURL(Profile.getCurrentProfile().getProfilePictureUri(200, 200).toString());
-                user.setCity("Milano");
+                user.setImgURL(Profile.getCurrentProfile().getProfilePictureUri(300, 300).toString());
                 user.setCredits(20);
-                new DynamoDBManagerTask(LoginActivity.this, null, user).execute(DynamoDBManagerType.INSERT_USER);
+                new DynamoDBManagerTask(LoginActivity.this, user).execute(DynamoDBManagerType.INSERT_USER);
                 sp.edit().putString("ID",user.getUserID()).apply();
-                sp.edit().putBoolean("Registered", true).apply();
 
             }catch (Exception e){
                 e.printStackTrace();
@@ -166,56 +220,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         new SaveCredentials().execute();
     }
-
-    private class GetFbName extends AsyncTask<Void, Void, String> {
-        private final LoginResult loginResult;
-        private ProgressDialog dialog;
-
-        public GetFbName(LoginResult loginResult) {
-            this.loginResult = loginResult;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            dialog = ProgressDialog.show(LoginActivity.this, "Wait", "Getting user name");
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            GraphRequest request = GraphRequest.newMeRequest(
-                    loginResult.getAccessToken(),
-                    new GraphRequest.GraphJSONObjectCallback() {
-                        @Override
-                        public void onCompleted(
-                                JSONObject object,
-                                GraphResponse response) {
-                            // Application code
-                            Log.v("LoginActivity", response.toString());
-                        }
-                    });
-            Bundle parameters = new Bundle();
-            parameters.putString("fields", "name");
-            request.setParameters(parameters);
-            GraphResponse graphResponse = request.executeAndWait();
-            try {
-                return graphResponse.getJSONObject().getString("name");
-            } catch (JSONException e) {
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-
-            if (response != null) {
-                Toast.makeText(LoginActivity.this, "Hello " + response, Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(LoginActivity.this, "Unable to get user name from Facebook",
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
 
     private class SaveCredentials extends AsyncTask<Void, Void, String> {
 

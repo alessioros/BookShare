@@ -55,6 +55,7 @@
         android:layout_height="@dimen/input_height" />
 
     <ImageView
+        android:id="@+id/email_icon"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:background="@drawable/mail"
@@ -79,6 +80,7 @@
         android:layout_height="@dimen/input_height" />
 
     <ImageView
+        android:id="@+id/password_icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:background="@drawable/key"

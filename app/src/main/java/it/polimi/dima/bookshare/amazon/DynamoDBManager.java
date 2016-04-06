@@ -331,6 +331,29 @@ public class DynamoDBManager {
         return userBooks;
     }
 
+    public static int getBooksCount(String ownerID) {
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+
+        // Create our map of values
+        Map keyConditions = new HashMap();
+
+        // Specify our key conditions (ownerId == "ownerID")
+        Condition hashKeyCondition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ.toString())
+                .withAttributeValueList(new AttributeValue().withS(ownerID));
+        keyConditions.put("ownerID", hashKeyCondition);
+
+        QueryRequest queryRequest = new QueryRequest()
+                .withTableName(Constants.BOOK_TABLE_NAME)
+                .withKeyConditions(keyConditions)
+                .withIndexName("ownerID-index");
+
+        QueryResult queryResult = ddb.query(queryRequest);
+
+        return queryResult.getCount();
+    }
+
     /*
      * Scans the table and returns the list of books searched
      */

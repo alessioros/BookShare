@@ -12,9 +12,6 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 
 import it.polimi.dima.bookshare.amazon.Constants;
 
-/**
- * Created by matteo on 25/03/16.
- */
 @DynamoDBTable(tableName = Constants.BOOK_TABLE_NAME)
 public class Book implements Parcelable{
     private String isbn;
