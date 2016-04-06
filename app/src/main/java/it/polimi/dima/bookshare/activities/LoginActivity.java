@@ -1,14 +1,13 @@
 package it.polimi.dima.bookshare.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,29 +22,17 @@ import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.Arrays;
 
-import it.polimi.dima.bookshare.amazon.CognitoSyncClientManager;
-import it.polimi.dima.bookshare.amazon.DynamoDBManager;
-import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
-import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.R;
-import it.polimi.dima.bookshare.tables.User;
+import it.polimi.dima.bookshare.amazon.CognitoSyncClientManager;
 
 public class LoginActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
-    private User user;
-    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +44,9 @@ public class LoginActivity extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
-        sp=PreferenceManager.getDefaultSharedPreferences(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
-        /**
-         * Initializes the sync client. This must be call before you can use it.
-         */
         CognitoSyncClientManager.init(this);
 
 
@@ -72,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
         if (fbAccessToken != null) {
             setFacebookSession(fbAccessToken);
             Intent i = new Intent(LoginActivity.this, SplashScreen.class);
-            i.putExtra("user", user);
             startActivity(i);
             finish();
         }
@@ -130,7 +112,6 @@ public class LoginActivity extends AppCompatActivity {
 
                         setFacebookSession(loginResult.getAccessToken());
                         Intent i = new Intent(LoginActivity.this, SplashScreen.class);
-                        i.putExtra("user", user);
 
                         startActivity(i);
                         finish();
@@ -164,61 +145,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setFacebookSession(AccessToken accessToken) {
+
         Log.i("Token", "facebook token: " + accessToken.getToken());
+
         CognitoSyncClientManager.addLogins("graph.facebook.com", accessToken.getToken());
-
-        try {
-
-            user = new DynamoDBManager(LoginActivity.this).getUser(accessToken.getUserId());
-            sp.edit().putString("ID", user.getUserID()).apply();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (user == null) {
-
-            user=new User();
-
-            GraphRequest request = GraphRequest.newMeRequest(
-                    accessToken,
-                    new GraphRequest.GraphJSONObjectCallback() {
-                        @Override
-                        public void onCompleted(JSONObject object, GraphResponse response) {
-
-                            try {
-                                JSONObject jsonObject = response.getJSONObject().getJSONObject("location");
-
-                                String[] columns = jsonObject.getString("name").split(",");
-                                user.setCity(columns[0]);
-                                user.setCountry(columns[1]);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-
-            Bundle parameters = new Bundle();
-            parameters.putString("fields", "location");
-            request.setParameters(parameters);
-            request.executeAsync();
-
-            try {
-
-                user.setUserID(Profile.getCurrentProfile().getId());
-                user.setName(Profile.getCurrentProfile().getFirstName());
-                user.setSurname(Profile.getCurrentProfile().getLastName());
-                user.setImgURL(Profile.getCurrentProfile().getProfilePictureUri(300, 300).toString());
-                user.setCredits(20);
-                new DynamoDBManagerTask(LoginActivity.this, user).execute(DynamoDBManagerType.INSERT_USER);
-                sp.edit().putString("ID",user.getUserID()).apply();
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
         new SaveCredentials().execute();
+
     }
 
     private class SaveCredentials extends AsyncTask<Void, Void, String> {
@@ -238,4 +170,6 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
+
+
 }

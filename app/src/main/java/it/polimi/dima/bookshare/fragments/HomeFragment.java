@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.User;
+import it.polimi.dima.bookshare.utils.ManageUser;
 
 public class HomeFragment extends Fragment {
 
@@ -56,7 +57,7 @@ public class HomeFragment extends Fragment {
 
         try {
 
-            user = getActivity().getIntent().getExtras().getParcelable("user");
+            user = new ManageUser(getActivity()).getUser();
 
             Picasso.with(getActivity()).load(user.getImgURL()).into(userImage);
 

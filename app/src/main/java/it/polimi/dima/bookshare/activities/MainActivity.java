@@ -31,10 +31,14 @@ import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.fragments.HomeFragment;
 import it.polimi.dima.bookshare.fragments.LibraryFragment;
 import it.polimi.dima.bookshare.services.RegistrationIntentService;
+import it.polimi.dima.bookshare.tables.User;
+import it.polimi.dima.bookshare.utils.ManageUser;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG="MainActivity";
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,22 +121,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         searchView.setSearchableInfo(searchManager.getSearchableInfo(cn));
 
 
-        Profile userProfile = Profile.getCurrentProfile();
+        user = new ManageUser(MainActivity.this).getUser();
 
         TextView username = (TextView) findViewById(R.id.username);
 
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
 
         username.setTypeface(aller);
-        username.setText(userProfile.getName());
+        username.setText(user.getName());
 
         CircularImageView userImage = (CircularImageView) findViewById(R.id.userImage);
 
         try {
 
-            Uri imageUri = userProfile.getProfilePictureUri(300, 300);
-
-            Picasso.with(getApplicationContext()).load(imageUri).into(userImage);
+            Picasso.with(getApplicationContext()).load(user.getImgURL()).into(userImage);
 
         } catch (Exception e) {
             e.printStackTrace();
