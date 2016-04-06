@@ -21,8 +21,8 @@
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/user_image"
-        android:layout_width="@dimen/side_img_width"
-        android:layout_height="@dimen/side_img_height"
+        android:layout_width="@dimen/home_img_size"
+        android:layout_height="@dimen/home_img_size"
         android:layout_alignParentTop="true"
         android:layout_marginTop="115dp"
         app:civ_border_color="@color/white"

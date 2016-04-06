@@ -28,6 +28,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.fragments.HomeFragment;
 import it.polimi.dima.bookshare.fragments.LibraryFragment;
 import it.polimi.dima.bookshare.services.RegistrationIntentService;
@@ -124,17 +125,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         user = new ManageUser(MainActivity.this).getUser();
 
         TextView username = (TextView) findViewById(R.id.username);
+        TextView userBooks = (TextView) findViewById(R.id.user_books);
 
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
+        Typeface zaguatica = Typeface.createFromAsset(getAssets(), "fonts/zaguatica-Bold.otf");
 
         username.setTypeface(aller);
-        username.setText(user.getName());
+        userBooks.setTypeface(aller);
+
+        username.setText(user.getName() + "\n" + user.getSurname());
 
         CircularImageView userImage = (CircularImageView) findViewById(R.id.userImage);
 
         try {
 
             Picasso.with(getApplicationContext()).load(user.getImgURL()).into(userImage);
+
+            userBooks.setText(new DynamoDBManager(MainActivity.this).getBooksCount(user.getUserID()) + " books shared");
 
         } catch (Exception e) {
             e.printStackTrace();

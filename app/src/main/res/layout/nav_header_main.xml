@@ -2,34 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:gravity="center"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/side_nav_bar"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/userImage"
-        android:layout_width="@dimen/side_img_width"
-        android:layout_height="@dimen/side_img_height"
-        android:layout_marginTop="20dp"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="2dp"
-        app:civ_shadow="false"
-        app:civ_shadow_radius="5"
-        android:layout_centerHorizontal="true"
-        app:civ_shadow_color="@color/white" />
-
-    <TextView
-        android:id="@+id/username"
+    <RelativeLayout
+        android:id="@+id/userinfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/userImage"
-        android:textSize="@dimen/side_text_size"
-        android:layout_marginTop="15dp"
-        android:text="Username"
-        android:layout_centerHorizontal="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="70dp">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/userImage"
+            android:layout_width="@dimen/side_img_width"
+            android:layout_height="@dimen/side_img_width"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="2dp"
+            app:civ_shadow="false"
+            app:civ_shadow_radius="5"
+            app:civ_shadow_color="@color/white" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/userImage"
+            android:layout_toRightOf="@+id/userImage"
+            android:textSize="@dimen/side_text_size"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
