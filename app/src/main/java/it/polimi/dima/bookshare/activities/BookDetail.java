@@ -214,6 +214,12 @@ public class BookDetail extends AppCompatActivity {
         collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(ContextCompat.getColor(this, R.color.colorPrimaryDark)));
         updateBackground((FloatingActionButton) findViewById(R.id.fab), palette);
         supportStartPostponedEnterTransition();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            updateButtonBackground((Button) findViewById(R.id.add_button), palette);
+            updateButtonBackground((Button) findViewById(R.id.delete_button), palette);
+            updateButtonBackground((Button) findViewById(R.id.lend_button), palette);
+        }
     }
 
     private void updateBackground(FloatingActionButton fab, Palette palette) {
@@ -224,6 +230,14 @@ public class BookDetail extends AppCompatActivity {
         fab.setBackgroundTintList(ColorStateList.valueOf(vibrantColor));
     }
 
+    private void updateButtonBackground(Button button, Palette palette) {
+        int lightVibrantColor = palette.getLightVibrantColor(ContextCompat.getColor(this, R.color.white));
+        int vibrantColor = palette.getVibrantColor(ContextCompat.getColor(this, R.color.colorAccent));
+
+        button.setBackgroundColor(lightVibrantColor);
+        button.setBackgroundTintList(ColorStateList.valueOf(vibrantColor));
+
+    }
     private void deleteBook() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(BookDetail.this);
