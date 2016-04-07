@@ -13,32 +13,31 @@
     <ImageView
         android:id="@+id/profile_header"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="@dimen/profile_header_height"
         android:scaleType="fitXY"
-        android:alpha="1"
         android:background="@drawable/profile_header_other"
-        android:elevation="7dp" />
+        android:elevation="@dimen/profile_header_elev" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/user_image"
         android:layout_width="@dimen/home_img_size"
         android:layout_height="@dimen/home_img_size"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="115dp"
+        android:layout_marginTop="@dimen/home_img_margintop"
         app:civ_border_color="@color/white"
         app:civ_border_width="3dp"
         app:civ_shadow="true"
         app:civ_shadow_radius="3"
         android:layout_centerHorizontal="true"
         app:civ_shadow_color="@color/black_overlay"
-        android:elevation="8dp" />
+        android:elevation="@dimen/home_img_elev" />
 
     <RelativeLayout
         android:id="@+id/profile_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="50dp"
-        android:paddingBottom="25dp"
+        android:paddingTop="@dimen/profile_info_paddingtop"
+        android:paddingBottom="@dimen/profile_info_paddingbottom"
         android:layout_below="@id/profile_header">
 
         <TextView
@@ -46,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="@dimen/username_txtsize"
             android:layout_centerHorizontal="true" />
 
         <RelativeLayout
@@ -54,14 +53,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/user_name"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/locinfo_margintop"
             android:layout_centerHorizontal="true">
 
             <ImageView
                 android:id="@+id/location_icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/ic_location" />
+                android:layout_width="@dimen/locicon_width"
+                android:layout_height="@dimen/locicon_height"
+                android:background="@drawable/ic_location_pin" />
 
             <TextView
                 android:id="@+id/user_location"
@@ -69,29 +68,68 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/location_icon"
                 android:layout_toRightOf="@id/location_icon"
-                android:layout_marginLeft="5dp"
-                android:textSize="18sp" />
+                android:layout_marginLeft="@dimen/loctxt_marginleft"
+                android:textSize="@dimen/loctxt_txtsize" />
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/user_credits"
+        <View
+            android:id="@id/ruler"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/location_info"
+            android:layout_marginTop="@dimen/homeruler_margintop"
+            android:background="@color/black_overlay" />
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:textSize="16sp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/location_info" />
+            android:layout_below="@id/ruler"
+            android:layout_marginTop="@dimen/userinfo_margintop"
+            android:layout_centerHorizontal="true">
 
-        <TextView
-            android:id="@+id/user_books"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/user_credits" />
+            <TextView
+                android:id="@+id/user_credits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/userinfo_txtsize"
+                android:textColor="#222222"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true" />
 
+            <ImageView
+                android:id="@+id/credit_icon"
+                android:layout_width="@dimen/crediticon_size"
+                android:layout_height="@dimen/crediticon_size"
+                android:background="@drawable/ic_credits"
+                android:layout_marginLeft="@dimen/userinfo_marginleft"
+                android:layout_toRightOf="@id/user_credits"
+                android:layout_toEndOf="@id/user_credits"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/user_books"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/userinfo_txtsize"
+                android:textColor="#222222"
+                android:layout_marginLeft="@dimen/bookicon_marginleft"
+                android:layout_toEndOf="@id/credit_icon"
+                android:layout_toRightOf="@id/credit_icon"
+                android:layout_centerVertical="true" />
+
+            <ImageView
+                android:id="@+id/book_icon"
+                android:layout_width="@dimen/crediticon_size"
+                android:layout_height="@dimen/crediticon_size"
+                android:background="@drawable/ic_green_book"
+                android:layout_marginLeft="@dimen/userinfo_marginleft"
+                android:layout_toEndOf="@id/user_books"
+                android:layout_toRightOf="@id/user_books"
+                android:layout_centerVertical="true" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
@@ -99,7 +137,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/profile_info"
-        android:background="@color/black_overlay"
-        android:elevation="2dp" />
+        android:background="@color/black_overlay" />
 
 </RelativeLayout>

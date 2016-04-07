@@ -37,7 +37,7 @@ import it.polimi.dima.bookshare.utils.ManageUser;
 public class SplashScreen extends AppCompatActivity {
 
     // Splash screen timer
-    private static int SPLASH_TIME_OUT = 2000;
+    private static int SPLASH_TIME_OUT = 1000;
     private User user;
     private ManageUser manageUser;
 

@@ -24,8 +24,35 @@
     <dimen name="side_text_size">22sp</dimen>
     <dimen name="side_subtext_size">20sp</dimen>
 
-    <!-- HOME -->
+    <!-- HOME FRAGMENT -->
+    <dimen name="profile_header_height">180dp</dimen>
+    <dimen name="profile_header_elev">7dp</dimen>
+
     <dimen name="home_img_size">100dp</dimen>
+    <dimen name="home_img_margintop">115dp</dimen>
+    <dimen name="home_img_elev">8dp</dimen>
+
+    <dimen name="profile_info_paddingtop">50dp</dimen>
+    <dimen name="profile_info_paddingbottom">15dp</dimen>
+
+    <dimen name="username_txtsize">20sp</dimen>
+
+    <dimen name="locinfo_margintop">10dp</dimen>
+
+    <dimen name="locicon_height">20dp</dimen>
+    <dimen name="locicon_width">15dp</dimen>
+
+    <dimen name="loctxt_marginleft">10dp</dimen>
+    <dimen name="loctxt_txtsize">18sp</dimen>
+
+    <dimen name="homeruler_margintop">30dp</dimen>
+    <dimen name="crediticon_size">30dp</dimen>
+
+    <dimen name="userinfo_txtsize">20sp</dimen>
+    <dimen name="userinfo_marginleft">7dp</dimen>
+    <dimen name="bookicon_marginleft">25dp</dimen>
+    <dimen name="userinfo_margintop">15dp</dimen>
+
 
     <!-- MAP ACTIVITY -->
     <dimen name="ask_loc_txtsize">20sp</dimen>

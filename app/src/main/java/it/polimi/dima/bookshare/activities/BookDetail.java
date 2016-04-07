@@ -139,77 +139,35 @@ public class BookDetail extends AppCompatActivity {
 
         if (i.getStringExtra("button").equals("delete")) {
 
+            fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_delete));
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    deleteBook();
+                }
+            });
             Button deleteButton = (Button) findViewById(R.id.delete_button);
             deleteButton.setVisibility(Button.VISIBLE);
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(BookDetail.this);
-
-                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-
-                            try {
-                                DynamoDBManager DDMB = new DynamoDBManager(BookDetail.this);
-                                DDMB.deleteBook(book);
-
-                                Toast.makeText(BookDetail.this, "book deleted succesfully", Toast.LENGTH_SHORT).show();
-
-                                Intent intent = new Intent(BookDetail.this, MainActivity.class);
-
-                                intent.putExtra("redirect", "library");
-                                startActivity(intent);
-
-                            } catch (Exception e) {
-
-                                Toast.makeText(BookDetail.this, "Error, action failed", Toast.LENGTH_SHORT).show();
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // User cancelled the dialog
-                        }
-                    });
-
-                    builder.setMessage(R.string.delete_confirm)
-                            .setTitle(R.string.del_book);
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-
+                    deleteBook();
 
                 }
             });
         }
         else if(i.getStringExtra("button").equals("add")){
+
+            fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_add));
             Button addButton = (Button) findViewById(R.id.add_button);
             addButton.setVisibility(Button.VISIBLE);
             addButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    book.setOwnerID(manageUser.getUser().getUserID());
-
-                    // add book to DynamoDB
-                    new DynamoDBManagerTask(BookDetail.this, book).execute(DynamoDBManagerType.INSERT_BOOK);
-
-                    // redirects to library after 0.5 seconds, allowing library to display the new book
-                    new Handler().postDelayed(new Runnable() {
-
-                        @Override
-                        public void run() {
-
-                            Intent intent = new Intent(BookDetail.this, MainActivity.class);
-
-                            intent.putExtra("redirect", "library");
-                            startActivity(intent);
-
-                            finish();
-                        }
-                    }, REDIRECT_TIME_OUT);
+                    addBook();
 
                 }
             });
@@ -218,30 +176,13 @@ public class BookDetail extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    book.setOwnerID(manageUser.getUser().getUserID());
-
-                    // add book to DynamoDB
-                    new DynamoDBManagerTask(BookDetail.this, book).execute(DynamoDBManagerType.INSERT_BOOK);
-
-                    // redirects to library after 0.5 seconds, allowing library to display the new book
-                    new Handler().postDelayed(new Runnable() {
-
-                        @Override
-                        public void run() {
-
-                            Intent intent = new Intent(BookDetail.this, MainActivity.class);
-
-                            intent.putExtra("redirect", "library");
-                            startActivity(intent);
-
-                            finish();
-                        }
-                    }, REDIRECT_TIME_OUT);
+                    addBook();
                 }
             });
 
         } else if(i.getStringExtra("button").equals("lend")){
 
+            fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark));
             Button lendButton = (Button) findViewById(R.id.lend_button);
             lendButton.setVisibility(Button.VISIBLE);
 
@@ -282,4 +223,68 @@ public class BookDetail extends AppCompatActivity {
         fab.setRippleColor(lightVibrantColor);
         fab.setBackgroundTintList(ColorStateList.valueOf(vibrantColor));
     }
+
+    private void deleteBook() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(BookDetail.this);
+
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                try {
+                    DynamoDBManager DDMB = new DynamoDBManager(BookDetail.this);
+                    DDMB.deleteBook(book);
+
+                    Toast.makeText(BookDetail.this, "book deleted succesfully", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(BookDetail.this, MainActivity.class);
+
+                    intent.putExtra("redirect", "library");
+                    startActivity(intent);
+
+                } catch (Exception e) {
+
+                    Toast.makeText(BookDetail.this, "Error, action failed", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+
+        builder.setMessage(R.string.delete_confirm)
+                .setTitle(R.string.del_book);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void addBook() {
+
+        book.setOwnerID(manageUser.getUser().getUserID());
+
+        // add book to DynamoDB
+        new DynamoDBManagerTask(BookDetail.this, book).execute(DynamoDBManagerType.INSERT_BOOK);
+
+        // redirects to library after 0.5 seconds, allowing library to display the new book
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+
+                Intent intent = new Intent(BookDetail.this, MainActivity.class);
+
+                intent.putExtra("redirect", "library");
+                startActivity(intent);
+
+                finish();
+            }
+        }, REDIRECT_TIME_OUT);
+
+
+    }
 }
+

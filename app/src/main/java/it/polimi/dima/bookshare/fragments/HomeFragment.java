@@ -65,9 +65,9 @@ public class HomeFragment extends Fragment {
 
             userLocation.setText(user.getCity() + ", " + user.getCountry());
 
-            userBooks.setText(new DynamoDBManager(getActivity()).getBooksCount(user.getUserID()) + " books shared");
+            userBooks.setText(new DynamoDBManager(getActivity()).getBooksCount(user.getUserID()) + "");
 
-            userCredits.setText(user.getCredits() + " credits");
+            userCredits.setText(user.getCredits() + "");
 
         } catch (Exception e) {
             e.printStackTrace();

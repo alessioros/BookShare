@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
 
-        username.setTypeface(aller);
+        //username.setTypeface(aller);
         //userBooks.setTypeface(aller);
 
         username.setText(user.getName() + "\n" + user.getSurname());
@@ -182,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             getSupportActionBar().setTitle("Library");
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
+
+        } else if (id == R.id.reviews) {
 
         } else if (id == R.id.settings) {
 
