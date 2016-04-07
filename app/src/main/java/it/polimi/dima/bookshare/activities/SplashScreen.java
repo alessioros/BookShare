@@ -2,6 +2,7 @@ package it.polimi.dima.bookshare.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -105,10 +106,30 @@ public class SplashScreen extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                Intent askLocationIntent = new Intent(SplashScreen.this, MapsActivity.class);
+                startActivity(askLocationIntent);
+
+            } else {
+
+                manageUser.saveUser(user);
+                //redirectToHome();
+                Intent askLocationIntent = new Intent(SplashScreen.this, MapsActivity.class);
+                startActivity(askLocationIntent);
             }
 
+        } else {
+
+            //redirectToHome();
+            Intent askLocationIntent = new Intent(SplashScreen.this, MapsActivity.class);
+            startActivity(askLocationIntent);
         }
 
+
+
+    }
+
+    public void redirectToHome() {
 
         new Handler().postDelayed(new Runnable() {
 
@@ -121,6 +142,7 @@ public class SplashScreen extends AppCompatActivity {
                 finish();
             }
         }, SPLASH_TIME_OUT);
+
     }
 
 }

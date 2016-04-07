@@ -27,4 +27,8 @@
     <!-- HOME -->
     <dimen name="home_img_size">100dp</dimen>
 
+    <!-- MAP ACTIVITY -->
+    <dimen name="ask_loc_txtsize">20sp</dimen>
+    <dimen name="map_height">300dp</dimen>
+    <dimen name="map_width">300dp</dimen>
 </resources>

@@ -1,19 +1,26 @@
 <resources>
     <string name="app_name">BookShare</string>
-    <string name="scan">Scan a Book</string>
+    <string name="facebook_app_id">"1716685071920315"</string>
+
     <string name="search">Search</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="register">Don\'t you have an account? Register</string>
+
+
+    <!-- Buttons -->
+    <string name="scan">Scan a Book</string>
     <string name="login">Login</string>
     <string name="loginfb">Login with FB</string>
-    <string name="register">Don\'t you have an account? Register</string>
     <string name="add_book">Add Book</string>
     <string name="del_book">Delete Book</string>
     <string name="lend_book">Ask Book</string>
     <string name="delete_confirm">Are you sure ?</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
-    <string name="facebook_app_id">"1716685071920315"</string>
+    <string name="yes">Yes</string>
+    <string name="change_loc">Change Location</string>
+
     <string name="title_activity_library">LibraryActivity</string>
     <string name="title_activity_main">MainActivity</string>
 
@@ -25,4 +32,5 @@
     <string name="search_hint">Search a book</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_book_detail">BookDetail</string>
+    <string name="title_activity_maps">Location</string>
 </resources>

@@ -3,18 +3,26 @@
     package="it.polimi.dima.bookshare">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <permission
         android:name="it.polimi.dima.bookshare.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="it.polimi.dima.bookshare.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality. 
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -35,14 +43,13 @@
             </intent-filter>
         </activity>
 
-
         <!-- SplashScreen -->
         <activity
             android:name=".activities.SplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- Main Activity -->
 
@@ -103,12 +110,11 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".activities.BookDetail"></activity>
+        <activity android:name=".activities.BookDetail" />
 
         <service
             android:name=".services.RegistrationIntentService"
-            android:exported="false">
-        </service>
+            android:exported="false" />
 
         <!-- [START instanceId_listener] -->
         <service
@@ -120,15 +126,17 @@
         </service>
         <!-- [END instanceId_listener] -->
 
+
         <!-- [START gcm_listener] -->
         <service
             android:name=".services.MyGcmListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <!-- [END gcm_listener] -->
+
 
         <!-- [START gcm_receiver] -->
         <receiver
@@ -137,10 +145,26 @@
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="it.polimi.dima.bookshare" />
             </intent-filter>
         </receiver>
         <!-- [END gcm_receiver] -->
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".activities.MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>
