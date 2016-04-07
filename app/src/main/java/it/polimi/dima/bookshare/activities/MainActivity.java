@@ -37,7 +37,6 @@ import it.polimi.dima.bookshare.utils.ManageUser;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG="MainActivity";
     private User user;
 
     @Override
@@ -128,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView userBooks = (TextView) findViewById(R.id.user_books);
 
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
-        Typeface zaguatica = Typeface.createFromAsset(getAssets(), "fonts/zaguatica-Bold.otf");
 
         username.setTypeface(aller);
         userBooks.setTypeface(aller);

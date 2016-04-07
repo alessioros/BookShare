@@ -17,6 +17,8 @@ public class User implements Parcelable {
     private String surname;
     private String city;
     private String country;
+    private double latitude;
+    private double longitude;
     private String imgURL;
     private int credits;
 
@@ -82,8 +84,26 @@ public class User implements Parcelable {
         return country;
     }
 
+    @DynamoDBAttribute(attributeName = "Latitude")
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @DynamoDBAttribute(attributeName = "Longitude")
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     @Override

@@ -53,4 +53,22 @@ public class ManageUser {
 
         return user;
     }
+
+    public boolean verifyRegistered() {
+
+        try {
+
+            return sp.getBoolean("registered", false);
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+
+            return false;
+        }
+    }
+
+    public void setRegistered(Boolean registered) {
+
+        sp.edit().putBoolean("registered", registered);
+    }
 }
