@@ -97,7 +97,7 @@ public class LibraryFragment extends Fragment {
             Toast toast = Toast.makeText(getActivity(), "ISBN " + scanContent + " founded", Toast.LENGTH_SHORT);
             toast.show();
 
-            String url = "https://www.googleapis.com/books/v1/volumes?" + "q=isbn:" + scanContent + "&key=AIzaSyB7cvzVLJ1GLM7fqmoHNvYrkt4EAGR_sCA";
+            String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + scanContent;
 
             final JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 

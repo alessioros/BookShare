@@ -124,12 +124,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         user = new ManageUser(MainActivity.this).getUser();
 
         TextView username = (TextView) findViewById(R.id.username);
-        TextView userBooks = (TextView) findViewById(R.id.user_books);
+        //TextView userBooks = (TextView) findViewById(R.id.user_books);
 
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
 
         username.setTypeface(aller);
-        userBooks.setTypeface(aller);
+        //userBooks.setTypeface(aller);
 
         username.setText(user.getName() + "\n" + user.getSurname());
 
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Picasso.with(getApplicationContext()).load(user.getImgURL()).into(userImage);
 
-            userBooks.setText(new DynamoDBManager(MainActivity.this).getBooksCount(user.getUserID()) + " books shared");
+            //userBooks.setText(new DynamoDBManager(MainActivity.this).getBooksCount(user.getUserID()) + " books shared");
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -114,7 +114,8 @@
 
         <activity
             android:name=".activities.BookDetail"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <service
             android:name=".services.RegistrationIntentService"
