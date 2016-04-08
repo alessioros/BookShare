@@ -79,7 +79,7 @@
             android:layout_height="1dp"
             android:layout_below="@+id/location_info"
             android:layout_marginTop="@dimen/homeruler_margintop"
-            android:background="@color/black_overlay" />
+            android:background="@color/input_login_hint" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/userinfo_txtsize"
-                android:textColor="#222222"
+                android:textColor="#444444"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true" />
@@ -106,14 +106,15 @@
                 android:layout_marginLeft="@dimen/userinfo_marginleft"
                 android:layout_toRightOf="@id/user_credits"
                 android:layout_toEndOf="@id/user_credits"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:elevation="@dimen/userinfo_elevation" />
 
             <TextView
                 android:id="@+id/user_books"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/userinfo_txtsize"
-                android:textColor="#222222"
+                android:textColor="#444444"
                 android:layout_marginLeft="@dimen/bookicon_marginleft"
                 android:layout_toEndOf="@id/credit_icon"
                 android:layout_toRightOf="@id/credit_icon"
@@ -127,7 +128,8 @@
                 android:layout_marginLeft="@dimen/userinfo_marginleft"
                 android:layout_toEndOf="@id/user_books"
                 android:layout_toRightOf="@id/user_books"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:elevation="@dimen/userinfo_elevation" />
 
         </RelativeLayout>
 
@@ -137,6 +139,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/profile_info"
-        android:background="@color/black_overlay" />
+        android:background="@color/input_login_hint" />
 
 </RelativeLayout>

@@ -53,6 +53,8 @@
     <dimen name="bookicon_marginleft">25dp</dimen>
     <dimen name="userinfo_margintop">15dp</dimen>
 
+    <dimen name="userinfo_elevation">5dp</dimen>
+
 
     <!-- MAP ACTIVITY -->
     <dimen name="ask_loc_txtsize">20sp</dimen>
