@@ -124,12 +124,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         user = new ManageUser(MainActivity.this).getUser();
 
         TextView username = (TextView) findViewById(R.id.username);
-        //TextView userBooks = (TextView) findViewById(R.id.user_books);
 
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
 
-        //username.setTypeface(aller);
-        //userBooks.setTypeface(aller);
+        username.setTypeface(aller);
 
         username.setText(user.getName() + "\n" + user.getSurname());
 
@@ -138,8 +136,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         try {
 
             Picasso.with(getApplicationContext()).load(user.getImgURL()).into(userImage);
-
-            //userBooks.setText(new DynamoDBManager(MainActivity.this).getBooksCount(user.getUserID()) + " books shared");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -187,6 +183,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.settings) {
 
+            Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(settingsIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -149,9 +149,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        String fromSet = "";
 
+        try {
+            fromSet = getIntent().getExtras().getString("from_settings", null);
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         // if the user has specified a city on facebook or not
-        if (user.getCity() != null) {
+        if (user.getCity() != null && fromSet.equals("")) {
 
             confirmB.setVisibility(View.VISIBLE);
             askLocation.setText(getResources().getText(R.string.ask_loc_text));
@@ -169,6 +176,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+        } else if (fromSet.equals("yes")) {
+
+            getSupportActionBar().setTitle(getResources().getString(R.string.change_loc));
+            askLocation.setText(getResources().getText(R.string.ask_loc_change));
+            confirmB.setText(getResources().getText(R.string.confirm_loc));
+            changeB.setText(getResources().getText(R.string.change_loc));
+            rememberChange.setVisibility(View.INVISIBLE);
+
+            LatLng userLatLng = new LatLng(user.getLatitude(), user.getLongitude());
+
+            marker = mMap.addMarker(new MarkerOptions().position(userLatLng).title(user.getCity() + "," + user.getCountry()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 10.0f));
 
         } else {
 

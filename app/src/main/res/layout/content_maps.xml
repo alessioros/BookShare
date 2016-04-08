@@ -49,7 +49,7 @@
 
         <Button
             android:id="@+id/confirm_button"
-            android:layout_width="@dimen/confirm_butt_width"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/loc_butt_padding"
             android:text="@string/yes"

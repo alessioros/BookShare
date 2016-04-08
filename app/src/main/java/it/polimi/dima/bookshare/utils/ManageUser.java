@@ -25,6 +25,8 @@ public class ManageUser {
         sp.edit().putString("user_surname", user.getSurname()).apply();
         sp.edit().putString("user_city", user.getCity()).apply();
         sp.edit().putString("user_country", user.getCountry()).apply();
+        sp.edit().putString("user_lat", user.getLatitude() + "").apply();
+        sp.edit().putString("user_lon", user.getLongitude() + "").apply();
         sp.edit().putString("user_img", user.getImgURL()).apply();
         sp.edit().putInt("user_credits", user.getCredits()).apply();
     }
@@ -44,6 +46,8 @@ public class ManageUser {
             user.setSurname(sp.getString("user_surname", null));
             user.setCity(sp.getString("user_city", null));
             user.setCountry(sp.getString("user_country", null));
+            user.setLatitude(Double.parseDouble(sp.getString("user_lat", null)));
+            user.setLongitude(Double.parseDouble(sp.getString("user_lon", null)));
             user.setImgURL(sp.getString("user_img", null));
             user.setCredits(sp.getInt("user_credits", 0));
 

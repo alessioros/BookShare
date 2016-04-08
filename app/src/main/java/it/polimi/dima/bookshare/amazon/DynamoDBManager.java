@@ -270,7 +270,7 @@ public class DynamoDBManager {
                 try {
                     attribute = (AttributeValue) item.get("Description");
                     book.setDescription(attribute.getS());
-                } catch (Exception e) {
+                } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
 
@@ -283,7 +283,7 @@ public class DynamoDBManager {
                 try {
                     attribute = (AttributeValue) item.get("PageCount");
                     book.setPageCount(Integer.parseInt(attribute.getN()));
-                } catch (Exception e) {
+                } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
 
@@ -291,7 +291,7 @@ public class DynamoDBManager {
                     attribute = (AttributeValue) item.get("Author");
                     book.setAuthor(attribute.getS());
 
-                } catch (Exception e) {
+                } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
 
@@ -299,7 +299,7 @@ public class DynamoDBManager {
                     attribute = (AttributeValue) item.get("imgURL");
                     book.setImgURL(attribute.getS());
 
-                } catch (Exception e) {
+                } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
 
@@ -307,7 +307,7 @@ public class DynamoDBManager {
                     attribute = (AttributeValue) item.get("Publisher");
                     book.setPublisher(attribute.getS());
 
-                } catch (Exception e) {
+                } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
 
@@ -315,7 +315,7 @@ public class DynamoDBManager {
                     attribute = (AttributeValue) item.get("PublishedDate");
                     book.setPublishedDate(attribute.getS());
 
-                } catch (Exception e) {
+                } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
 
