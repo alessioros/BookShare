@@ -103,6 +103,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 new DynamoDBManagerTask(MapsActivity.this, user).execute(DynamoDBManagerType.INSERT_USER);
                 manageUser.saveUser(user);
                 manageUser.setRegistered(true);
+                manageUser.updateLoc(user.getCity() + ", " + user.getCountry());
 
                 MapsActivity.this.finish();
             }

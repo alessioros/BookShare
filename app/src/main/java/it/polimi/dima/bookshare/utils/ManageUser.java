@@ -75,4 +75,9 @@ public class ManageUser {
 
         sp.edit().putBoolean("registered", registered);
     }
+
+    public void updateLoc(String location) {
+
+        sp.edit().putString("location", location);
+    }
 }
