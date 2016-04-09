@@ -56,7 +56,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ImageView pinIcon;
     private int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     private Marker marker;
-    private String fromSet;
+    private String fromSet, previousLoc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +85,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         user = manageUser.getUser();
 
         fromSet = "";
+        previousLoc = "";
 
         try {
             fromSet = getIntent().getExtras().getString("from_settings", null);
@@ -125,8 +126,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             getSupportActionBar().setTitle(getResources().getString(R.string.toolbar_change));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+            previousLoc = user.getCity() + ", " + user.getCountry();
             askLocation.setText(getResources().getString(R.string.ask_loc_change));
-            locName.setText(user.getCity() + ", " + user.getCountry());
+            locName.setText(previousLoc);
             confirmB.setText(getResources().getText(R.string.confirm_loc_change));
             changeB.setText(getResources().getText(R.string.change_loc_change));
 
@@ -172,10 +174,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent i = new Intent(MapsActivity.this, MainActivity.class);
                 startActivity(i);
 
-                new DynamoDBManagerTask(MapsActivity.this, user).execute(DynamoDBManagerType.INSERT_USER);
-                manageUser.saveUser(user);
-                manageUser.setRegistered(true);
-                manageUser.updateLoc(user.getCity() + ", " + user.getCountry());
+                if (!previousLoc.equals(user.getCity() + ", " + user.getCountry())) {
+
+                    new DynamoDBManagerTask(MapsActivity.this, user).execute(DynamoDBManagerType.INSERT_USER);
+                    manageUser.saveUser(user);
+                    manageUser.setRegistered(true);
+                    manageUser.updateLoc(user.getCity() + ", " + user.getCountry());
+
+                }
 
                 MapsActivity.this.finish();
             }
