@@ -271,7 +271,6 @@ public class DynamoDBManager {
                     attribute = (AttributeValue) item.get("Description");
                     book.setDescription(attribute.getS());
                 } catch (NullPointerException e) {
-                    e.printStackTrace();
                 }
 
                 attribute = (AttributeValue) item.get("Title");
@@ -284,7 +283,6 @@ public class DynamoDBManager {
                     attribute = (AttributeValue) item.get("PageCount");
                     book.setPageCount(Integer.parseInt(attribute.getN()));
                 } catch (NullPointerException e) {
-                    e.printStackTrace();
                 }
 
                 try {
@@ -292,7 +290,6 @@ public class DynamoDBManager {
                     book.setAuthor(attribute.getS());
 
                 } catch (NullPointerException e) {
-                    e.printStackTrace();
                 }
 
                 try {
@@ -300,7 +297,6 @@ public class DynamoDBManager {
                     book.setImgURL(attribute.getS());
 
                 } catch (NullPointerException e) {
-                    e.printStackTrace();
                 }
 
                 try {
@@ -308,7 +304,6 @@ public class DynamoDBManager {
                     book.setPublisher(attribute.getS());
 
                 } catch (NullPointerException e) {
-                    e.printStackTrace();
                 }
 
                 try {
@@ -316,7 +311,6 @@ public class DynamoDBManager {
                     book.setPublishedDate(attribute.getS());
 
                 } catch (NullPointerException e) {
-                    e.printStackTrace();
                 }
 
                 userBooks.add(book);
