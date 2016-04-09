@@ -2,11 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/ask_location"
@@ -17,15 +13,53 @@
         android:layout_marginTop="@dimen/ask_loc_margintop"
         android:textSize="@dimen/ask_loc_txtsize" />
 
+    <Button
+        android:id="@+id/search_butt_hidden"
+        android:layout_width="@dimen/loc_butt_width"
+        android:layout_height="@dimen/hidden_butt_height"
+        android:visibility="invisible"
+        android:layout_marginTop="@dimen/hidden_butt_margintop"
+        android:text="@string/change_loc_provide"
+        android:layout_below="@id/ask_location"
+        android:background="@color/colorPrimaryLight"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:id="@+id/loc_info"
+        android:layout_marginTop="@dimen/loc_info_margintop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ask_location"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/location_icon"
+            android:layout_width="@dimen/locicon_width"
+            android:layout_height="@dimen/locicon_height"
+            android:background="@drawable/ic_location_pin" />
+
+        <TextView
+            android:id="@+id/loc_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/loc_name_marginleft"
+            android:layout_centerHorizontal="true"
+            android:layout_toEndOf="@id/location_icon"
+            android:layout_toRightOf="@id/location_icon"
+            android:textSize="@dimen/loc_name_txtsize" />
+
+    </RelativeLayout>
+
+
     <fragment
         android:id="@+id/map"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="@dimen/map_width"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/map_height"
-        android:layout_below="@id/ask_location"
+        android:layout_below="@id/loc_info"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/map_margintop"
         tools:context="it.polimi.dima.bookshare.activities.MapsActivity" />
@@ -40,19 +74,17 @@
 
         <Button
             android:id="@+id/find_location_button"
-            android:layout_width="@dimen/find_butt_width"
+            android:layout_width="@dimen/loc_butt_width"
             android:layout_height="wrap_content"
-            android:text="@string/change_loc"
             android:background="@color/colorPrimaryLight"
             android:textColor="@color/white"
             android:padding="@dimen/loc_butt_padding" />
 
         <Button
             android:id="@+id/confirm_button"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/loc_butt_width"
             android:layout_height="wrap_content"
             android:padding="@dimen/loc_butt_padding"
-            android:text="@string/yes"
             android:background="@color/colorPrimaryLight"
             android:textColor="@color/white"
             android:layout_toEndOf="@id/find_location_button"

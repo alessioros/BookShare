@@ -2,8 +2,7 @@
 
     <Preference
         android:key="@string/pref_key_location"
-        android:title="@string/pref_title_location"
-        android:defaultValue="@string/pref_default_location">
+        android:title="@string/pref_title_location">
 
         <intent android:action="it.polimi.dima.bookshare.activities.MapsActivity">
             <extra

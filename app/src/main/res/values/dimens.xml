@@ -57,18 +57,27 @@
 
 
     <!-- MAP ACTIVITY -->
-    <dimen name="ask_loc_txtsize">20sp</dimen>
-    <dimen name="ask_loc_margintop">65dp</dimen>
+    <dimen name="ask_loc_txtsize">18sp</dimen>
+    <dimen name="ask_loc_margintop">80dp</dimen>
+
+    <dimen name="hidden_butt_margintop">20dp</dimen>
+    <dimen name="hidden_butt_height">35dp</dimen>
+
+    <dimen name="loc_info_margintop">20dp</dimen>
+    <dimen name="loc_name_txtsize">20sp</dimen>
+    <dimen name="loc_name_marginleft">10dp</dimen>
+
+    <dimen name="map_height">200dp</dimen>
+    <dimen name="map_width">300dp</dimen>
+    <dimen name="map_margintop">35dp</dimen>
+
     <dimen name="remember_txtsize">18sp</dimen>
     <dimen name="remember_margintop">25dp</dimen>
-    <dimen name="map_height">250dp</dimen>
-    <dimen name="map_width">300dp</dimen>
-    <dimen name="map_margintop">25dp</dimen>
+
     <dimen name="loc_butt_margintop">45dp</dimen>
-    <dimen name="confirm_butt_width">80dp</dimen>
-    <dimen name="find_butt_width">150dp</dimen>
-    <dimen name="confirm_butt_height">40dp</dimen>
-    <dimen name="loc_butt_padding">10dp</dimen>
+    <dimen name="loc_butt_padding">0dp</dimen>
+    <dimen name="loc_butt_width">120dp</dimen>
+
     <dimen name="confirm_butt_marginleft">30dp</dimen>
 
     <!-- BOOK DETAIL -->

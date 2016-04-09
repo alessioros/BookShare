@@ -102,6 +102,9 @@ public class SplashScreen extends AppCompatActivity {
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
+
+                                    user.setCity(null);
+                                    user.setCountry(null);
                                 }
                             }
                         });

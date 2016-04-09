@@ -9,8 +9,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
@@ -30,6 +32,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -46,26 +50,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private ManageUser manageUser;
     private User user;
-    private TextView askLocation;
-    private TextView rememberChange;
+    private TextView askLocation, rememberChange, locName;
     private LatLng user_city;
-    private Button confirmB;
-    private Button changeB;
+    private Button confirmB, changeB, hiddenB;
+    private ImageView pinIcon;
     private int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     private Marker marker;
+    private String fromSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // use english instead of system's language
         String languageToLoad = "en_US";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
 
-        getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
         setContentView(R.layout.activity_maps);
 
@@ -74,24 +78,92 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Verify Location");
         setSupportActionBar(toolbar);
 
-
+        // retrieve user from sp
         manageUser = new ManageUser(MapsActivity.this);
-
         user = manageUser.getUser();
+
+        fromSet = "";
+
+        try {
+            fromSet = getIntent().getExtras().getString("from_settings", null);
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         askLocation = (TextView) findViewById(R.id.ask_location);
         rememberChange = (TextView) findViewById(R.id.remember);
+        locName = (TextView) findViewById(R.id.loc_name);
+
+        pinIcon = (ImageView) findViewById(R.id.location_icon);
+
         changeB = (Button) findViewById(R.id.find_location_button);
         confirmB = (Button) findViewById(R.id.confirm_button);
+        hiddenB = (Button) findViewById(R.id.search_butt_hidden);
 
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
         askLocation.setTypeface(aller);
         rememberChange.setTypeface(aller);
         changeB.setTypeface(aller);
         confirmB.setTypeface(aller);
+        locName.setTypeface(aller);
+
+        if (user.getCity() != null && user.getCountry() != null && fromSet.equals("")) {
+
+            getSupportActionBar().setTitle(getResources().getString(R.string.toolbar_verify));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+            askLocation.setText(getResources().getString(R.string.ask_loc_verify));
+            locName.setText(user.getCity() + ", " + user.getCountry());
+            confirmB.setText(getResources().getText(R.string.confirm_loc_verify));
+            changeB.setText(getResources().getText(R.string.change_loc_verify));
+
+        } else if (fromSet.equals("yes")) {
+
+            getSupportActionBar().setTitle(getResources().getString(R.string.toolbar_change));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            askLocation.setText(getResources().getString(R.string.ask_loc_change));
+            locName.setText(user.getCity() + ", " + user.getCountry());
+            confirmB.setText(getResources().getText(R.string.confirm_loc_change));
+            changeB.setText(getResources().getText(R.string.change_loc_change));
+
+            rememberChange.setVisibility(View.INVISIBLE);
+
+            fromSet = "";
+
+        } else {
+
+            getSupportActionBar().setTitle(getResources().getString(R.string.toolbar_provide));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+            askLocation.setText(getResources().getText(R.string.ask_loc_provide));
+            locName.setVisibility(View.INVISIBLE);
+            confirmB.setVisibility(View.INVISIBLE);
+            pinIcon.setVisibility(View.INVISIBLE);
+            rememberChange.setVisibility(View.INVISIBLE);
+            changeB.setVisibility(View.INVISIBLE);
+
+            hiddenB.setVisibility(View.VISIBLE);
+
+            hiddenB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    try {
+                        Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY).build(MapsActivity.this);
+                        startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+
+                    } catch (GooglePlayServicesRepairableException e) {
+
+                    } catch (GooglePlayServicesNotAvailableException e) {
+
+                    }
+                }
+            });
+        }
 
         confirmB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,19 +222,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        String fromSet = "";
 
-        try {
-            fromSet = getIntent().getExtras().getString("from_settings", null);
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
         // if the user has specified a city on facebook or not
         if (user.getCity() != null && fromSet.equals("")) {
-
-            confirmB.setVisibility(View.VISIBLE);
-            askLocation.setText(getResources().getText(R.string.ask_loc_text));
 
             Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.US);
 
@@ -180,12 +242,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         } else if (fromSet.equals("yes")) {
 
-            getSupportActionBar().setTitle(getResources().getString(R.string.change_loc));
-            askLocation.setText(getResources().getText(R.string.ask_loc_change));
-            confirmB.setText(getResources().getText(R.string.confirm_loc));
-            changeB.setText(getResources().getText(R.string.change_loc));
-            rememberChange.setVisibility(View.INVISIBLE);
-
             LatLng userLatLng = new LatLng(user.getLatitude(), user.getLongitude());
 
             marker = mMap.addMarker(new MarkerOptions().position(userLatLng).title(user.getCity() + "," + user.getCountry()));
@@ -193,9 +249,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         } else {
 
-            askLocation.setText(getResources().getText(R.string.ask_loc_search));
-            confirmB.setVisibility(View.INVISIBLE);
-            changeB.setText(getResources().getText(R.string.search_loc));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(52.76, 20.31)));
         }
 
     }
@@ -204,7 +258,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+
                 Place place = PlaceAutocomplete.getPlace(this, data);
+
+                hiddenB.setVisibility(View.INVISIBLE);
+                confirmB.setVisibility(View.VISIBLE);
+                changeB.setVisibility(View.VISIBLE);
+                locName.setVisibility(View.VISIBLE);
+                pinIcon.setVisibility(View.VISIBLE);
 
                 Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.US);
 
@@ -230,8 +291,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 marker = mMap.addMarker(new MarkerOptions().position(place.getLatLng()).title(user.getCity() + "," + user.getCountry()));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 10.0f));
                 mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                confirmB.setVisibility(View.VISIBLE);
-                askLocation.setText(getResources().getText(R.string.ask_loc_text));
+
+                askLocation.setText(getResources().getText(R.string.ask_loc_verify));
+                changeB.setText(getResources().getText(R.string.change_loc_verify));
+                confirmB.setText(getResources().getText(R.string.confirm_loc_verify));
+                locName.setText(user.getCity() + ", " + user.getCountry());
 
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
@@ -242,5 +306,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // The user canceled the operation.
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+
+            startActivity(new Intent(MapsActivity.this, SettingsActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

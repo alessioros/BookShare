@@ -33,17 +33,25 @@
     <string name="title_activity_maps">Location</string>
 
     <!-- MAP ACTIVITY -->
-    <string name="ask_loc_text">Is this your current location?</string>
-    <string name="ask_loc_search">Search your location</string>
-    <string name="ask_loc_change">Change your location</string>
-    <string name="yes">Yes</string>
-    <string name="confirm_loc">Use This</string>
-    <string name="change_loc">Change Location</string>
-    <string name="search_loc">Search Location</string>
+    <string name="toolbar_verify">Verify location</string>
+    <string name="toolbar_provide">Provide location</string>
+    <string name="toolbar_change">Change location</string>
+
+    <string name="ask_loc_verify">Is this your current location?</string>
+    <string name="ask_loc_provide">Search your location</string>
+    <string name="ask_loc_change">Your current Location</string>
+
+    <string name="confirm_loc_verify">Yes</string>
+    <string name="confirm_loc_change">Use This</string>
+
+    <string name="change_loc_verify">Change</string>
+    <string name="change_loc_change">Change</string>
+    <string name="change_loc_provide">Search</string>
+
     <string name="remember_text">You can also change it later</string>
-    <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
