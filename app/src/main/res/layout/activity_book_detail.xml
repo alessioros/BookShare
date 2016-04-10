@@ -65,23 +65,24 @@
                     android:id="@+id/book_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxHeight="@dimen/title_maxheight"
+                    android:maxLines="2"
                     android:maxWidth="@dimen/title_maxwidth"
                     android:layout_marginTop="@dimen/title_margintop"
                     android:layout_centerHorizontal="true"
                     android:textAlignment="center"
                     android:textSize="@dimen/title_txtsize"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/textPrimary" />
 
                 <TextView
                     android:id="@+id/book_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxHeight="@dimen/title_maxheight"
+                    android:maxLines="1"
                     android:maxWidth="@dimen/title_maxwidth"
                     android:layout_marginTop="@dimen/author_margintop"
                     android:layout_centerHorizontal="true"
                     android:textAlignment="center"
+                    android:textColor="@color/textSecondary"
                     android:textSize="@dimen/author_txtsize"
                     android:layout_below="@id/book_title" />
 
@@ -89,9 +90,10 @@
                     android:id="@+id/book_publisher"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxHeight="@dimen/title_maxheight"
+                    android:maxLines="1"
                     android:maxWidth="@dimen/title_maxwidth"
                     android:layout_marginTop="@dimen/publisher_margintop"
+                    android:textColor="@color/textPrimaryLight"
                     android:layout_centerHorizontal="true"
                     android:textSize="@dimen/publisher_txtsize"
                     android:layout_below="@id/book_author" />
@@ -101,6 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/pagecount_margintop"
+                    android:textColor="@color/textSecondary"
                     android:layout_centerHorizontal="true"
                     android:textSize="@dimen/pagecount_txtsize"
                     android:layout_below="@id/book_publisher" />
@@ -120,6 +123,7 @@
                     android:maxHeight="@dimen/description_maxheight"
                     android:layout_centerHorizontal="true"
                     android:textAlignment="center"
+                    android:textColor="@color/textSecondary"
                     android:layout_marginTop="@dimen/description_margintop"
                     android:textSize="@dimen/description_txtsize"
                     android:padding="@dimen/description_padding"

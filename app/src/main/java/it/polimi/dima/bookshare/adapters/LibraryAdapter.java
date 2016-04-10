@@ -66,14 +66,12 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
         public final View mView;
         public final ImageView mImage;
-        public final TextView mTitle;
 
         public ViewHolder(View view) {
 
             super(view);
             mView = view;
             mImage = (ImageView) view.findViewById(R.id.card_image);
-            mTitle = (TextView) view.findViewById(R.id.card_title);
 
         }
     }

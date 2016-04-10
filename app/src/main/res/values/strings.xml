@@ -32,6 +32,10 @@
     <string name="title_activity_book_detail">BookDetail</string>
     <string name="title_activity_maps">Location</string>
 
+    <!-- SEARCH RESULT -->
+    <string name="card_image_contdesc">book image</string>
+
+
     <!-- MAP ACTIVITY -->
     <string name="toolbar_verify">Verify location</string>
     <string name="toolbar_provide">Provide location</string>

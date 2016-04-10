@@ -21,9 +21,6 @@ import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.User;
 
-/**
- * Created by matteo on 31/03/16.
- */
 public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.ViewHolder> {
 
     private ArrayList<Book> mBooks;
@@ -46,17 +43,27 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Typeface aller = Typeface.createFromAsset(context.getAssets(), "fonts/Aller_Rg.ttf");
-        Book book = mBooks.get(position);
-        Picasso.with(context).load(book.getImgURL()).into(holder.mImage);
-        holder.mTitle.setText(book.getTitle());
-        holder.mTitle.setTypeface(aller);
-        holder.mAuthor.setText(book.getAuthor());
-        holder.mAuthor.setTypeface(aller);
 
-        DynamoDBManager DDBM=new DynamoDBManager(context);
-        User owner=DDBM.getUser(book.getOwnerID());
-        holder.mOwner.setText(owner.getName()+" "+owner.getSurname()+", "+owner.getCity());
+        holder.mTitle.setTypeface(aller);
+        holder.mAuthor.setTypeface(aller);
         holder.mOwner.setTypeface(aller);
+
+        Book book = mBooks.get(position);
+        User owner = new DynamoDBManager(context).getUser(book.getOwnerID());
+
+        Picasso.with(context).load(book.getImgURL()).into(holder.mImage);
+
+        if (book.getTitle().length() > 23) {
+
+            holder.mTitle.setText(book.getTitle().substring(0, 23) + "..");
+        } else {
+
+            holder.mTitle.setText(book.getTitle());
+        }
+
+        holder.mAuthor.setText(book.getAuthor());
+        holder.mOwner.setText(owner.getName() + " " + owner.getSurname());
+        holder.mLocation.setText(owner.getCity() + ", " + owner.getCountry());
 
     }
 
@@ -69,7 +76,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
         public final View mView;
         public final ImageView mImage;
-        public final TextView mTitle,mAuthor,mOwner;
+        public final TextView mTitle, mAuthor, mOwner, mLocation;
 
         public ViewHolder(View view) {
 
@@ -79,6 +86,8 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             mTitle = (TextView) view.findViewById(R.id.card_title);
             mAuthor = (TextView) view.findViewById(R.id.card_author);
             mOwner = (TextView) view.findViewById(R.id.card_owner);
+            mLocation = (TextView) view.findViewById(R.id.card_owner_location);
+
             view.setOnClickListener(this);
             view.setClickable(true);
         }

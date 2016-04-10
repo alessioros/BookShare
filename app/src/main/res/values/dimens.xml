@@ -55,6 +55,29 @@
 
     <dimen name="userinfo_elevation">5dp</dimen>
 
+    <!-- SEARCH RESULT -->
+    <dimen name="card_image_width">80dp</dimen>
+    <dimen name="card_image_height">125dp</dimen>
+    <dimen name="card_image_margin">10dp</dimen>
+    <dimen name="card_image_elev">5dp</dimen>
+
+    <dimen name="card_title_maxwidth">250dp</dimen>
+    <dimen name="card_title_txtsize">20sp</dimen>
+    <dimen name="card_title_marginleft">10dp</dimen>
+    <dimen name="card_title_margintop">15dp</dimen>
+
+    <dimen name="card_author_margintop">10dp</dimen>
+    <dimen name="card_author_txtsize">18sp</dimen>
+
+    <dimen name="owner_info_margintop">15dp</dimen>
+
+    <dimen name="searchruler_margintop">15dp</dimen>
+    <dimen name="searchruler_width">100dp</dimen>
+    <dimen name="card_owner_txtsize">18sp</dimen>
+    <dimen name="card_owner_maxwidth">150dp</dimen>
+
+    <dimen name="card_ownerloc_txtsize">18sp</dimen>
+    <dimen name="card_ownerloc_marginleft">10dp</dimen>
 
     <!-- MAP ACTIVITY -->
     <dimen name="ask_loc_txtsize">18sp</dimen>
@@ -88,7 +111,6 @@
     <dimen name="card_paddingtop">5dp</dimen>
 
     <dimen name="title_margintop">20dp</dimen>
-    <dimen name="title_maxheight">60dp</dimen>
     <dimen name="title_maxwidth">300dp</dimen>
     <dimen name="title_txtsize">23sp</dimen>
 
@@ -105,7 +127,7 @@
 
     <dimen name="description_margintop">10dp</dimen>
     <dimen name="description_txtsize">15sp</dimen>
-    <dimen name="description_maxheight">400dp</dimen>
+    <dimen name="description_maxheight">600dp</dimen>
     <dimen name="description_padding">30dp</dimen>
 
     <dimen name="button_margintop">30dp</dimen>

@@ -44,7 +44,7 @@
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="@color/textPrimary"
             android:textSize="@dimen/username_txtsize"
             android:layout_centerHorizontal="true" />
 
@@ -68,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@id/location_icon"
                 android:layout_toRightOf="@id/location_icon"
+                android:textColor="@color/textSecondary"
                 android:layout_marginLeft="@dimen/loctxt_marginleft"
                 android:textSize="@dimen/loctxt_txtsize" />
 
@@ -79,7 +80,7 @@
             android:layout_height="1dp"
             android:layout_below="@+id/location_info"
             android:layout_marginTop="@dimen/homeruler_margintop"
-            android:background="@color/input_login_hint" />
+            android:background="@color/ruler_color" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -93,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/userinfo_txtsize"
-                android:textColor="#444444"
+                android:textColor="@color/textPrimaryLight"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true" />
@@ -114,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/userinfo_txtsize"
-                android:textColor="#444444"
+                android:textColor="@color/textPrimaryLight"
                 android:layout_marginLeft="@dimen/bookicon_marginleft"
                 android:layout_toEndOf="@id/credit_icon"
                 android:layout_toRightOf="@id/credit_icon"
@@ -139,6 +140,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/profile_info"
-        android:background="@color/input_login_hint" />
+        android:background="@color/ruler_color" />
 
 </RelativeLayout>
