@@ -24,6 +24,8 @@
     <dimen name="side_text_size">22sp</dimen>
     <dimen name="side_subtext_size">20sp</dimen>
 
+    <!-- LIBRARY ACTIVITY -->
+    <dimen name="viewpag_margintop">0dp</dimen>
     <!-- HOME FRAGMENT -->
     <dimen name="profile_header_height">180dp</dimen>
     <dimen name="profile_header_elev">7dp</dimen>

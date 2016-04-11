@@ -35,6 +35,9 @@
     <!-- SEARCH RESULT -->
     <string name="card_image_contdesc">book image</string>
 
+    <!-- LIBRARY ACTIVITY -->
+    <string name="firsttab_name">My Books</string>
+    <string name="secondtab_name">Borrowed</string>
 
     <!-- MAP ACTIVITY -->
     <string name="toolbar_verify">Verify location</string>

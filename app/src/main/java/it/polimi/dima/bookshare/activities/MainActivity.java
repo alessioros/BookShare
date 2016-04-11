@@ -82,12 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if (redirect.equals("library")) {
 
-                Fragment fragment = LibraryFragment.newInstance();
-
-                getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-
-                getSupportActionBar().setTitle("Library");
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
+                startActivity(new Intent(MainActivity.this, LibraryActivity.class));
 
             }
         }else{
@@ -169,12 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.library) {
 
-            Fragment fragment = LibraryFragment.newInstance();
-
-            getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-
-            getSupportActionBar().setTitle("Library");
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
+            startActivity(new Intent(MainActivity.this, LibraryActivity.class));
 
         } else if (id == R.id.reviews) {
 
