@@ -131,8 +131,7 @@ public class DynamoDBManager {
      */
     public static ArrayList<Book> getBookList() {
 
-        AmazonDynamoDBClient ddb = clientManager
-                .ddb();
+        AmazonDynamoDBClient ddb = clientManager.ddb();
         DynamoDBMapper mapper = new DynamoDBMapper(ddb);
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
@@ -181,16 +180,14 @@ public class DynamoDBManager {
      */
     public static void updateBook(Book book) {
 
-        AmazonDynamoDBClient ddb = clientManager
-                .ddb();
+        AmazonDynamoDBClient ddb = clientManager.ddb();
         DynamoDBMapper mapper = new DynamoDBMapper(ddb);
 
         try {
             mapper.save(book);
 
         } catch (AmazonServiceException ex) {
-            clientManager
-                    .wipeCredentialsOnAuthError(ex);
+            clientManager.wipeCredentialsOnAuthError(ex);
         }
     }
 
@@ -443,9 +440,7 @@ public class DynamoDBManager {
 
         try {
 
-            Log.d(TAG, "Inserting user");
             mapper.save(user);
-            Log.d(TAG, "User inserted");
 
         } catch (AmazonServiceException ex) {
             Log.e(TAG, "Error inserting user");

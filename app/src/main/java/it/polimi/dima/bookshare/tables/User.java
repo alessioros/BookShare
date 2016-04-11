@@ -1,8 +1,5 @@
 package it.polimi.dima.bookshare.tables;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribute;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRangeKey;
@@ -11,7 +8,7 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 import it.polimi.dima.bookshare.amazon.Constants;
 
 @DynamoDBTable(tableName = Constants.USER_TABLE_NAME)
-public class User implements Parcelable {
+public class User{
     private String userID;
     private String name;
     private String surname;
@@ -21,6 +18,7 @@ public class User implements Parcelable {
     private double longitude;
     private String imgURL;
     private int credits;
+    private String arn;
 
     public User() {
     }
@@ -84,6 +82,10 @@ public class User implements Parcelable {
         return country;
     }
 
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     @DynamoDBAttribute(attributeName = "Latitude")
     public double getLatitude() {
         return latitude;
@@ -91,10 +93,6 @@ public class User implements Parcelable {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     @DynamoDBAttribute(attributeName = "Longitude")
@@ -106,42 +104,12 @@ public class User implements Parcelable {
         this.longitude = longitude;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    @DynamoDBAttribute(attributeName = "ARN")
+    public String getArn() {
+        return arn;
     }
 
-    // write your object's data to the passed-in Parcel
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeString(userID);
-        out.writeString(name);
-        out.writeString(surname);
-        out.writeString(city);
-        out.writeString(country);
-        out.writeString(imgURL);
-        out.writeInt(credits);
-    }
-
-    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
-
-    public User(Parcel in) {
-        this.userID = in.readString();
-        this.name = in.readString();
-        this.surname = in.readString();
-        this.city = in.readString();
-        this.country = in.readString();
-        this.imgURL = in.readString();
-        this.credits = in.readInt();
-
+    public void setArn(String arn) {
+        this.arn = arn;
     }
 }

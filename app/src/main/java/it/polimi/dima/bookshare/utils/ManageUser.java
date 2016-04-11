@@ -29,6 +29,7 @@ public class ManageUser {
         sp.edit().putString("user_lon", user.getLongitude() + "").apply();
         sp.edit().putString("user_img", user.getImgURL()).apply();
         sp.edit().putInt("user_credits", user.getCredits()).apply();
+        sp.edit().putString("user_arn", user.getArn()).apply();
     }
 
     public User getUser() {
@@ -50,6 +51,7 @@ public class ManageUser {
             user.setLongitude(Double.parseDouble(sp.getString("user_lon", null)));
             user.setImgURL(sp.getString("user_img", null));
             user.setCredits(sp.getInt("user_credits", 0));
+            user.setArn(sp.getString("user_arn",null));
 
         } catch (NullPointerException e) {
             return null;

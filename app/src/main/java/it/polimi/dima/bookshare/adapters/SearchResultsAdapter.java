@@ -95,8 +95,8 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         @Override
         public void onClick(View view) {
 
-            Intent startDetail = new Intent(context, BookDetail.class);
-            startDetail.putExtra("button","lend");
+            Intent startDetail=new Intent(context, BookDetail.class);
+            startDetail.putExtra("button","ask");
             startDetail.putExtra("book",mBooks.get(getLayoutPosition()));
             context.startActivity(startDetail);
             ((Activity)context).finish();

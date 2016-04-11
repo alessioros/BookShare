@@ -29,6 +29,7 @@ import java.util.Arrays;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.amazon.CognitoSyncClientManager;
+import it.polimi.dima.bookshare.services.RegistrationIntentService;
 
 public class LoginActivity extends AppCompatActivity {
 

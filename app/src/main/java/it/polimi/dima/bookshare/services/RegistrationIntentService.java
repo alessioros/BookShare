@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sns.AmazonSNSClient;
@@ -21,7 +20,10 @@ import java.io.IOException;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.amazon.CognitoSyncClientManager;
-import it.polimi.dima.bookshare.amazon.Constants;
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
+import it.polimi.dima.bookshare.tables.User;
+import it.polimi.dima.bookshare.utils.ManageUser;
 
 
 /**
@@ -39,6 +41,7 @@ public class RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"Bookshare"};
     private static String token;
+    private static CreatePlatformEndpointResult cpeRes;
 
     public RegistrationIntentService() {
         super(TAG);
@@ -99,12 +102,13 @@ public class RegistrationIntentService extends IntentService {
      */
 
     private void sendRegistrationToServer() {
+
         // initialize a credentials provider with your Activity’s context
         AmazonSNSClient client= new AmazonSNSClient(CognitoSyncClientManager.getCredentialsProvider());
 
         client.setRegion(Region.getRegion(REGION));//VERY VERY IMPORTANT
 
-        String customPushData = "It's in DB";//Custom id of the registered person
+        String customPushData = PreferenceManager.getDefaultSharedPreferences(this).getString("ID", null);//Custom id of the registered person
 
         CreatePlatformEndpointRequest cpeReq =
                 new CreatePlatformEndpointRequest()
@@ -112,10 +116,24 @@ public class RegistrationIntentService extends IntentService {
                         .withPlatformApplicationArn(ROLE_ARN)
                         .withToken(token);
 
-        CreatePlatformEndpointResult cpeRes = client.createPlatformEndpoint(cpeReq);
+        cpeRes = client.createPlatformEndpoint(cpeReq);
+        Log.i(TAG,cpeRes.getEndpointArn());
+        ManageUser manageUser = new ManageUser(this);
+        User user = manageUser.getUser();
+        user.setArn(cpeRes.getEndpointArn());
+        new DynamoDBManagerTask(this, user).execute(DynamoDBManagerType.INSERT_USER);
+        manageUser.saveUser(user);
+        manageUser.setRegistered(true);
+        manageUser.updateLoc(user.getCity() + ", " + user.getCountry());
         client.createPlatformEndpoint(cpeReq).withEndpointArn(cpeRes.getEndpointArn());
 
+    }
 
+    /**
+     * This method give us a call so as to get the arnID of the phone's app
+     */
+    public static String getArn(){
+        return cpeRes.getEndpointArn();
     }
 
 
