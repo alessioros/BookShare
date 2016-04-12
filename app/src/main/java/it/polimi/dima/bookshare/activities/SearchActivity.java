@@ -3,6 +3,7 @@ package it.polimi.dima.bookshare.activities;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.SearchResultsAdapter;
+import it.polimi.dima.bookshare.utils.MySuggestionProvider;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -51,6 +53,9 @@ public class SearchActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
+            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                    MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+            suggestions.saveRecentQuery(query, null);
             getSupportActionBar().setTitle("Books for: "+query);
             Log.i(TAG,query);
             DynamoDBManager DDBM=new DynamoDBManager(this);

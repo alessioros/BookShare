@@ -136,4 +136,5 @@
     <dimen name="button_marginbottom">30dp</dimen>
 
     <dimen name="fab_marginright">20dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
 </resources>

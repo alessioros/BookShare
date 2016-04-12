@@ -3,6 +3,7 @@ package it.polimi.dima.bookshare.amazon;
 import android.content.Context;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
@@ -33,6 +34,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.tables.BookRequest;
 import it.polimi.dima.bookshare.tables.User;
 
 /**
@@ -469,5 +471,42 @@ public class DynamoDBManager {
         return null;
     }
 
+    /*
+        Insert new BookRequest in dynamo
+     */
+    public static void insertBookRequest(BookRequest bookRequest) {
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
+
+        try {
+
+            mapper.save(bookRequest);
+            Log.d(TAG,"Request inserted");
+
+        } catch (AmazonServiceException ex) {
+            Log.e(TAG, "Error inserting request");
+            clientManager.wipeCredentialsOnAuthError(ex);
+        }
+    }
+
+    /*
+    Get all book requests of a user
+     */
+    public static BookRequest getBookRequest(String askerID) {
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
+
+        try {
+            BookRequest bookRequest = mapper.load(BookRequest.class, askerID);
+
+            return bookRequest;
+
+        } catch (AmazonServiceException ex) {
+            clientManager.wipeCredentialsOnAuthError(ex);
+        }
+
+        return null;
+    }
 }
 

@@ -189,9 +189,17 @@
         <!-- LIBRARY ACTIVITY -->
         <activity
             android:name=".activities.LibraryActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
+        <provider
+            android:name=".utils.MySuggestionProvider"
+            android:authorities="it.polimi.dima.bookshare.utils.MySuggestionProvider" />
+
+        <activity
+            android:name=".activities.RequestsActivity"
+            android:label="@string/title_activity_requests"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

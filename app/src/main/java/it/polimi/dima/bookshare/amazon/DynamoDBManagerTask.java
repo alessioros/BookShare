@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.facebook.Profile;
 
 import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.tables.BookRequest;
 import it.polimi.dima.bookshare.tables.User;
 
 /**
@@ -18,6 +19,7 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
     private Context context;
     private Book book;
     private User user;
+    private BookRequest bookRequest;
 
     public DynamoDBManagerTask(Context context, User user) {
 
@@ -28,6 +30,11 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
     public DynamoDBManagerTask(Context context, Book book) {
         this.context = context;
         this.book = book;
+    }
+
+    public DynamoDBManagerTask(Context context, BookRequest bookRequest) {
+        this.context = context;
+        this.bookRequest = bookRequest;
     }
 
     protected DynamoDBManagerTaskResult doInBackground(DynamoDBManagerType... types) {
@@ -70,6 +77,10 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
             if (tableStatus.equalsIgnoreCase("ACTIVE")) {
                 DDBM.insertUser(user);
             }
+        } else if (types[0] == DynamoDBManagerType.INSERT_BOOKREQUEST) {
+            if (tableStatus.equalsIgnoreCase("ACTIVE")) {
+                DDBM.insertBookRequest(bookRequest);
+            }
         }
         return result;
 
@@ -99,15 +110,20 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
                     .show();
         } else if (result.getTableStatus().equalsIgnoreCase("ACTIVE")
                 && result.getTaskType() == DynamoDBManagerType.INSERT_BOOK) {
-            Toast.makeText(context,
-                    "Book inserted successfully!", Toast.LENGTH_SHORT).show();
+
+            //Toast.makeText(context, "Book inserted successfully!", Toast.LENGTH_SHORT).show();
+
         } else if (result.getTableStatus().equalsIgnoreCase("ACTIVE")
                 && result.getTaskType() == DynamoDBManagerType.GET_USER_BOOKS) {
 
         } else if (result.getTableStatus().equalsIgnoreCase("ACTIVE")
                 && result.getTaskType() == DynamoDBManagerType.INSERT_USER) {
-            Toast.makeText(context,
-                    "User inserted successfully!", Toast.LENGTH_SHORT).show();
+
+            //Toast.makeText(context, "User inserted successfully!", Toast.LENGTH_SHORT).show();
+
+        } else if (result.getTableStatus().equalsIgnoreCase("ACTIVE")
+                && result.getTaskType() == DynamoDBManagerType.INSERT_BOOKREQUEST) {
+            Toast.makeText(context, "Book requested!", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -9,6 +9,6 @@ public class Constants {
     // Note that spaces are not allowed in the table name
     public static final String BOOK_TABLE_NAME = "BooksV2";
     public static final String USER_TABLE_NAME = "Users";
-    public static final String BOOKREQUEST_TABLE_NAME = "BookRequest";
+    public static final String BOOKREQUEST_TABLE_NAME = "BookRequestsV2";
 
 }

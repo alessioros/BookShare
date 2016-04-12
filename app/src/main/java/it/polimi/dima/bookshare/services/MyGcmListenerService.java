@@ -14,6 +14,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.activities.MainActivity;
+import it.polimi.dima.bookshare.utils.AtomicIDs;
 
 /**
  * Created by matteo on 05/04/16.
@@ -33,31 +34,15 @@ public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("message");
+        String ISBN=data.getString("ISBN");
+
+
+
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
 
-        if (from.startsWith("/topics/")) {
-            // message received from some topic.
-        } else {
-            // normal downstream message.
-        }
-
-        // [START_EXCLUDE]
-        /**
-         * Production applications would usually process the message here.
-         * Eg: - Syncing with server.
-         *     - Store message in local database.
-         *     - Update UI.
-         */
-
-        /**
-         * In some cases it may be useful to show a notification indicating to the user
-         * that a message was received.
-         */
         sendNotification(message);
-        // [END_EXCLUDE]
     }
-    // [END receive_message]
 
     /**
      * Create and show a simple notification containing the received GCM message.
@@ -72,8 +57,8 @@ public class MyGcmListenerService extends GcmListenerService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_add)
-                .setContentTitle("GCM Message")
+                .setSmallIcon(R.mipmap.ic_bookshare)
+                .setContentTitle(getResources().getString(R.string.notification_name))
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
@@ -81,6 +66,6 @@ public class MyGcmListenerService extends GcmListenerService {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify(AtomicIDs.getNotificationID(), notificationBuilder.build());
     }
 }

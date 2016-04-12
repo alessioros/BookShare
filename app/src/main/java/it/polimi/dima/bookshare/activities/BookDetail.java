@@ -7,14 +7,16 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,17 +24,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
 
-import com.facebook.Profile;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.tables.Book;
-import it.polimi.dima.bookshare.amazon.DynamoDBManager;
-import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.tables.BookRequest;
+import it.polimi.dima.bookshare.utils.AtomicIDs;
 import it.polimi.dima.bookshare.utils.ManageUser;
 
 public class BookDetail extends AppCompatActivity {
@@ -180,11 +182,25 @@ public class BookDetail extends AppCompatActivity {
                 }
             });
 
-        } else if(i.getStringExtra("button").equals("lend")){
+        } else if(i.getStringExtra("button").equals("ask")){
 
             fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark));
             Button lendButton = (Button) findViewById(R.id.lend_button);
             lendButton.setVisibility(Button.VISIBLE);
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    askBook();
+                }
+            });
+
+            lendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    askBook();
+                }
+            });
 
 
         }
@@ -298,6 +314,18 @@ public class BookDetail extends AppCompatActivity {
             }
         }, REDIRECT_TIME_OUT);
 
+    }
+
+    private void askBook(){
+
+        BookRequest bookRequest=new BookRequest();
+        bookRequest.setID(AtomicIDs.getBookRequestsID());
+        bookRequest.setAskerID(PreferenceManager.getDefaultSharedPreferences(this).getString("ID",null));
+        bookRequest.setReceiverID(book.getOwnerID());
+        bookRequest.setBookISBN(book.getIsbn());
+
+        // add request to DynamoDB
+        new DynamoDBManagerTask(BookDetail.this,bookRequest).execute(DynamoDBManagerType.INSERT_BOOKREQUEST);
 
     }
 }

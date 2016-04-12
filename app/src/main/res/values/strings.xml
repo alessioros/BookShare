@@ -2,6 +2,7 @@
     <string name="app_name">BookShare</string>
     <string name="facebook_app_id">"1716685071920315"</string>
 
+    <string name="notification_name">New book request</string>
     <string name="search">Search</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -40,6 +41,10 @@
     <string name="firsttab_name">My Books</string>
     <string name="secondtab_name">Borrowed</string>
 
+    <!-- REQUEST ACTIVITY -->
+    <string name="firsttab_req_name">My Requests</string>
+    <string name="secondtab_req_name">Requests received</string>
+
     <!-- MAP ACTIVITY -->
     <string name="toolbar_verify">Verify location</string>
     <string name="toolbar_provide">Provide location</string>
@@ -72,5 +77,10 @@
     <string name="pref_title_location">Change Location</string>
     <string name="pref_key_location">location</string>
     <string name="pref_default_location">Milan, Italy</string>
+    <string name="title_activity_requests">Requests</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
