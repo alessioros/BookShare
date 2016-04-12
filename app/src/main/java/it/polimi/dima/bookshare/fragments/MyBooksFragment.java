@@ -2,6 +2,7 @@ package it.polimi.dima.bookshare.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -35,15 +37,15 @@ import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Book;
 
-public class LibraryFragment extends Fragment {
+public class MyBooksFragment extends Fragment {
 
-    public LibraryFragment() {
+    public MyBooksFragment() {
 
     }
 
     public static Fragment newInstance() {
 
-        return new LibraryFragment();
+        return new MyBooksFragment();
     }
 
     @Override
@@ -55,7 +57,7 @@ public class LibraryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_library_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_mybook_list, container, false);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.book_list);
 
@@ -69,7 +71,7 @@ public class LibraryFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(LibraryFragment.this);
+                FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(MyBooksFragment.this);
                 scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
                 scanIntegrator.setPrompt("Scan an ISBN");
                 scanIntegrator.initiateScan();
@@ -80,6 +82,22 @@ public class LibraryFragment extends Fragment {
 
         DynamoDBManager DDBM = new DynamoDBManager(getActivity());
         ArrayList<Book> mBooks = DDBM.getBooks(Profile.getCurrentProfile().getId());
+
+        TextView noBooks = (TextView) view.findViewById(R.id.nobooks_text);
+
+        Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
+
+        noBooks.setTypeface(aller);
+
+        if (mBooks.isEmpty()) {
+
+            noBooks.setVisibility(View.VISIBLE);
+            noBooks.setText(getResources().getString(R.string.nobooks_inserted));
+
+        } else {
+
+            noBooks.setVisibility(View.GONE);
+        }
 
         recyclerView.setAdapter(new LibraryAdapter(mBooks, getActivity()));
 

@@ -27,7 +27,6 @@ import com.squareup.picasso.Picasso;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.fragments.HomeFragment;
-import it.polimi.dima.bookshare.fragments.LibraryFragment;
 import it.polimi.dima.bookshare.services.RegistrationIntentService;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;

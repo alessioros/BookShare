@@ -40,6 +40,9 @@
     <string name="firsttab_name">My Books</string>
     <string name="secondtab_name">Borrowed</string>
 
+    <string name="nobooks_inserted">No books yet</string>
+    <string name="nobooks_received">No books yet</string>
+
     <!-- MAP ACTIVITY -->
     <string name="toolbar_verify">Verify location</string>
     <string name="toolbar_provide">Provide location</string>

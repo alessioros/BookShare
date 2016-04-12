@@ -23,6 +23,7 @@ public class Book implements Parcelable{
     private String imgURL;
     private String publisher;
     private String publishedDate;
+    private String receiverID;
 
     public Book() {}
 
@@ -105,6 +106,15 @@ public class Book implements Parcelable{
 
     public void setPublishedDate(String publishedDate) {
         this.publishedDate = publishedDate;
+    }
+
+    @DynamoDBRangeKey(attributeName = "receiverID")
+    public String getReceiverID() {
+        return receiverID;
+    }
+
+    public void setReceiverID(String receiverID) {
+        this.receiverID = receiverID;
     }
 
     @Override

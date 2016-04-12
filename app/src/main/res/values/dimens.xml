@@ -26,6 +26,9 @@
 
     <!-- LIBRARY ACTIVITY -->
     <dimen name="viewpag_margintop">0dp</dimen>
+
+    <dimen name="nobook_txtsize">25dp</dimen>
+    <dimen name="nobook_margintop">35dp</dimen>
     <!-- HOME FRAGMENT -->
     <dimen name="profile_header_height">180dp</dimen>
     <dimen name="profile_header_elev">7dp</dimen>
