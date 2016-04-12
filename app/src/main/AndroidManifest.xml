@@ -180,7 +180,7 @@
         </activity>
 
         <activity
-            android:name=".fragments.SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <!-- LIBRARY ACTIVITY -->
@@ -193,10 +193,6 @@
             android:name=".utils.MySuggestionProvider"
             android:authorities="it.polimi.dima.bookshare.utils.MySuggestionProvider" />
 
-        <activity
-            android:name=".activities.RequestsActivity"
-            android:label="@string/title_activity_requests"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

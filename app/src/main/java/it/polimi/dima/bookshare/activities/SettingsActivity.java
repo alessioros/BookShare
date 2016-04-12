@@ -1,5 +1,6 @@
-package it.polimi.dima.bookshare.fragments;
+package it.polimi.dima.bookshare.activities;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +10,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import it.polimi.dima.bookshare.R;
-import it.polimi.dima.bookshare.activities.MainActivity;
-import it.polimi.dima.bookshare.activities.MapsActivity;
+import it.polimi.dima.bookshare.fragments.GeneralSettingsFragment;
+import it.polimi.dima.bookshare.fragments.HomeFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -25,7 +26,24 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getResources().getString(R.string.settings_title));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        RelativeLayout generalHeader = (RelativeLayout) findViewById(R.id.settings_general);
         RelativeLayout locationHeader = (RelativeLayout) findViewById(R.id.settings_location);
+
+        generalHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Fragment fragment = GeneralSettingsFragment.newInstance();
+
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .addToBackStack("general_settings")
+                        .commit();
+
+                getSupportActionBar().setTitle(getResources().getString(R.string.general_sett_title));
+
+            }
+        });
 
         locationHeader.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,14 +55,20 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
 
-            startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-            finish();
+            if (getFragmentManager().findFragmentByTag("general_settings") != null) {
+                getFragmentManager().popBackStackImmediate("general_settings", 0);
+            } else {
+                startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                finish();
+            }
+
         }
 
         return super.onOptionsItemSelected(item);
