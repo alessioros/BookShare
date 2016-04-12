@@ -38,8 +38,6 @@
     </style>
 
     <style name="AppTabLayout" parent="Widget.Design.TabLayout">
-        <item name="tabIndicatorPaddingStart">4dp</item>
-        <item name="tabIndicatorPaddingEnd">4dp</item>
         <item name="tabIndicatorColor">@color/colorPrimary</item>
         <item name="tabIndicatorHeight">4dp</item>
         <item name="tabBackground">@color/white</item>
