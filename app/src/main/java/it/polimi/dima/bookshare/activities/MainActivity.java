@@ -27,6 +27,7 @@ import com.squareup.picasso.Picasso;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.fragments.HomeFragment;
+import it.polimi.dima.bookshare.fragments.SettingsFragment;
 import it.polimi.dima.bookshare.services.RegistrationIntentService;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
@@ -82,6 +83,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (redirect.equals("library")) {
 
                 startActivity(new Intent(MainActivity.this, LibraryActivity.class));
+
+            } else if (redirect.equals("settings")) {
+
+                Fragment fragment = SettingsFragment.newInstance();
+
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+                getSupportActionBar().setTitle(getResources().getString(R.string.settings_title));
+
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
 
             }
         }else{
@@ -171,8 +182,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.settings) {
 
-            Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(settingsIntent);
+            Fragment fragment = SettingsFragment.newInstance();
+
+            getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+            getSupportActionBar().setTitle(getResources().getString(R.string.settings_title));
+
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

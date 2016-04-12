@@ -140,4 +140,14 @@
 
     <dimen name="fab_marginright">20dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+
+    <!-- SETTINGS FRAGMENT -->
+    <dimen name="settings_padding">10dp</dimen>
+    <dimen name="settings_txtsize">20sp</dimen>
+    <dimen name="settings_iconsize">30dp</dimen>
+    <dimen name="settings_locicon_width">22dp</dimen>
+    <dimen name="settings_icon_marginleft">30dp</dimen>
+    <dimen name="settings_txt_marginleft">20dp</dimen>
+
+    <dimen name="settings_paddingtop">60dp</dimen>
 </resources>
