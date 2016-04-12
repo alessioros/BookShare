@@ -41,6 +41,9 @@
     <string name="firsttab_name">My Books</string>
     <string name="secondtab_name">Borrowed</string>
 
+    <string name="nobooks_inserted">No books yet</string>
+    <string name="nobooks_received">No books yet</string>
+
     <!-- REQUEST ACTIVITY -->
     <string name="firsttab_req_name">My Requests</string>
     <string name="secondtab_req_name">Requests received</string>

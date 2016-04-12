@@ -260,57 +260,48 @@ public class DynamoDBManager {
 
             for (Map item : queryResult.getItems()) {
 
-                Book book = new Book();
+                Book book = mapAttributes(item);
 
+                userBooks.add(book);
+            }
 
-                AttributeValue attribute = (AttributeValue) item.get("ISBN");
-                book.setIsbn(attribute.getS());
+            // If the response lastEvaluatedKey has contents,
+            // that means there are more results
+            lastEvaluatedKey = queryResult.getLastEvaluatedKey();
 
-                try {
-                    attribute = (AttributeValue) item.get("Description");
-                    book.setDescription(attribute.getS());
-                } catch (NullPointerException e) {
-                }
+        } while (lastEvaluatedKey != null);
 
-                attribute = (AttributeValue) item.get("Title");
-                book.setTitle(attribute.getS());
+        return userBooks;
+    }
 
-                attribute = (AttributeValue) item.get("ownerID");
-                book.setOwnerID(attribute.getS());
+    public static ArrayList<Book> getReceivedBooks(String receiverID) {
 
-                try {
-                    attribute = (AttributeValue) item.get("PageCount");
-                    book.setPageCount(Integer.parseInt(attribute.getN()));
-                } catch (NullPointerException e) {
-                }
+        ArrayList<Book> userBooks = new ArrayList<>();
 
-                try {
-                    attribute = (AttributeValue) item.get("Author");
-                    book.setAuthor(attribute.getS());
+        AmazonDynamoDBClient ddb = clientManager.ddb();
 
-                } catch (NullPointerException e) {
-                }
+        // Create our map of values
+        Map keyConditions = new HashMap();
 
-                try {
-                    attribute = (AttributeValue) item.get("imgURL");
-                    book.setImgURL(attribute.getS());
+        // Specify our key conditions (receiverId == "receiverID")
+        Condition hashKeyCondition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ.toString())
+                .withAttributeValueList(new AttributeValue().withS(receiverID));
+        keyConditions.put("receiverID", hashKeyCondition);
 
-                } catch (NullPointerException e) {
-                }
+        Map lastEvaluatedKey = null;
+        do {
+            QueryRequest queryRequest = new QueryRequest()
+                    .withTableName(Constants.BOOK_TABLE_NAME)
+                    .withKeyConditions(keyConditions)
+                    .withExclusiveStartKey(lastEvaluatedKey)
+                    .withIndexName("receiverID-index");
 
-                try {
-                    attribute = (AttributeValue) item.get("Publisher");
-                    book.setPublisher(attribute.getS());
+            QueryResult queryResult = ddb.query(queryRequest);
 
-                } catch (NullPointerException e) {
-                }
+            for (Map item : queryResult.getItems()) {
 
-                try {
-                    attribute = (AttributeValue) item.get("PublishedDate");
-                    book.setPublishedDate(attribute.getS());
-
-                } catch (NullPointerException e) {
-                }
+                Book book = mapAttributes(item);
 
                 userBooks.add(book);
             }
@@ -508,5 +499,62 @@ public class DynamoDBManager {
 
         return null;
     }
+    public static Book mapAttributes(Map item) {
+
+        Book book = new Book();
+
+        AttributeValue attribute = (AttributeValue) item.get("ISBN");
+        book.setIsbn(attribute.getS());
+
+        try {
+            attribute = (AttributeValue) item.get("Description");
+            book.setDescription(attribute.getS());
+        } catch (NullPointerException e) {
+        }
+
+        attribute = (AttributeValue) item.get("Title");
+        book.setTitle(attribute.getS());
+
+        attribute = (AttributeValue) item.get("ownerID");
+        book.setOwnerID(attribute.getS());
+
+        try {
+            attribute = (AttributeValue) item.get("PageCount");
+            book.setPageCount(Integer.parseInt(attribute.getN()));
+        } catch (NullPointerException e) {
+        }
+
+        try {
+            attribute = (AttributeValue) item.get("Author");
+            book.setAuthor(attribute.getS());
+
+        } catch (NullPointerException e) {
+        }
+
+        try {
+            attribute = (AttributeValue) item.get("imgURL");
+            book.setImgURL(attribute.getS());
+
+        } catch (NullPointerException e) {
+        }
+
+        try {
+            attribute = (AttributeValue) item.get("Publisher");
+            book.setPublisher(attribute.getS());
+
+        } catch (NullPointerException e) {
+        }
+
+        try {
+            attribute = (AttributeValue) item.get("PublishedDate");
+            book.setPublishedDate(attribute.getS());
+
+        } catch (NullPointerException e) {
+        }
+
+        return book;
+
+    }
+
 }
 
