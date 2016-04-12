@@ -264,6 +264,7 @@ public class BookDetail extends AppCompatActivity {
                 try {
                     DynamoDBManager DDMB = new DynamoDBManager(BookDetail.this);
                     DDMB.deleteBook(book);
+                    manageUser.updateBooksCount(false);
 
                     Toast.makeText(BookDetail.this, "book deleted succesfully", Toast.LENGTH_SHORT).show();
 
@@ -296,8 +297,19 @@ public class BookDetail extends AppCompatActivity {
 
         book.setOwnerID(manageUser.getUser().getUserID());
 
-        // add book to DynamoDB
-        new DynamoDBManagerTask(BookDetail.this, book).execute(DynamoDBManagerType.INSERT_BOOK);
+        try {
+
+            // add book to DynamoDB
+            new DynamoDBManagerTask(BookDetail.this, book).execute(DynamoDBManagerType.INSERT_BOOK);
+            manageUser.updateBooksCount(true);
+
+
+        } catch (Exception e) {
+
+            Toast.makeText(BookDetail.this, "Error on adding the book, try again", Toast.LENGTH_SHORT);
+
+        }
+
 
         // redirects to library after 0.5 seconds, allowing library to display the new book
         new Handler().postDelayed(new Runnable() {
@@ -324,8 +336,15 @@ public class BookDetail extends AppCompatActivity {
         bookRequest.setReceiverID(book.getOwnerID());
         bookRequest.setBookISBN(book.getIsbn());
 
-        // add request to DynamoDB
-        new DynamoDBManagerTask(BookDetail.this,bookRequest).execute(DynamoDBManagerType.INSERT_BOOKREQUEST);
+        try {
+
+            // add request to DynamoDB
+            new DynamoDBManagerTask(BookDetail.this, bookRequest).execute(DynamoDBManagerType.INSERT_BOOKREQUEST);
+
+        } catch (Exception e) {
+            Toast.makeText(BookDetail.this, "Error on asking the book, try again", Toast.LENGTH_SHORT);
+        }
+
 
     }
 }

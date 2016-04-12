@@ -51,6 +51,9 @@
     <string name="nobooks_inserted">No books yet</string>
     <string name="nobooks_received">No books yet</string>
 
+    <string name="wait">Wait</string>
+    <string name="loading_library">loading library..</string>
+
     <!-- REQUEST ACTIVITY -->
     <string name="firsttab_req_name">My Requests</string>
     <string name="secondtab_req_name">Requests received</string>

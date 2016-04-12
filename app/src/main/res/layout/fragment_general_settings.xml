@@ -11,17 +11,6 @@
         android:paddingTop="@dimen/settings_padding"
         android:paddingBottom="@dimen/settings_padding">
 
-        <ImageView
-            android:id="@+id/setgen_icon"
-            android:layout_width="@dimen/settings_general_iconsize"
-            android:layout_height="@dimen/settings_general_iconsize"
-            android:background="@drawable/colored_settings"
-            android:layout_marginStart="@dimen/settings_icon_marginleft"
-            android:layout_marginLeft="@dimen/settings_icon_marginleft"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true" />
-
         <TextView
             android:id="@+id/loc_set_text"
             android:layout_width="wrap_content"
@@ -51,17 +40,6 @@
         android:paddingTop="@dimen/settings_padding"
         android:paddingBottom="@dimen/settings_padding"
         android:layout_below="@+id/set_username">
-
-        <ImageView
-            android:id="@+id/setloc_icon"
-            android:layout_width="@dimen/settings_locicon_width"
-            android:layout_height="@dimen/settings_iconsize"
-            android:background="@drawable/ic_location_pin"
-            android:layout_marginStart="@dimen/settings_icon_marginleft"
-            android:layout_marginLeft="34dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true" />
 
         <TextView
             android:id="@+id/gen_set_text"

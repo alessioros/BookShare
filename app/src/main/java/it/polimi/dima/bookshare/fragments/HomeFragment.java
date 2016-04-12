@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
 
             userLocation.setText(user.getCity() + ", " + user.getCountry());
 
-            userBooks.setText(new DynamoDBManager(getActivity()).getBooksCount(user.getUserID()) + "");
+            userBooks.setText(new ManageUser(getActivity()).getBooksCount() + "");
 
             userCredits.setText(user.getCredits() + "");
 

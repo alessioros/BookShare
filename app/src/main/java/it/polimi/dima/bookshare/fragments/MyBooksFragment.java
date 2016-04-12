@@ -1,10 +1,14 @@
 package it.polimi.dima.bookshare.fragments;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -59,11 +63,7 @@ public class MyBooksFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_mybook_list, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.book_list);
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-
-        recyclerView.setLayoutManager(gridLayoutManager);
+        loadLibrary();
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
 
@@ -78,28 +78,6 @@ public class MyBooksFragment extends Fragment {
             }
         });
 
-        // retrieve books
-
-        DynamoDBManager DDBM = new DynamoDBManager(getActivity());
-        ArrayList<Book> mBooks = DDBM.getBooks(Profile.getCurrentProfile().getId());
-
-        TextView noBooks = (TextView) view.findViewById(R.id.nobooks_text);
-
-        Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
-
-        noBooks.setTypeface(aller);
-
-        if (mBooks.isEmpty()) {
-
-            noBooks.setVisibility(View.VISIBLE);
-            noBooks.setText(getResources().getString(R.string.nobooks_inserted));
-
-        } else {
-
-            noBooks.setVisibility(View.GONE);
-        }
-
-        recyclerView.setAdapter(new LibraryAdapter(mBooks, getActivity()));
 
         return view;
     }
@@ -233,5 +211,87 @@ public class MyBooksFragment extends Fragment {
             toast.show();
         }
 
+    }
+
+    public void loadLibrary() {
+
+        final ProgressDialog progressDialog =
+                ProgressDialog.show(getActivity(),
+                        getResources().getString(R.string.wait),
+                        getResources().getString(R.string.loading_library), true, false);
+
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+        try {
+
+            new LoadBooks(new OnLoadingCompleted() {
+                @Override
+                public void onLoadingCompleted(ArrayList<Book> books) {
+
+                    loadRecyclerView(books);
+                    progressDialog.dismiss();
+
+                }
+            }).execute();
+
+        } catch (Exception e) {
+
+            new Toast(getActivity()).makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void loadRecyclerView(ArrayList<Book> mBooks) {
+
+        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.book_list);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        TextView noBooks = (TextView) getActivity().findViewById(R.id.nobooks_text);
+
+        Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
+
+        noBooks.setTypeface(aller);
+
+        if (mBooks.isEmpty()) {
+
+            noBooks.setVisibility(View.VISIBLE);
+            noBooks.setText(getResources().getString(R.string.nobooks_inserted));
+
+        } else {
+
+            noBooks.setVisibility(View.GONE);
+        }
+
+        recyclerView.setAdapter(new LibraryAdapter(mBooks, getActivity()));
+
+
+    }
+
+    public interface OnLoadingCompleted {
+        void onLoadingCompleted(ArrayList<Book> books);
+    }
+
+    public class LoadBooks extends AsyncTask<Void, ArrayList<Book>, ArrayList<Book>> {
+        private OnLoadingCompleted listener;
+
+        public LoadBooks(OnLoadingCompleted listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected ArrayList<Book> doInBackground(Void... params) {
+
+            DynamoDBManager DDBM = new DynamoDBManager(getActivity());
+            ArrayList<Book> mBooks = DDBM.getBooks(Profile.getCurrentProfile().getId());
+
+            return mBooks;
+        }
+
+        protected void onPostExecute(ArrayList<Book> books) {
+
+            listener.onLoadingCompleted(books);
+        }
     }
 }

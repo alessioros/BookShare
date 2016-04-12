@@ -45,6 +45,7 @@ public class SplashScreen extends AppCompatActivity {
         try {
 
             user = manageUser.getUser();
+            manageUser.refreshBookCount(user.getUserID());
 
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -112,6 +113,7 @@ public class SplashScreen extends AppCompatActivity {
                     user.setImgURL(Profile.getCurrentProfile().getProfilePictureUri(300, 300).toString());
                     user.setCredits(20);
                     manageUser.saveUser(user);
+                    manageUser.refreshBookCount(user.getUserID());
 
                 } catch (Exception e) {
                     e.printStackTrace();

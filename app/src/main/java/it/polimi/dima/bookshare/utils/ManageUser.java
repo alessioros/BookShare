@@ -4,17 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.User;
 
-/**
- * Created by alessiorossotti on 06/04/16.
- */
 public class ManageUser {
 
     private SharedPreferences sp;
+    private DynamoDBManager DDBM;
 
     public ManageUser(Context context) {
 
+        this.DDBM = new DynamoDBManager(context);
         this.sp = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -75,11 +75,51 @@ public class ManageUser {
 
     public void setRegistered(Boolean registered) {
 
-        sp.edit().putBoolean("registered", registered);
+        sp.edit().putBoolean("registered", registered).apply();
     }
 
     public void updateLoc(String location) {
 
-        sp.edit().putString("location", location);
+        sp.edit().putString("location", location).apply();
+    }
+
+    public int refreshBookCount(String userID) {
+
+        int booksCount = 0;
+
+        try {
+
+            booksCount = DDBM.getBooksCount(userID);
+            sp.edit().putInt("ownedBooks_count", booksCount).apply();
+
+        } catch (Exception e) {
+            return 0;
+        }
+
+        return booksCount;
+    }
+
+    public int getBooksCount() {
+
+        try {
+
+            return sp.getInt("ownedBooks_count", 0);
+
+        } catch (NullPointerException e) {
+            return 0;
+        }
+
+    }
+
+    public void updateBooksCount(boolean increment) {
+
+        if (increment) {
+
+            sp.edit().putInt("ownedBooks_count", getBooksCount() + 1).apply();
+
+        } else {
+
+            sp.edit().putInt("ownedBooks_count", getBooksCount() - 1).apply();
+        }
     }
 }
