@@ -12,6 +12,7 @@
     <color name="input_login_hint">#999999</color>
 
     <color name="ruler_color">#999999</color>
+    <color name="set_ruler_color">#CCCCCC</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
