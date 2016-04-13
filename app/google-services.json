@@ -1,0 +1,43 @@
+{
+  "project_info": {
+    "project_id": "bookshare-1257",
+    "project_number": "867373409923",
+    "name": "Bookshare"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867373409923:android:a0206b63623bf43c",
+        "client_id": "android:it.polimi.dima.bookshare",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "it.polimi.dima.bookshare",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
