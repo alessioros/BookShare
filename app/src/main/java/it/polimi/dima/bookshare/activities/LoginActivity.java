@@ -1,5 +1,6 @@
 package it.polimi.dima.bookshare.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -29,7 +30,6 @@ import java.util.Arrays;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.amazon.CognitoSyncClientManager;
-import it.polimi.dima.bookshare.services.RegistrationIntentService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,16 +40,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
         CognitoSyncClientManager.init(this);
-
 
         //If access token is already here, set fb session
         final AccessToken fbAccessToken = AccessToken.getCurrentAccessToken();
@@ -148,9 +142,19 @@ public class LoginActivity extends AppCompatActivity {
     private void setFacebookSession(AccessToken accessToken) {
 
         Log.i("Token", "facebook token: " + accessToken.getToken());
-
         CognitoSyncClientManager.addLogins("graph.facebook.com", accessToken.getToken());
+        new InitCognito().execute(accessToken.getToken());
+    }
 
+    public class InitCognito extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+            CognitoSyncClientManager.addLogins("graph.facebook.com", params[0]);
+
+            return null;
+        }
     }
 
 
