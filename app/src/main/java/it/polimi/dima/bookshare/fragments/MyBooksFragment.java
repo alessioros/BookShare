@@ -40,6 +40,7 @@ import it.polimi.dima.bookshare.activities.VerticalOrientationCA;
 import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 
 public class MyBooksFragment extends Fragment {
 
@@ -224,9 +225,9 @@ public class MyBooksFragment extends Fragment {
 
         try {
 
-            new LoadBooks(new OnLoadingCompleted() {
+            new LoadBooks(new OnBookLoadingCompleted() {
                 @Override
-                public void onLoadingCompleted(ArrayList<Book> books) {
+                public void onBookLoadingCompleted(ArrayList<Book> books) {
 
                     loadRecyclerView(books);
                     progressDialog.dismiss();
@@ -269,14 +270,10 @@ public class MyBooksFragment extends Fragment {
 
     }
 
-    public interface OnLoadingCompleted {
-        void onLoadingCompleted(ArrayList<Book> books);
-    }
+    class LoadBooks extends AsyncTask<Void, ArrayList<Book>, ArrayList<Book>> {
+        private OnBookLoadingCompleted listener;
 
-    public class LoadBooks extends AsyncTask<Void, ArrayList<Book>, ArrayList<Book>> {
-        private OnLoadingCompleted listener;
-
-        public LoadBooks(OnLoadingCompleted listener) {
+        public LoadBooks(OnBookLoadingCompleted listener) {
             this.listener = listener;
         }
 
@@ -291,7 +288,7 @@ public class MyBooksFragment extends Fragment {
 
         protected void onPostExecute(ArrayList<Book> books) {
 
-            listener.onLoadingCompleted(books);
+            listener.onBookLoadingCompleted(books);
         }
     }
 }

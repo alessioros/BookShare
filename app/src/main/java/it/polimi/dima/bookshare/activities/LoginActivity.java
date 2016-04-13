@@ -150,26 +150,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("Token", "facebook token: " + accessToken.getToken());
 
         CognitoSyncClientManager.addLogins("graph.facebook.com", accessToken.getToken());
-        new SaveCredentials().execute();
 
-    }
-
-    private class SaveCredentials extends AsyncTask<Void, Void, String> {
-
-        public SaveCredentials() {
-
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            CognitoSyncClientManager.getCredentialsProvider().getCredentials();
-            return "done";
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-
-        }
     }
 
 

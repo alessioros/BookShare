@@ -3,6 +3,7 @@ package it.polimi.dima.bookshare.activities;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.amazon.CognitoSyncClientManager;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
@@ -27,7 +29,7 @@ import it.polimi.dima.bookshare.utils.ManageUser;
 public class SplashScreen extends AppCompatActivity {
 
     // Splash screen timer
-    private static int SPLASH_TIME_OUT = 1000;
+    private static int SPLASH_TIME_OUT = 500;
     private User user;
     private ManageUser manageUser;
 
@@ -56,7 +58,7 @@ public class SplashScreen extends AppCompatActivity {
             try {
 
                 user = new DynamoDBManager(SplashScreen.this).getUser(AccessToken.getCurrentAccessToken().getUserId());
-
+                manageUser.refreshBookCount(user.getUserID());
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -120,17 +122,20 @@ public class SplashScreen extends AppCompatActivity {
                 }
 
                 Intent askLocationIntent = new Intent(SplashScreen.this, MapsActivity.class);
+                new SaveCredentials().execute();
                 startActivity(askLocationIntent);
 
             } else {
 
                 manageUser.saveUser(user);
+                new SaveCredentials().execute();
                 redirectToHome();
 
             }
 
         } else {
 
+            new SaveCredentials().execute();
             redirectToHome();
         }
 
@@ -152,6 +157,24 @@ public class SplashScreen extends AppCompatActivity {
             }
         }, SPLASH_TIME_OUT);
 
+    }
+
+    private class SaveCredentials extends AsyncTask<Void, Void, String> {
+
+        public SaveCredentials() {
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            CognitoSyncClientManager.getCredentialsProvider().getCredentials();
+            return "done";
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+
+        }
     }
 
 }
