@@ -40,6 +40,7 @@ import it.polimi.dima.bookshare.activities.VerticalOrientationCA;
 import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.utils.ManageUser;
 import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 
 public class MyBooksFragment extends Fragment {
@@ -283,7 +284,7 @@ public class MyBooksFragment extends Fragment {
         protected ArrayList<Book> doInBackground(Void... params) {
 
             DynamoDBManager DDBM = new DynamoDBManager(getActivity());
-            ArrayList<Book> mBooks = DDBM.getBooks(Profile.getCurrentProfile().getId());
+            ArrayList<Book> mBooks = DDBM.getBooks(new ManageUser(getActivity()).getUser().getUserID());
 
             return mBooks;
         }

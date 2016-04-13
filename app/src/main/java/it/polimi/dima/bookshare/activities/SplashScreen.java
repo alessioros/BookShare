@@ -17,12 +17,14 @@ import com.facebook.Profile;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.amazon.CognitoSyncClientManager;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
+import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
 
@@ -47,7 +49,6 @@ public class SplashScreen extends AppCompatActivity {
         try {
 
             user = manageUser.getUser();
-            manageUser.refreshBookCount(user.getUserID());
 
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -55,83 +56,82 @@ public class SplashScreen extends AppCompatActivity {
 
         if (user == null || !manageUser.verifyRegistered()) {
 
-            try {
+            new LoadUser(new OnUserLoadingCompleted() {
+                @Override
+                public void onUserLoadingCompleted() {
 
-                user = new DynamoDBManager(SplashScreen.this).getUser(AccessToken.getCurrentAccessToken().getUserId());
-                manageUser.refreshBookCount(user.getUserID());
+                    if (user == null) {
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                        user = new User();
 
-            if (user == null) {
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                AccessToken.getCurrentAccessToken(),
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(JSONObject object, GraphResponse response) {
 
-                user = new User();
+                                        try {
+                                            JSONObject jsonObject = response.getJSONObject().getJSONObject("location");
 
-                GraphRequest request = GraphRequest.newMeRequest(
-                        AccessToken.getCurrentAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                            String[] columns = jsonObject.getString("name").split(",");
+                                            user.setCity(columns[0]);
+                                            user.setCountry(columns[1]);
 
-                                try {
-                                    JSONObject jsonObject = response.getJSONObject().getJSONObject("location");
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
 
-                                    String[] columns = jsonObject.getString("name").split(",");
-                                    user.setCity(columns[0]);
-                                    user.setCountry(columns[1]);
+                                        Geocoder geocoder = new Geocoder(SplashScreen.this, Locale.ITALY);
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                                        try {
+                                            List<Address> addresses = geocoder.getFromLocationName(user.getCity(), 1);
 
-                                Geocoder geocoder = new Geocoder(SplashScreen.this, Locale.ITALY);
+                                            user.setLatitude(addresses.get(0).getLatitude());
+                                            user.setLongitude(addresses.get(0).getLongitude());
 
-                                try {
-                                    List<Address> addresses = geocoder.getFromLocationName(user.getCity(), 1);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
 
-                                    user.setLatitude(addresses.get(0).getLatitude());
-                                    user.setLongitude(addresses.get(0).getLongitude());
+                                            user.setCity(null);
+                                            user.setCountry(null);
+                                        }
 
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                                        try {
 
-                                    user.setCity(null);
-                                    user.setCountry(null);
-                                }
-                            }
-                        });
+                                            user.setUserID(Profile.getCurrentProfile().getId());
+                                            user.setName(Profile.getCurrentProfile().getFirstName());
+                                            user.setSurname(Profile.getCurrentProfile().getLastName());
+                                            user.setImgURL(Profile.getCurrentProfile().getProfilePictureUri(300, 300).toString());
+                                            user.setCredits(20);
+                                            manageUser.saveUser(user);
 
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "location");
-                request.setParameters(parameters);
-                request.executeAndWait();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
 
-                try {
+                                        Intent askLocationIntent = new Intent(SplashScreen.this, MapsActivity.class);
+                                        new SaveCredentials().execute();
+                                        startActivity(askLocationIntent);
 
-                    user.setUserID(Profile.getCurrentProfile().getId());
-                    user.setName(Profile.getCurrentProfile().getFirstName());
-                    user.setSurname(Profile.getCurrentProfile().getLastName());
-                    user.setImgURL(Profile.getCurrentProfile().getProfilePictureUri(300, 300).toString());
-                    user.setCredits(20);
-                    manageUser.saveUser(user);
-                    manageUser.refreshBookCount(user.getUserID());
+                                    }
+                                });
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "location");
+                        request.setParameters(parameters);
+                        request.executeAsync();
+
+                    } else {
+
+                        manageUser.saveUser(user);
+                        new SaveCredentials().execute();
+                        redirectToHome();
+
+                    }
                 }
 
-                Intent askLocationIntent = new Intent(SplashScreen.this, MapsActivity.class);
-                new SaveCredentials().execute();
-                startActivity(askLocationIntent);
+            }).execute(AccessToken.getCurrentAccessToken().getUserId());
 
-            } else {
-
-                manageUser.saveUser(user);
-                new SaveCredentials().execute();
-                redirectToHome();
-
-            }
 
         } else {
 
@@ -139,13 +139,17 @@ public class SplashScreen extends AppCompatActivity {
             redirectToHome();
         }
 
-
-
     }
 
     public void redirectToHome() {
 
-        new Handler().postDelayed(new Runnable() {
+        Intent i = new Intent(SplashScreen.this, MainActivity.class);
+        startActivity(i);
+
+        finish();
+
+
+        /*new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
@@ -155,7 +159,7 @@ public class SplashScreen extends AppCompatActivity {
 
                 finish();
             }
-        }, SPLASH_TIME_OUT);
+        }, SPLASH_TIME_OUT);*/
 
     }
 
@@ -175,6 +179,28 @@ public class SplashScreen extends AppCompatActivity {
         protected void onPostExecute(String response) {
 
         }
+    }
+
+    public interface OnUserLoadingCompleted {
+        void onUserLoadingCompleted();
+    }
+
+    class LoadUser extends AsyncTask<String, Void, Void> {
+        private OnUserLoadingCompleted listener;
+
+        public LoadUser(OnUserLoadingCompleted listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+            user = new DynamoDBManager(SplashScreen.this).getUser(params[0]);
+            listener.onUserLoadingCompleted();
+
+            return null;
+        }
+
     }
 
 }

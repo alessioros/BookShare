@@ -50,6 +50,15 @@
     <string name="library_title">Library</string>
     <string name="firsttab_name">My Books</string>
     <string name="secondtab_name">Borrowed</string>
+    <string name="book_pages">pages</string>
+
+    <string name="error_add">Error on adding the book, try again</string>
+    <string name="error_ask">Error on asking the book, try again</string>
+    <string name="error_delete">Error on deleting the book, try again</string>
+
+    <string name="success_add">Book succesfully added!</string>
+    <string name="success_delete">Book succesfully deleted!</string>
+
 
     <string name="nobooks_inserted">No books yet</string>
     <string name="nobooks_received">No books yet</string>

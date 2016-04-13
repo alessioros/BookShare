@@ -92,7 +92,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             fromSet = getIntent().getExtras().getString("from_settings", null);
 
         } catch (NullPointerException e) {
-            e.printStackTrace();
         }
 
         askLocation = (TextView) findViewById(R.id.ask_location);

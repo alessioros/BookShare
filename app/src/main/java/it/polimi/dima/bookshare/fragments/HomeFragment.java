@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +12,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
+import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
+import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 
 public class HomeFragment extends Fragment {
 
@@ -43,8 +49,8 @@ public class HomeFragment extends Fragment {
         CircularImageView userImage = (CircularImageView) view.findViewById(R.id.user_image);
         TextView userName = (TextView) view.findViewById(R.id.user_name);
         TextView userLocation = (TextView) view.findViewById(R.id.user_location);
-        TextView userBooks = (TextView) view.findViewById(R.id.user_books);
         TextView userCredits = (TextView) view.findViewById(R.id.user_credits);
+        TextView userBooks = (TextView) view.findViewById(R.id.user_books);
 
         Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
 
@@ -65,7 +71,13 @@ public class HomeFragment extends Fragment {
 
             userLocation.setText(user.getCity() + ", " + user.getCountry());
 
-            userBooks.setText(new ManageUser(getActivity()).getBooksCount() + "");
+            new LoadBookCount(new OnBookCountCompleted() {
+                @Override
+                public void onBookCountCompleted(int count) {
+
+                    refreshTextView(count);
+                }
+            }).execute(user.getUserID());
 
             userCredits.setText(user.getCredits() + "");
 
@@ -74,5 +86,45 @@ public class HomeFragment extends Fragment {
         }
 
         return view;
+    }
+
+    public interface OnBookCountCompleted {
+        void onBookCountCompleted(int count);
+    }
+
+
+    class LoadBookCount extends AsyncTask<String, Integer, Integer> {
+        private OnBookCountCompleted listener;
+
+        public LoadBookCount(OnBookCountCompleted listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+
+            DynamoDBManager DDBM = new DynamoDBManager(getActivity());
+            int booksCount = DDBM.getBooksCount(params[0]);
+            listener.onBookCountCompleted(booksCount);
+
+            return booksCount;
+        }
+
+    }
+
+    public void refreshTextView(int booksCount) {
+
+        final int count = booksCount;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                TextView userBooks = (TextView) getActivity().findViewById(R.id.user_books);
+                userBooks.setText(count + "");
+
+            }
+        });
+
+
     }
 }

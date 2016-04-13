@@ -22,6 +22,7 @@ import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.utils.ManageUser;
 import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 
 public class ReceivedBooksFragment extends Fragment {
@@ -119,7 +120,7 @@ public class ReceivedBooksFragment extends Fragment {
         protected ArrayList<Book> doInBackground(Void... params) {
 
             DynamoDBManager DDBM = new DynamoDBManager(getActivity());
-            ArrayList<Book> mBooks = DDBM.getReceivedBooks(Profile.getCurrentProfile().getId());
+            ArrayList<Book> mBooks = DDBM.getReceivedBooks(new ManageUser(getActivity()).getUser().getUserID());
 
             return mBooks;
         }

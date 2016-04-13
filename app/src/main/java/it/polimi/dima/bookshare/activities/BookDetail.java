@@ -80,13 +80,13 @@ public class BookDetail extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
 
-            book = (Book) i.getParcelableExtra("book");
+            book = i.getParcelableExtra("book");
             bookDescription.setText(book.getDescription());
             bookAuthor.setText(book.getAuthor());
 
             if (book.getPageCount() != 0) {
 
-                bookPageCount.setText(book.getPageCount() + " pages");
+                bookPageCount.setText(book.getPageCount() + " " + getResources().getString(R.string.book_pages));
             }
 
             bookTitle.setText(book.getTitle());
@@ -264,9 +264,8 @@ public class BookDetail extends AppCompatActivity {
                 try {
                     DynamoDBManager DDMB = new DynamoDBManager(BookDetail.this);
                     DDMB.deleteBook(book);
-                    manageUser.updateBooksCount(false);
 
-                    Toast.makeText(BookDetail.this, "book deleted succesfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BookDetail.this, getResources().getString(R.string.success_delete), Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(BookDetail.this, MainActivity.class);
 
@@ -275,7 +274,7 @@ public class BookDetail extends AppCompatActivity {
 
                 } catch (Exception e) {
 
-                    Toast.makeText(BookDetail.this, "Error, action failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BookDetail.this, getResources().getString(R.string.error_delete), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
@@ -296,17 +295,17 @@ public class BookDetail extends AppCompatActivity {
     private void addBook() {
 
         book.setOwnerID(manageUser.getUser().getUserID());
+        book.setReceiverID("");
 
         try {
 
             // add book to DynamoDB
             new DynamoDBManagerTask(BookDetail.this, book).execute(DynamoDBManagerType.INSERT_BOOK);
-            manageUser.updateBooksCount(true);
-
+            Toast.makeText(BookDetail.this, getResources().getString(R.string.success_add), Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
 
-            Toast.makeText(BookDetail.this, "Error on adding the book, try again", Toast.LENGTH_SHORT);
+            Toast.makeText(BookDetail.this, getResources().getString(R.string.error_add), Toast.LENGTH_SHORT);
 
         }
 
@@ -342,7 +341,7 @@ public class BookDetail extends AppCompatActivity {
             new DynamoDBManagerTask(BookDetail.this, bookRequest).execute(DynamoDBManagerType.INSERT_BOOKREQUEST);
 
         } catch (Exception e) {
-            Toast.makeText(BookDetail.this, "Error on asking the book, try again", Toast.LENGTH_SHORT);
+            Toast.makeText(BookDetail.this, getResources().getString(R.string.error_ask), Toast.LENGTH_SHORT);
         }
 
 
