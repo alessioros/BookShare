@@ -295,7 +295,7 @@ public class BookDetail extends AppCompatActivity {
     private void addBook() {
 
         book.setOwnerID(manageUser.getUser().getUserID());
-        book.setReceiverID("");
+        //book.setReceiverID("0000000000000000");
 
         try {
 

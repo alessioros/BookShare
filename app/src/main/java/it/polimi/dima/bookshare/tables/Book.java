@@ -108,7 +108,7 @@ public class Book implements Parcelable{
         this.publishedDate = publishedDate;
     }
 
-    @DynamoDBRangeKey(attributeName = "receiverID")
+    @DynamoDBAttribute(attributeName = "receiverID")
     public String getReceiverID() {
         return receiverID;
     }
