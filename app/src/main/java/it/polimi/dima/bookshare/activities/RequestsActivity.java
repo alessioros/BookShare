@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,16 @@ public class RequestsActivity extends AppCompatActivity {
         searchResults=new DynamoDBManager(this).getBookRequest(PreferenceManager.getDefaultSharedPreferences(this).getString("ID",null));
         recyclerView.setAdapter(new RequestsAdapter(searchResults, this));
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
