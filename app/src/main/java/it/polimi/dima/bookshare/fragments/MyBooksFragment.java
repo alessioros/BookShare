@@ -44,6 +44,8 @@ import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 
 public class MyBooksFragment extends Fragment {
 
+    private String GOOGLE_API = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
+
     public MyBooksFragment() {
 
     }
@@ -74,7 +76,7 @@ public class MyBooksFragment extends Fragment {
 
                 FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(MyBooksFragment.this);
                 scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
-                scanIntegrator.setPrompt("Scan an ISBN");
+                scanIntegrator.setPrompt(getResources().getString(R.string.scan_isbn));
                 scanIntegrator.initiateScan();
             }
         });
@@ -94,7 +96,7 @@ public class MyBooksFragment extends Fragment {
             Toast toast = Toast.makeText(getActivity(), "ISBN " + scanContent + " founded", Toast.LENGTH_SHORT);
             toast.show();
 
-            String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + scanContent;
+            String url = GOOGLE_API + scanContent;
 
             final JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
@@ -243,30 +245,30 @@ public class MyBooksFragment extends Fragment {
 
     public void loadRecyclerView(ArrayList<Book> mBooks) {
 
-        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.book_list);
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-
-        recyclerView.setLayoutManager(gridLayoutManager);
-
         TextView noBooks = (TextView) getActivity().findViewById(R.id.nobooks_text);
-
-        Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
-
-        noBooks.setTypeface(aller);
 
         if (mBooks.isEmpty()) {
 
             noBooks.setVisibility(View.VISIBLE);
+
+            Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
+
+            noBooks.setTypeface(aller);
+
             noBooks.setText(getResources().getString(R.string.nobooks_inserted));
 
         } else {
 
             noBooks.setVisibility(View.GONE);
+
+            RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.book_list);
+
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+
+            recyclerView.setLayoutManager(gridLayoutManager);
+
+            recyclerView.setAdapter(new LibraryAdapter(mBooks, getActivity()));
         }
-
-        recyclerView.setAdapter(new LibraryAdapter(mBooks, getActivity()));
-
 
     }
 

@@ -80,30 +80,31 @@ public class ReceivedBooksFragment extends Fragment {
 
     public void loadRecyclerView(ArrayList<Book> mBooks) {
 
-        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.recbook_list);
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-
-        recyclerView.setLayoutManager(gridLayoutManager);
 
         TextView noBooks = (TextView) getActivity().findViewById(R.id.recnobooks_text);
-
-        Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
-
-        noBooks.setTypeface(aller);
 
         if (mBooks.isEmpty()) {
 
             noBooks.setVisibility(View.VISIBLE);
+
+            Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
+
+            noBooks.setTypeface(aller);
+
             noBooks.setText(getResources().getString(R.string.nobooks_received));
 
         } else {
 
             noBooks.setVisibility(View.GONE);
+
+            RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.recbook_list);
+
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+
+            recyclerView.setLayoutManager(gridLayoutManager);
+
+            recyclerView.setAdapter(new LibraryAdapter(mBooks, getActivity()));
         }
-
-        recyclerView.setAdapter(new LibraryAdapter(mBooks, getActivity()));
-
 
     }
 
