@@ -31,7 +31,8 @@
     </style>
 
     <style name="myDropDownItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
-        <item name="android:textColor">@color/secondary_text_default_material_light</item></style>
+        <item name="android:textColor">@color/secondary_text_default_material_light</item>
+    </style>
 
     <style name="NormalActionBar" parent="@style/Widget.AppCompat.Toolbar">
         <item name="android:background">@color/colorPrimary</item>
