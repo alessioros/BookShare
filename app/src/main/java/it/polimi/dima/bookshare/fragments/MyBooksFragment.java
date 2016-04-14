@@ -112,9 +112,7 @@ public class MyBooksFragment extends Fragment {
 
                     try {
 
-                        JSONArray jArray = response.getJSONArray("items");
-
-                        googleBook = new GoogleBooksFinder().findBook(jArray, googleBook);
+                        googleBook = new GoogleBooksFinder().findBook(response, googleBook);
 
                         Intent bookIntent = new Intent(getActivity(), BookDetail.class);
                         bookIntent.putExtra("book", googleBook);

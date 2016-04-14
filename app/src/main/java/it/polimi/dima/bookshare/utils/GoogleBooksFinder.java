@@ -13,9 +13,11 @@ public class GoogleBooksFinder {
     public GoogleBooksFinder() {
     }
 
-    public Book findBook(JSONArray jArray, Book book) {
+    public Book findBook(JSONObject response, Book book) {
 
         try {
+
+            JSONArray jArray = response.getJSONArray("items");
 
             JSONObject volumeInfo = jArray.getJSONObject(0).getJSONObject("volumeInfo");
 
