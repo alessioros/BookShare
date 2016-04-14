@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,8 +30,8 @@ import it.polimi.dima.bookshare.utils.ManageUser;
 public class GeneralSettingsFragment extends Fragment {
 
     private ManageUser manageUser;
-    private TextView userName, userSurname;
-    private RelativeLayout setUserName, setUserSurname;
+    private TextView userName, userSurname, email, phone;
+    private LinearLayout setUserName, setUserSurname, setEmail, setPhone;
 
     public GeneralSettingsFragment() {
 
@@ -62,16 +63,20 @@ public class GeneralSettingsFragment extends Fragment {
         manageUser = new ManageUser(getActivity());
 
         userName = (TextView) view.findViewById(R.id.set_username_text);
-
         userSurname = (TextView) view.findViewById(R.id.set_usersurname_text);
+        email = (TextView) view.findViewById(R.id.set_email_text);
+        phone = (TextView) view.findViewById(R.id.set_phone_text);
 
-        setUserName = (RelativeLayout) view.findViewById(R.id.set_username);
+        setUserName = (LinearLayout) view.findViewById(R.id.set_username);
+        setUserSurname = (LinearLayout) view.findViewById(R.id.set_usersurname);
+        setEmail = (LinearLayout) view.findViewById(R.id.set_email);
+        setPhone = (LinearLayout) view.findViewById(R.id.set_phone);
 
-        setUserSurname = (RelativeLayout) view.findViewById(R.id.set_usersurname);
-
-        userName.setText(manageUser.getUser().getName());
-
-        userSurname.setText(manageUser.getUser().getSurname());
+        User user = manageUser.getUser();
+        userName.setText(user.getName());
+        userSurname.setText(user.getSurname());
+        email.setText(user.getEmail());
+        phone.setText(user.getPhoneNumber());
 
         setUserName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +146,94 @@ public class GeneralSettingsFragment extends Fragment {
                             User user = manageUser.getUser();
 
                             user.setSurname(dialogEdit.getText().toString());
+
+                            new DynamoDBManager(getActivity()).insertUser(user);
+
+                            manageUser.saveUser(user);
+                        }
+
+                    }
+                });
+                builder.setNegativeButton(getResources().getString(R.string.alert_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
+        setEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(getResources().getString(R.string.change_email));
+
+                View promptsView = LayoutInflater.from(getActivity()).inflate(R.layout.custom_settings_dialog, null);
+                builder.setView(promptsView);
+
+                final EditText dialogEdit = (EditText) promptsView.findViewById(R.id.dialog_edittxt);
+
+                dialogEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+
+                builder.setPositiveButton(getResources().getString(R.string.alert_ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        if (!dialogEdit.getText().equals("")) {
+
+                            email.setText(dialogEdit.getText().toString());
+
+                            User user = manageUser.getUser();
+
+                            user.setEmail(dialogEdit.getText().toString());
+
+                            new DynamoDBManager(getActivity()).insertUser(user);
+
+                            manageUser.saveUser(user);
+                        }
+
+                    }
+                });
+                builder.setNegativeButton(getResources().getString(R.string.alert_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
+        setPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(getResources().getString(R.string.change_phone));
+
+                View promptsView = LayoutInflater.from(getActivity()).inflate(R.layout.custom_settings_dialog, null);
+                builder.setView(promptsView);
+
+                final EditText dialogEdit = (EditText) promptsView.findViewById(R.id.dialog_edittxt);
+
+                dialogEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+
+                builder.setPositiveButton(getResources().getString(R.string.alert_ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        if (!dialogEdit.getText().equals("")) {
+
+                            phone.setText(dialogEdit.getText().toString());
+
+                            User user = manageUser.getUser();
+
+                            user.setPhoneNumber(dialogEdit.getText().toString());
 
                             new DynamoDBManager(getActivity()).insertUser(user);
 

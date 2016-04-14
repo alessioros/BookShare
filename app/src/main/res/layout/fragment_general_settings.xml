@@ -1,83 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:id="@+id/content_frame"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_generalset"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:tag="general_settings">
 
     <RelativeLayout
-        android:tag="general_settings"
+        android:id="@+id/display_info"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/display_info_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dispinfo_marginleft"
+            android:layout_marginTop="@dimen/dispinfo_margintop"
+            android:text="@string/displayinfo_title"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/dispinfo_txtsize" />
+
+        <View
+            android:id="@+id/display_info_ruler"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/display_info_title"
+            android:layout_marginTop="@dimen/dispinfo_ruler_margintop"
+            android:background="@color/set_ruler_color" />
+
+        <LinearLayout
             android:id="@+id/set_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/settings_padding"
+            android:layout_below="@id/display_info_ruler"
+            android:orientation="horizontal"
             android:paddingBottom="@dimen/settings_padding"
-            android:paddingLeft="@dimen/settings_paddingleft">
+            android:paddingLeft="@dimen/settings_paddingleft"
+            android:paddingStart="@dimen/settings_paddingleft"
+            android:paddingTop="@dimen/settings_padding">
 
             <TextView
                 android:id="@+id/username_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/username_title"
-                android:textSize="@dimen/gen_title_txtsize"
-                android:textColor="@color/textPrimaryLight" />
+                android:textColor="@color/textPrimaryLight"
+                android:textSize="@dimen/gen_title_txtsize" />
 
             <TextView
                 android:id="@+id/set_username_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/subtitle_margintop"
-                android:paddingLeft="@dimen/subtitle_paddingleft"
-                android:layout_below="@+id/username_title"
+                android:layout_marginLeft="@dimen/subtitle_marginleft"
+                android:layout_marginStart="@dimen/subtitle_marginleft"
                 android:textColor="@color/textSecondary"
                 android:textSize="@dimen/gen_text_txtsize" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <View
             android:id="@+id/name_ruler"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/set_ruler_color"
-            android:layout_below="@id/set_username" />
+            android:layout_below="@id/set_username"
+            android:background="@color/set_ruler_color" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/set_usersurname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/settings_padding"
+            android:layout_below="@+id/name_ruler"
+            android:orientation="horizontal"
             android:paddingBottom="@dimen/settings_padding"
             android:paddingLeft="@dimen/settings_paddingleft"
-            android:layout_below="@+id/set_username">
+            android:paddingStart="@dimen/settings_paddingleft"
+            android:paddingTop="@dimen/settings_padding">
 
             <TextView
                 android:id="@+id/usersurname_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/usersurname_title"
-                android:textSize="@dimen/gen_title_txtsize"
-                android:textColor="@color/textPrimaryLight" />
+                android:textColor="@color/textPrimaryLight"
+                android:textSize="@dimen/gen_title_txtsize" />
 
             <TextView
                 android:id="@+id/set_usersurname_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/subtitle_margintop"
-                android:paddingLeft="@dimen/subtitle_paddingleft"
-                android:layout_below="@+id/usersurname_title"
+                android:layout_marginLeft="@dimen/subtitle_marginleft"
+                android:layout_marginStart="@dimen/subtitle_marginleft"
                 android:textColor="@color/textSecondary"
                 android:textSize="@dimen/gen_text_txtsize" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/set_ruler_color"
-            android:layout_below="@id/set_usersurname" />
+            android:layout_below="@id/set_usersurname"
+            android:background="@color/set_ruler_color" />
 
     </RelativeLayout>
-</FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/contact_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/display_info"
+        android:layout_marginTop="@dimen/contact_info_margintop">
+
+        <TextView
+            android:id="@+id/contact_info_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dispinfo_marginleft"
+            android:layout_marginTop="@dimen/dispinfo_margintop"
+            android:text="@string/contactinfo_title"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/dispinfo_txtsize" />
+
+        <View
+            android:id="@+id/contact_info_ruler"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/contact_info_title"
+            android:layout_marginTop="@dimen/dispinfo_ruler_margintop"
+            android:background="@color/set_ruler_color" />
+
+        <LinearLayout
+            android:id="@+id/set_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contact_info_ruler"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/settings_padding"
+            android:paddingLeft="@dimen/settings_paddingleft"
+            android:paddingStart="@dimen/settings_paddingleft"
+            android:paddingTop="@dimen/settings_padding">
+
+            <TextView
+                android:id="@+id/email_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email_title"
+                android:textColor="@color/textPrimaryLight"
+                android:textSize="@dimen/gen_title_txtsize" />
+
+            <TextView
+                android:id="@+id/set_email_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/subtitle_marginleft"
+                android:layout_marginStart="@dimen/subtitle_marginleft"
+                android:textColor="@color/textSecondary"
+                android:textSize="@dimen/contactinfo_txtsize" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/email_ruler"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/set_email"
+            android:background="@color/set_ruler_color" />
+
+        <LinearLayout
+            android:id="@+id/set_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/email_ruler"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/settings_padding"
+            android:paddingLeft="@dimen/settings_paddingleft"
+            android:paddingStart="@dimen/settings_paddingleft"
+            android:paddingTop="@dimen/settings_padding">
+
+            <TextView
+                android:id="@+id/phone_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/phone_title"
+                android:textColor="@color/textPrimaryLight"
+                android:textSize="@dimen/gen_title_txtsize" />
+
+            <TextView
+                android:id="@+id/set_phone_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/subtitle_marginleft"
+                android:layout_marginStart="@dimen/subtitle_marginleft"
+                android:textColor="@color/textSecondary"
+                android:textSize="@dimen/contactinfo_txtsize" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/set_phone"
+            android:background="@color/set_ruler_color" />
+
+    </RelativeLayout>
+</RelativeLayout>

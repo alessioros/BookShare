@@ -142,21 +142,33 @@
     <dimen name="appbar_padding_top">8dp</dimen>
 
     <!-- SETTINGS FRAGMENT -->
+
     <dimen name="settings_padding">15dp</dimen>
-    <dimen name="settings_paddingleft">30dp</dimen>
+    <dimen name="settings_paddingleft">25dp</dimen>
+
     <dimen name="settings_txtsize">18sp</dimen>
     <dimen name="settings_iconsize">30dp</dimen>
+
     <dimen name="settings_general_iconsize">30dp</dimen>
+
     <dimen name="settings_icon_marginleft">30dp</dimen>
     <dimen name="settings_txt_marginleft">80dp</dimen>
 
     <dimen name="settings_locicon_width">22dp</dimen>
 
+    <dimen name="dispinfo_margintop">25dp</dimen>
+    <dimen name="dispinfo_marginleft">25dp</dimen>
+    <dimen name="dispinfo_txtsize">20sp</dimen>
+
+    <dimen name="dispinfo_ruler_margintop">20dp</dimen>
+
     <dimen name="gen_title_txtsize">18sp</dimen>
     <dimen name="gen_text_txtsize">20sp</dimen>
-    <dimen name="subtitle_margintop">8dp</dimen>
-    <dimen name="subtitle_paddingleft">0dp</dimen>
+    <dimen name="contactinfo_txtsize">18sp</dimen>
 
+    <dimen name="subtitle_marginleft">15dp</dimen>
+
+    <dimen name="contact_info_margintop">20dp</dimen>
     <dimen name="alert_margin">15dp</dimen>
 
 </resources>
