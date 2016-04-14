@@ -47,6 +47,10 @@
     <!-- LIBRARY ACTIVITY -->
 
     <string name="scan_isbn">Scan a ISBN</string>
+    <string name="no_scandata">No book scan data received!</string>
+    <string name="founded">founded</string>
+
+    <string name="googlebooks_error">Sorry, no book found on Google Books</string>
     <string name="library_title">Library</string>
     <string name="firsttab_name">My Books</string>
     <string name="secondtab_name">Borrowed</string>

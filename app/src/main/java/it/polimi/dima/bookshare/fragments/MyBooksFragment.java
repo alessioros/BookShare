@@ -40,12 +40,14 @@ import it.polimi.dima.bookshare.activities.VerticalOrientationCA;
 import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.utils.GoogleBooksFinder;
 import it.polimi.dima.bookshare.utils.ManageUser;
 import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 
 public class MyBooksFragment extends Fragment {
 
     private String GOOGLE_API = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
+    private Book googleBook;
 
     public MyBooksFragment() {
 
@@ -94,8 +96,10 @@ public class MyBooksFragment extends Fragment {
             //get content from Intent Result
             final String scanContent = scanningResult.getContents();
 
-            Toast toast = Toast.makeText(getActivity(), "ISBN " + scanContent + " founded", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getActivity(), "ISBN " + scanContent + " " + getResources().getString(R.string.founded), Toast.LENGTH_SHORT);
             toast.show();
+
+            googleBook = new Book();
 
             String url = GOOGLE_API + scanContent;
 
@@ -104,102 +108,34 @@ public class MyBooksFragment extends Fragment {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    Intent bookIntent = new Intent(getActivity(), BookDetail.class);
-                    Book book = new Book();
-                    book.setIsbn(scanContent);
+                    googleBook.setIsbn(scanContent);
 
                     try {
 
-
                         JSONArray jArray = response.getJSONArray("items");
 
-                        for (int i = 0; i < jArray.length(); i++) {
+                        googleBook = new GoogleBooksFinder().findBook(jArray, googleBook);
 
-                            JSONObject volumeInfo = jArray.getJSONObject(i).getJSONObject("volumeInfo");
-
-                            // ----- BOOK COVER -----
-                            try {
-                                JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
-
-                                book.setImgURL(imageLinks.getString("thumbnail"));
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            // ----- TITLE -----
-                            try {
-
-                                book.setTitle(URLDecoder.decode(volumeInfo.getString("title"), "UTF-8"));
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                            // ----- PAGE COUNT -----
-                            try {
-                                book.setPageCount(Integer.parseInt(volumeInfo.getString("pageCount")));
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            // ----- AUTHORS -----
-                            try {
-                                JSONArray authors = volumeInfo.getJSONArray("authors");
-
-                                for (int j = 0; j < authors.length(); j++) {
-
-                                    book.setAuthor(URLDecoder.decode(authors.getString(i), "UTF-8"));
-                                }
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                            // ----- PUBLISHER -----
-                            try {
-                                book.setPublisher(URLDecoder.decode(volumeInfo.getString("publisher"), "UTF-8"));
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                            // ----- PUBLISHED DATE -----
-                            try {
-                                book.setPublishedDate(volumeInfo.getString("publishedDate"));
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            // ----- DESCRIPTION -----
-                            try {
-                                book.setDescription(URLDecoder.decode(volumeInfo.getString("description"), "UTF-8"));
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-
-                        }
-                        bookIntent.putExtra("book", book);
+                        Intent bookIntent = new Intent(getActivity(), BookDetail.class);
+                        bookIntent.putExtra("book", googleBook);
                         bookIntent.putExtra("button", "add");
                         getActivity().startActivity(bookIntent);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Toast toast = Toast.makeText(getActivity(),
-                                "Sorry, no book founded on Google Books", Toast.LENGTH_SHORT);
+                    } catch (Exception e) {
+
+                        Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.googlebooks_error), Toast.LENGTH_SHORT);
                         toast.show();
                     }
-
                 }
+
             }, new Response.ErrorListener() {
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
+                    error.printStackTrace();
+                    Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.googlebooks_error), Toast.LENGTH_SHORT);
+                    toast.show();
 
                 }
             });
@@ -211,7 +147,7 @@ public class MyBooksFragment extends Fragment {
         } else {
             //invalid scan data or scan canceled
             Toast toast = Toast.makeText(getActivity(),
-                    "No book scan data received!", Toast.LENGTH_SHORT);
+                    getResources().getString(R.string.no_scandata), Toast.LENGTH_SHORT);
             toast.show();
         }
 
