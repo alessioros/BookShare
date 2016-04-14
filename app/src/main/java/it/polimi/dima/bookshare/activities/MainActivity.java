@@ -170,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }else if (id == R.id.requests) {
 
+            startActivity(new Intent(MainActivity.this, RequestsActivity.class));
+
         } else if (id == R.id.reviews) {
 
         } else if (id == R.id.settings) {

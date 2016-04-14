@@ -92,6 +92,6 @@
 
     <string name="remember_text">You can also change it later</string>
 
-    <string name="title_activity_requests">Requests</string>
+    <string name="title_activity_requests">Your Requests</string>
 
 </resources>

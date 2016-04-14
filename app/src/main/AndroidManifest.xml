@@ -178,7 +178,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.SettingsActivity"
             android:screenOrientation="portrait"
@@ -193,6 +192,10 @@
             android:name=".utils.MySuggestionProvider"
             android:authorities="it.polimi.dima.bookshare.utils.MySuggestionProvider" />
 
+        <activity
+            android:name=".activities.RequestsActivity"
+            android:label="@string/title_activity_requests"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

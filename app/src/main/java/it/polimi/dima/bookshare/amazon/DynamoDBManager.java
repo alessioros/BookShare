@@ -157,15 +157,14 @@ public class DynamoDBManager {
     /*
      * Retrieves all of the attribute/value pairs for the specified book.
      */
-    public static Book getBook(String ISBN) {
+    public static Book getBook(String ISBN,String ownerID) {
 
         AmazonDynamoDBClient ddb = clientManager
                 .ddb();
         DynamoDBMapper mapper = new DynamoDBMapper(ddb);
 
         try {
-            Book book = mapper.load(Book.class,
-                    ISBN);
+            Book book = mapper.load(Book.class, ISBN, ownerID);
 
             return book;
 
@@ -483,22 +482,60 @@ public class DynamoDBManager {
     /*
     Get all book requests of a user
      */
-    public static BookRequest getBookRequest(String askerID) {
+    public ArrayList<BookRequest> getBookRequest(String askerID) {
+
+        ArrayList<BookRequest> userRequests = new ArrayList<>();
 
         AmazonDynamoDBClient ddb = clientManager.ddb();
-        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
 
-        try {
-            BookRequest bookRequest = mapper.load(BookRequest.class, askerID);
+        // Create our map of values
+        Map keyConditions = new HashMap();
 
-            return bookRequest;
+        // Specify our key conditions (askerID == "AskerID")
+        Condition hashKeyCondition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ.toString())
+                .withAttributeValueList(new AttributeValue().withS(askerID));
+        keyConditions.put("AskerID", hashKeyCondition);
 
-        } catch (AmazonServiceException ex) {
-            clientManager.wipeCredentialsOnAuthError(ex);
-        }
+        Map lastEvaluatedKey = null;
+        do {
+            QueryRequest queryRequest = new QueryRequest()
+                    .withTableName(Constants.BOOKREQUEST_TABLE_NAME)
+                    .withKeyConditions(keyConditions)
+                    .withExclusiveStartKey(lastEvaluatedKey);
 
-        return null;
+            QueryResult queryResult = ddb.query(queryRequest);
+
+            for (Map item : queryResult.getItems()) {
+
+                BookRequest bookRequest=new BookRequest();
+
+                AttributeValue attribute = (AttributeValue) item.get("AskerID");
+                bookRequest.setAskerID(attribute.getS());
+
+                attribute=(AttributeValue) item.get("ReceiverID");
+                bookRequest.setReceiverID(attribute.getS());
+
+                attribute=(AttributeValue) item.get("BookISBN");
+                bookRequest.setBookISBN(attribute.getS());
+
+                attribute=(AttributeValue) item.get("ID");
+                bookRequest.setID(0);
+
+
+                userRequests.add(bookRequest);
+            }
+
+            // If the response lastEvaluatedKey has contents,
+            // that means there are more results
+            lastEvaluatedKey = queryResult.getLastEvaluatedKey();
+
+        } while (lastEvaluatedKey != null);
+
+        return userRequests;
     }
+
+
     public static Book mapAttributes(Map item) {
 
         Book book = new Book();
