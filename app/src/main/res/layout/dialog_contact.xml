@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:backgroundTint="@color/white">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/image_contact"
+        android:layout_width="@dimen/dialog_image_width"
+        android:layout_height="@dimen/dialog_image_height"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/dialog_margin_image" />
+
+    <TextView
+        android:id="@+id/name_contact"
+        android:layout_marginTop="@dimen/dialog_margin_image"
+        android:layout_toRightOf="@+id/image_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/location_contact"
+        android:layout_toRightOf="@id/image_contact"
+        android:layout_below="@id/name_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/ruler"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/searchruler_margintop"
+        android:layout_below="@+id/image_contact"
+        android:background="@color/black_overlay" />
+
+    <Button
+        android:id="@+id/cellphone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ruler"
+        android:padding="16dp"
+        android:drawableLeft="@drawable/ic_phone"
+        android:drawablePadding="@dimen/drawable_padding"
+        android:textAllCaps="false"
+        android:gravity="left"
+        style="?android:attr/borderlessButtonStyle" />
+
+    <Button
+        android:id="@+id/mail"
+        android:layout_below="@id/cellphone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:drawableLeft="@drawable/ic_mail"
+        android:drawablePadding="@dimen/drawable_padding"
+        style="?android:attr/borderlessButtonStyle"
+        android:gravity="left"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/fb_messenger"
+        android:layout_below="@id/mail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:drawableLeft="@drawable/ic_action_facebook"
+        android:drawablePadding="@dimen/drawable_padding"
+        android:textAllCaps="false"
+        android:gravity="left"
+        style="?android:attr/borderlessButtonStyle" />
+
+</RelativeLayout>

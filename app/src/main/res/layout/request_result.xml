@@ -91,6 +91,54 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/owner_info"
+            android:layout_marginTop="@dimen/margin_top_buttons">
+
+            <Button
+                android:id="@+id/refuse_request"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textSecondary"
+                android:text="@string/refuse_button"
+                style="?android:attr/borderlessButtonStyle"/>
+
+            <Button
+                android:id="@+id/accept_request"
+                android:layout_toRightOf="@id/refuse_request"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_between_buttons"
+                android:text="@string/accept_button"
+                android:textColor="@color/colorPrimaryExtraLight"
+                style="?android:attr/borderlessButtonStyle"/>
+
+            <TextView
+                android:id="@+id/info_request"
+                android:text="@string/info_pending"
+                android:layout_marginTop="@dimen/margin_top_info_request"
+                android:layout_marginLeft="@dimen/margin_info_request"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/contact_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contact_user"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin_info_request"
+                android:textColor="@color/colorPrimaryExtraLight"
+                style="?android:attr/borderlessButtonStyle"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

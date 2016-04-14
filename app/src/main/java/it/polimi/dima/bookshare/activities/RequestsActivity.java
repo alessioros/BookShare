@@ -34,7 +34,21 @@ public class RequestsActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        searchResults=new DynamoDBManager(this).getBookRequest(PreferenceManager.getDefaultSharedPreferences(this).getString("ID",null));
+        searchResults=new DynamoDBManager(this).getMyBookRequests();
+        searchResults.addAll(new DynamoDBManager(this).getReceivedRequests());
+        for(BookRequest bookRequest : searchResults){
+            if (bookRequest.getAskerID().equals(PreferenceManager.getDefaultSharedPreferences(this).getString("ID", null))) {
+
+                bookRequest.setUser(new DynamoDBManager(this).getUser(bookRequest.getReceiverID()));
+                bookRequest.setBook(new DynamoDBManager(this).getBook(bookRequest.getBookISBN(), bookRequest.getReceiverID()));
+
+            } else {
+
+                bookRequest.setUser(new DynamoDBManager(this).getUser(bookRequest.getAskerID()));
+                bookRequest.setBook(new DynamoDBManager(this).getBook(bookRequest.getBookISBN(), bookRequest.getAskerID()));
+
+            }
+        }
         recyclerView.setAdapter(new RequestsAdapter(searchResults, this));
 
     }

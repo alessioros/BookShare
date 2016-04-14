@@ -88,8 +88,12 @@
     <string name="loading_library">loading library..</string>
 
     <!-- REQUEST ACTIVITY -->
-    <string name="firsttab_req_name">My Requests</string>
-    <string name="secondtab_req_name">Requests received</string>
+    <string name="refuse_button">Refuse</string>
+    <string name="accept_button">Accept</string>
+    <string name="info_pending">Pending</string>
+    <string name="info_accepted">Accepted</string>
+    <string name="contact_user">Contact</string>
+    <string name="send_fb_message">Send a FB message</string>
 
     <!-- MAP ACTIVITY -->
     <string name="toolbar_verify">Verify location</string>

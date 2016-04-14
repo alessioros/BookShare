@@ -1,5 +1,8 @@
 package it.polimi.dima.bookshare.tables;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribute;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRangeKey;
@@ -8,7 +11,7 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 import it.polimi.dima.bookshare.amazon.Constants;
 
 @DynamoDBTable(tableName = Constants.USER_TABLE_NAME)
-public class User{
+public class User implements Parcelable {
     private String userID;
     private String name;
     private String surname;
@@ -132,4 +135,52 @@ public class User{
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.userID);
+        dest.writeString(this.name);
+        dest.writeString(this.surname);
+        dest.writeString(this.city);
+        dest.writeString(this.country);
+        dest.writeDouble(this.latitude);
+        dest.writeDouble(this.longitude);
+        dest.writeString(this.imgURL);
+        dest.writeInt(this.credits);
+        dest.writeString(this.arn);
+        dest.writeString(this.email);
+        dest.writeString(this.phoneNumber);
+    }
+
+    protected User(Parcel in) {
+        this.userID = in.readString();
+        this.name = in.readString();
+        this.surname = in.readString();
+        this.city = in.readString();
+        this.country = in.readString();
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
+        this.imgURL = in.readString();
+        this.credits = in.readInt();
+        this.arn = in.readString();
+        this.email = in.readString();
+        this.phoneNumber = in.readString();
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }
