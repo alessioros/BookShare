@@ -81,6 +81,13 @@ public class SplashScreen extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
 
+                                        try {
+                                            user.setEmail(response.getJSONObject().get("email").toString());
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
                                         Geocoder geocoder = new Geocoder(SplashScreen.this, Locale.ITALY);
 
                                         try {
@@ -117,7 +124,7 @@ public class SplashScreen extends AppCompatActivity {
                                 });
 
                         Bundle parameters = new Bundle();
-                        parameters.putString("fields", "location");
+                        parameters.putString("fields", "location,email");
                         request.setParameters(parameters);
                         request.executeAsync();
 
