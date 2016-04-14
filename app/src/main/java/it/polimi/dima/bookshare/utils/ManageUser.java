@@ -28,6 +28,8 @@ public class ManageUser {
         sp.edit().putString("user_img", user.getImgURL()).apply();
         sp.edit().putInt("user_credits", user.getCredits()).apply();
         sp.edit().putString("user_arn", user.getArn()).apply();
+        sp.edit().putString("user_email", user.getEmail()).apply();
+        sp.edit().putString("user_phone", user.getPhoneNumber()).apply();
     }
 
     public User getUser() {
@@ -50,6 +52,8 @@ public class ManageUser {
             user.setImgURL(sp.getString("user_img", null));
             user.setCredits(sp.getInt("user_credits", 0));
             user.setArn(sp.getString("user_arn",null));
+            user.setEmail(sp.getString("user_email", null));
+            user.setPhoneNumber(sp.getString("user_phone", null));
 
         } catch (NullPointerException e) {
             return null;

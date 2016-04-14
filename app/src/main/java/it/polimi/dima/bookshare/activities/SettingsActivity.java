@@ -26,6 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getResources().getString(R.string.settings_title));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        final RelativeLayout settingsHeaders = (RelativeLayout) findViewById(R.id.settings_activity);
         RelativeLayout generalHeader = (RelativeLayout) findViewById(R.id.settings_general);
         RelativeLayout locationHeader = (RelativeLayout) findViewById(R.id.settings_location);
 
@@ -33,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                settingsHeaders.setVisibility(View.GONE);
                 Fragment fragment = GeneralSettingsFragment.newInstance();
 
                 getFragmentManager().beginTransaction()
@@ -63,6 +65,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
 
             if (getFragmentManager().findFragmentByTag("general_settings") != null) {
+
                 getFragmentManager().popBackStackImmediate("general_settings", 0);
             } else {
                 startActivity(new Intent(SettingsActivity.this, MainActivity.class));

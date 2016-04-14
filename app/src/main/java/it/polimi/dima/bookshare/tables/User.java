@@ -19,6 +19,8 @@ public class User{
     private String imgURL;
     private int credits;
     private String arn;
+    private String email;
+    private String phoneNumber;
 
     public User() {
     }
@@ -111,5 +113,23 @@ public class User{
 
     public void setArn(String arn) {
         this.arn = arn;
+    }
+
+    @DynamoDBAttribute(attributeName = "Email")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @DynamoDBAttribute(attributeName = "Phone")
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

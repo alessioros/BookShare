@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/content_frame"
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,84 +7,97 @@
     tools:context=".activities.SettingsActivity">
 
     <RelativeLayout
-        android:id="@+id/settings_general"
+        android:id="@+id/settings_activity"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/settings_padding"
-        android:paddingBottom="@dimen/settings_padding">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/setgen_icon"
-            android:layout_width="@dimen/settings_general_iconsize"
-            android:layout_height="@dimen/settings_general_iconsize"
-            android:background="@drawable/colored_settings"
-            android:layout_marginStart="@dimen/settings_icon_marginleft"
-            android:layout_marginLeft="@dimen/settings_icon_marginleft"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true" />
-
-        <TextView
-            android:id="@+id/loc_set_text"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/settings_general"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/settings_txt_marginleft"
-            android:layout_marginLeft="@dimen/settings_txt_marginleft"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/pref_header_general"
-            android:textColor="@color/textPrimaryLight"
-            android:textSize="@dimen/settings_txtsize" />
+            android:paddingTop="@dimen/settings_padding"
+            android:paddingBottom="@dimen/settings_padding">
+
+            <ImageView
+                android:id="@+id/setgen_icon"
+                android:layout_width="@dimen/settings_general_iconsize"
+                android:layout_height="@dimen/settings_general_iconsize"
+                android:background="@drawable/colored_settings"
+                android:layout_marginStart="@dimen/settings_icon_marginleft"
+                android:layout_marginLeft="@dimen/settings_icon_marginleft"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/loc_set_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/settings_txt_marginleft"
+                android:layout_marginLeft="@dimen/settings_txt_marginleft"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/pref_header_general"
+                android:textColor="@color/textPrimaryLight"
+                android:textSize="@dimen/settings_txtsize" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/general_ruler"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/set_ruler_color"
+            android:layout_below="@id/settings_general" />
+
+        <RelativeLayout
+            android:id="@+id/settings_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/settings_padding"
+            android:paddingBottom="@dimen/settings_padding"
+            android:layout_below="@+id/general_ruler">
+
+            <ImageView
+                android:id="@+id/setloc_icon"
+                android:layout_width="@dimen/settings_locicon_width"
+                android:layout_height="@dimen/settings_iconsize"
+                android:background="@drawable/ic_location_pin"
+                android:layout_marginStart="@dimen/settings_icon_marginleft"
+                android:layout_marginLeft="34dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/gen_set_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/settings_txt_marginleft"
+                android:layout_marginLeft="@dimen/settings_txt_marginleft"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/pref_header_location"
+                android:textColor="@color/textPrimaryLight"
+                android:textSize="@dimen/settings_txtsize" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/set_ruler_color"
+            android:layout_below="@id/settings_location" />
+
 
     </RelativeLayout>
 
-    <View
-        android:id="@+id/general_ruler"
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:tag="general_settings"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/set_ruler_color"
-        android:layout_below="@id/settings_general" />
+        android:layout_height="match_parent" />
 
-    <RelativeLayout
-        android:id="@+id/settings_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/settings_padding"
-        android:paddingBottom="@dimen/settings_padding"
-        android:layout_below="@+id/general_ruler">
-
-        <ImageView
-            android:id="@+id/setloc_icon"
-            android:layout_width="@dimen/settings_locicon_width"
-            android:layout_height="@dimen/settings_iconsize"
-            android:background="@drawable/ic_location_pin"
-            android:layout_marginStart="@dimen/settings_icon_marginleft"
-            android:layout_marginLeft="34dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true" />
-
-        <TextView
-            android:id="@+id/gen_set_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/settings_txt_marginleft"
-            android:layout_marginLeft="@dimen/settings_txt_marginleft"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/pref_header_location"
-            android:textColor="@color/textPrimaryLight"
-            android:textSize="@dimen/settings_txtsize" />
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/set_ruler_color"
-        android:layout_below="@id/settings_location" />
-
-
-</RelativeLayout>
+</FrameLayout>

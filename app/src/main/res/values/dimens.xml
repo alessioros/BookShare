@@ -143,6 +143,7 @@
 
     <!-- SETTINGS FRAGMENT -->
     <dimen name="settings_padding">15dp</dimen>
+    <dimen name="settings_paddingleft">30dp</dimen>
     <dimen name="settings_txtsize">18sp</dimen>
     <dimen name="settings_iconsize">30dp</dimen>
     <dimen name="settings_general_iconsize">30dp</dimen>
@@ -150,5 +151,12 @@
     <dimen name="settings_txt_marginleft">80dp</dimen>
 
     <dimen name="settings_locicon_width">22dp</dimen>
+
+    <dimen name="gen_title_txtsize">18sp</dimen>
+    <dimen name="gen_text_txtsize">20sp</dimen>
+    <dimen name="subtitle_margintop">8dp</dimen>
+    <dimen name="subtitle_paddingleft">0dp</dimen>
+
+    <dimen name="alert_margin">15dp</dimen>
 
 </resources>

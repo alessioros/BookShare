@@ -115,16 +115,21 @@ public class HomeFragment extends Fragment {
     public void refreshTextView(int booksCount) {
 
         final int count = booksCount;
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
 
-                TextView userBooks = (TextView) getActivity().findViewById(R.id.user_books);
-                userBooks.setText(count + "");
+        try {
 
-            }
-        });
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
 
+                    TextView userBooks = (TextView) getActivity().findViewById(R.id.user_books);
+                    userBooks.setText(count + "");
 
+                }
+            });
+
+        } catch (Exception e) {
+
+        }
     }
 }
