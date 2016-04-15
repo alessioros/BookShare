@@ -3,12 +3,14 @@ package it.polimi.dima.bookshare.utils;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -44,36 +46,68 @@ public class DialogContact extends DialogFragment {
         nameContact.setText(user.getName()+" "+user.getSurname());
         locationContact.setText(user.getCity()+", "+user.getCountry());
 
-        Button buttonCellphone=(Button) view.findViewById(R.id.cellphone);
-        Button buttonEmail=(Button) view.findViewById(R.id.mail);
-        Button buttonFB=(Button) view.findViewById(R.id.fb_messenger);
+        TextView textCellphone=(TextView) view.findViewById(R.id.textCellphone);
+        TextView textEmail=(TextView) view.findViewById(R.id.textMail);
+        TextView textFB=(TextView) view.findViewById(R.id.textFB);
+
+        LinearLayout cellPhone=(LinearLayout) view.findViewById(R.id.cellphone);
+        LinearLayout email=(LinearLayout) view.findViewById(R.id.mail);
+        LinearLayout FB=(LinearLayout) view.findViewById(R.id.fb_messenger);
 
 
-        buttonCellphone.setText(user.getPhoneNumber());
-        buttonCellphone.setOnClickListener(new View.OnClickListener() {
+        if(user.getPhoneNumber()!=null) {
+            textCellphone.setText(user.getPhoneNumber());
+            cellPhone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startPhone();
+                }
+            });
+        } else {
+            cellPhone.setVisibility(LinearLayout.GONE);
+        }
+
+        if(user.getEmail()!=null) {
+            textEmail.setText(user.getEmail());
+            email.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startEmail();
+                }
+            });
+        } else {
+            email.setVisibility(LinearLayout.GONE);
+        }
+
+        textFB.setText(R.string.send_fb_message);
+        FB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri number = Uri.parse("tel:"+user.getPhoneNumber());
-                Intent callIntent = new Intent(Intent.ACTION_VIEW, number);
-                startActivity(callIntent);
+                startFB();
             }
         });
-
-        buttonEmail.setText(user.getEmail());
-        buttonEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto",user.getEmail(), null));
-                startActivity(emailIntent);
-            }
-        });
-
-        buttonFB.setText(R.string.send_fb_message);
 
         builder.setView(view);
 
         // Create the AlertDialog object and return it
         return builder.create();
+    }
+
+    public void startPhone(){
+        Uri number = Uri.parse("tel:"+user.getPhoneNumber());
+        Intent callIntent = new Intent(Intent.ACTION_VIEW, number);
+        startActivity(callIntent);
+    }
+
+    public void startEmail(){
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto",user.getEmail(), null));
+        startActivity(emailIntent);
+    }
+
+    public void startFB(){
+        Uri uri = Uri.parse("fb://facewebmodal/f?href=https://www.facebook.com/" + user.getUserID());
+        Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+        startActivity(intent);
     }
 
 }

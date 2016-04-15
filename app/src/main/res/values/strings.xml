@@ -114,5 +114,7 @@
     <string name="remember_text">You can also change it later</string>
 
     <string name="title_activity_requests">Your Requests</string>
+    <string name="loading_requests">Loading your requests</string>
+    <string name="nobook_requests">No book requests yet</string>
 
 </resources>
