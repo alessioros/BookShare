@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relative_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/image_contact"
+            android:layout_width="@dimen/dialog_image_width"
+            android:layout_height="@dimen/dialog_image_height"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/dialog_margin_image"
+            app:civ_border="false"
+            app:civ_shadow="true"
+            app:civ_shadow_radius="4"
+            app:civ_shadow_color="@color/black_overlay" />
+
+        <TextView
+            android:id="@+id/name_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/TextAppearance.Holo.Medium"
+            android:layout_marginTop="@dimen/dialog_margin_image"
+            android:layout_toRightOf="@+id/image_contact" />
+
+        <TextView
+            android:id="@+id/location_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name_contact"
+            android:layout_toRightOf="@id/image_contact" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/ruler"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/relative_contact"
+        android:background="@color/black_overlay" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ruler"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/cellphone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dialog_icons"
+                android:layout_height="@dimen/dialog_icons"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dialog_extra_margin_icons"
+                android:layout_marginRight="@dimen/dialog_extra_margin_icons"
+                android:onClick="startPhone"
+                android:src="@drawable/ic_phone" />
+
+            <TextView
+                android:id="@+id/textCellphone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dialog_icons"
+                android:layout_height="@dimen/dialog_icons"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dialog_extra_margin_icons"
+                android:layout_marginRight="@dimen/dialog_extra_margin_icons"
+                android:src="@drawable/ic_mail" />
+
+            <TextView
+                android:id="@+id/textMail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fb_messenger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dialog_icon_messenger"
+                android:layout_height="@dimen/dialog_icon_messenger"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dialog_margin_icons"
+                android:layout_marginRight="@dimen/dialog_margin_icons"
+                android:onClick="startFB"
+                android:src="@drawable/messenger_button_white_bg_round" />
+
+            <TextView
+                android:id="@+id/textFB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="16dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

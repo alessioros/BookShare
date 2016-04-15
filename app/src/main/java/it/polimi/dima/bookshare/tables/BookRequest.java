@@ -16,6 +16,9 @@ public class BookRequest {
     private String askerID;
     private String receiverID;
     private String bookISBN;
+    private Boolean accepted;
+    private User user;
+    private Book book;
 
     public BookRequest(){}
 
@@ -53,5 +56,30 @@ public class BookRequest {
 
     public void setBookISBN(String bookISBN) {
         this.bookISBN = bookISBN;
+    }
+
+    @DynamoDBAttribute(attributeName = "Accepted")
+    public Boolean getAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        this.accepted = accepted;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
     }
 }

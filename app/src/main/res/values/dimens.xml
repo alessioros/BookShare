@@ -84,6 +84,22 @@
     <dimen name="card_ownerloc_txtsize">18sp</dimen>
     <dimen name="card_ownerloc_marginleft">10dp</dimen>
 
+    <!-- REQUESTS ACTIVITY -->
+    <dimen name="margin_top_buttons">30dp</dimen>
+    <dimen name="margin_between_buttons">40dp</dimen>
+    <dimen name="margin_info_request">30dp</dimen>
+    <dimen name="margin_top_info_request">15dp</dimen>
+
+    <!-- DIALOG -->
+    <dimen name="dialog_image_height">60dp</dimen>
+    <dimen name="dialog_image_width">60dp</dimen>
+    <dimen name="dialog_margin_image">20dp</dimen>
+    <dimen name="dialog_margin_icons">15dp</dimen>
+    <dimen name="dialog_icons">20dp</dimen>
+    <dimen name="dialog_extra_margin_icons">20dp</dimen>
+    <dimen name="dialog_icon_messenger">30dp</dimen>
+    <dimen name="drawable_padding">20dp</dimen>
+
     <!-- MAP ACTIVITY -->
     <dimen name="ask_loc_txtsize">18sp</dimen>
     <dimen name="ask_loc_margintop">80dp</dimen>

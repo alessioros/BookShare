@@ -480,9 +480,9 @@ public class DynamoDBManager {
     }
 
     /*
-    Get all book requests of a user
+    Get all book requested by you
      */
-    public ArrayList<BookRequest> getBookRequest(String askerID) {
+    public ArrayList<BookRequest> getMyBookRequests() {
 
         ArrayList<BookRequest> userRequests = new ArrayList<>();
 
@@ -494,7 +494,7 @@ public class DynamoDBManager {
         // Specify our key conditions (askerID == "AskerID")
         Condition hashKeyCondition = new Condition()
                 .withComparisonOperator(ComparisonOperator.EQ.toString())
-                .withAttributeValueList(new AttributeValue().withS(askerID));
+                .withAttributeValueList(new AttributeValue().withS(PreferenceManager.getDefaultSharedPreferences(context).getString("ID",null)));
         keyConditions.put("AskerID", hashKeyCondition);
 
         Map lastEvaluatedKey = null;
@@ -519,7 +519,6 @@ public class DynamoDBManager {
                 attribute=(AttributeValue) item.get("BookISBN");
                 bookRequest.setBookISBN(attribute.getS());
 
-                attribute=(AttributeValue) item.get("ID");
                 bookRequest.setID(0);
 
 
@@ -533,6 +532,81 @@ public class DynamoDBManager {
         } while (lastEvaluatedKey != null);
 
         return userRequests;
+    }
+
+    /*
+    Get all the bookRequests received by the user
+     */
+    public ArrayList<BookRequest> getReceivedRequests() {
+
+        ArrayList<BookRequest> userReceivedRequests = new ArrayList<>();
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+
+        // Create our map of values
+        Map keyConditions = new HashMap();
+
+        // Specify our key conditions (receiverId == "receiverID")
+        Condition hashKeyCondition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ.toString())
+                .withAttributeValueList(new AttributeValue().withS(PreferenceManager.getDefaultSharedPreferences(context).getString("ID",null)));
+        keyConditions.put("ReceiverID", hashKeyCondition);
+
+        Map lastEvaluatedKey = null;
+        do {
+            QueryRequest queryRequest = new QueryRequest()
+                    .withTableName(Constants.BOOKREQUEST_TABLE_NAME)
+                    .withKeyConditions(keyConditions)
+                    .withExclusiveStartKey(lastEvaluatedKey)
+                    .withIndexName("ReceiverID-index");
+
+            QueryResult queryResult = ddb.query(queryRequest);
+
+            for (Map item : queryResult.getItems()) {
+                BookRequest bookRequest=new BookRequest();
+
+                AttributeValue attribute = (AttributeValue) item.get("AskerID");
+                bookRequest.setAskerID(attribute.getS());
+
+                attribute=(AttributeValue) item.get("ReceiverID");
+                bookRequest.setReceiverID(attribute.getS());
+
+                attribute=(AttributeValue) item.get("BookISBN");
+                bookRequest.setBookISBN(attribute.getS());
+
+                attribute=(AttributeValue) item.get("ID");
+                bookRequest.setID(Integer.parseInt(attribute.getN()));
+
+                attribute=(AttributeValue) item.get("Accepted");
+                if(Integer.parseInt(attribute.getN())==1){
+                    bookRequest.setAccepted(true);
+                }else {
+                    bookRequest.setAccepted(false);
+                }
+
+                userReceivedRequests.add(bookRequest);
+            }
+
+            // If the response lastEvaluatedKey has contents,
+            // that means there are more results
+            lastEvaluatedKey = queryResult.getLastEvaluatedKey();
+
+        } while (lastEvaluatedKey != null);
+
+        return userReceivedRequests;
+    }
+
+    public void updateBookRequest(BookRequest bookRequest) {
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
+
+        try {
+            mapper.save(bookRequest);
+
+        } catch (AmazonServiceException ex) {
+            clientManager.wipeCredentialsOnAuthError(ex);
+        }
     }
 
 
