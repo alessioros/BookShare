@@ -177,7 +177,7 @@ public class GeneralSettingsFragment extends Fragment {
 
                 final EditText dialogEdit = (EditText) promptsView.findViewById(R.id.dialog_edittxt);
 
-                dialogEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+                dialogEdit.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
                 builder.setPositiveButton(getResources().getString(R.string.alert_ok), new DialogInterface.OnClickListener() {
                     @Override
@@ -221,7 +221,7 @@ public class GeneralSettingsFragment extends Fragment {
 
                 final EditText dialogEdit = (EditText) promptsView.findViewById(R.id.dialog_edittxt);
 
-                dialogEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+                dialogEdit.setInputType(InputType.TYPE_CLASS_PHONE);
 
                 builder.setPositiveButton(getResources().getString(R.string.alert_ok), new DialogInterface.OnClickListener() {
                     @Override
