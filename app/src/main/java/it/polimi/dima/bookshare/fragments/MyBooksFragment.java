@@ -40,14 +40,17 @@ import it.polimi.dima.bookshare.activities.VerticalOrientationCA;
 import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.utils.AmazonFinder;
 import it.polimi.dima.bookshare.utils.GoogleBooksFinder;
+import it.polimi.dima.bookshare.utils.LibraryThingFinder;
 import it.polimi.dima.bookshare.utils.ManageUser;
+import it.polimi.dima.bookshare.utils.MergeBookSources;
 import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 
 public class MyBooksFragment extends Fragment {
 
     private String GOOGLE_API = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
-    private Book googleBook;
+    private Book amazonBook, googleBook, LTBook;
 
     public MyBooksFragment() {
 
@@ -99,31 +102,79 @@ public class MyBooksFragment extends Fragment {
             Toast toast = Toast.makeText(getActivity(), "ISBN " + scanContent + " " + getResources().getString(R.string.founded), Toast.LENGTH_SHORT);
             toast.show();
 
-            googleBook = new Book();
+            final ProgressDialog progressDialog =
+                    ProgressDialog.show(getActivity(),
+                            getResources().getString(R.string.wait),
+                            getResources().getString(R.string.search_for_books), true, false);
 
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+            // Try to find book info on Amazon, Google Books and LibraryThings
+            amazonBook = new AmazonFinder().getBook(scanContent);
+            LTBook = new LibraryThingFinder(getActivity()).getBook(scanContent);
+            googleBook = new Book();
             String url = GOOGLE_API + scanContent;
 
+            /*if (LTBook != null) {
+
+                System.out.println("------ BOOK FOUNDED WITH LT ------");
+                System.out.println("------ ISBN = " + LTBook.getIsbn());
+                System.out.println("------ AUTHOR = " + LTBook.getAuthor());
+                System.out.println("------ TITLE = " + LTBook.getTitle());
+                System.out.println("------ DESCRIPTION = " + LTBook.getDescription());
+                System.out.println("------ PAGE COUNT = " + LTBook.getPageCount());
+                System.out.println("------ PUBLISHER = " + LTBook.getPublisher());
+                System.out.println("------ PUBLISHED DATE = " + LTBook.getPublishedDate());
+                System.out.println("------ IMG URL = " + LTBook.getImgURL());
+
+            } else {
+
+                System.out.println("!!!!-- NO BOOK FOUNDED WITH LT --!!!!");
+            }
+
+            if (amazonBook != null) {
+
+                System.out.println("------ BOOK FOUNDED WITH AMAZON ------");
+                System.out.println("------ ISBN = " + amazonBook.getIsbn());
+                System.out.println("------ AUTHOR = " + amazonBook.getAuthor());
+                System.out.println("------ TITLE = " + amazonBook.getTitle());
+                System.out.println("------ DESCRIPTION = " + amazonBook.getDescription());
+                System.out.println("------ PAGE COUNT = " + amazonBook.getPageCount());
+                System.out.println("------ PUBLISHER = " + amazonBook.getPublisher());
+                System.out.println("------ PUBLISHED DATE = " + amazonBook.getPublishedDate());
+                System.out.println("------ IMG URL = " + amazonBook.getImgURL());
+
+            } else {
+
+                System.out.println("!!!!-- NO BOOK FOUNDED WITH AMAZON --!!!!");
+            }*/
+
+            // Make AsyncRequest to Google Books
             final JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    googleBook.setIsbn(scanContent);
+                    googleBook = new GoogleBooksFinder().findBook(response, googleBook);
 
-                    try {
+                    //  Mix info from different sources
+                    //  Priority : Amazon -> Google -> LibraryThing
+                    Book book = new MergeBookSources().mergeBooks(amazonBook, googleBook, LTBook);
 
-                        googleBook = new GoogleBooksFinder().findBook(response, googleBook);
+                    progressDialog.dismiss();
+                    if (book != null) {
 
                         Intent bookIntent = new Intent(getActivity(), BookDetail.class);
-                        bookIntent.putExtra("book", googleBook);
+                        bookIntent.putExtra("book", book);
                         bookIntent.putExtra("button", "add");
                         getActivity().startActivity(bookIntent);
 
-                    } catch (Exception e) {
+                    } else {
 
-                        Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.googlebooks_error), Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.booksfinder_error), Toast.LENGTH_SHORT);
                         toast.show();
                     }
+
                 }
 
             }, new Response.ErrorListener() {
@@ -131,9 +182,22 @@ public class MyBooksFragment extends Fragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    error.printStackTrace();
-                    Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.googlebooks_error), Toast.LENGTH_SHORT);
-                    toast.show();
+                    //  Google failed mix info from different sources
+                    Book book = new MergeBookSources().mergeBooks(amazonBook, null, LTBook);
+
+                    progressDialog.dismiss();
+                    if (book != null) {
+
+                        Intent bookIntent = new Intent(getActivity(), BookDetail.class);
+                        bookIntent.putExtra("book", book);
+                        bookIntent.putExtra("button", "add");
+                        getActivity().startActivity(bookIntent);
+
+                    } else {
+
+                        Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.booksfinder_error), Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
 
                 }
             });

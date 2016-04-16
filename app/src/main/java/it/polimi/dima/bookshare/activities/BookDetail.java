@@ -102,15 +102,15 @@ public class BookDetail extends AppCompatActivity {
 
 
             try {
-                if (!book.getPublisher().equals(null) && !book.getPublishedDate().equals(null)) {
+                if (!book.getPublisher().equals("") && !book.getPublishedDate().equals("")) {
 
                     bookPublisher.setText(book.getPublisher() + " - " + book.getPublishedDate());
 
-                } else if (!book.getPublisher().equals(null)) {
+                } else if (!book.getPublisher().equals("")) {
 
                     bookPublisher.setText(book.getPublisher());
 
-                } else if (!book.getPublishedDate().equals(null)) {
+                } else if (!book.getPublishedDate().equals("")) {
 
                     bookPublisher.setText(book.getPublishedDate());
                 }

@@ -10,6 +10,23 @@ import it.polimi.dima.bookshare.tables.Book;
 
 public class GoogleBooksFinder {
 
+    private String UTF8 = "UTF-8";
+
+    private String KEY_ITEMS = "items";
+    private String KEY_VOLUME = "volumeInfo";
+    private String KEY_INDUSTRIAL_IDS = "industryIdentifiers";
+    private String KEY_TYPE = "type";
+    private String KEY_ISBN = "ISBN_13";
+    private String KEY_IDENTIFIER = "identifier";
+    private String KEY_IMAGES = "imageLinks";
+    private String KEY_IMG_URL = "thumbnail";
+    private String KEY_TITLE = "title";
+    private String KEY_AUTHORS = "authors";
+    private String KEY_PAGECOUNT = "pageCount";
+    private String KEY_PUBLISHER = "publisher";
+    private String KEY_PUBLISHED_DATE = "publishedDate";
+    private String KEY_DESCRIPTION = "description";
+
     public GoogleBooksFinder() {
     }
 
@@ -17,15 +34,30 @@ public class GoogleBooksFinder {
 
         try {
 
-            JSONArray jArray = response.getJSONArray("items");
+            JSONArray jArray = response.getJSONArray(KEY_ITEMS);
 
-            JSONObject volumeInfo = jArray.getJSONObject(0).getJSONObject("volumeInfo");
+            JSONObject volumeInfo = jArray.getJSONObject(0).getJSONObject(KEY_VOLUME);
+
+            // ----- ISBN -----
+            try {
+                JSONArray industrialIDs = volumeInfo.getJSONArray(KEY_INDUSTRIAL_IDS);
+
+                for (int i = 0; i < industrialIDs.length(); i++) {
+
+                    if (industrialIDs.getJSONObject(i).getString(KEY_TYPE).equals(KEY_ISBN)) {
+                        book.setIsbn(industrialIDs.getJSONObject(i).getString(KEY_IDENTIFIER));
+                    }
+                }
+
+            } catch (Exception e) {
+                return null;
+            }
 
             // ----- BOOK COVER -----
             try {
-                JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+                JSONObject imageLinks = volumeInfo.getJSONObject(KEY_IMAGES);
 
-                book.setImgURL(imageLinks.getString("thumbnail"));
+                book.setImgURL(imageLinks.getString(KEY_IMG_URL));
 
             } catch (JSONException e) {
             }
@@ -33,53 +65,55 @@ public class GoogleBooksFinder {
             // ----- TITLE -----
             try {
 
-                book.setTitle(URLDecoder.decode(volumeInfo.getString("title"), "UTF-8"));
+                book.setTitle(URLDecoder.decode(volumeInfo.getString(KEY_TITLE), UTF8));
 
             } catch (Exception e) {
             }
 
             // ----- PAGE COUNT -----
             try {
-                book.setPageCount(Integer.parseInt(volumeInfo.getString("pageCount")));
+                book.setPageCount(Integer.parseInt(volumeInfo.getString(KEY_PAGECOUNT)));
 
             } catch (JSONException e) {
             }
 
             // ----- AUTHORS -----
             try {
-                JSONArray authors = volumeInfo.getJSONArray("authors");
+                JSONArray authors = volumeInfo.getJSONArray(KEY_AUTHORS);
 
-                book.setAuthor(URLDecoder.decode(authors.getString(0), "UTF-8"));
+                book.setAuthor(URLDecoder.decode(authors.getString(0), UTF8));
 
             } catch (Exception e) {
             }
 
             // ----- PUBLISHER -----
             try {
-                book.setPublisher(URLDecoder.decode(volumeInfo.getString("publisher"), "UTF-8"));
+                book.setPublisher(URLDecoder.decode(volumeInfo.getString(KEY_PUBLISHER), UTF8));
 
             } catch (Exception e) {
+                book.setPublisher("");
             }
 
             // ----- PUBLISHED DATE -----
             try {
-                book.setPublishedDate(volumeInfo.getString("publishedDate"));
+                book.setPublishedDate(volumeInfo.getString(KEY_PUBLISHED_DATE));
 
-            } catch (JSONException e) {
+            } catch (Exception e) {
+                book.setPublishedDate("");
             }
 
             // ----- DESCRIPTION -----
             try {
-                book.setDescription(URLDecoder.decode(volumeInfo.getString("description"), "UTF-8"));
+                book.setDescription(URLDecoder.decode(volumeInfo.getString(KEY_DESCRIPTION), UTF8));
 
             } catch (Exception e) {
+                book.setDescription("");
             }
 
         } catch (JSONException e) {
 
             return null;
         }
-
 
         return book;
     }
