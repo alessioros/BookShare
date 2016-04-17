@@ -95,21 +95,28 @@ public class MyBooksFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //retrieve result of scanning - instantiate ZXing object
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        Toast toast;
+
         //check we have a valid result
         if (scanningResult != null) {
             //get content from Intent Result
             final String scanContent = scanningResult.getContents();
 
-            Toast toast = Toast.makeText(getActivity(), "ISBN " + scanContent + " " + getResources().getString(R.string.founded), Toast.LENGTH_SHORT);
-            toast.show();
 
-            // Book already added
-            if (myBookIDs.contains(scanContent)) {
+            if (scanContent == null) {
+
+                toast = Toast.makeText(getActivity(), getResources().getString(R.string.no_scandata), Toast.LENGTH_SHORT);
+                toast.show();
+
+            } else if (myBookIDs.contains(scanContent)) {
 
                 toast = Toast.makeText(getActivity(), getResources().getString(R.string.book_alr_added), Toast.LENGTH_SHORT);
                 toast.show();
 
             } else {
+
+                toast = Toast.makeText(getActivity(), "ISBN " + scanContent + " " + getResources().getString(R.string.founded), Toast.LENGTH_SHORT);
+                toast.show();
 
                 final ProgressDialog progressDialog =
                         ProgressDialog.show(getActivity(),
@@ -142,8 +149,7 @@ public class MyBooksFragment extends Fragment {
 
         } else {
             //invalid scan data or scan canceled
-            Toast toast = Toast.makeText(getActivity(),
-                    getResources().getString(R.string.no_scandata), Toast.LENGTH_SHORT);
+            toast = Toast.makeText(getActivity(), getResources().getString(R.string.no_scandata), Toast.LENGTH_SHORT);
             toast.show();
         }
 
