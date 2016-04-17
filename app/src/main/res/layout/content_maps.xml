@@ -21,8 +21,8 @@
         android:layout_marginTop="@dimen/hidden_butt_margintop"
         android:text="@string/change_loc_provide"
         android:layout_below="@id/ask_location"
-        android:background="@color/colorPrimaryLight"
-        android:textColor="@color/white"
+        android:background="@drawable/button_border"
+        android:textColor="@color/colorPrimary"
         android:layout_centerHorizontal="true" />
 
     <RelativeLayout
@@ -76,8 +76,8 @@
             android:id="@+id/find_location_button"
             android:layout_width="@dimen/loc_butt_width"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryLight"
-            android:textColor="@color/white"
+            android:background="@drawable/button_border"
+            android:textColor="@color/colorPrimary"
             android:padding="@dimen/loc_butt_padding" />
 
         <Button
@@ -85,8 +85,8 @@
             android:layout_width="@dimen/loc_butt_width"
             android:layout_height="wrap_content"
             android:padding="@dimen/loc_butt_padding"
-            android:background="@color/colorPrimaryLight"
-            android:textColor="@color/white"
+            android:background="@drawable/button_border"
+            android:textColor="@color/colorPrimary"
             android:layout_toEndOf="@id/find_location_button"
             android:layout_toRightOf="@id/find_location_button"
             android:layout_marginLeft="@dimen/confirm_butt_marginleft" />
