@@ -124,7 +124,6 @@ public class MergeBookSources {
                 book.setImgURL("https://www.islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg");
             }
 
-
         } else if (!amazon && google && !lt) {
 
             book.setIsbn(googleBook.getIsbn());
