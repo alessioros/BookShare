@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment {
         TextView userLocation = (TextView) view.findViewById(R.id.user_location);
         TextView userCredits = (TextView) view.findViewById(R.id.user_credits);
         TextView userBooks = (TextView) view.findViewById(R.id.user_books);
+        TextView userRecBooks = (TextView) view.findViewById(R.id.user_borr_books);
 
         Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
 
@@ -58,6 +59,7 @@ public class HomeFragment extends Fragment {
         userLocation.setTypeface(aller);
         userBooks.setTypeface(aller);
         userCredits.setTypeface(aller);
+        userRecBooks.setTypeface(aller);
 
         userImage.bringToFront();
 
@@ -73,9 +75,9 @@ public class HomeFragment extends Fragment {
 
             new LoadBookCount(new OnBookCountCompleted() {
                 @Override
-                public void onBookCountCompleted(int count) {
+                public void onBookCountCompleted(int count, int recCount) {
 
-                    refreshTextView(count);
+                    refreshTextView(count, recCount);
                 }
             }).execute(user.getUserID());
 
@@ -89,7 +91,7 @@ public class HomeFragment extends Fragment {
     }
 
     public interface OnBookCountCompleted {
-        void onBookCountCompleted(int count);
+        void onBookCountCompleted(int count, int recCount);
     }
 
 
@@ -105,16 +107,18 @@ public class HomeFragment extends Fragment {
 
             DynamoDBManager DDBM = new DynamoDBManager(getActivity());
             int booksCount = DDBM.getBooksCount(params[0]);
-            listener.onBookCountCompleted(booksCount);
+            int receivBooksCount = DDBM.getReceivedBooksCount(params[0]);
+            listener.onBookCountCompleted(booksCount, receivBooksCount);
 
             return booksCount;
         }
 
     }
 
-    public void refreshTextView(int booksCount) {
+    public void refreshTextView(int booksCount, int recBooksCount) {
 
         final int count = booksCount;
+        final int recCount = recBooksCount;
 
         try {
 
@@ -124,6 +128,9 @@ public class HomeFragment extends Fragment {
 
                     TextView userBooks = (TextView) getActivity().findViewById(R.id.user_books);
                     userBooks.setText(count + "");
+
+                    TextView userBorrBooks = (TextView) getActivity().findViewById(R.id.user_borr_books);
+                    userBorrBooks.setText(recCount + "");
 
                 }
             });

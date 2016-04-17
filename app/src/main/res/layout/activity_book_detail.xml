@@ -114,7 +114,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/ruler_margintop"
                     android:layout_below="@+id/book_pagecount"
-                    android:background="@color/black_overlay" />
+                    android:background="@color/book_ruler_color" />
 
                 <TextView
                     android:id="@+id/book_description"

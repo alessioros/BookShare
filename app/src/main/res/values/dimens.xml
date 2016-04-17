@@ -30,17 +30,17 @@
     <dimen name="nobook_txtsize">25dp</dimen>
     <dimen name="nobook_margintop">35dp</dimen>
     <!-- HOME FRAGMENT -->
-    <dimen name="profile_header_height">180dp</dimen>
-    <dimen name="profile_header_elev">7dp</dimen>
+    <dimen name="profile_header_height">170dp</dimen>
+    <dimen name="profile_header_elev">2dp</dimen>
 
     <dimen name="home_img_size">100dp</dimen>
-    <dimen name="home_img_margintop">115dp</dimen>
+    <dimen name="home_img_margintop">105dp</dimen>
     <dimen name="home_img_elev">8dp</dimen>
 
-    <dimen name="profile_info_paddingtop">50dp</dimen>
-    <dimen name="profile_info_paddingbottom">15dp</dimen>
+    <dimen name="profile_info_paddingtop">53dp</dimen>
+    <dimen name="profile_info_paddingbottom">20dp</dimen>
 
-    <dimen name="username_txtsize">20sp</dimen>
+    <dimen name="username_txtsize">22sp</dimen>
 
     <dimen name="locinfo_margintop">10dp</dimen>
 
@@ -51,7 +51,7 @@
     <dimen name="loctxt_txtsize">18sp</dimen>
 
     <dimen name="homeruler_margintop">30dp</dimen>
-    <dimen name="crediticon_size">30dp</dimen>
+    <dimen name="crediticon_size">28dp</dimen>
 
     <dimen name="userinfo_txtsize">20sp</dimen>
     <dimen name="userinfo_marginleft">7dp</dimen>
@@ -148,8 +148,8 @@
 
     <dimen name="description_margintop">10dp</dimen>
     <dimen name="description_txtsize">15sp</dimen>
-    <dimen name="description_maxheight">600dp</dimen>
-    <dimen name="description_padding">30dp</dimen>
+    <dimen name="description_maxheight">300dp</dimen>
+    <dimen name="description_padding">20dp</dimen>
 
     <dimen name="button_margintop">30dp</dimen>
     <dimen name="button_marginbottom">30dp</dimen>

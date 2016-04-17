@@ -314,6 +314,35 @@ public class DynamoDBManager {
         return userBooks;
     }
 
+    public static int getReceivedBooksCount(String receiverID) {
+
+        ArrayList<Book> userBooks = new ArrayList<>();
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+
+        // Create our map of values
+        Map keyConditions = new HashMap();
+
+        // Specify our key conditions (receiverId == "receiverID")
+        Condition hashKeyCondition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ.toString())
+                .withAttributeValueList(new AttributeValue().withS(receiverID));
+        keyConditions.put("receiverID", hashKeyCondition);
+
+        Map lastEvaluatedKey = null;
+
+        QueryRequest queryRequest = new QueryRequest()
+                .withTableName(Constants.BOOK_TABLE_NAME)
+                .withKeyConditions(keyConditions)
+                .withExclusiveStartKey(lastEvaluatedKey)
+                .withIndexName("receiverID-index");
+
+        QueryResult queryResult = ddb.query(queryRequest);
+
+        return queryResult.getCount();
+    }
+
+
     public static int getBooksCount(String ownerID) {
 
         AmazonDynamoDBClient ddb = clientManager.ddb();

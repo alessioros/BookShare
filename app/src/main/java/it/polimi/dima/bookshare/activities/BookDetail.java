@@ -81,7 +81,21 @@ public class BookDetail extends AppCompatActivity {
         if (extras != null) {
 
             book = i.getParcelableExtra("book");
-            bookDescription.setText(book.getDescription());
+
+            try {
+                if (book.getDescription().length() > 595) {
+
+                    bookDescription.setText(book.getDescription().substring(0, 595) + "..");
+
+                } else if (!book.getDescription().equals("")) {
+
+                    bookDescription.setText(book.getDescription());
+                }
+
+            } catch (NullPointerException e) {
+
+            }
+
             bookAuthor.setText(book.getAuthor());
 
             if (book.getPageCount() != 0) {

@@ -14,8 +14,8 @@
         android:id="@+id/profile_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/profile_header_height"
-        android:scaleType="fitXY"
-        android:background="@drawable/profile_header_other"
+        android:scaleType="centerCrop"
+        android:background="@drawable/book_covers"
         android:elevation="@dimen/profile_header_elev" />
 
     <com.mikhaellopez.circularimageview.CircularImageView
@@ -25,7 +25,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/home_img_margintop"
         app:civ_border_color="@color/white"
-        app:civ_border_width="3dp"
+        app:civ_border_width="2dp"
         app:civ_shadow="true"
         app:civ_shadow_radius="3"
         android:layout_centerHorizontal="true"
@@ -129,6 +129,28 @@
                 android:layout_marginLeft="@dimen/userinfo_marginleft"
                 android:layout_toEndOf="@id/user_books"
                 android:layout_toRightOf="@id/user_books"
+                android:layout_centerVertical="true"
+                android:elevation="@dimen/userinfo_elevation" />
+
+            <TextView
+                android:id="@+id/user_borr_books"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/userinfo_txtsize"
+                android:textColor="@color/textPrimaryLight"
+                android:layout_marginLeft="@dimen/bookicon_marginleft"
+                android:layout_toEndOf="@id/book_icon"
+                android:layout_toRightOf="@id/book_icon"
+                android:layout_centerVertical="true" />
+
+            <ImageView
+                android:id="@+id/borr_book_icon"
+                android:layout_width="@dimen/crediticon_size"
+                android:layout_height="@dimen/crediticon_size"
+                android:background="@drawable/borr_books"
+                android:layout_marginLeft="@dimen/userinfo_marginleft"
+                android:layout_toEndOf="@id/user_borr_books"
+                android:layout_toRightOf="@id/user_borr_books"
                 android:layout_centerVertical="true"
                 android:elevation="@dimen/userinfo_elevation" />
 
