@@ -1,5 +1,6 @@
 package it.polimi.dima.bookshare.activities;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -51,6 +52,8 @@ public class LibraryActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+
+            startActivity(new Intent(LibraryActivity.this, MainActivity.class));
             finish();
         }
 
