@@ -24,6 +24,7 @@ public class Book implements Parcelable{
     private String publisher;
     private String publishedDate;
     private String receiverID;
+    private User owner;
 
     public Book() {}
 
@@ -115,6 +116,14 @@ public class Book implements Parcelable{
 
     public void setReceiverID(String receiverID) {
         this.receiverID = receiverID;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     @Override

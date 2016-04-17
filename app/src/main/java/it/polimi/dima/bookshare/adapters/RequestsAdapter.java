@@ -82,7 +82,13 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                             dialogContact.show(((FragmentActivity) context).getFragmentManager(),"Contact dialog");
                         }
                     });
+
                 }
+            }else {
+
+                holder.infoRequest.setText(R.string.info_pending);
+                holder.infoRequest.setVisibility(TextView.VISIBLE);
+
             }
 
 

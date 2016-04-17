@@ -3,13 +3,10 @@ package it.polimi.dima.bookshare.amazon;
 import android.content.Context;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBQueryExpression;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedQueryList;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedScanList;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
@@ -72,8 +69,8 @@ public class DynamoDBManager {
 
         CreateTableRequest request = new CreateTableRequest()
                 .withTableName(Constants.BOOK_TABLE_NAME)
-                .withKeySchema(kseH,kseR)
-                .withAttributeDefinitions(isbn,ownerID)
+                .withKeySchema(kseH, kseR)
+                .withAttributeDefinitions(isbn, ownerID)
                 .withProvisionedThroughput(pt);
 
         try {
@@ -157,7 +154,7 @@ public class DynamoDBManager {
     /*
      * Retrieves all of the attribute/value pairs for the specified book.
      */
-    public static Book getBook(String ISBN,String ownerID) {
+    public static Book getBook(String ISBN, String ownerID) {
 
         AmazonDynamoDBClient ddb = clientManager
                 .ddb();
@@ -235,8 +232,6 @@ public class DynamoDBManager {
 
         AmazonDynamoDBClient ddb = clientManager
                 .ddb();
-
-        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
 
         // Create our map of values
         Map keyConditions = new HashMap();
@@ -379,12 +374,14 @@ public class DynamoDBManager {
             PaginatedScanList<Book> result = mapper.scan(Book.class, scanExpression);
 
             ArrayList<Book> resultList = new ArrayList<Book>();
+
             for (Book book : result) {
-                if(Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(book.getTitle()).find()
-                        && !book.getOwnerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID",null))){
+                if (Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(book.getTitle()).find()
+                        && !book.getOwnerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null))) {
                     resultList.add(book);
                 }
             }
+
             return resultList;
 
         } catch (AmazonServiceException ex) {
@@ -394,30 +391,84 @@ public class DynamoDBManager {
         return null;
     }
 
-    /*
-    FUNCTION NOT WORKING
-    query that gets the book on GSI Title
-     */
-    public PaginatedQueryList<Book> getBookListSearchQueryTitle(String query) {
+    public ArrayList<Book> searchByTitle(String query) {
+
+        ArrayList<Book> books = new ArrayList<>();
 
         AmazonDynamoDBClient ddb = clientManager.ddb();
-        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
 
-        try {
-            final Book book = new Book();
-            book.setTitle(query);
-            final DynamoDBQueryExpression<Book> queryExpression = new DynamoDBQueryExpression<>();
-            queryExpression.setHashKeyValues(book);
-            queryExpression.setIndexName("Title");
-            queryExpression.setConsistentRead(false);   // cannot use consistent read on GSI
-            final PaginatedQueryList<Book> results = mapper.query(Book.class, queryExpression);
-            return results;
+        // Create our map of values
+        Map keyConditions = new HashMap();
 
-        } catch (AmazonServiceException ex) {
-            clientManager.wipeCredentialsOnAuthError(ex);
-        }
+        Condition hashKeyCondition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ.toString())
+                .withAttributeValueList(new AttributeValue().withS(query));
+        keyConditions.put("Title", hashKeyCondition);
 
-        return null;
+        Map lastEvaluatedKey = null;
+        do {
+            QueryRequest queryRequest = new QueryRequest()
+                    .withTableName(Constants.BOOK_TABLE_NAME)
+                    .withKeyConditions(keyConditions)
+                    .withExclusiveStartKey(lastEvaluatedKey)
+                    .withIndexName("Title-index");
+
+            QueryResult queryResult = ddb.query(queryRequest);
+
+            for (Map item : queryResult.getItems()) {
+
+                Book book = mapAttributes(item);
+
+                books.add(book);
+            }
+
+            // If the response lastEvaluatedKey has contents,
+            // that means there are more results
+            lastEvaluatedKey = queryResult.getLastEvaluatedKey();
+
+        } while (lastEvaluatedKey != null);
+
+        return books;
+
+    }
+
+    public ArrayList<Book> searchByAuthor(String query) {
+        ArrayList<Book> books = new ArrayList<>();
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+
+        // Create our map of values
+        Map keyConditions = new HashMap();
+
+        Condition hashKeyCondition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ.toString())
+                .withAttributeValueList(new AttributeValue().withS(query));
+        keyConditions.put("Author", hashKeyCondition);
+
+        Map lastEvaluatedKey = null;
+        do {
+            QueryRequest queryRequest = new QueryRequest()
+                    .withTableName(Constants.BOOK_TABLE_NAME)
+                    .withKeyConditions(keyConditions)
+                    .withExclusiveStartKey(lastEvaluatedKey)
+                    .withIndexName("Author-index");
+
+            QueryResult queryResult = ddb.query(queryRequest);
+
+            for (Map item : queryResult.getItems()) {
+
+                Book book = mapAttributes(item);
+
+                books.add(book);
+            }
+
+            // If the response lastEvaluatedKey has contents,
+            // that means there are more results
+            lastEvaluatedKey = queryResult.getLastEvaluatedKey();
+
+        } while (lastEvaluatedKey != null);
+
+        return books;
     }
 
     /*
@@ -493,14 +544,13 @@ public class DynamoDBManager {
     /*
         Insert new BookRequest in dynamo
      */
-    public static void insertBookRequest(BookRequest bookRequest) {
+    public void insertBookRequest(BookRequest bookRequest) {
         AmazonDynamoDBClient ddb = clientManager.ddb();
         DynamoDBMapper mapper = new DynamoDBMapper(ddb);
 
         try {
-
             mapper.save(bookRequest);
-            Log.d(TAG,"Request inserted");
+            Log.d(TAG, "Request inserted");
 
         } catch (AmazonServiceException ex) {
             Log.e(TAG, "Error inserting request");
@@ -523,7 +573,7 @@ public class DynamoDBManager {
         // Specify our key conditions (askerID == "AskerID")
         Condition hashKeyCondition = new Condition()
                 .withComparisonOperator(ComparisonOperator.EQ.toString())
-                .withAttributeValueList(new AttributeValue().withS(PreferenceManager.getDefaultSharedPreferences(context).getString("ID",null)));
+                .withAttributeValueList(new AttributeValue().withS(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null)));
         keyConditions.put("AskerID", hashKeyCondition);
 
         Map lastEvaluatedKey = null;
@@ -537,15 +587,15 @@ public class DynamoDBManager {
 
             for (Map item : queryResult.getItems()) {
 
-                BookRequest bookRequest=new BookRequest();
+                BookRequest bookRequest = new BookRequest();
 
                 AttributeValue attribute = (AttributeValue) item.get("AskerID");
                 bookRequest.setAskerID(attribute.getS());
 
-                attribute=(AttributeValue) item.get("ReceiverID");
+                attribute = (AttributeValue) item.get("ReceiverID");
                 bookRequest.setReceiverID(attribute.getS());
 
-                attribute=(AttributeValue) item.get("BookISBN");
+                attribute = (AttributeValue) item.get("BookISBN");
                 bookRequest.setBookISBN(attribute.getS());
 
                 bookRequest.setID(0);
@@ -578,7 +628,7 @@ public class DynamoDBManager {
         // Specify our key conditions (receiverId == "receiverID")
         Condition hashKeyCondition = new Condition()
                 .withComparisonOperator(ComparisonOperator.EQ.toString())
-                .withAttributeValueList(new AttributeValue().withS(PreferenceManager.getDefaultSharedPreferences(context).getString("ID",null)));
+                .withAttributeValueList(new AttributeValue().withS(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null)));
         keyConditions.put("ReceiverID", hashKeyCondition);
 
         Map lastEvaluatedKey = null;
@@ -592,24 +642,24 @@ public class DynamoDBManager {
             QueryResult queryResult = ddb.query(queryRequest);
 
             for (Map item : queryResult.getItems()) {
-                BookRequest bookRequest=new BookRequest();
+                BookRequest bookRequest = new BookRequest();
 
                 AttributeValue attribute = (AttributeValue) item.get("AskerID");
                 bookRequest.setAskerID(attribute.getS());
 
-                attribute=(AttributeValue) item.get("ReceiverID");
+                attribute = (AttributeValue) item.get("ReceiverID");
                 bookRequest.setReceiverID(attribute.getS());
 
-                attribute=(AttributeValue) item.get("BookISBN");
+                attribute = (AttributeValue) item.get("BookISBN");
                 bookRequest.setBookISBN(attribute.getS());
 
-                attribute=(AttributeValue) item.get("ID");
+                attribute = (AttributeValue) item.get("ID");
                 bookRequest.setID(Integer.parseInt(attribute.getN()));
 
-                attribute=(AttributeValue) item.get("Accepted");
-                if(Integer.parseInt(attribute.getN())==1){
+                attribute = (AttributeValue) item.get("Accepted");
+                if (Integer.parseInt(attribute.getN()) == 1) {
                     bookRequest.setAccepted(true);
-                }else {
+                } else {
                     bookRequest.setAccepted(false);
                 }
 

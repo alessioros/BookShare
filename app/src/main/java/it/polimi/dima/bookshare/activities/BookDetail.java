@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
@@ -43,6 +46,7 @@ public class BookDetail extends AppCompatActivity {
     private ManageUser manageUser;
     private static int REDIRECT_TIME_OUT = 500;
     private CollapsingToolbarLayout collapsingToolbarLayout;
+    private static final String TAG="BookDetail";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -344,21 +348,38 @@ public class BookDetail extends AppCompatActivity {
     private void askBook(){
 
         BookRequest bookRequest=new BookRequest();
-        bookRequest.setID(AtomicIDs.getBookRequestsID());
+        int id=PreferenceManager.getDefaultSharedPreferences(this).getInt("BookRequestID",0)+1;
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("BookRequestID",id);
+        bookRequest.setID(id);
         bookRequest.setAskerID(PreferenceManager.getDefaultSharedPreferences(this).getString("ID",null));
         bookRequest.setReceiverID(book.getOwnerID());
         bookRequest.setBookISBN(book.getIsbn());
 
         try {
 
-            // add request to DynamoDB
-            new DynamoDBManagerTask(BookDetail.this, bookRequest).execute(DynamoDBManagerType.INSERT_BOOKREQUEST);
+            Boolean flag=false;
+            final ArrayList<BookRequest> myBookRequests = new DynamoDBManager(this).getMyBookRequests();
+            for (BookRequest existingBookRequest : myBookRequests) {
+                if (existingBookRequest.getBookISBN().equals(bookRequest.getBookISBN())
+                        && existingBookRequest.getReceiverID().equals(bookRequest.getReceiverID())) {
+                    flag=true;
+                    Toast.makeText(this, "You already have a request on this book!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            if(!flag) {
+                // add request to DynamoDB
+                new DynamoDBManagerTask(BookDetail.this, bookRequest).execute(DynamoDBManagerType.INSERT_BOOKREQUEST);
+            }
 
         } catch (Exception e) {
-            Toast.makeText(BookDetail.this, getResources().getString(R.string.error_ask), Toast.LENGTH_SHORT);
+            Toast.makeText(BookDetail.this, getResources().getString(R.string.error_ask), Toast.LENGTH_SHORT).show();
         }
+
+
 
 
     }
 }
+
+
 

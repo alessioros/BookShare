@@ -121,8 +121,11 @@
                 android:text="@string/info_pending"
                 android:layout_marginTop="@dimen/margin_top_info_request"
                 android:layout_marginLeft="@dimen/margin_info_request"
+                android:layout_marginBottom="@dimen/margin_top_info_request"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textColor="@color/colorPrimaryDark"
                 android:visibility="gone" />
 
             <Button
