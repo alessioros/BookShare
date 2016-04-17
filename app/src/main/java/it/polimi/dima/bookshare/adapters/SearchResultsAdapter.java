@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +26,12 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
     private ArrayList<Book> mBooks;
     private Context context;
+    private Typeface aller;
 
     public SearchResultsAdapter(ArrayList<Book> mBooks, Context context) {
         this.mBooks = mBooks;
         this.context = context;
+        this.aller=Typeface.createFromAsset(context.getAssets(), "fonts/Aller_Rg.ttf");
     }
 
     @Override
@@ -42,14 +45,12 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Typeface aller = Typeface.createFromAsset(context.getAssets(), "fonts/Aller_Rg.ttf");
-
         holder.mTitle.setTypeface(aller);
         holder.mAuthor.setTypeface(aller);
         holder.mOwner.setTypeface(aller);
 
         Book book = mBooks.get(position);
-        User owner = new DynamoDBManager(context).getUser(book.getOwnerID());
+        User owner = book.getOwner();
 
         Picasso.with(context).load(book.getImgURL()).into(holder.mImage);
 
@@ -99,7 +100,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             startDetail.putExtra("button","ask");
             startDetail.putExtra("book",mBooks.get(getLayoutPosition()));
             context.startActivity(startDetail);
-            ((Activity)context).finish();
         }
     }
 }
