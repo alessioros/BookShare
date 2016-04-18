@@ -130,9 +130,15 @@ public class MergeBookSources {
             book.setTitle(googleBook.getTitle());
             book.setAuthor(googleBook.getAuthor());
 
-            // mandatory info
-            if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+            try {
+                // mandatory info
+                if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+                    return null;
+
+            } catch (Exception e) {
+
                 return null;
+            }
 
             book.setDescription(googleBook.getDescription());
             book.setPageCount(googleBook.getPageCount());

@@ -49,6 +49,7 @@ public class GoogleBooksFinder {
                     }
                 }
 
+                if (book.getIsbn() == null || book.getIsbn().equals("")) return null;
             } catch (Exception e) {
                 return null;
             }
@@ -60,6 +61,7 @@ public class GoogleBooksFinder {
                 book.setImgURL(imageLinks.getString(KEY_IMG_URL));
 
             } catch (JSONException e) {
+                book.setImgURL("");
             }
 
             // ----- TITLE -----
@@ -68,6 +70,7 @@ public class GoogleBooksFinder {
                 book.setTitle(URLDecoder.decode(volumeInfo.getString(KEY_TITLE), UTF8));
 
             } catch (Exception e) {
+                book.setTitle("");
             }
 
             // ----- PAGE COUNT -----
@@ -75,6 +78,7 @@ public class GoogleBooksFinder {
                 book.setPageCount(Integer.parseInt(volumeInfo.getString(KEY_PAGECOUNT)));
 
             } catch (JSONException e) {
+                book.setPageCount(0);
             }
 
             // ----- AUTHORS -----
@@ -84,6 +88,7 @@ public class GoogleBooksFinder {
                 book.setAuthor(URLDecoder.decode(authors.getString(0), UTF8));
 
             } catch (Exception e) {
+                book.setAuthor("");
             }
 
             // ----- PUBLISHER -----

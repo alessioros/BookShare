@@ -190,7 +190,7 @@
             android:layout_marginTop="@dimen/books_nearby_text_margintop"
             android:layout_below="@id/second_ruler"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/textPrimaryLight"
+            android:textColor="@color/colorPrimary"
             android:text="@string/books_nearby_title" />
 
         <View
