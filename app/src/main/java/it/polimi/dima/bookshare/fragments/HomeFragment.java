@@ -3,24 +3,22 @@ package it.polimi.dima.bookshare.fragments;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.activities.MapsActivity;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
-import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
-import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 
 public class HomeFragment extends Fragment {
 
@@ -52,6 +50,17 @@ public class HomeFragment extends Fragment {
         TextView userCredits = (TextView) view.findViewById(R.id.user_credits);
         TextView userBooks = (TextView) view.findViewById(R.id.user_books);
         TextView userRecBooks = (TextView) view.findViewById(R.id.user_borr_books);
+
+        RelativeLayout locInfo = (RelativeLayout) view.findViewById(R.id.location_info);
+
+        locInfo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                getActivity().startActivity(new Intent(getActivity(), MapsActivity.class));
+                return true;
+            }
+        });
 
         Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
 
