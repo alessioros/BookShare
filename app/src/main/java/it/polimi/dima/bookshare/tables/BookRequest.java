@@ -2,6 +2,7 @@ package it.polimi.dima.bookshare.tables;
 
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribute;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIgnore;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 
@@ -67,6 +68,7 @@ public class BookRequest {
         this.accepted = accepted;
     }
 
+    @DynamoDBIgnore
     public User getUser() {
         return user;
     }
@@ -75,6 +77,7 @@ public class BookRequest {
         this.user = user;
     }
 
+    @DynamoDBIgnore
     public Book getBook() {
         return book;
     }

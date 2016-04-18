@@ -114,6 +114,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     public void onClick(View view) {
                         bookRequest.setAccepted(1);
                         new DynamoDBManager(context).updateBookRequest(bookRequest);
+                        notifyDataSetChanged();
                     }
                 });
 
@@ -122,6 +123,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     public void onClick(View view) {
                         bookRequest.setAccepted(2);
                         new DynamoDBManager(context).updateBookRequest(bookRequest);
+                        notifyDataSetChanged();
                     }
                 });
             }
