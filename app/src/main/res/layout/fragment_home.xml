@@ -1,167 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/content_frame"
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="it.polimi.dima.bookshare.activities.MainActivity"
-    tools:showIn="@layout/app_bar_main">
-
-    <ImageView
-        android:id="@+id/profile_header"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/profile_header_height"
-        android:scaleType="centerCrop"
-        android:background="@drawable/book_covers"
-        android:elevation="@dimen/profile_header_elev" />
-
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/user_image"
-        android:layout_width="@dimen/home_img_size"
-        android:layout_height="@dimen/home_img_size"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/home_img_margintop"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="2dp"
-        app:civ_shadow="true"
-        app:civ_shadow_radius="3"
-        android:layout_centerHorizontal="true"
-        app:civ_shadow_color="@color/black_overlay"
-        android:elevation="@dimen/home_img_elev" />
+    android:layout_width="match_parent"
+    android:fillViewport="true">
 
     <RelativeLayout
-        android:id="@+id/profile_info"
+        android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/profile_info_paddingtop"
-        android:paddingBottom="@dimen/profile_info_paddingbottom"
-        android:layout_below="@id/profile_header">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="it.polimi.dima.bookshare.activities.MainActivity"
+        tools:showIn="@layout/app_bar_main">
 
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textPrimary"
-            android:textSize="@dimen/username_txtsize"
-            android:layout_centerHorizontal="true" />
+        <ImageView
+            android:id="@+id/profile_header"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_header_height"
+            android:scaleType="centerCrop"
+            android:background="@drawable/book_covers"
+            android:elevation="@dimen/profile_header_elev" />
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/user_image"
+            android:layout_width="@dimen/home_img_size"
+            android:layout_height="@dimen/home_img_size"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/home_img_margintop"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="2dp"
+            app:civ_shadow="true"
+            app:civ_shadow_radius="3"
+            android:layout_centerHorizontal="true"
+            app:civ_shadow_color="@color/black_overlay"
+            android:elevation="@dimen/home_img_elev" />
 
         <RelativeLayout
-            android:id="@+id/location_info"
-            android:layout_width="wrap_content"
+            android:id="@+id/profile_info"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/user_name"
-            android:layout_marginTop="@dimen/locinfo_margintop"
-            android:layout_centerHorizontal="true">
-
-            <ImageView
-                android:id="@+id/location_icon"
-                android:layout_width="@dimen/locicon_width"
-                android:layout_height="@dimen/locicon_height"
-                android:background="@drawable/ic_location_pin" />
+            android:paddingTop="@dimen/profile_info_paddingtop"
+            android:paddingBottom="@dimen/profile_info_paddingbottom"
+            android:layout_below="@id/profile_header">
 
             <TextView
-                android:id="@+id/user_location"
+                android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/location_icon"
-                android:layout_toRightOf="@id/location_icon"
-                android:textColor="@color/textSecondary"
-                android:layout_marginLeft="@dimen/loctxt_marginleft"
-                android:textSize="@dimen/loctxt_txtsize" />
+                android:textColor="@color/textPrimary"
+                android:textSize="@dimen/username_txtsize"
+                android:layout_centerHorizontal="true" />
+
+            <RelativeLayout
+                android:id="@+id/location_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/user_name"
+                android:layout_marginTop="@dimen/locinfo_margintop"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/location_icon"
+                    android:layout_width="@dimen/locicon_width"
+                    android:layout_height="@dimen/locicon_height"
+                    android:background="@drawable/ic_location_pin" />
+
+                <TextView
+                    android:id="@+id/user_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/location_icon"
+                    android:layout_toRightOf="@id/location_icon"
+                    android:textColor="@color/textSecondary"
+                    android:layout_marginLeft="@dimen/loctxt_marginleft"
+                    android:textSize="@dimen/loctxt_txtsize" />
+
+            </RelativeLayout>
+
+            <View
+                android:id="@id/ruler"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/location_info"
+                android:layout_marginTop="@dimen/homeruler_margintop"
+                android:background="@color/ruler_color" />
+
+            <ProgressBar
+                android:id="@+id/userinfo_progressBar"
+                android:layout_width="@dimen/userinfo_progress_size"
+                android:layout_height="@dimen/userinfo_progress_size"
+                android:indeterminate="true"
+                android:layout_below="@id/ruler"
+                android:progressTint="@color/colorPrimaryLight"
+                style="@android:style/Widget.Holo.ProgressBar"
+                android:layout_marginTop="@dimen/userinfo_margintop"
+                android:layout_centerHorizontal="true" />
+
+            <RelativeLayout
+                android:id="@+id/user_information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ruler"
+                android:layout_marginTop="@dimen/userinfo_margintop"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:id="@+id/user_credits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/userinfo_txtsize"
+                    android:textColor="@color/textPrimaryLight"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true" />
+
+                <ImageView
+                    android:id="@+id/credit_icon"
+                    android:layout_width="@dimen/crediticon_size"
+                    android:layout_height="@dimen/crediticon_size"
+                    android:background="@drawable/ic_credits"
+                    android:layout_marginLeft="@dimen/userinfo_marginleft"
+                    android:layout_toRightOf="@id/user_credits"
+                    android:layout_toEndOf="@id/user_credits"
+                    android:layout_centerVertical="true"
+                    android:elevation="@dimen/userinfo_elevation" />
+
+                <TextView
+                    android:id="@+id/user_books"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/userinfo_txtsize"
+                    android:textColor="@color/textPrimaryLight"
+                    android:layout_marginLeft="@dimen/bookicon_marginleft"
+                    android:layout_toEndOf="@id/credit_icon"
+                    android:layout_toRightOf="@id/credit_icon"
+                    android:layout_centerVertical="true" />
+
+                <ImageView
+                    android:id="@+id/book_icon"
+                    android:layout_width="@dimen/crediticon_size"
+                    android:layout_height="@dimen/crediticon_size"
+                    android:background="@drawable/ic_green_book"
+                    android:layout_marginLeft="@dimen/userinfo_marginleft"
+                    android:layout_toEndOf="@id/user_books"
+                    android:layout_toRightOf="@id/user_books"
+                    android:layout_centerVertical="true"
+                    android:elevation="@dimen/userinfo_elevation" />
+
+                <TextView
+                    android:id="@+id/user_borr_books"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/userinfo_txtsize"
+                    android:textColor="@color/textPrimaryLight"
+                    android:layout_marginLeft="@dimen/bookicon_marginleft"
+                    android:layout_toEndOf="@id/book_icon"
+                    android:layout_toRightOf="@id/book_icon"
+                    android:layout_centerVertical="true" />
+
+                <ImageView
+                    android:id="@+id/borr_book_icon"
+                    android:layout_width="@dimen/crediticon_size"
+                    android:layout_height="@dimen/crediticon_size"
+                    android:background="@drawable/borr_books"
+                    android:layout_marginLeft="@dimen/userinfo_marginleft"
+                    android:layout_toEndOf="@id/user_borr_books"
+                    android:layout_toRightOf="@id/user_borr_books"
+                    android:layout_centerVertical="true"
+                    android:elevation="@dimen/userinfo_elevation" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
         <View
-            android:id="@id/ruler"
+            android:id="@+id/second_ruler"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/location_info"
-            android:layout_marginTop="@dimen/homeruler_margintop"
+            android:layout_below="@+id/profile_info"
             android:background="@color/ruler_color" />
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/books_nearby_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ruler"
-            android:layout_marginTop="@dimen/userinfo_margintop"
-            android:layout_centerHorizontal="true">
+            android:textSize="@dimen/books_nearby_text_txtsize"
+            android:layout_marginTop="@dimen/books_nearby_text_margintop"
+            android:layout_below="@id/second_ruler"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/textPrimaryLight"
+            android:text="@string/books_nearby_title" />
 
-            <TextView
-                android:id="@+id/user_credits"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/userinfo_txtsize"
-                android:textColor="@color/textPrimaryLight"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true" />
+        <View
+            android:id="@+id/recycler_rulerOne"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/books_nearby_margintop"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/books_nearby_title"
+            android:background="@color/recycler_ruler_color" />
 
-            <ImageView
-                android:id="@+id/credit_icon"
-                android:layout_width="@dimen/crediticon_size"
-                android:layout_height="@dimen/crediticon_size"
-                android:background="@drawable/ic_credits"
-                android:layout_marginLeft="@dimen/userinfo_marginleft"
-                android:layout_toRightOf="@id/user_credits"
-                android:layout_toEndOf="@id/user_credits"
-                android:layout_centerVertical="true"
-                android:elevation="@dimen/userinfo_elevation" />
+        <ProgressBar
+            android:id="@+id/recycler_progressBar"
+            android:layout_width="@dimen/recycler_progress_size"
+            android:layout_height="@dimen/recycler_progress_size"
+            android:indeterminate="true"
+            android:layout_below="@id/recycler_rulerOne"
+            style="@android:style/Widget.Holo.ProgressBar"
+            android:layout_centerHorizontal="true" />
 
-            <TextView
-                android:id="@+id/user_books"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/userinfo_txtsize"
-                android:textColor="@color/textPrimaryLight"
-                android:layout_marginLeft="@dimen/bookicon_marginleft"
-                android:layout_toEndOf="@id/credit_icon"
-                android:layout_toRightOf="@id/credit_icon"
-                android:layout_centerVertical="true" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/books_nearby"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="150dp"
+            android:layout_below="@id/recycler_rulerOne" />
 
-            <ImageView
-                android:id="@+id/book_icon"
-                android:layout_width="@dimen/crediticon_size"
-                android:layout_height="@dimen/crediticon_size"
-                android:background="@drawable/ic_green_book"
-                android:layout_marginLeft="@dimen/userinfo_marginleft"
-                android:layout_toEndOf="@id/user_books"
-                android:layout_toRightOf="@id/user_books"
-                android:layout_centerVertical="true"
-                android:elevation="@dimen/userinfo_elevation" />
-
-            <TextView
-                android:id="@+id/user_borr_books"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/userinfo_txtsize"
-                android:textColor="@color/textPrimaryLight"
-                android:layout_marginLeft="@dimen/bookicon_marginleft"
-                android:layout_toEndOf="@id/book_icon"
-                android:layout_toRightOf="@id/book_icon"
-                android:layout_centerVertical="true" />
-
-            <ImageView
-                android:id="@+id/borr_book_icon"
-                android:layout_width="@dimen/crediticon_size"
-                android:layout_height="@dimen/crediticon_size"
-                android:background="@drawable/borr_books"
-                android:layout_marginLeft="@dimen/userinfo_marginleft"
-                android:layout_toEndOf="@id/user_borr_books"
-                android:layout_toRightOf="@id/user_borr_books"
-                android:layout_centerVertical="true"
-                android:elevation="@dimen/userinfo_elevation" />
-
-        </RelativeLayout>
-
+        <View
+            android:id="@+id/recycler_rulerTwo"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="1dp"
+            android:layout_below="@+id/books_nearby"
+            android:background="@color/recycler_ruler_color"
+            android:layout_marginBottom="@dimen/books_nearby_marginbottom" />
     </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/profile_info"
-        android:background="@color/ruler_color" />
-
-</RelativeLayout>
+</ScrollView>

@@ -5,20 +5,30 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.activities.MapsActivity;
+import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
+import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
+import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 
 public class HomeFragment extends Fragment {
 
@@ -50,7 +60,9 @@ public class HomeFragment extends Fragment {
         TextView userCredits = (TextView) view.findViewById(R.id.user_credits);
         TextView userBooks = (TextView) view.findViewById(R.id.user_books);
         TextView userRecBooks = (TextView) view.findViewById(R.id.user_borr_books);
+        TextView booksNearby = (TextView) view.findViewById(R.id.books_nearby_title);
 
+        final RelativeLayout userInfo = (RelativeLayout) view.findViewById(R.id.user_information);
         RelativeLayout locInfo = (RelativeLayout) view.findViewById(R.id.location_info);
 
         locInfo.setOnLongClickListener(new View.OnLongClickListener() {
@@ -69,8 +81,10 @@ public class HomeFragment extends Fragment {
         userBooks.setTypeface(aller);
         userCredits.setTypeface(aller);
         userRecBooks.setTypeface(aller);
+        booksNearby.setTypeface(aller);
 
         userImage.bringToFront();
+        userInfo.setVisibility(View.GONE);
 
         try {
 
@@ -87,6 +101,7 @@ public class HomeFragment extends Fragment {
                 public void onBookCountCompleted(int count, int recCount) {
 
                     refreshTextView(count, recCount);
+
                 }
             }).execute(user.getUserID());
 
@@ -96,7 +111,32 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
 
+        final ProgressBar recyclerProgress = (ProgressBar) view.findViewById(R.id.recycler_progressBar);
+        recyclerProgress.setVisibility(View.VISIBLE);
+
+        new LoadBooks(new OnBookLoadingCompleted() {
+            @Override
+            public void onBookLoadingCompleted(ArrayList<Book> books) {
+
+                loadBooksNearby(books);
+
+            }
+        }).execute();
+
         return view;
+    }
+
+    public void loadBooksNearby(ArrayList<Book> books) {
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+
+        RecyclerView booksNearby = (RecyclerView) getActivity().findViewById(R.id.books_nearby);
+        booksNearby.setLayoutManager(layoutManager);
+
+        booksNearby.setAdapter(new LibraryAdapter(books, getActivity(), true));
+
+        ProgressBar recyclerProgress = (ProgressBar) getActivity().findViewById(R.id.recycler_progressBar);
+        recyclerProgress.setVisibility(View.GONE);
     }
 
     public interface OnBookCountCompleted {
@@ -135,17 +175,51 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void run() {
 
+                    RelativeLayout userInfo = (RelativeLayout) getActivity().findViewById(R.id.user_information);
+                    userInfo.setVisibility(View.VISIBLE);
+
                     TextView userBooks = (TextView) getActivity().findViewById(R.id.user_books);
                     userBooks.setText(count + "");
 
                     TextView userBorrBooks = (TextView) getActivity().findViewById(R.id.user_borr_books);
                     userBorrBooks.setText(recCount + "");
 
+                    ProgressBar userInfoProgress = (ProgressBar) getActivity().findViewById(R.id.userinfo_progressBar);
+                    userInfoProgress.setVisibility(View.GONE);
+
                 }
             });
 
         } catch (Exception e) {
 
+        }
+    }
+
+    class LoadBooks extends AsyncTask<Void, ArrayList<Book>, ArrayList<Book>> {
+        private OnBookLoadingCompleted listener;
+
+        public LoadBooks(OnBookLoadingCompleted listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected ArrayList<Book> doInBackground(Void... params) {
+
+            DynamoDBManager DDBM = new DynamoDBManager(getActivity());
+            ArrayList<Book> mBooks = null;
+            try {
+
+                mBooks = DDBM.getBooks(new ManageUser(getActivity()).getUser().getUserID());
+            } catch (Exception e) {
+
+            }
+
+            return mBooks;
+        }
+
+        protected void onPostExecute(ArrayList<Book> books) {
+
+            listener.onBookLoadingCompleted(books);
         }
     }
 }

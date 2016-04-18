@@ -20,18 +20,28 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
     private List<Book> mBooks;
     private Context context;
+    private boolean booksNearby;
 
-    public LibraryAdapter(List<Book> mBooks, Context context) {
+    public LibraryAdapter(List<Book> mBooks, Context context, boolean booksNearby) {
 
         this.mBooks = mBooks;
         this.context = context;
+        this.booksNearby = booksNearby;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_mybook, parent, false);
+        View view;
+        if (booksNearby) {
+
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_booknearby, parent, false);
+
+        } else {
+
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_mybook, parent, false);
+        }
+
 
         return new ViewHolder(view);
     }
@@ -43,17 +53,36 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
         Picasso.with(context).load(book.getImgURL()).into(holder.mImage);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (booksNearby) {
 
-                Intent intent = new Intent(context, BookDetail.class);
-                intent.putExtra("book",book);
-                intent.putExtra("button","delete");
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                context.startActivity(intent);
-            }
-        });
+                    Intent intent = new Intent(context, BookDetail.class);
+                    intent.putExtra("book", book);
+                    intent.putExtra("button", "lend");
+
+                    context.startActivity(intent);
+                }
+            });
+
+        } else {
+
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(context, BookDetail.class);
+                    intent.putExtra("book", book);
+                    intent.putExtra("button", "delete");
+
+                    context.startActivity(intent);
+                }
+            });
+
+        }
+
     }
 
     @Override

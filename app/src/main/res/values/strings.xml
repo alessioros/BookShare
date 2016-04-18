@@ -120,4 +120,6 @@
     <string name="loading_requests">Loading your requests</string>
     <string name="nobook_requests">No book requests yet</string>
 
+    <!-- FRAGMENT HOME -->
+    <string name="books_nearby_title">Books nearby:</string>
 </resources>
