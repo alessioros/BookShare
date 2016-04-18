@@ -349,7 +349,7 @@ public class BookDetail extends AppCompatActivity {
 
         BookRequest bookRequest=new BookRequest();
         int id=PreferenceManager.getDefaultSharedPreferences(this).getInt("BookRequestID",0)+1;
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("BookRequestID",id);
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("BookRequestID",id).apply();
         bookRequest.setID(id);
         bookRequest.setAskerID(PreferenceManager.getDefaultSharedPreferences(this).getString("ID",null));
         bookRequest.setReceiverID(book.getOwnerID());
