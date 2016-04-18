@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -129,8 +130,7 @@ public class RequestsActivity extends AppCompatActivity {
                 } else {
 
                     bookRequest.setUser(new DynamoDBManager(RequestsActivity.this).getUser(bookRequest.getAskerID()));
-                    bookRequest.setBook(new DynamoDBManager(RequestsActivity.this).getBook(bookRequest.getBookISBN(), bookRequest.getAskerID()));
-
+                    bookRequest.setBook(new DynamoDBManager(RequestsActivity.this).getBook(bookRequest.getBookISBN(), bookRequest.getReceiverID()));
                 }
             }
 
