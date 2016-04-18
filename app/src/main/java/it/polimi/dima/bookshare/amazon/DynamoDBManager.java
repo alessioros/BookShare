@@ -602,12 +602,7 @@ public class DynamoDBManager {
                 bookRequest.setID(Integer.parseInt(attribute.getN()));
 
                 attribute = (AttributeValue) item.get("Accepted");
-                if (Integer.parseInt(attribute.getN()) == 1) {
-                    bookRequest.setAccepted(true);
-                } else {
-                    bookRequest.setAccepted(false);
-                }
-
+                bookRequest.setAccepted(Integer.parseInt(attribute.getN()));
 
                 userRequests.add(bookRequest);
             }
@@ -665,11 +660,7 @@ public class DynamoDBManager {
                 bookRequest.setID(Integer.parseInt(attribute.getN()));
 
                 attribute = (AttributeValue) item.get("Accepted");
-                if (Integer.parseInt(attribute.getN()) == 1) {
-                    bookRequest.setAccepted(true);
-                } else {
-                    bookRequest.setAccepted(false);
-                }
+                bookRequest.setAccepted(Integer.parseInt(attribute.getN()));
 
                 userReceivedRequests.add(bookRequest);
             }

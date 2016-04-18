@@ -31,7 +31,7 @@ import it.polimi.dima.bookshare.utils.DialogContact;
  */
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHolder> {
 
-    private static final String TAG="RequestsAdapter";
+    private static final String TAG = "RequestsAdapter";
     private ArrayList<BookRequest> mBookRequests;
     private Context context;
     private User user;
@@ -60,14 +60,13 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         holder.mOwner.setTypeface(aller);
 
         final BookRequest bookRequest = mBookRequests.get(position);
-        user=bookRequest.getUser();
-        book=bookRequest.getBook();
+        user = bookRequest.getUser();
+        book = bookRequest.getBook();
         if (bookRequest.getAskerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null))) {
 
             holder.buttonRefuse.setVisibility(Button.GONE);
             holder.buttonAccept.setVisibility(Button.GONE);
-            if (bookRequest.getAccepted() != null) {
-                if (bookRequest.getAccepted()) {
+                if (bookRequest.getAccepted() == 2) {
 
                     holder.infoRequest.setText(R.string.info_accepted);
                     holder.infoRequest.setVisibility(TextView.VISIBLE);
@@ -75,16 +74,15 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            DialogContact dialogContact=new DialogContact();
-                            Bundle args=new Bundle();
-                            args.putParcelable("user",user);
+                            DialogContact dialogContact = new DialogContact();
+                            Bundle args = new Bundle();
+                            args.putParcelable("user", user);
                             dialogContact.setArguments(args);
-                            dialogContact.show(((FragmentActivity) context).getFragmentManager(),"Contact dialog");
+                            dialogContact.show(((FragmentActivity) context).getFragmentManager(), "Contact dialog");
                         }
                     });
 
-                }
-            }else {
+                } else {
 
                 holder.infoRequest.setText(R.string.info_pending);
                 holder.infoRequest.setVisibility(TextView.VISIBLE);
@@ -94,29 +92,27 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
         } else {
 
-            if (bookRequest.getAccepted() != null) {
-                if (bookRequest.getAccepted()) {
-                    holder.buttonRefuse.setVisibility(Button.GONE);
-                    holder.buttonAccept.setVisibility(Button.GONE);
-                    holder.infoRequest.setText(R.string.info_accepted);
-                    holder.infoRequest.setVisibility(TextView.VISIBLE);
-                    holder.buttonContact.setVisibility(Button.VISIBLE);
-                    holder.buttonContact.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            DialogContact dialogContact=new DialogContact();
-                            Bundle args=new Bundle();
-                            args.putParcelable("user",user);
-                            dialogContact.setArguments(args);
-                            dialogContact.show(((FragmentActivity) context).getFragmentManager(),"Contact dialog");
-                        }
-                    });
-                }
-            }else {
+            if (bookRequest.getAccepted() == 2) {
+                holder.buttonRefuse.setVisibility(Button.GONE);
+                holder.buttonAccept.setVisibility(Button.GONE);
+                holder.infoRequest.setText(R.string.info_accepted);
+                holder.infoRequest.setVisibility(TextView.VISIBLE);
+                holder.buttonContact.setVisibility(Button.VISIBLE);
+                holder.buttonContact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DialogContact dialogContact = new DialogContact();
+                        Bundle args = new Bundle();
+                        args.putParcelable("user", user);
+                        dialogContact.setArguments(args);
+                        dialogContact.show(((FragmentActivity) context).getFragmentManager(), "Contact dialog");
+                    }
+                });
+            } else {
                 holder.buttonRefuse.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        bookRequest.setAccepted(false);
+                        bookRequest.setAccepted(1);
                         new DynamoDBManager(context).updateBookRequest(bookRequest);
                     }
                 });
@@ -124,7 +120,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonAccept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        bookRequest.setAccepted(true);
+                        bookRequest.setAccepted(2);
                         new DynamoDBManager(context).updateBookRequest(bookRequest);
                     }
                 });

@@ -16,7 +16,7 @@ public class BookRequest {
     private String askerID;
     private String receiverID;
     private String bookISBN;
-    private Boolean accepted;
+    private int accepted;
     private User user;
     private Book book;
 
@@ -59,11 +59,11 @@ public class BookRequest {
     }
 
     @DynamoDBAttribute(attributeName = "Accepted")
-    public Boolean getAccepted() {
+    public int getAccepted() {
         return accepted;
     }
 
-    public void setAccepted(Boolean accepted) {
+    public void setAccepted(int accepted) {
         this.accepted = accepted;
     }
 
