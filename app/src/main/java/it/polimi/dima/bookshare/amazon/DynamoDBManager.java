@@ -598,7 +598,15 @@ public class DynamoDBManager {
                 attribute = (AttributeValue) item.get("BookISBN");
                 bookRequest.setBookISBN(attribute.getS());
 
-                bookRequest.setID(0);
+                attribute = (AttributeValue) item.get("ID");
+                bookRequest.setID(Integer.parseInt(attribute.getN()));
+
+                attribute = (AttributeValue) item.get("Accepted");
+                if (Integer.parseInt(attribute.getN()) == 1) {
+                    bookRequest.setAccepted(true);
+                } else {
+                    bookRequest.setAccepted(false);
+                }
 
 
                 userRequests.add(bookRequest);
