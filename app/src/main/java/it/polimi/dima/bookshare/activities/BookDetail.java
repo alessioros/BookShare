@@ -46,7 +46,7 @@ public class BookDetail extends AppCompatActivity {
     private ManageUser manageUser;
     private static int REDIRECT_TIME_OUT = 500;
     private CollapsingToolbarLayout collapsingToolbarLayout;
-    private static final String TAG="BookDetail";
+    private static final String TAG = "BookDetail";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,8 +177,7 @@ public class BookDetail extends AppCompatActivity {
 
                 }
             });
-        }
-        else if(i.getStringExtra("button").equals("add")){
+        } else if (i.getStringExtra("button").equals("add")) {
 
             fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_add));
             Button addButton = (Button) findViewById(R.id.add_button);
@@ -200,7 +199,7 @@ public class BookDetail extends AppCompatActivity {
                 }
             });
 
-        } else if(i.getStringExtra("button").equals("ask")){
+        } else if (i.getStringExtra("button").equals("ask")) {
 
             fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark));
             Button lendButton = (Button) findViewById(R.id.lend_button);
@@ -272,6 +271,7 @@ public class BookDetail extends AppCompatActivity {
             button.setBackgroundTintList(ColorStateList.valueOf(vibrantColor));
         }
     }
+
     private void deleteBook() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(BookDetail.this);
@@ -345,29 +345,29 @@ public class BookDetail extends AppCompatActivity {
 
     }
 
-    private void askBook(){
+    private void askBook() {
 
-        BookRequest bookRequest=new BookRequest();
-        int id=PreferenceManager.getDefaultSharedPreferences(this).getInt("BookRequestID",0)+1;
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("BookRequestID",id).apply();
+        BookRequest bookRequest = new BookRequest();
+        int id = PreferenceManager.getDefaultSharedPreferences(this).getInt("BookRequestID", 0) + 1;
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("BookRequestID", id).apply();
         bookRequest.setID(id);
-        bookRequest.setAskerID(PreferenceManager.getDefaultSharedPreferences(this).getString("ID",null));
+        bookRequest.setAskerID(PreferenceManager.getDefaultSharedPreferences(this).getString("ID", null));
         bookRequest.setReceiverID(book.getOwnerID());
         bookRequest.setBookISBN(book.getIsbn());
         bookRequest.setAccepted(0);
 
         try {
 
-            Boolean flag=false;
+            Boolean flag = false;
             final ArrayList<BookRequest> myBookRequests = new DynamoDBManager(this).getMyBookRequests();
             for (BookRequest existingBookRequest : myBookRequests) {
                 if (existingBookRequest.getBookISBN().equals(bookRequest.getBookISBN())
                         && existingBookRequest.getReceiverID().equals(bookRequest.getReceiverID())) {
-                    flag=true;
+                    flag = true;
                     Toast.makeText(this, "You already have a request on this book!", Toast.LENGTH_SHORT).show();
                 }
             }
-            if(!flag) {
+            if (!flag) {
                 // add request to DynamoDB
                 new DynamoDBManagerTask(BookDetail.this, bookRequest).execute(DynamoDBManagerType.INSERT_BOOKREQUEST);
             }
@@ -375,8 +375,6 @@ public class BookDetail extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(BookDetail.this, getResources().getString(R.string.error_ask), Toast.LENGTH_SHORT).show();
         }
-
-
 
 
     }

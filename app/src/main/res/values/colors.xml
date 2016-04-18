@@ -13,7 +13,7 @@
 
     <color name="ruler_color">#999999</color>
     <color name="book_ruler_color">#AAAAAA</color>
-    <color name="recycler_ruler_color">#DDDDDD</color>
+    <color name="recycler_ruler_color">#1E88E5</color>
     <color name="set_ruler_color">#EEEEEE</color>
 
     <color name="white">#FFFFFF</color>

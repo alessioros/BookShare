@@ -142,7 +142,7 @@
                     android:id="@+id/book_icon"
                     android:layout_width="@dimen/crediticon_size"
                     android:layout_height="@dimen/crediticon_size"
-                    android:background="@drawable/ic_green_book"
+                    android:background="@drawable/mybooks_icon"
                     android:layout_marginLeft="@dimen/userinfo_marginleft"
                     android:layout_toEndOf="@id/user_books"
                     android:layout_toRightOf="@id/user_books"
@@ -164,7 +164,7 @@
                     android:id="@+id/borr_book_icon"
                     android:layout_width="@dimen/crediticon_size"
                     android:layout_height="@dimen/crediticon_size"
-                    android:background="@drawable/borr_books"
+                    android:background="@drawable/borrowed_books_icon"
                     android:layout_marginLeft="@dimen/userinfo_marginleft"
                     android:layout_toEndOf="@id/user_borr_books"
                     android:layout_toRightOf="@id/user_borr_books"
@@ -196,11 +196,12 @@
         <View
             android:id="@+id/recycler_rulerOne"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2dp"
             android:layout_marginTop="@dimen/books_nearby_margintop"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:layout_below="@+id/books_nearby_title"
-            android:background="@color/recycler_ruler_color" />
+            android:background="@color/recycler_ruler_color"
+            android:elevation="0dp" />
 
         <ProgressBar
             android:id="@+id/recycler_progressBar"
@@ -221,10 +222,11 @@
         <View
             android:id="@+id/recycler_rulerTwo"
             android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="2dp"
             android:layout_below="@+id/books_nearby"
             android:background="@color/recycler_ruler_color"
-            android:layout_marginBottom="@dimen/books_nearby_marginbottom" />
+            android:layout_marginBottom="@dimen/books_nearby_marginbottom"
+            android:elevation="1dp" />
     </RelativeLayout>
 </ScrollView>
