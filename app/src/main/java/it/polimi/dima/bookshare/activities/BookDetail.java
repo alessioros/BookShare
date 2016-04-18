@@ -354,6 +354,7 @@ public class BookDetail extends AppCompatActivity {
         bookRequest.setAskerID(PreferenceManager.getDefaultSharedPreferences(this).getString("ID",null));
         bookRequest.setReceiverID(book.getOwnerID());
         bookRequest.setBookISBN(book.getIsbn());
+        bookRequest.setAccepted(false);
 
         try {
 
