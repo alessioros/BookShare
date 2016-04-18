@@ -94,6 +94,7 @@
     <string name="accept_button">Accept</string>
     <string name="info_pending">Pending</string>
     <string name="info_accepted">Accepted</string>
+    <string name="info_refused">Refused</string>
     <string name="contact_user">Contact</string>
     <string name="send_fb_message">Send a FB message</string>
 

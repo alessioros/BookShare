@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,25 +67,26 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
             holder.buttonRefuse.setVisibility(Button.GONE);
             holder.buttonAccept.setVisibility(Button.GONE);
-                if (bookRequest.getAccepted() == 2) {
+            if (bookRequest.getAccepted() == 2) {
 
-                    holder.infoRequest.setText(R.string.info_accepted);
-                    holder.infoRequest.setVisibility(TextView.VISIBLE);
-                    holder.buttonContact.setVisibility(Button.VISIBLE);
-                    holder.buttonContact.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            DialogContact dialogContact = new DialogContact();
-                            Bundle args = new Bundle();
-                            args.putParcelable("user", user);
-                            dialogContact.setArguments(args);
-                            dialogContact.show(((FragmentActivity) context).getFragmentManager(), "Contact dialog");
-                        }
-                    });
+                holder.infoRequest.setText(R.string.info_accepted);
+                holder.infoRequest.setVisibility(TextView.VISIBLE);
+                holder.buttonContact.setVisibility(Button.VISIBLE);
+                holder.buttonContact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DialogContact dialogContact = new DialogContact();
+                        Bundle args = new Bundle();
+                        args.putParcelable("user", user);
+                        dialogContact.setArguments(args);
+                        dialogContact.show(((FragmentActivity) context).getFragmentManager(), "Contact dialog");
+                    }
+                });
 
-                } else {
+            } else {
 
                 holder.infoRequest.setText(R.string.info_pending);
+
                 holder.infoRequest.setVisibility(TextView.VISIBLE);
 
             }
@@ -108,7 +110,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                         dialogContact.show(((FragmentActivity) context).getFragmentManager(), "Contact dialog");
                     }
                 });
-            } else {
+            } else if (bookRequest.getAccepted() == 0) {
+
                 holder.buttonRefuse.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -126,6 +129,14 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                         notifyDataSetChanged();
                     }
                 });
+            } else if (bookRequest.getAccepted() == 1) {
+
+                holder.buttonRefuse.setVisibility(Button.GONE);
+                holder.buttonAccept.setVisibility(Button.GONE);
+                holder.infoRequest.setText(R.string.info_refused);
+                holder.infoRequest.setVisibility(TextView.VISIBLE);
+                holder.infoRequest.setGravity(Gravity.CENTER_HORIZONTAL);
+
             }
         }
 

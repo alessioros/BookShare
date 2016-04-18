@@ -14,6 +14,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.activities.MainActivity;
+import it.polimi.dima.bookshare.activities.RequestsActivity;
 import it.polimi.dima.bookshare.utils.AtomicIDs;
 
 /**
@@ -50,7 +51,7 @@ public class MyGcmListenerService extends GcmListenerService {
      * @param message GCM message received.
      */
     private void sendNotification(String message) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, RequestsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
