@@ -95,8 +95,11 @@
     <string name="info_pending">Pending</string>
     <string name="info_accepted">Accepted</string>
     <string name="info_refused">Refused</string>
+    <string name="info_confirmed">Confirmed</string>
     <string name="contact_user">Contact</string>
+    <string name="confirm_isbn">Confirm with scan</string>
     <string name="send_fb_message">Send a FB message</string>
+    <string name="exchange_confirmed">Exchange confirmed!</string>
 
     <!-- MAP ACTIVITY -->
     <string name="toolbar_verify">Verify location</string>
