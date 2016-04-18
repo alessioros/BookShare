@@ -96,7 +96,7 @@
     <!-- REQUESTS ACTIVITY -->
     <dimen name="margin_top_buttons">30dp</dimen>
     <dimen name="margin_between_buttons">40dp</dimen>
-    <dimen name="margin_info_request">30dp</dimen>
+    <dimen name="margin_info_request">15dp</dimen>
     <dimen name="margin_top_info_request">15dp</dimen>
 
     <!-- DIALOG -->

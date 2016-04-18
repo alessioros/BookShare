@@ -176,7 +176,7 @@ public class DynamoDBManager {
     /*
      * Updates one attribute/value pair for the specified book.
      */
-    public static void updateBook(Book book) {
+    public void updateBook(Book book) {
 
         AmazonDynamoDBClient ddb = clientManager.ddb();
         DynamoDBMapper mapper = new DynamoDBMapper(ddb);

@@ -13,80 +13,79 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/info_icon"
+            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <ImageView
             android:id="@+id/card_image"
-            android:contentDescription="@string/card_image_contdesc"
             android:layout_width="@dimen/card_image_width"
             android:layout_height="@dimen/card_image_height"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:elevation="@dimen/card_image_elev"
-            android:layout_margin="@dimen/card_image_margin" />
+            android:layout_margin="@dimen/card_image_margin"
+            android:contentDescription="@string/card_image_contdesc"
+            android:elevation="@dimen/card_image_elev" />
 
         <TextView
             android:id="@+id/card_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="@dimen/card_title_maxwidth"
-            android:maxLines="1"
-            android:layout_toEndOf="@id/card_image"
-            android:layout_toRightOf="@id/card_image"
-            android:textSize="@dimen/card_title_txtsize"
             android:layout_marginLeft="@dimen/card_title_marginleft"
             android:layout_marginTop="@dimen/card_title_margintop"
-            android:textColor="@color/black"
+            android:layout_toEndOf="@id/card_image"
+            android:layout_toRightOf="@id/card_image"
+            android:maxLines="1"
+            android:maxWidth="@dimen/card_title_maxwidth"
             android:shadowColor="@color/text_shadow"
-            android:shadowRadius="2" />
+            android:shadowRadius="2"
+            android:textColor="@color/black"
+            android:textSize="@dimen/card_title_txtsize" />
 
         <TextView
             android:id="@+id/card_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/card_title"
+            android:layout_marginLeft="@dimen/card_title_marginleft"
+            android:layout_marginTop="@dimen/card_author_margintop"
             android:layout_toEndOf="@id/card_image"
             android:layout_toRightOf="@id/card_image"
-            android:layout_below="@+id/card_title"
-            android:textSize="@dimen/card_author_txtsize"
             android:textColor="@color/textSecondary"
-            android:layout_marginLeft="@dimen/card_title_marginleft"
-            android:layout_marginTop="@dimen/card_author_margintop" />
+            android:textSize="@dimen/card_author_txtsize" />
 
-        <View
-            android:id="@+id/ruler"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/searchruler_margintop"
-            android:layout_below="@+id/card_author"
-            android:background="@color/black_overlay" />
 
         <RelativeLayout
             android:id="@+id/owner_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ruler"
-            android:layout_toEndOf="@id/card_image"
-            android:layout_toRightOf="@id/card_image"
+            android:layout_below="@id/card_author"
+            android:layout_marginLeft="@dimen/card_title_marginleft"
             android:layout_marginTop="@dimen/owner_info_margintop"
-            android:layout_marginLeft="@dimen/card_title_marginleft">
+            android:layout_toEndOf="@id/card_image"
+            android:layout_toRightOf="@id/card_image">
 
             <TextView
                 android:id="@+id/card_owner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxWidth="@dimen/card_owner_maxwidth"
+                android:layout_centerVertical="true"
                 android:maxLines="1"
-                android:textSize="@dimen/card_owner_txtsize"
+                android:maxWidth="@dimen/card_owner_maxwidth"
                 android:textColor="@color/textPrimaryLight"
-                android:layout_centerVertical="true" />
+                android:textSize="@dimen/card_owner_txtsize" />
 
             <TextView
                 android:id="@+id/card_owner_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/card_ownerloc_marginleft"
                 android:layout_toEndOf="@id/card_owner"
                 android:layout_toRightOf="@id/card_owner"
                 android:textColor="@color/textSecondary"
-                android:layout_marginLeft="@dimen/card_ownerloc_marginleft"
-                android:layout_centerVertical="true"
                 android:textSize="@dimen/card_ownerloc_txtsize" />
 
         </RelativeLayout>
@@ -95,49 +94,47 @@
             android:id="@+id/buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/owner_info"
+            android:layout_below="@id/card_image"
             android:layout_marginTop="@dimen/margin_top_buttons">
 
             <Button
                 android:id="@+id/refuse_request"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textSecondary"
                 android:text="@string/refuse_button"
-                style="?android:attr/borderlessButtonStyle"/>
+                android:textColor="@color/textSecondary" />
 
             <Button
                 android:id="@+id/accept_request"
-                android:layout_toRightOf="@id/refuse_request"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_between_buttons"
+                android:layout_toRightOf="@id/refuse_request"
                 android:text="@string/accept_button"
-                android:textColor="@color/colorPrimaryExtraLight"
-                style="?android:attr/borderlessButtonStyle"/>
+                android:textColor="@color/colorPrimaryExtraLight" />
 
-            <TextView
-                android:id="@+id/info_request"
-                android:text="@string/info_pending"
-                android:layout_marginTop="@dimen/margin_top_info_request"
-                android:layout_marginLeft="@dimen/margin_info_request"
-                android:layout_marginBottom="@dimen/margin_top_info_request"
+            <Button
+                android:id="@+id/confirm_isbn"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:textColor="@color/colorPrimaryDark"
+                android:layout_centerHorizontal="true"
+                android:text="@string/confirm_isbn"
+                android:textColor="@color/colorPrimaryExtraLight"
                 android:visibility="gone" />
 
             <Button
                 android:id="@+id/contact_user"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/contact_user"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_info_request"
+                android:text="@string/contact_user"
                 android:textColor="@color/colorPrimaryExtraLight"
-                style="?android:attr/borderlessButtonStyle"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </RelativeLayout>
 

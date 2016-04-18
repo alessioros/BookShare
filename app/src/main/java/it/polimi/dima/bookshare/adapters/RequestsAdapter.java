@@ -1,13 +1,14 @@
 package it.polimi.dima.bookshare.adapters;
 
-import android.app.DialogFragment;
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +17,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.activities.VerticalOrientationCA;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
+import it.polimi.dima.bookshare.fragments.FragmentIntentIntegrator;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.BookRequest;
 import it.polimi.dima.bookshare.tables.User;
@@ -69,8 +73,20 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             holder.buttonAccept.setVisibility(Button.GONE);
             if (bookRequest.getAccepted() == 2) {
 
-                holder.infoRequest.setText(R.string.info_accepted);
-                holder.infoRequest.setVisibility(TextView.VISIBLE);
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.accepted_icon,context.getTheme()));
+
+                holder.buttonConfirm.setVisibility(Button.VISIBLE);
+                holder.buttonConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        IntentIntegrator scanIntegrator = new IntentIntegrator((Activity) context);
+                        scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
+                        scanIntegrator.setPrompt(context.getResources().getString(R.string.scan_isbn));
+                        PreferenceManager.getDefaultSharedPreferences(context).edit().putString("EXCHANGE_ID",bookRequest.getReceiverID()).apply();
+                        scanIntegrator.initiateScan();
+                    }
+                });
+
                 holder.buttonContact.setVisibility(Button.VISIBLE);
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -83,22 +99,29 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     }
                 });
 
-            } else {
+            } else if (bookRequest.getAccepted() == 0){
 
-                holder.infoRequest.setText(R.string.info_pending);
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.pending_icon,context.getTheme()));
 
-                holder.infoRequest.setVisibility(TextView.VISIBLE);
 
+            } else if (bookRequest.getAccepted() == 1) {
+
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.refused_icon,context.getTheme()));
+
+            } else if(bookRequest.getAccepted() == 3){
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.confirmed_icon,context.getTheme()));
             }
 
 
         } else {
 
             if (bookRequest.getAccepted() == 2) {
+
                 holder.buttonRefuse.setVisibility(Button.GONE);
                 holder.buttonAccept.setVisibility(Button.GONE);
-                holder.infoRequest.setText(R.string.info_accepted);
-                holder.infoRequest.setVisibility(TextView.VISIBLE);
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.accepted_icon,context.getTheme()));
+
+
                 holder.buttonContact.setVisibility(Button.VISIBLE);
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -133,9 +156,13 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
                 holder.buttonRefuse.setVisibility(Button.GONE);
                 holder.buttonAccept.setVisibility(Button.GONE);
-                holder.infoRequest.setText(R.string.info_refused);
-                holder.infoRequest.setVisibility(TextView.VISIBLE);
-                holder.infoRequest.setGravity(Gravity.CENTER_HORIZONTAL);
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.refused_icon,context.getTheme()));
+
+            } else if(bookRequest.getAccepted() == 3){
+
+                holder.buttonRefuse.setVisibility(Button.GONE);
+                holder.buttonAccept.setVisibility(Button.GONE);
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.confirmed_icon,context.getTheme()));
 
             }
         }
@@ -164,9 +191,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final View mView;
-        public final ImageView mImage;
-        public final TextView mTitle, mAuthor, mOwner, mLocation, infoRequest;
-        public final Button buttonAccept, buttonRefuse, buttonContact;
+        public final ImageView mImage,infoIcon;
+        public final TextView mTitle, mAuthor, mOwner, mLocation;
+        public final Button buttonAccept, buttonRefuse, buttonContact, buttonConfirm;
 
         public ViewHolder(View view) {
 
@@ -180,8 +207,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             buttonAccept = (Button) view.findViewById(R.id.accept_request);
             buttonRefuse = (Button) view.findViewById(R.id.refuse_request);
             buttonContact = (Button) view.findViewById(R.id.contact_user);
-            infoRequest = (TextView) view.findViewById(R.id.info_request);
-
+            buttonConfirm=(Button) view.findViewById(R.id.confirm_isbn);
+            infoIcon=(ImageView) view.findViewById(R.id.info_icon);
 
             view.setOnClickListener(this);
             view.setClickable(true);
