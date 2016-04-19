@@ -115,7 +115,7 @@ public class MyBooksFragment extends Fragment {
 
             } else {
 
-                toast = Toast.makeText(getActivity(), "ISBN " + scanContent + " " + getResources().getString(R.string.founded), Toast.LENGTH_SHORT);
+                toast = Toast.makeText(getActivity(), "ISBN " + scanContent + " " + getResources().getString(R.string.found), Toast.LENGTH_SHORT);
                 toast.show();
 
                 final ProgressDialog progressDialog =

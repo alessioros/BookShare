@@ -65,7 +65,7 @@
 
     <string name="scan_isbn">Scan a ISBN</string>
     <string name="no_scandata">No book scan data received!</string>
-    <string name="founded">founded</string>
+    <string name="found">found</string>
     <string name="search_for_books">Searching for books...</string>
     <string name="book_alr_added">You have already added this book</string>
 
