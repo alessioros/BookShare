@@ -182,7 +182,7 @@
             android:layout_below="@+id/profile_info"
             android:background="@color/ruler_color" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/books_nearby_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -227,6 +227,6 @@
             android:layout_below="@+id/books_nearby"
             android:background="@color/recycler_ruler_color"
             android:layout_marginBottom="@dimen/books_nearby_marginbottom"
-            android:elevation="0dp" />
+            android:elevation="0dp" />-->
     </RelativeLayout>
 </ScrollView>

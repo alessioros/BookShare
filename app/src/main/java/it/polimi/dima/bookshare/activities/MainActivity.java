@@ -27,6 +27,7 @@ import com.squareup.picasso.Picasso;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.fragments.HomeFragment;
+import it.polimi.dima.bookshare.fragments.ReviewFragment;
 import it.polimi.dima.bookshare.services.RegistrationIntentService;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
@@ -174,6 +175,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(MainActivity.this, RequestsActivity.class));
 
         } else if (id == R.id.reviews) {
+
+            Fragment fragment = ReviewFragment.newInstance();
+
+            getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+            getSupportActionBar().setTitle("Reviews");
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
+
 
         } else if (id == R.id.settings) {
 
