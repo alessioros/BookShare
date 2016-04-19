@@ -1,15 +1,12 @@
 package it.polimi.dima.bookshare.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.zxing.integration.android.IntentIntegrator;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -79,11 +75,11 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        IntentIntegrator scanIntegrator = new IntentIntegrator((Activity) context);
+                        /*FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator((Fragment) context);
                         scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
                         scanIntegrator.setPrompt(context.getResources().getString(R.string.scan_isbn));
                         PreferenceManager.getDefaultSharedPreferences(context).edit().putString("EXCHANGE_ID",bookRequest.getReceiverID()).apply();
-                        scanIntegrator.initiateScan();
+                        scanIntegrator.initiateScan();*/
                     }
                 });
 
