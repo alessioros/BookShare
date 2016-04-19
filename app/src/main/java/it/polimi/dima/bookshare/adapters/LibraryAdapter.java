@@ -87,7 +87,13 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return mBooks.size();
+
+        try {
+            return mBooks.size();
+
+        } catch (NullPointerException e) {
+            return 0;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

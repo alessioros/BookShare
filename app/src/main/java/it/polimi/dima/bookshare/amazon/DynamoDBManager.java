@@ -1,6 +1,8 @@
 package it.polimi.dima.bookshare.amazon;
 
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -24,35 +26,36 @@ import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryResult;
 import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.BookRequest;
 import it.polimi.dima.bookshare.tables.User;
+import it.polimi.dima.bookshare.utils.ManageUser;
 
-/**
- * Created by matteo on 25/03/16.
- */
 public class DynamoDBManager {
 
     private static final String TAG = "DynamoDBManager";
 
     public static AmazonClientManager clientManager = null;
+    private AmazonDynamoDBClient ddbClient;
+    private DynamoDBMapper mapper;
     private Context context;
 
     public DynamoDBManager(Context context) {
         this.context = context;
         clientManager = new AmazonClientManager(context);
+        ddbClient = new AmazonDynamoDBClient(CognitoSyncClientManager.getCredentialsProvider());
+        mapper = new DynamoDBMapper(ddbClient);
     }
 
-    /*
-         * Creates a table with the following attributes: Table name: testTableName
-         * Hash key: userNo type N Read Capacity Units: 10 Write Capacity Units: 5
-         */
     public static void createTable() {
 
         Log.d(TAG, "Create table called");
@@ -85,7 +88,7 @@ public class DynamoDBManager {
 
     /*
      * Retrieves the table description and returns the table status as a string.
-     */
+    */
     public static String getBookTableStatus() {
 
         try {
@@ -230,8 +233,7 @@ public class DynamoDBManager {
 
         ArrayList<Book> userBooks = new ArrayList<>();
 
-        AmazonDynamoDBClient ddb = clientManager
-                .ddb();
+        AmazonDynamoDBClient ddb = clientManager.ddb();
 
         // Create our map of values
         Map keyConditions = new HashMap();
@@ -254,7 +256,7 @@ public class DynamoDBManager {
 
             for (Map item : queryResult.getItems()) {
 
-                Book book = mapAttributes(item);
+                Book book = mapBookAttributes(item);
 
                 userBooks.add(book);
             }
@@ -266,6 +268,29 @@ public class DynamoDBManager {
         } while (lastEvaluatedKey != null);
 
         return userBooks;
+    }
+
+    public static int getBooksCount(String ownerID) {
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+
+        // Create our map of values
+        Map keyConditions = new HashMap();
+
+        // Specify our key conditions (ownerId == "ownerID")
+        Condition hashKeyCondition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ.toString())
+                .withAttributeValueList(new AttributeValue().withS(ownerID));
+        keyConditions.put("ownerID", hashKeyCondition);
+
+        QueryRequest queryRequest = new QueryRequest()
+                .withTableName(Constants.BOOK_TABLE_NAME)
+                .withKeyConditions(keyConditions)
+                .withIndexName("ownerID-index");
+
+        QueryResult queryResult = ddb.query(queryRequest);
+
+        return queryResult.getCount();
     }
 
     public static ArrayList<Book> getReceivedBooks(String receiverID) {
@@ -295,7 +320,7 @@ public class DynamoDBManager {
 
             for (Map item : queryResult.getItems()) {
 
-                Book book = mapAttributes(item);
+                Book book = mapBookAttributes(item);
 
                 userBooks.add(book);
             }
@@ -337,28 +362,79 @@ public class DynamoDBManager {
         return queryResult.getCount();
     }
 
+    public ArrayList<Book> getNearbyBooks(float maxDistance) {
 
-    public static int getBooksCount(String ownerID) {
+        ArrayList<Book> nearbyBooks = new ArrayList<>();
+        final int NUM_BOOKS = 30, BOOKS_PER_USER = 5;
 
-        AmazonDynamoDBClient ddb = clientManager.ddb();
+        // retrieve user's location
+        ManageUser manageUser = new ManageUser(context);
+        String ownerID = manageUser.getUser().getUserID();
+        Location myLoc = new Location(LocationManager.GPS_PROVIDER);
+        myLoc.setLatitude(manageUser.getUser().getLatitude());
+        myLoc.setLongitude(manageUser.getUser().getLongitude());
 
-        // Create our map of values
-        Map keyConditions = new HashMap();
+        ArrayList<User> BSUsers = getAllUsersExceptMe();
 
-        // Specify our key conditions (ownerId == "ownerID")
-        Condition hashKeyCondition = new Condition()
-                .withComparisonOperator(ComparisonOperator.EQ.toString())
-                .withAttributeValueList(new AttributeValue().withS(ownerID));
-        keyConditions.put("ownerID", hashKeyCondition);
+        System.out.println(BSUsers.size() + " USERS FOUNDED");
+        float[][] usersLocations = new float[2][BSUsers.size()];
+        int i = 0;
+        for (User user : BSUsers) {
 
-        QueryRequest queryRequest = new QueryRequest()
-                .withTableName(Constants.BOOK_TABLE_NAME)
-                .withKeyConditions(keyConditions)
-                .withIndexName("ownerID-index");
+            Location userLoc = new Location(LocationManager.GPS_PROVIDER);
+            userLoc.setLatitude(user.getLatitude());
+            userLoc.setLongitude(user.getLongitude());
 
-        QueryResult queryResult = ddb.query(queryRequest);
+            // clean distant users
+            if (userLoc.distanceTo(myLoc) > maxDistance) {
 
-        return queryResult.getCount();
+                usersLocations[0][i] = Float.parseFloat(user.getUserID());
+                usersLocations[1][i] = userLoc.distanceTo(myLoc);
+                i++;
+            }
+        }
+
+        // near users size
+        i++;
+        System.out.println(i + " NEAR USERS FOUNDED");
+
+        // order users based on distance
+        for (int j = 0; j < i; j++) {
+
+            for (int k = j; k < i; k++) {
+
+                if (usersLocations[1][j] > usersLocations[1][k]) {
+
+                    float tmpLoc, tmpID;
+
+                    tmpID = usersLocations[0][j];
+                    tmpLoc = usersLocations[1][j];
+
+                    usersLocations[0][j] = usersLocations[0][k];
+                    usersLocations[1][j] = usersLocations[1][k];
+
+                    usersLocations[0][k] = tmpID;
+                    usersLocations[1][k] = tmpLoc;
+
+                }
+            }
+        }
+
+        do {
+
+            for (int k = 0; k < i; k++) {
+
+
+                List<Book> books = getBooks("" + usersLocations[0][i]);
+
+                nearbyBooks.addAll(books.subList(0, BOOKS_PER_USER - 1));
+
+            }
+
+        } while (nearbyBooks.size() <= NUM_BOOKS);
+
+        return nearbyBooks;
+
     }
 
     /*
@@ -417,7 +493,7 @@ public class DynamoDBManager {
 
             for (Map item : queryResult.getItems()) {
 
-                Book book = mapAttributes(item);
+                Book book = mapBookAttributes(item);
 
                 books.add(book);
             }
@@ -457,7 +533,7 @@ public class DynamoDBManager {
 
             for (Map item : queryResult.getItems()) {
 
-                Book book = mapAttributes(item);
+                Book book = mapBookAttributes(item);
 
                 books.add(book);
             }
@@ -539,6 +615,28 @@ public class DynamoDBManager {
         }
 
         return null;
+    }
+
+    public ArrayList<User> getAllUsersExceptMe() {
+
+        System.out.println("FINDIND ALL USERS EXCEPT ME");
+        ArrayList<User> allUsers = new ArrayList<>();
+        String myID = new ManageUser(context).getUser().getUserID();
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+        PaginatedScanList<User> result = mapper.scan(User.class, scanExpression);
+
+        Iterator allUsersIterator = result.iterator();
+        System.out.println("FOUNDED " + result.size() + " USERS");
+        while (allUsersIterator.hasNext()) {
+
+            User nextUser = (User) allUsersIterator.next();
+
+            if (!nextUser.getUserID().equals(myID))
+                allUsers.add(nextUser);
+        }
+
+        return allUsers;
     }
 
     /*
@@ -688,7 +786,7 @@ public class DynamoDBManager {
     }
 
 
-    public static Book mapAttributes(Map item) {
+    public static Book mapBookAttributes(Map item) {
 
         Book book = new Book();
 
@@ -706,6 +804,15 @@ public class DynamoDBManager {
 
         attribute = (AttributeValue) item.get("ownerID");
         book.setOwnerID(attribute.getS());
+
+        try {
+            attribute = (AttributeValue) item.get("receiverID");
+            book.setReceiverID(attribute.getS());
+
+        } catch (NullPointerException e) {
+
+            book.setReceiverID("");
+        }
 
         try {
             attribute = (AttributeValue) item.get("PageCount");

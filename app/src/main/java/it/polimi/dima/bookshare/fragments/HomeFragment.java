@@ -114,7 +114,7 @@ public class HomeFragment extends Fragment {
         final ProgressBar recyclerProgress = (ProgressBar) view.findViewById(R.id.recycler_progressBar);
         recyclerProgress.setVisibility(View.VISIBLE);
 
-        new LoadBooks(new OnBookLoadingCompleted() {
+        new LoadNearbyBooks(new OnBookLoadingCompleted() {
             @Override
             public void onBookLoadingCompleted(ArrayList<Book> books) {
 
@@ -195,10 +195,10 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    class LoadBooks extends AsyncTask<Void, ArrayList<Book>, ArrayList<Book>> {
+    class LoadNearbyBooks extends AsyncTask<Void, ArrayList<Book>, ArrayList<Book>> {
         private OnBookLoadingCompleted listener;
 
-        public LoadBooks(OnBookLoadingCompleted listener) {
+        public LoadNearbyBooks(OnBookLoadingCompleted listener) {
             this.listener = listener;
         }
 
@@ -209,7 +209,7 @@ public class HomeFragment extends Fragment {
             ArrayList<Book> mBooks = null;
             try {
 
-                mBooks = DDBM.getBooks(new ManageUser(getActivity()).getUser().getUserID());
+                mBooks = DDBM.getNearbyBooks(200f);
             } catch (Exception e) {
 
             }
