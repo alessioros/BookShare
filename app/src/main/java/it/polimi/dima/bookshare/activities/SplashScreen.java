@@ -117,7 +117,6 @@ public class SplashScreen extends AppCompatActivity {
                                         }
 
                                         Intent askLocationIntent = new Intent(SplashScreen.this, MapsActivity.class);
-                                        new SaveCredentials().execute();
                                         startActivity(askLocationIntent);
 
                                     }
@@ -131,7 +130,6 @@ public class SplashScreen extends AppCompatActivity {
                     } else {
 
                         manageUser.saveUser(user);
-                        new SaveCredentials().execute();
                         redirectToHome();
 
                     }
@@ -142,7 +140,6 @@ public class SplashScreen extends AppCompatActivity {
 
         } else {
 
-            new SaveCredentials().execute();
             redirectToHome();
         }
 
@@ -168,24 +165,6 @@ public class SplashScreen extends AppCompatActivity {
             }
         }, SPLASH_TIME_OUT);*/
 
-    }
-
-    private class SaveCredentials extends AsyncTask<Void, Void, String> {
-
-        public SaveCredentials() {
-
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            CognitoSyncClientManager.getCredentialsProvider().getCredentials();
-            return "done";
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-
-        }
     }
 
     public interface OnUserLoadingCompleted {
