@@ -190,13 +190,13 @@
             android:layout_marginTop="@dimen/books_nearby_text_margintop"
             android:layout_below="@id/second_ruler"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/textPrimaryLight"
             android:text="@string/books_nearby_title" />
 
         <View
             android:id="@+id/recycler_rulerOne"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginTop="@dimen/books_nearby_margintop"
             android:layout_marginBottom="10dp"
             android:layout_below="@+id/books_nearby_title"
@@ -223,10 +223,10 @@
             android:id="@+id/recycler_rulerTwo"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_below="@+id/books_nearby"
             android:background="@color/recycler_ruler_color"
             android:layout_marginBottom="@dimen/books_nearby_marginbottom"
-            android:elevation="1dp" />
+            android:elevation="0dp" />
     </RelativeLayout>
 </ScrollView>
