@@ -1,7 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout android:id="@+id/content_frame"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/reviews_of_me"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/secondView"
+            android:paddingLeft="@dimen/lin_layout_padding"
+            android:paddingRight="@dimen/lin_layout_padding"
+            android:paddingBottom="@dimen/first_lay_paddingbottom"
+            android:paddingTop="@dimen/first_lay_paddingtop"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/revofme_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/revcard_margin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/title_revofme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textColor="@color/textPrimary"
+                        android:fontFamily="sans-serif-condensed"
+                        android:layout_alignParentTop="true"
+                        android:textAllCaps="false"
+                        android:layout_marginTop="@dimen/revcards_title_margintop"
+                        android:textSize="@dimen/revcards_title_txtsize"
+                        android:text="@string/title_revofme" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/secondView"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_centerVertical="true" />
+
+        <LinearLayout
+            android:id="@+id/my_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/secondView"
+            android:paddingLeft="@dimen/lin_layout_padding"
+            android:paddingRight="@dimen/lin_layout_padding"
+            android:paddingBottom="@dimen/second_lay_paddingbottom"
+            android:paddingTop="@dimen/second_lay_paddingtop"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/myrev_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/revcard_margin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <View
+                        android:layout_height="60dp"
+                        android:background="@color/colorPrimaryLight"
+                        android:alpha="1"
+                        android:layout_alignParentTop="true"
+                        android:layout_width="match_parent"
+                        android:elevation="1dp" />
+
+                    <TextView
+                        android:id="@+id/title_myrev"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:layout_alignParentTop="true"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textAllCaps="false"
+                        android:layout_marginTop="@dimen/revcards_title_margintop"
+                        android:textSize="@dimen/revcards_title_txtsize"
+                        android:text="@string/title_myrev"
+                        android:elevation="2dp" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

@@ -126,4 +126,8 @@
 
     <!-- FRAGMENT HOME -->
     <string name="books_nearby_title">Books nearby:</string>
+
+    <!-- FRAGMENT REVIEWS -->
+    <string name="title_revofme">Reviews About Me</string>
+    <string name="title_myrev">My Reviews</string>
 </resources>

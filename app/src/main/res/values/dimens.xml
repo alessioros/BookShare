@@ -196,4 +196,15 @@
     <dimen name="contact_info_margintop">20dp</dimen>
     <dimen name="alert_margin">15dp</dimen>
 
+    <!-- REVIEWS FRAGMENT -->
+    <dimen name="first_lay_paddingtop">80dp</dimen>
+    <dimen name="first_lay_paddingbottom">0dp</dimen>
+    <dimen name="second_lay_paddingtop">30dp</dimen>
+    <dimen name="second_lay_paddingbottom">50dp</dimen>
+    <dimen name="lin_layout_padding">20dp</dimen>
+
+    <dimen name="revcard_margin">5dp</dimen>
+
+    <dimen name="revcards_title_margintop">15dp</dimen>
+    <dimen name="revcards_title_txtsize">22sp</dimen>
 </resources>
