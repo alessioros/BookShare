@@ -57,6 +57,8 @@ public class RequestsActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
+        if(getIntent().hasExtra("tab")) viewPager.setCurrentItem(getIntent().getExtras().getInt("tab"));
+
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 

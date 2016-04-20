@@ -106,7 +106,7 @@ public class RequestsFromFragment extends Fragment {
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            requestsAdapter=new RequestsAdapter(bookRequests, getActivity());
+            requestsAdapter=new RequestsAdapter(bookRequests, getActivity(),this);
             recyclerView.setAdapter(requestsAdapter);
 
         }
