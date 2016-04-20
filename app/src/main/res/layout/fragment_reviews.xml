@@ -2,7 +2,8 @@
 <FrameLayout android:id="@+id/content_frame"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -29,18 +30,77 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <View
+                        android:layout_height="@dimen/revheader_height"
+                        android:background="@color/colorPrimaryLight"
+                        android:alpha="1"
+                        android:layout_alignParentTop="true"
+                        android:layout_width="match_parent"
+                        android:elevation="1dp" />
+
                     <TextView
                         android:id="@+id/title_revofme"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:textColor="@color/textPrimary"
+                        android:textColor="@color/white"
                         android:fontFamily="sans-serif-condensed"
                         android:layout_alignParentTop="true"
                         android:textAllCaps="false"
                         android:layout_marginTop="@dimen/revcards_title_margintop"
+                        android:layout_marginLeft="@dimen/revcards_title_marginleft"
                         android:textSize="@dimen/revcards_title_txtsize"
-                        android:text="@string/title_revofme" />
+                        android:text="@string/title_revofme"
+                        android:elevation="2dp" />
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/rev_myimg"
+                        android:layout_width="@dimen/rev_cicimg_size"
+                        android:layout_height="@dimen/rev_cicimg_size"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="@dimen/rev_cicimg_margintop"
+                        android:layout_marginLeft="@dimen/rev_cicimg_marginleft"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="1dp"
+                        app:civ_shadow="true"
+                        app:civ_shadow_radius="3"
+                        app:civ_shadow_color="@color/black_overlay"
+                        android:elevation="@dimen/home_img_elev" />
+
+                    <TextView
+                        android:id="@+id/num_revofme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title_revofme"
+                        android:textSize="@dimen/numrev_txtsize"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/numrev_margintop"
+                        android:text="0 reviews"
+                        android:textColor="@color/textPrimaryLight" />
+
+                    <TextView
+                        android:id="@+id/avg_revofme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/rev_myimg"
+                        android:textSize="@dimen/avgrev_txtsize"
+                        android:layout_marginTop="@dimen/avgrev_margintop"
+                        android:layout_marginLeft="@dimen/avgrev_marginleft"
+                        android:text="avg rating: "
+                        android:textColor="@color/textPrimaryLight" />
+
+                    <RatingBar
+                        android:id="@+id/revofme_ratingBar"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
+                        android:layout_below="@id/num_revofme"
+                        android:layout_marginTop="@dimen/ratingbar_margintop"
+                        android:layout_marginLeft="@dimen/ratingbar_marginleft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:stepSize="0.5"
+                        android:rating="4.5" />
 
                 </RelativeLayout>
 
@@ -77,7 +137,7 @@
                     android:layout_height="match_parent">
 
                     <View
-                        android:layout_height="60dp"
+                        android:layout_height="@dimen/revheader_height"
                         android:background="@color/colorPrimaryLight"
                         android:alpha="1"
                         android:layout_alignParentTop="true"
@@ -86,7 +146,7 @@
 
                     <TextView
                         android:id="@+id/title_myrev"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@color/white"
@@ -94,9 +154,60 @@
                         android:fontFamily="sans-serif-condensed"
                         android:textAllCaps="false"
                         android:layout_marginTop="@dimen/revcards_title_margintop"
+                        android:layout_marginLeft="@dimen/revcards_title_marginleft"
                         android:textSize="@dimen/revcards_title_txtsize"
                         android:text="@string/title_myrev"
                         android:elevation="2dp" />
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/myrev_img"
+                        android:layout_width="@dimen/myrev_cicimg_size"
+                        android:layout_height="@dimen/myrev_cicimg_size"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="@dimen/rev_cicimg_margintop"
+                        android:layout_marginLeft="@dimen/rev_cicimg_marginleft"
+                        android:background="@drawable/myrev_icon"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="1dp"
+                        app:civ_shadow="true"
+                        app:civ_shadow_radius="3"
+                        app:civ_shadow_color="@color/black"
+                        android:elevation="10dp" />
+
+                    <TextView
+                        android:id="@+id/num_myrev"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/title_myrev"
+                        android:textSize="@dimen/numrev_txtsize"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/numrev_margintop"
+                        android:text="0 reviews"
+                        android:textColor="@color/textPrimaryLight" />
+
+                    <TextView
+                        android:id="@+id/avg_myrev"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/myrev_img"
+                        android:textSize="@dimen/avgrev_txtsize"
+                        android:layout_marginTop="@dimen/savgrev_margintop"
+                        android:layout_marginLeft="@dimen/avgrev_marginleft"
+                        android:text="avg rating: "
+                        android:textColor="@color/textPrimaryLight" />
+
+                    <RatingBar
+                        android:id="@+id/my_ratingBar"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
+                        android:layout_below="@id/num_myrev"
+                        android:layout_marginTop="@dimen/ratingbar_margintop"
+                        android:layout_marginLeft="@dimen/ratingbar_marginleft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:stepSize="0.5"
+                        android:rating="3.5" />
 
                 </RelativeLayout>
 

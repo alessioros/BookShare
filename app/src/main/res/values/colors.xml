@@ -25,4 +25,8 @@
     <color name="textPrimary">#111111</color>
     <color name="textPrimaryLight">#444444</color>
     <color name="textSecondary">#888888</color>
+
+    <!-- RATING BAR COLORS -->
+    <color name="yellowstar">#FFD600</color>
+    <color name="lightgrey_star">#E0E0E0</color>
 </resources>

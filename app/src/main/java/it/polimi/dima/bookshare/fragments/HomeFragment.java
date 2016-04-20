@@ -131,22 +131,43 @@ public class HomeFragment extends Fragment {
 
         if (books.size() > 0) {
 
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+            try {
 
-            RecyclerView booksNearby = (RecyclerView) getActivity().findViewById(R.id.books_nearby);
-            booksNearby.setLayoutManager(layoutManager);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
 
-            booksNearby.setAdapter(new LibraryAdapter(books, getActivity(), true));
+                RecyclerView booksNearby = (RecyclerView) getActivity().findViewById(R.id.books_nearby);
+                booksNearby.setLayoutManager(layoutManager);
+
+                booksNearby.setAdapter(new LibraryAdapter(books, getActivity(), true));
+
+            } catch (NullPointerException e) {
+
+            }
+
 
         } else {
 
-            TextView noBooks = (TextView) getActivity().findViewById(R.id.nobooks_nearby_txt);
-            noBooks.setVisibility(View.VISIBLE);
+            try {
+
+                TextView noBooks = (TextView) getActivity().findViewById(R.id.nobooks_nearby_txt);
+                noBooks.setVisibility(View.VISIBLE);
+
+            } catch (NullPointerException e) {
+
+            }
+
 
         }
 
-        ProgressBar recyclerProgress = (ProgressBar) getActivity().findViewById(R.id.recycler_progressBar);
-        recyclerProgress.setVisibility(View.GONE);
+        try {
+
+            ProgressBar recyclerProgress = (ProgressBar) getActivity().findViewById(R.id.recycler_progressBar);
+            recyclerProgress.setVisibility(View.GONE);
+
+        } catch (NullPointerException e) {
+
+        }
+
     }
 
     public interface OnBookCountCompleted {
