@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
         TextView userCredits = (TextView) view.findViewById(R.id.user_credits);
         TextView userBooks = (TextView) view.findViewById(R.id.user_books);
         TextView userRecBooks = (TextView) view.findViewById(R.id.user_borr_books);
-        //TextView booksNearby = (TextView) view.findViewById(R.id.books_nearby_title);
+        TextView booksNearby = (TextView) view.findViewById(R.id.books_nearby_title);
 
         final RelativeLayout userInfo = (RelativeLayout) view.findViewById(R.id.user_information);
         RelativeLayout locInfo = (RelativeLayout) view.findViewById(R.id.location_info);
@@ -81,7 +81,7 @@ public class HomeFragment extends Fragment {
         userBooks.setTypeface(aller);
         userCredits.setTypeface(aller);
         userRecBooks.setTypeface(aller);
-        //booksNearby.setTypeface(aller);
+        booksNearby.setTypeface(aller);
 
         userImage.bringToFront();
         userInfo.setVisibility(View.GONE);
@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
 
-        /*final ProgressBar recyclerProgress = (ProgressBar) view.findViewById(R.id.recycler_progressBar);
+        final ProgressBar recyclerProgress = (ProgressBar) view.findViewById(R.id.recycler_progressBar);
         recyclerProgress.setVisibility(View.VISIBLE);
 
         new LoadNearbyBooks(new OnBookLoadingCompleted() {
@@ -121,12 +121,12 @@ public class HomeFragment extends Fragment {
                 loadBooksNearby(books);
 
             }
-        }).execute();*/
+        }).execute();
 
         return view;
     }
 
-    /*public void loadBooksNearby(ArrayList<Book> books) {
+    public void loadBooksNearby(ArrayList<Book> books) {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
 
@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment {
 
         ProgressBar recyclerProgress = (ProgressBar) getActivity().findViewById(R.id.recycler_progressBar);
         recyclerProgress.setVisibility(View.GONE);
-    }*/
+    }
 
     public interface OnBookCountCompleted {
         void onBookCountCompleted(int count, int recCount);

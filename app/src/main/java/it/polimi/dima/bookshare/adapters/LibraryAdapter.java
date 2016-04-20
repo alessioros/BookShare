@@ -61,7 +61,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
                     Intent intent = new Intent(context, BookDetail.class);
                     intent.putExtra("book", book);
-                    intent.putExtra("button", "lend");
+                    intent.putExtra("button", "ask");
 
                     context.startActivity(intent);
                 }

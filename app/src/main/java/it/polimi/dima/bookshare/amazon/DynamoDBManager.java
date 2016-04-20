@@ -52,7 +52,7 @@ public class DynamoDBManager {
     public DynamoDBManager(Context context) {
         this.context = context;
         clientManager = new AmazonClientManager(context);
-        ddbClient = new AmazonDynamoDBClient(CognitoSyncClientManager.getCredentialsProvider());
+        ddbClient = clientManager.ddb();
         mapper = new DynamoDBMapper(ddbClient);
     }
 
@@ -376,8 +376,9 @@ public class DynamoDBManager {
 
         ArrayList<User> BSUsers = getAllUsersExceptMe();
 
-        System.out.println(BSUsers.size() + " USERS FOUNDED");
-        float[][] usersLocations = new float[2][BSUsers.size()];
+        float[] usersLocations = new float[BSUsers.size()];
+        String[] usersIDs = new String[BSUsers.size()];
+
         int i = 0;
         for (User user : BSUsers) {
 
@@ -385,53 +386,50 @@ public class DynamoDBManager {
             userLoc.setLatitude(user.getLatitude());
             userLoc.setLongitude(user.getLongitude());
 
-            // clean distant users
-            if (userLoc.distanceTo(myLoc) > maxDistance) {
+            if (userLoc.distanceTo(myLoc) < maxDistance) {
 
-                usersLocations[0][i] = Float.parseFloat(user.getUserID());
-                usersLocations[1][i] = userLoc.distanceTo(myLoc);
+                usersIDs[i] = user.getUserID();
+                usersLocations[i] = userLoc.distanceTo(myLoc);
                 i++;
             }
         }
-
-        // near users size
-        i++;
-        System.out.println(i + " NEAR USERS FOUNDED");
 
         // order users based on distance
         for (int j = 0; j < i; j++) {
 
             for (int k = j; k < i; k++) {
 
-                if (usersLocations[1][j] > usersLocations[1][k]) {
+                if (usersLocations[j] > usersLocations[k]) {
 
-                    float tmpLoc, tmpID;
+                    float tmpLoc;
+                    String tmpID;
 
-                    tmpID = usersLocations[0][j];
-                    tmpLoc = usersLocations[1][j];
+                    tmpID = usersIDs[j];
+                    tmpLoc = usersLocations[j];
 
-                    usersLocations[0][j] = usersLocations[0][k];
-                    usersLocations[1][j] = usersLocations[1][k];
+                    usersLocations[j] = usersLocations[k];
+                    usersIDs[j] = usersIDs[k];
 
-                    usersLocations[0][k] = tmpID;
-                    usersLocations[1][k] = tmpLoc;
+                    usersIDs[k] = tmpID;
+                    usersLocations[k] = tmpLoc;
 
                 }
             }
         }
 
-        do {
 
-            for (int k = 0; k < i; k++) {
+        for (int k = 0; k < i; k++) {
 
+            if (nearbyBooks.size() <= NUM_BOOKS) {
 
-                List<Book> books = getBooks("" + usersLocations[0][i]);
+                List<Book> books = getBooks(usersIDs[k]);
+                nearbyBooks.addAll(books.subList(0, BOOKS_PER_USER));
 
-                nearbyBooks.addAll(books.subList(0, BOOKS_PER_USER - 1));
+            } else {
 
+                k = i;
             }
-
-        } while (nearbyBooks.size() <= NUM_BOOKS);
+            }
 
         return nearbyBooks;
 
@@ -619,7 +617,6 @@ public class DynamoDBManager {
 
     public ArrayList<User> getAllUsersExceptMe() {
 
-        System.out.println("FINDIND ALL USERS EXCEPT ME");
         ArrayList<User> allUsers = new ArrayList<>();
         String myID = new ManageUser(context).getUser().getUserID();
 
@@ -627,7 +624,6 @@ public class DynamoDBManager {
         PaginatedScanList<User> result = mapper.scan(User.class, scanExpression);
 
         Iterator allUsersIterator = result.iterator();
-        System.out.println("FOUNDED " + result.size() + " USERS");
         while (allUsersIterator.hasNext()) {
 
             User nextUser = (User) allUsersIterator.next();
