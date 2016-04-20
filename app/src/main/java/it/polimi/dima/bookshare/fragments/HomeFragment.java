@@ -128,12 +128,22 @@ public class HomeFragment extends Fragment {
 
     public void loadBooksNearby(ArrayList<Book> books) {
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
 
-        RecyclerView booksNearby = (RecyclerView) getActivity().findViewById(R.id.books_nearby);
-        booksNearby.setLayoutManager(layoutManager);
+        if (books.size() > 0) {
 
-        booksNearby.setAdapter(new LibraryAdapter(books, getActivity(), true));
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+
+            RecyclerView booksNearby = (RecyclerView) getActivity().findViewById(R.id.books_nearby);
+            booksNearby.setLayoutManager(layoutManager);
+
+            booksNearby.setAdapter(new LibraryAdapter(books, getActivity(), true));
+
+        } else {
+
+            TextView noBooks = (TextView) getActivity().findViewById(R.id.nobooks_nearby_txt);
+            noBooks.setVisibility(View.VISIBLE);
+
+        }
 
         ProgressBar recyclerProgress = (ProgressBar) getActivity().findViewById(R.id.recycler_progressBar);
         recyclerProgress.setVisibility(View.GONE);

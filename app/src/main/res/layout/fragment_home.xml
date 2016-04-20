@@ -212,6 +212,19 @@
             style="@android:style/Widget.Holo.ProgressBar"
             android:layout_centerHorizontal="true" />
 
+        <TextView
+            android:id="@+id/nobooks_nearby_txt"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_below="@id/recycler_rulerOne"
+            android:textColor="@color/textPrimaryLight"
+            android:textSize="@dimen/nobooks_nearby_txtsize"
+            android:layout_marginTop="@dimen/nobooks_nearby_margintop"
+            android:layout_centerHorizontal="true"
+            android:text="@string/nobooks_nearby"
+            android:visibility="gone" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/books_nearby"
             android:layout_width="match_parent"

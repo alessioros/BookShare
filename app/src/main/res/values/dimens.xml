@@ -69,6 +69,8 @@
     <dimen name="books_nearby_margintop">20dp</dimen>
     <dimen name="books_nearby_marginbottom">50dp</dimen>
 
+    <dimen name="nobooks_nearby_margintop">40dp</dimen>
+    <dimen name="nobooks_nearby_txtsize">20sp</dimen>
     <!-- SEARCH RESULT -->
     <dimen name="card_image_width">80dp</dimen>
     <dimen name="card_image_height">125dp</dimen>

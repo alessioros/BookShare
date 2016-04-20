@@ -429,7 +429,7 @@ public class DynamoDBManager {
 
                 k = i;
             }
-            }
+        }
 
         return nearbyBooks;
 
