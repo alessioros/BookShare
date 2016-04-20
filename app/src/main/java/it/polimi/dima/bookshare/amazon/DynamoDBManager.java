@@ -596,6 +596,38 @@ public class DynamoDBManager {
     }
 
     /*
+     * Updates one attribute/value pair for the specified user.
+     */
+    public void updateUser(User user) {
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
+
+        try {
+            mapper.save(user);
+
+        } catch (AmazonServiceException ex) {
+            clientManager.wipeCredentialsOnAuthError(ex);
+        }
+    }
+
+    public void updateUserByID(String ID,int credits) {
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
+
+        try {
+
+            User user = mapper.load(User.class, ID);
+            user.setCredits(user.getCredits()+credits);
+            mapper.save(user);
+
+        } catch (AmazonServiceException ex) {
+            clientManager.wipeCredentialsOnAuthError(ex);
+        }
+    }
+
+    /*
      * Retrieves all of the attribute/value pairs for the specified user.
      */
     public static User getUser(String userID) {
@@ -635,7 +667,8 @@ public class DynamoDBManager {
         return allUsers;
     }
 
-    /*
+
+    /*                                                          BOOKREQUESTS
         Insert new BookRequest in dynamo
      */
     public void insertBookRequest(BookRequest bookRequest) {
@@ -649,6 +682,23 @@ public class DynamoDBManager {
         } catch (AmazonServiceException ex) {
             Log.e(TAG, "Error inserting request");
             clientManager.wipeCredentialsOnAuthError(ex);
+        }
+    }
+
+    /*
+     * Deletes the specified bookRequest and all of its attribute/value pairs.
+     */
+    public static void deleteBookRequest(BookRequest bookRequest) {
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
+
+        try {
+            mapper.delete(bookRequest);
+
+        } catch (AmazonServiceException ex) {
+            clientManager
+                    .wipeCredentialsOnAuthError(ex);
         }
     }
 
@@ -681,24 +731,7 @@ public class DynamoDBManager {
 
             for (Map item : queryResult.getItems()) {
 
-                BookRequest bookRequest = new BookRequest();
-
-                AttributeValue attribute = (AttributeValue) item.get("AskerID");
-                bookRequest.setAskerID(attribute.getS());
-
-                attribute = (AttributeValue) item.get("ReceiverID");
-                bookRequest.setReceiverID(attribute.getS());
-
-                attribute = (AttributeValue) item.get("BookISBN");
-                bookRequest.setBookISBN(attribute.getS());
-
-                attribute = (AttributeValue) item.get("ID");
-                bookRequest.setID(Integer.parseInt(attribute.getN()));
-
-                attribute = (AttributeValue) item.get("Accepted");
-                bookRequest.setAccepted(Integer.parseInt(attribute.getN()));
-
-                userRequests.add(bookRequest);
+                userRequests.add(mapBookRequestAttributes(item));
             }
 
             // If the response lastEvaluatedKey has contents,
@@ -739,24 +772,8 @@ public class DynamoDBManager {
             QueryResult queryResult = ddb.query(queryRequest);
 
             for (Map item : queryResult.getItems()) {
-                BookRequest bookRequest = new BookRequest();
 
-                AttributeValue attribute = (AttributeValue) item.get("AskerID");
-                bookRequest.setAskerID(attribute.getS());
-
-                attribute = (AttributeValue) item.get("ReceiverID");
-                bookRequest.setReceiverID(attribute.getS());
-
-                attribute = (AttributeValue) item.get("BookISBN");
-                bookRequest.setBookISBN(attribute.getS());
-
-                attribute = (AttributeValue) item.get("ID");
-                bookRequest.setID(Integer.parseInt(attribute.getN()));
-
-                attribute = (AttributeValue) item.get("Accepted");
-                bookRequest.setAccepted(Integer.parseInt(attribute.getN()));
-
-                userReceivedRequests.add(bookRequest);
+                userReceivedRequests.add(mapBookRequestAttributes(item));
             }
 
             // If the response lastEvaluatedKey has contents,
@@ -846,6 +863,31 @@ public class DynamoDBManager {
 
         return book;
 
+    }
+
+    public static BookRequest mapBookRequestAttributes(Map item) {
+
+        BookRequest bookRequest = new BookRequest();
+
+        AttributeValue attribute = (AttributeValue) item.get("AskerID");
+        bookRequest.setAskerID(attribute.getS());
+
+        attribute = (AttributeValue) item.get("ReceiverID");
+        bookRequest.setReceiverID(attribute.getS());
+
+        attribute = (AttributeValue) item.get("BookISBN");
+        bookRequest.setBookISBN(attribute.getS());
+
+        attribute = (AttributeValue) item.get("ID");
+        bookRequest.setID(Integer.parseInt(attribute.getN()));
+
+        attribute = (AttributeValue) item.get("Accepted");
+        bookRequest.setAccepted(Integer.parseInt(attribute.getN()));
+
+        attribute = (AttributeValue) item.get("Time");
+        bookRequest.setTime(attribute.getS());
+
+        return bookRequest;
     }
 
 }

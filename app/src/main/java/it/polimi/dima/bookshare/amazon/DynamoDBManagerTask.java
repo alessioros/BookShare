@@ -20,6 +20,7 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
     private Book book;
     private User user;
     private BookRequest bookRequest;
+    private String IDowner;
 
     public DynamoDBManagerTask(Context context, User user) {
 
@@ -35,6 +36,14 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
     public DynamoDBManagerTask(Context context, BookRequest bookRequest) {
         this.context = context;
         this.bookRequest = bookRequest;
+    }
+
+    public DynamoDBManagerTask(Context context, BookRequest bookRequest,Book book,User user,String IDowner) {
+        this.context = context;
+        this.user = user;
+        this.book = book;
+        this.bookRequest = bookRequest;
+        this.IDowner=IDowner;
     }
 
     protected DynamoDBManagerTaskResult doInBackground(DynamoDBManagerType... types) {
@@ -80,6 +89,14 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
         } else if (types[0] == DynamoDBManagerType.INSERT_BOOKREQUEST) {
             if (tableStatus.equalsIgnoreCase("ACTIVE")) {
                 DDBM.insertBookRequest(bookRequest);
+            }
+
+        } else if (types[0] == DynamoDBManagerType.CONFIRM_BOOKREQUEST) {
+            if (tableStatus.equalsIgnoreCase("ACTIVE")) {
+                DDBM.updateBookRequest(bookRequest);
+                DDBM.updateBook(book);
+                DDBM.updateUser(user);
+                DDBM.updateUserByID(IDowner,Constants.STANDARD_CREDITS);
             }
         }
         return result;

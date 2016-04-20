@@ -18,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -30,14 +29,15 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.amazon.Constants;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.BookRequest;
-import it.polimi.dima.bookshare.utils.AtomicIDs;
 import it.polimi.dima.bookshare.utils.ManageUser;
 
 public class BookDetail extends AppCompatActivity {
@@ -369,6 +369,7 @@ public class BookDetail extends AppCompatActivity {
         bookRequest.setReceiverID(book.getOwnerID());
         bookRequest.setBookISBN(book.getIsbn());
         bookRequest.setAccepted(0);
+        bookRequest.setTime(String.valueOf(new Date().getTime()));
 
         try {
 
@@ -378,7 +379,10 @@ public class BookDetail extends AppCompatActivity {
                 if (existingBookRequest.getBookISBN().equals(bookRequest.getBookISBN())
                         && existingBookRequest.getReceiverID().equals(bookRequest.getReceiverID())) {
                     flag = true;
-                    Toast.makeText(this, "You already have a request on this book!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.request_existing, Toast.LENGTH_SHORT).show();
+                } else if(manageUser.getUser().getCredits() < Constants.STANDARD_CREDITS){
+                    flag = true;
+                    Toast.makeText(this, R.string.not_enough_credits, Toast.LENGTH_SHORT).show();
                 }
             }
             if (!flag) {

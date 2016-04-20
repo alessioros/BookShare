@@ -19,10 +19,14 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.RequestsAdapter;
+import it.polimi.dima.bookshare.amazon.Constants;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.tables.BookRequest;
 import it.polimi.dima.bookshare.utils.OnBookRequestsLoadingCompleted;
 
@@ -107,8 +111,8 @@ public class RequestsToFragment extends Fragment {
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            requestsAdapter=new RequestsAdapter(bookRequests, getActivity(), this
-            );
+            Collections.sort(bookRequests,new BookRequestComparator());
+            requestsAdapter=new RequestsAdapter(bookRequests, getActivity(), this);
             recyclerView.setAdapter(requestsAdapter);
 
         }
@@ -163,10 +167,11 @@ public class RequestsToFragment extends Fragment {
 
                 for(BookRequest bookReq : bookRequests){
                     if(bookReq.getReceiverID().equals(ownerID) && bookReq.getBookISBN().equals(scanContent)){
+
                         bookReq.getBook().setReceiverID(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("ID",null));
-                        new DynamoDBManager(getActivity()).updateBook(bookReq.getBook());
                         bookReq.setAccepted(3);
-                        new DynamoDBManager(getActivity()).updateBookRequest(bookReq);
+                        bookReq.getUser().setCredits(bookReq.getUser().getCredits()- Constants.STANDARD_CREDITS);
+                        new DynamoDBManagerTask(getActivity(),bookReq,bookReq.getBook(),bookReq.getUser(), bookReq.getBook().getOwnerID()).execute();
                         requestsAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), getResources().getString(R.string.exchange_confirmed), Toast.LENGTH_SHORT).show();
                     }
@@ -181,5 +186,12 @@ public class RequestsToFragment extends Fragment {
             toast.show();
         }
 
+    }
+
+    public class BookRequestComparator implements Comparator<BookRequest> {
+        @Override
+        public int compare(BookRequest br1, BookRequest br2) {
+            return br1.getTime().compareTo(br2.getTime());
+        }
     }
 }

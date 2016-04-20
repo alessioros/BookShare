@@ -10,6 +10,7 @@
 
 
     <!-- Buttons -->
+    <string name="yes">Yes</string>
     <string name="scan">Scan a Book</string>
     <string name="login">Login</string>
     <string name="loginfb">Login with FB</string>
@@ -105,6 +106,10 @@
     <string name="title_activity_requests">Your Requests</string>
     <string name="loading_requests">Loading your requests</string>
     <string name="nobook_requests">No book requests yet</string>
+    <string name="delete_request">Delete Request?</string>
+    <string name="cant_delete">Can\'t delete accepted request!</string>
+    <string name="not_enough_credits">You don\'t have enough credits!</string>
+    <string name="request_existing">You already have a request on this book!</string>
 
     <!-- MAP ACTIVITY -->
     <string name="toolbar_verify">Verify location</string>

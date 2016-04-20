@@ -1,8 +1,10 @@
 package it.polimi.dima.bookshare.adapters;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -56,10 +59,11 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 
         Typeface aller = Typeface.createFromAsset(context.getAssets(), "fonts/Aller_Rg.ttf");
 
+        holder.setIsRecyclable(false);
         holder.mTitle.setTypeface(aller);
         holder.mAuthor.setTypeface(aller);
         holder.mOwner.setTypeface(aller);
@@ -67,6 +71,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         final BookRequest bookRequest = mBookRequests.get(position);
         user = bookRequest.getUser();
         book = bookRequest.getBook();
+
         if (bookRequest.getAskerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null))) {
 
             holder.buttonRefuse.setVisibility(Button.GONE);
@@ -79,11 +84,18 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(myFragment);
-                        scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
-                        scanIntegrator.setPrompt(context.getResources().getString(R.string.scan_isbn));
-                        PreferenceManager.getDefaultSharedPreferences(context).edit().putString("EXCHANGE_ID",bookRequest.getReceiverID()).apply();
-                        scanIntegrator.initiateScan();
+                        final BookRequest bookRequest = mBookRequests.get(position);
+                        user = bookRequest.getUser();
+                        book = bookRequest.getBook();
+                        if(user.getCredits()<10) {
+                            FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(myFragment);
+                            scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
+                            scanIntegrator.setPrompt(context.getResources().getString(R.string.scan_isbn));
+                            PreferenceManager.getDefaultSharedPreferences(context).edit().putString("EXCHANGE_ID", bookRequest.getReceiverID()).apply();
+                            scanIntegrator.initiateScan();
+                        }else{
+                            Toast.makeText(context,R.string.not_enough_credits,Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
@@ -91,6 +103,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        final BookRequest bookRequest = mBookRequests.get(position);
+                        user = bookRequest.getUser();
+                        book = bookRequest.getBook();
                         DialogContact dialogContact = new DialogContact();
                         Bundle args = new Bundle();
                         args.putParcelable("user", user);
@@ -100,6 +115,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 });
 
             } else if (bookRequest.getAccepted() == 0){
+
 
                 holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.pending_icon,context.getTheme()));
 
@@ -126,6 +142,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        final BookRequest bookRequest = mBookRequests.get(position);
+                        user = bookRequest.getUser();
+                        book = bookRequest.getBook();
                         DialogContact dialogContact = new DialogContact();
                         Bundle args = new Bundle();
                         args.putParcelable("user", user);
@@ -138,6 +157,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonRefuse.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        final BookRequest bookRequest = mBookRequests.get(position);
+                        user = bookRequest.getUser();
+                        book = bookRequest.getBook();
                         bookRequest.setAccepted(1);
                         new DynamoDBManager(context).updateBookRequest(bookRequest);
                         notifyDataSetChanged();
@@ -147,6 +169,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonAccept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        final BookRequest bookRequest = mBookRequests.get(position);
+                        user = bookRequest.getUser();
+                        book = bookRequest.getBook();
                         bookRequest.setAccepted(2);
                         new DynamoDBManager(context).updateBookRequest(bookRequest);
                         notifyDataSetChanged();
@@ -188,7 +213,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         return mBookRequests.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
 
         public final View mView;
         public final ImageView mImage,infoIcon;
@@ -211,12 +236,37 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             infoIcon=(ImageView) view.findViewById(R.id.info_icon);
 
             view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
             view.setClickable(true);
+
         }
 
         @Override
         public void onClick(View view) {
 
+        }
+
+        @Override
+        public boolean onLongClick(View view){
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage(R.string.delete_request)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            BookRequest bookRequest=mBookRequests.get(getAdapterPosition());
+                            if(bookRequest.getAccepted()<2){
+                                new DynamoDBManager(context).deleteBookRequest(bookRequest);
+                            }else{
+                                Toast.makeText(context,R.string.cant_delete,Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
+            builder.create();
+            return true;
         }
     }
 }

@@ -6,6 +6,8 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIgnore;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 
+import java.util.Comparator;
+
 import it.polimi.dima.bookshare.amazon.Constants;
 
 /**
@@ -18,6 +20,7 @@ public class BookRequest {
     private String receiverID;
     private String bookISBN;
     private int accepted;
+    private String time;
     private User user;
     private Book book;
 
@@ -68,6 +71,15 @@ public class BookRequest {
         this.accepted = accepted;
     }
 
+    @DynamoDBAttribute(attributeName = "Time")
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     @DynamoDBIgnore
     public User getUser() {
         return user;
@@ -85,4 +97,5 @@ public class BookRequest {
     public void setBook(Book book) {
         this.book = book;
     }
+
 }
