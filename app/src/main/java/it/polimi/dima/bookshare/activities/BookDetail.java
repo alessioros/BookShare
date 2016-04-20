@@ -347,8 +347,22 @@ public class BookDetail extends AppCompatActivity {
 
     private void askBook() {
 
+        ArrayList<BookRequest> myBookRequests;
+        int id = PreferenceManager.getDefaultSharedPreferences(this).getInt("BookRequestID", 0);
+
         BookRequest bookRequest = new BookRequest();
-        int id = PreferenceManager.getDefaultSharedPreferences(this).getInt("BookRequestID", 0) + 1;
+
+        if(id==0){
+            myBookRequests=new DynamoDBManager(this).getMyBookRequests();
+
+            for (BookRequest br : myBookRequests) {
+                if(br.getID() > id) id=br.getID();
+            }
+
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("BookRequestID", id).apply();
+        }
+
+        id += 1;
         PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("BookRequestID", id).apply();
         bookRequest.setID(id);
         bookRequest.setAskerID(PreferenceManager.getDefaultSharedPreferences(this).getString("ID", null));
@@ -359,7 +373,7 @@ public class BookDetail extends AppCompatActivity {
         try {
 
             Boolean flag = false;
-            final ArrayList<BookRequest> myBookRequests = new DynamoDBManager(this).getMyBookRequests();
+            myBookRequests = new DynamoDBManager(this).getMyBookRequests();
             for (BookRequest existingBookRequest : myBookRequests) {
                 if (existingBookRequest.getBookISBN().equals(bookRequest.getBookISBN())
                         && existingBookRequest.getReceiverID().equals(bookRequest.getReceiverID())) {
