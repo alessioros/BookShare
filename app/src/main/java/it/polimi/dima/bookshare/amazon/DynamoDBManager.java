@@ -451,7 +451,8 @@ public class DynamoDBManager {
 
             for (Book book : result) {
                 if (Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(book.getTitle()).find()
-                        && !book.getOwnerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null))) {
+                        && !book.getOwnerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null))
+                        && book.getReceiverID()==null) {
                     resultList.add(book);
                 }
             }
@@ -619,12 +620,30 @@ public class DynamoDBManager {
         try {
 
             User user = mapper.load(User.class, ID);
-            user.setCredits(user.getCredits()+credits);
+            user.setCredits(user.getCredits()-credits);
             mapper.save(user);
 
         } catch (AmazonServiceException ex) {
             clientManager.wipeCredentialsOnAuthError(ex);
         }
+    }
+
+    public void confirmExchange(BookRequest bookRequest,Book book,User user, User user2){
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
+
+        try {
+
+            mapper.save(bookRequest);
+            mapper.save(book);
+            mapper.save(user);
+            mapper.save(user2);
+
+        } catch (AmazonServiceException ex) {
+            clientManager.wipeCredentialsOnAuthError(ex);
+        }
+
     }
 
     /*

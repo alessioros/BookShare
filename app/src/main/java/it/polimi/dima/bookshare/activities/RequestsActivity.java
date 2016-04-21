@@ -10,8 +10,8 @@ import android.view.MenuItem;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.ViewPagerAdapter;
-import it.polimi.dima.bookshare.fragments.RequestsFromFragment;
-import it.polimi.dima.bookshare.fragments.RequestsToFragment;
+import it.polimi.dima.bookshare.fragments.RequestsReceivedFragment;
+import it.polimi.dima.bookshare.fragments.RequestsSentFragment;
 
 public class RequestsActivity extends AppCompatActivity {
 
@@ -44,8 +44,8 @@ public class RequestsActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
 
-        adapter.addFragment(RequestsToFragment.newInstance(), getResources().getString(R.string.tab_sent));
-        adapter.addFragment(RequestsFromFragment.newInstance(), getResources().getString(R.string.tab_received));
+        adapter.addFragment(RequestsSentFragment.newInstance(), getResources().getString(R.string.tab_sent));
+        adapter.addFragment(RequestsReceivedFragment.newInstance(), getResources().getString(R.string.tab_received));
 
         viewPager.setAdapter(adapter);
     }

@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,22 +30,26 @@ import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.tables.BookRequest;
+import it.polimi.dima.bookshare.tables.User;
+import it.polimi.dima.bookshare.utils.ManageUser;
 import it.polimi.dima.bookshare.utils.OnBookRequestsLoadingCompleted;
 
 /**
  * Created by matteo on 19/04/16.
  */
-public class RequestsToFragment extends Fragment {
+public class RequestsSentFragment extends Fragment {
 
+    private final static String TAG="RequestsSentFragment";
     private RecyclerView recyclerView;
     private ArrayList<BookRequest> bookRequests =new ArrayList<>();
     private RequestsAdapter requestsAdapter;
+    private ManageUser mu;
 
-    public RequestsToFragment() {
+    public RequestsSentFragment() {
     }
 
     public static Fragment newInstance() {
-        return new RequestsToFragment();
+        return new RequestsSentFragment();
     }
 
 
@@ -58,7 +63,7 @@ public class RequestsToFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_requests_to, container, false);
+        View view = inflater.inflate(R.layout.fragment_requests_sent, container, false);
 
         loadRequests();
 
@@ -112,9 +117,25 @@ public class RequestsToFragment extends Fragment {
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            Collections.sort(bookRequests,new BookRequestComparator());
+            Collections.sort(bookRequests,Collections.reverseOrder(new BookRequestComparator()));
             requestsAdapter=new RequestsAdapter(bookRequests, getActivity(), this);
             recyclerView.setAdapter(requestsAdapter);
+
+            final SwipeRefreshLayout mySwipeRefreshLayout=(SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh_requests);
+
+            mySwipeRefreshLayout.setOnRefreshListener(
+                    new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+
+                            Collections.sort(bookRequests,Collections.reverseOrder(new BookRequestComparator()));
+                            requestsAdapter=new RequestsAdapter(bookRequests, getActivity(),RequestsSentFragment.this);
+                            recyclerView.setAdapter(requestsAdapter);
+                            mySwipeRefreshLayout.setRefreshing(false);
+
+                        }
+                    }
+            );
 
         }
 
@@ -169,10 +190,14 @@ public class RequestsToFragment extends Fragment {
                 for(BookRequest bookReq : bookRequests){
                     if(bookReq.getReceiverID().equals(ownerID) && bookReq.getBookISBN().equals(scanContent)){
 
+                        mu=new ManageUser(getActivity());
+                        User me=mu.getUser();
                         bookReq.getBook().setReceiverID(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("ID",null));
                         bookReq.setAccepted(3);
-                        bookReq.getUser().setCredits(bookReq.getUser().getCredits()- Constants.STANDARD_CREDITS);
-                        new DynamoDBManagerTask(getActivity(),bookReq,bookReq.getBook(),bookReq.getUser(), bookReq.getBook().getOwnerID()).execute(DynamoDBManagerType.CONFIRM_BOOKREQUEST);
+                        bookReq.getUser().setCredits(bookReq.getUser().getCredits() + Constants.STANDARD_CREDITS);
+                        me.setCredits(me.getCredits()-Constants.STANDARD_CREDITS);
+                        mu.saveUser(me);
+                        new DynamoDBManagerTask(getActivity(),bookReq,bookReq.getBook(),bookReq.getUser(), me).execute(DynamoDBManagerType.CONFIRM_BOOKREQUEST);
                         requestsAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), getResources().getString(R.string.exchange_confirmed), Toast.LENGTH_SHORT).show();
                     }

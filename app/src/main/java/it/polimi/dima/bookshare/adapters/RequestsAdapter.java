@@ -259,6 +259,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                             BookRequest bookRequest=mBookRequests.get(getAdapterPosition());
                             if(bookRequest.getAccepted()<2){
                                 new DynamoDBManager(context).deleteBookRequest(bookRequest);
+                                notifyDataSetChanged();
                             }else{
                                 Toast.makeText(context,R.string.cant_delete,Toast.LENGTH_SHORT).show();
                             }
@@ -268,8 +269,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                         public void onClick(DialogInterface dialog, int id) {
                             // User cancelled the dialog
                         }
-                    });
-            builder.create();
+                    })
+                    .show();
             return true;
         }
     }

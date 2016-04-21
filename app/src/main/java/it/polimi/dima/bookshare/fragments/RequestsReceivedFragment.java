@@ -2,11 +2,10 @@ package it.polimi.dima.bookshare.fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,35 +14,30 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.RequestsAdapter;
-import it.polimi.dima.bookshare.amazon.Constants;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
-import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.tables.BookRequest;
 import it.polimi.dima.bookshare.utils.OnBookRequestsLoadingCompleted;
 
 /**
  * Created by matteo on 19/04/16.
  */
-public class RequestsFromFragment extends Fragment {
+public class RequestsReceivedFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ArrayList<BookRequest> bookRequests =new ArrayList<>();
     private RequestsAdapter requestsAdapter;
 
-    public RequestsFromFragment() {
+    public RequestsReceivedFragment() {
     }
 
     public static Fragment newInstance() {
-        return new RequestsFromFragment();
+        return new RequestsReceivedFragment();
     }
 
     @Override
@@ -110,9 +104,25 @@ public class RequestsFromFragment extends Fragment {
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            Collections.sort(bookRequests, new BookRequestComparator());
+            Collections.sort(bookRequests,Collections.reverseOrder(new BookRequestComparator()));
             requestsAdapter=new RequestsAdapter(bookRequests, getActivity(),this);
             recyclerView.setAdapter(requestsAdapter);
+
+            final SwipeRefreshLayout mySwipeRefreshLayout=(SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh_requests);
+
+            mySwipeRefreshLayout.setOnRefreshListener(
+                    new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+
+                            Collections.sort(bookRequests,Collections.reverseOrder(new BookRequestComparator()));
+                            requestsAdapter=new RequestsAdapter(bookRequests, getActivity(),RequestsReceivedFragment.this);
+                            recyclerView.setAdapter(requestsAdapter);
+                            mySwipeRefreshLayout.setRefreshing(false);
+
+                        }
+                    }
+            );
 
         }
 
@@ -143,48 +153,6 @@ public class RequestsFromFragment extends Fragment {
 
             listener.onBookRequestsLoadingCompleted(bookRequests);
         }
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        //retrieve result of scanning - instantiate ZXing object
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        Toast toast;
-
-        //check we have a valid result
-        if (scanningResult != null) {
-            //get content from Intent Result
-            final String scanContent = scanningResult.getContents();
-
-
-            if (scanContent == null) {
-
-                toast = Toast.makeText(getActivity(), getResources().getString(R.string.no_scandata), Toast.LENGTH_SHORT);
-                toast.show();
-
-            } else {
-
-                String ownerID=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("EXCHANGE_ID",null);
-                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().remove("EXCHANGE_ID").apply();
-
-                for(BookRequest bookReq : bookRequests){
-                    if(bookReq.getReceiverID().equals(ownerID) && bookReq.getBookISBN().equals(scanContent)){
-                        bookReq.getBook().setReceiverID(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("ID",null));
-                        bookReq.setAccepted(3);
-                        bookReq.getUser().setCredits(bookReq.getUser().getCredits()- Constants.STANDARD_CREDITS);
-                        new DynamoDBManagerTask(getActivity(),bookReq,bookReq.getBook(),bookReq.getUser(), bookReq.getBook().getOwnerID()).execute();
-                        requestsAdapter.notifyDataSetChanged();
-                        Toast.makeText(getActivity(), getResources().getString(R.string.exchange_confirmed), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-            }
-
-        } else {
-            //invalid scan data or scan canceled
-            toast = Toast.makeText(getActivity(), getResources().getString(R.string.no_scandata), Toast.LENGTH_SHORT);
-            toast.show();
-        }
-
     }
 
     public class BookRequestComparator implements Comparator<BookRequest> {
