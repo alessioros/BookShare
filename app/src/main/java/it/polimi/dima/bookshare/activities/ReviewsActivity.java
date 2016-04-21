@@ -12,10 +12,13 @@ import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.fragments.HomeFragment;
 import it.polimi.dima.bookshare.fragments.MyReviewsFragment;
 import it.polimi.dima.bookshare.fragments.ReviewFragment;
+import it.polimi.dima.bookshare.fragments.ReviewsAboutMeFragment;
 
 public class ReviewsActivity extends AppCompatActivity {
 
     private boolean reviewsLoaded;
+    private final String GENERAL_TAG = "general_reviews";
+    private final String DETAIL_TAG = "reviews_detail";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +31,10 @@ public class ReviewsActivity extends AppCompatActivity {
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, fragment)
-                .addToBackStack("general_reviews")
+                .addToBackStack(GENERAL_TAG)
                 .commit();
 
-        getSupportActionBar().setTitle("Reviews");
+        getSupportActionBar().setTitle(getResources().getString(R.string.reviews_title));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -45,14 +48,14 @@ public class ReviewsActivity extends AppCompatActivity {
 
                 reviewsLoaded = false;
 
-                if (getFragmentManager().findFragmentByTag("reviews_detail") != null)
-                    getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag("reviews_detail")).commit();
+                if (getFragmentManager().findFragmentByTag(DETAIL_TAG) != null)
+                    getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(DETAIL_TAG)).commit();
 
                 Fragment fragment = ReviewFragment.newInstance();
 
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
 
-                getSupportActionBar().setTitle("Reviews");
+                getSupportActionBar().setTitle(getResources().getString(R.string.reviews_title));
 
             } else {
 
@@ -69,16 +72,16 @@ public class ReviewsActivity extends AppCompatActivity {
 
         reviewsLoaded = true;
 
-        if (getFragmentManager().findFragmentByTag("general_reviews") != null)
-            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag("general_reviews")).commit();
+        if (getFragmentManager().findFragmentByTag(GENERAL_TAG) != null)
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(GENERAL_TAG)).commit();
 
         Fragment fragment = MyReviewsFragment.newInstance();
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, fragment)
-                .addToBackStack("reviews_detail").commit();
+                .addToBackStack(DETAIL_TAG).commit();
 
-        getSupportActionBar().setTitle("My Reviews");
+        getSupportActionBar().setTitle(getResources().getString(R.string.title_myrev));
 
     }
 
@@ -86,15 +89,15 @@ public class ReviewsActivity extends AppCompatActivity {
 
         reviewsLoaded = true;
 
-        if (getFragmentManager().findFragmentByTag("general_reviews") != null)
-            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag("general_reviews")).commit();
+        if (getFragmentManager().findFragmentByTag(GENERAL_TAG) != null)
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(GENERAL_TAG)).commit();
 
-        Fragment fragment = MyReviewsFragment.newInstance();
+        Fragment fragment = ReviewsAboutMeFragment.newInstance();
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, fragment)
-                .addToBackStack("reviews_detail").commit();
+                .addToBackStack(DETAIL_TAG).commit();
 
-        getSupportActionBar().setTitle("Reviews About Me");
+        getSupportActionBar().setTitle(getResources().getString(R.string.title_revofme));
     }
 }

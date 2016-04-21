@@ -138,6 +138,7 @@
     <string name="nobooks_nearby">It appears that there are no books near you</string>
 
     <!-- FRAGMENT REVIEWS -->
+    <string name="reviews_title">Reviews</string>
     <string name="title_revofme">Reviews About Me</string>
     <string name="title_myrev">My Reviews</string>
 </resources>

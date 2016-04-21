@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.BookRequest;
+import it.polimi.dima.bookshare.tables.Review;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
 
@@ -452,7 +453,7 @@ public class DynamoDBManager {
             for (Book book : result) {
                 if (Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(book.getTitle()).find()
                         && !book.getOwnerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null))
-                        && book.getReceiverID()==null) {
+                        && book.getReceiverID() == null) {
                     resultList.add(book);
                 }
             }
@@ -612,7 +613,7 @@ public class DynamoDBManager {
         }
     }
 
-    public void updateUserByID(String ID,int credits) {
+    public void updateUserByID(String ID, int credits) {
 
         AmazonDynamoDBClient ddb = clientManager.ddb();
         DynamoDBMapper mapper = new DynamoDBMapper(ddb);
@@ -620,7 +621,7 @@ public class DynamoDBManager {
         try {
 
             User user = mapper.load(User.class, ID);
-            user.setCredits(user.getCredits()-credits);
+            user.setCredits(user.getCredits() - credits);
             mapper.save(user);
 
         } catch (AmazonServiceException ex) {
@@ -628,7 +629,7 @@ public class DynamoDBManager {
         }
     }
 
-    public void confirmExchange(BookRequest bookRequest,Book book,User user, User user2){
+    public void confirmExchange(BookRequest bookRequest, Book book, User user, User user2) {
 
         AmazonDynamoDBClient ddb = clientManager.ddb();
         DynamoDBMapper mapper = new DynamoDBMapper(ddb);
@@ -907,6 +908,27 @@ public class DynamoDBManager {
         bookRequest.setTime(attribute.getS());
 
         return bookRequest;
+    }
+
+    public ArrayList<Review> getReviewsAboutMe() {
+
+        ArrayList<Review> mReviews = new ArrayList<>();
+
+        return mReviews;
+    }
+
+    public ArrayList<Review> getMyReviews() {
+
+        ArrayList<Review> mReviews = new ArrayList<>();
+
+        return mReviews;
+    }
+
+    public ArrayList<User> getReviewers(List<Review> reviews) {
+
+        ArrayList<User> reviewers = new ArrayList<>();
+
+        return reviewers;
     }
 
 }

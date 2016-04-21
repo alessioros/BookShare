@@ -1,8 +1,6 @@
 package it.polimi.dima.bookshare.fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.LayerDrawable;
