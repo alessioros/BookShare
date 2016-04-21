@@ -87,14 +87,18 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                         final BookRequest bookRequest = mBookRequests.get(position);
                         user = bookRequest.getUser();
                         book = bookRequest.getBook();
-                        if(user.getCredits()<10) {
+                        if(user.getCredits() < 10) {
+
+                            Toast.makeText(context,R.string.not_enough_credits,Toast.LENGTH_SHORT).show();
+
+                        }else{
+
                             FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(myFragment);
                             scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
                             scanIntegrator.setPrompt(context.getResources().getString(R.string.scan_isbn));
                             PreferenceManager.getDefaultSharedPreferences(context).edit().putString("EXCHANGE_ID", bookRequest.getReceiverID()).apply();
                             scanIntegrator.initiateScan();
-                        }else{
-                            Toast.makeText(context,R.string.not_enough_credits,Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });

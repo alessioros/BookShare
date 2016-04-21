@@ -195,6 +195,7 @@
         <activity
             android:name=".activities.RequestsActivity"
             android:label="@string/title_activity_requests"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

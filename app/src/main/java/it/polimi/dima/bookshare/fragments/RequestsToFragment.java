@@ -27,6 +27,7 @@ import it.polimi.dima.bookshare.adapters.RequestsAdapter;
 import it.polimi.dima.bookshare.amazon.Constants;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.tables.BookRequest;
 import it.polimi.dima.bookshare.utils.OnBookRequestsLoadingCompleted;
 
@@ -171,7 +172,7 @@ public class RequestsToFragment extends Fragment {
                         bookReq.getBook().setReceiverID(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("ID",null));
                         bookReq.setAccepted(3);
                         bookReq.getUser().setCredits(bookReq.getUser().getCredits()- Constants.STANDARD_CREDITS);
-                        new DynamoDBManagerTask(getActivity(),bookReq,bookReq.getBook(),bookReq.getUser(), bookReq.getBook().getOwnerID()).execute();
+                        new DynamoDBManagerTask(getActivity(),bookReq,bookReq.getBook(),bookReq.getUser(), bookReq.getBook().getOwnerID()).execute(DynamoDBManagerType.CONFIRM_BOOKREQUEST);
                         requestsAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), getResources().getString(R.string.exchange_confirmed), Toast.LENGTH_SHORT).show();
                     }

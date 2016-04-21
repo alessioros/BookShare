@@ -177,7 +177,6 @@ public class RequestsFromFragment extends Fragment {
                     }
                 }
 
-
             }
 
         } else {
