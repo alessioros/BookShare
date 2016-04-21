@@ -21,12 +21,14 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     private List<Book> mBooks;
     private Context context;
     private boolean booksNearby;
+    private boolean booksBorrowed;
 
-    public LibraryAdapter(List<Book> mBooks, Context context, boolean booksNearby) {
+    public LibraryAdapter(List<Book> mBooks, Context context, boolean booksNearby, boolean booksBorrowed) {
 
         this.mBooks = mBooks;
         this.context = context;
         this.booksNearby = booksNearby;
+        this.booksBorrowed=booksBorrowed;
     }
 
     @Override
@@ -37,11 +39,11 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_booknearby, parent, false);
 
-        } else {
+        } else{
 
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_mybook, parent, false);
-        }
 
+        }
 
         return new ViewHolder(view);
     }
@@ -67,7 +69,21 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
                 }
             });
 
-        } else {
+        } else if(booksBorrowed){
+
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(context, BookDetail.class);
+                    intent.putExtra("book", book);
+                    intent.putExtra("button", "return");
+
+                    context.startActivity(intent);
+                }
+            });
+
+        } else{
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -20,6 +20,13 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
     private Book book;
     private User user,user2;
     private BookRequest bookRequest;
+    private String id;
+
+    public DynamoDBManagerTask(Context context, String id) {
+
+        this.context = context;
+        this.id = id;
+    }
 
     public DynamoDBManagerTask(Context context, User user) {
 

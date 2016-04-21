@@ -206,7 +206,7 @@ public class MyBooksFragment extends Fragment {
 
             recyclerView.setLayoutManager(gridLayoutManager);
 
-            recyclerView.setAdapter(new LibraryAdapter(mBooks, getActivity(), false));
+            recyclerView.setAdapter(new LibraryAdapter(mBooks, getActivity(), false, false));
         }
 
     }

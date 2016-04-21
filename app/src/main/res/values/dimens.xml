@@ -136,6 +136,8 @@
     <dimen name="confirm_butt_marginleft">30dp</dimen>
 
     <!-- BOOK DETAIL -->
+    <dimen name="owner_image">80dp</dimen>
+    <dimen name="owner_margin">20dp</dimen>
     <dimen name="card_margin">0dp</dimen>
     <dimen name="card_elevation">5dp</dimen>
     <dimen name="card_paddingbottom">30dp</dimen>

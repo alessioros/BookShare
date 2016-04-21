@@ -147,7 +147,7 @@ public class HomeFragment extends Fragment {
                 RecyclerView booksNearby = (RecyclerView) getActivity().findViewById(R.id.books_nearby);
                 booksNearby.setLayoutManager(layoutManager);
 
-                booksNearby.setAdapter(new LibraryAdapter(books, getActivity(), true));
+                booksNearby.setAdapter(new LibraryAdapter(books, getActivity(), true, false));
 
             } catch (NullPointerException e) {
 
