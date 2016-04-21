@@ -170,7 +170,8 @@
 
     <!-- SETTINGS FRAGMENT -->
 
-    <dimen name="settings_padding">15dp</dimen>
+    <dimen name="settings_headers_padding">15dp</dimen>
+    <dimen name="settings_padding">10dp</dimen>
     <dimen name="settings_paddingleft">25dp</dimen>
 
     <dimen name="settings_txtsize">18sp</dimen>
@@ -191,11 +192,12 @@
 
     <dimen name="gen_title_txtsize">18sp</dimen>
     <dimen name="gen_text_txtsize">20sp</dimen>
+
     <dimen name="contactinfo_txtsize">18sp</dimen>
+    <dimen name="contact_info_margintop">0dp</dimen>
 
     <dimen name="subtitle_marginleft">15dp</dimen>
 
-    <dimen name="contact_info_margintop">20dp</dimen>
     <dimen name="alert_margin">15dp</dimen>
 
     <!-- REVIEWS FRAGMENT -->

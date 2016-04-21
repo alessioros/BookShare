@@ -80,8 +80,20 @@ public class ManageUser {
         sp.edit().putBoolean("registered", registered).apply();
     }
 
-    public void updateLoc(String location) {
+    public void setDistance(float distance) {
 
-        sp.edit().putString("location", location).apply();
+        sp.edit().putFloat("distance", distance).apply();
+    }
+
+    public float getDistance() {
+
+        try {
+
+            return sp.getFloat("distance", 0);
+
+        } catch (NullPointerException e) {
+
+            return 0;
+        }
     }
 }

@@ -57,10 +57,14 @@
     <string name="change_usersurname">Change Surname</string>
     <string name="change_email">Change Email</string>
     <string name="change_phone">Change Phone Number</string>
+    <string name="change_distance">Change Max Distance</string>
 
 
     <string name="alert_ok">Ok</string>
     <string name="alert_cancel">Cancel</string>
+
+    <string name="book_distance_title">Search distance</string>
+    <string name="distance_title">Distance</string>
 
     <!-- LIBRARY ACTIVITY -->
 

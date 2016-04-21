@@ -128,8 +128,17 @@ public class HomeFragment extends Fragment {
 
     public void loadBooksNearby(ArrayList<Book> books) {
 
+        int bookSize = 0;
 
-        if (books.size() > 0) {
+        try {
+
+            bookSize = books.size();
+
+        } catch (NullPointerException e) {
+
+        }
+
+        if (bookSize > 0) {
 
             try {
 
@@ -240,7 +249,7 @@ public class HomeFragment extends Fragment {
             ArrayList<Book> mBooks = null;
             try {
 
-                mBooks = DDBM.getNearbyBooks(200f);
+                mBooks = DDBM.getNearbyBooks(new ManageUser(getActivity()).getDistance());
             } catch (Exception e) {
 
             }

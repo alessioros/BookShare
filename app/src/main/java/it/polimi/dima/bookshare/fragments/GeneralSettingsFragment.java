@@ -30,8 +30,8 @@ import it.polimi.dima.bookshare.utils.ManageUser;
 public class GeneralSettingsFragment extends Fragment {
 
     private ManageUser manageUser;
-    private TextView userName, userSurname, email, phone;
-    private LinearLayout setUserName, setUserSurname, setEmail, setPhone;
+    private TextView userName, userSurname, email, phone, distance;
+    private LinearLayout setUserName, setUserSurname, setEmail, setPhone, setDistance;
 
     public GeneralSettingsFragment() {
 
@@ -66,17 +66,20 @@ public class GeneralSettingsFragment extends Fragment {
         userSurname = (TextView) view.findViewById(R.id.set_usersurname_text);
         email = (TextView) view.findViewById(R.id.set_email_text);
         phone = (TextView) view.findViewById(R.id.set_phone_text);
+        distance = (TextView) view.findViewById(R.id.set_distance_text);
 
         setUserName = (LinearLayout) view.findViewById(R.id.set_username);
         setUserSurname = (LinearLayout) view.findViewById(R.id.set_usersurname);
         setEmail = (LinearLayout) view.findViewById(R.id.set_email);
         setPhone = (LinearLayout) view.findViewById(R.id.set_phone);
+        setDistance = (LinearLayout) view.findViewById(R.id.set_distance);
 
         User user = manageUser.getUser();
         userName.setText(user.getName());
         userSurname.setText(user.getSurname());
         email.setText(user.getEmail());
         phone.setText(user.getPhoneNumber());
+        distance.setText("" + (int) manageUser.getDistance() / 1000 + " Km");
 
         setUserName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,6 +241,50 @@ public class GeneralSettingsFragment extends Fragment {
                             new DynamoDBManager(getActivity()).insertUser(user);
 
                             manageUser.saveUser(user);
+                        }
+
+                    }
+                });
+                builder.setNegativeButton(getResources().getString(R.string.alert_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
+        setDistance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(getResources().getString(R.string.change_distance));
+
+                View promptsView = LayoutInflater.from(getActivity()).inflate(R.layout.custom_settings_dialog, null);
+                builder.setView(promptsView);
+
+                final EditText dialogEdit = (EditText) promptsView.findViewById(R.id.dialog_edittxt);
+                dialogEdit.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+                builder.setPositiveButton(getResources().getString(R.string.alert_ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        if (!dialogEdit.getText().equals("")) {
+
+                            distance.setText(dialogEdit.getText().toString() + " Km");
+
+                            try {
+
+                                manageUser.setDistance(1000 * Float.parseFloat(dialogEdit.getText().toString()));
+
+                            } catch (Exception e) {
+
+
+                            }
                         }
 
                     }

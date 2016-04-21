@@ -14,8 +14,8 @@
             android:id="@+id/settings_general"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/settings_padding"
-            android:paddingTop="@dimen/settings_padding">
+            android:paddingBottom="@dimen/settings_headers_padding"
+            android:paddingTop="@dimen/settings_headers_padding">
 
             <ImageView
                 android:id="@+id/setgen_icon"
@@ -55,8 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/general_ruler"
-            android:paddingBottom="@dimen/settings_padding"
-            android:paddingTop="@dimen/settings_padding">
+            android:paddingBottom="@dimen/settings_headers_padding"
+            android:paddingTop="@dimen/settings_headers_padding">
 
             <ImageView
                 android:id="@+id/setloc_icon"

@@ -34,6 +34,7 @@ public class SplashScreen extends AppCompatActivity {
     private static int SPLASH_TIME_OUT = 500;
     private User user;
     private ManageUser manageUser;
+    private final float DEFAULT_MAX_DIST = 200000f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class SplashScreen extends AppCompatActivity {
 
         if (user == null || !manageUser.verifyRegistered()) {
 
+            manageUser.setDistance(DEFAULT_MAX_DIST);
             new LoadUser(new OnUserLoadingCompleted() {
                 @Override
                 public void onUserLoadingCompleted() {

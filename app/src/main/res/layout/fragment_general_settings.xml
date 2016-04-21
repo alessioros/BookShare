@@ -202,4 +202,68 @@
             android:background="@color/set_ruler_color" />
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/book_distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contact_info"
+        android:layout_marginTop="@dimen/contact_info_margintop">
+
+        <TextView
+            android:id="@+id/book_distance_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dispinfo_marginleft"
+            android:layout_marginTop="@dimen/dispinfo_margintop"
+            android:text="@string/book_distance_title"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/dispinfo_txtsize" />
+
+        <View
+            android:id="@+id/book_distance_ruler"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/book_distance_title"
+            android:layout_marginTop="@dimen/dispinfo_ruler_margintop"
+            android:background="@color/set_ruler_color" />
+
+        <LinearLayout
+            android:id="@+id/set_distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book_distance_ruler"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/settings_padding"
+            android:paddingLeft="@dimen/settings_paddingleft"
+            android:paddingStart="@dimen/settings_paddingleft"
+            android:paddingTop="@dimen/settings_padding">
+
+            <TextView
+                android:id="@+id/distance_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/distance_title"
+                android:textColor="@color/textPrimaryLight"
+                android:textSize="@dimen/gen_title_txtsize" />
+
+            <TextView
+                android:id="@+id/set_distance_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/subtitle_marginleft"
+                android:layout_marginStart="@dimen/subtitle_marginleft"
+                android:textColor="@color/textSecondary"
+                android:textSize="@dimen/contactinfo_txtsize" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/distance_ruler"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/set_distance"
+            android:background="@color/set_ruler_color" />
+
+    </RelativeLayout>
 </RelativeLayout>

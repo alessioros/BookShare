@@ -124,7 +124,6 @@ public class RegistrationIntentService extends IntentService {
         new DynamoDBManagerTask(this, user).execute(DynamoDBManagerType.INSERT_USER);
         manageUser.saveUser(user);
         manageUser.setRegistered(true);
-        manageUser.updateLoc(user.getCity() + ", " + user.getCountry());
         client.createPlatformEndpoint(cpeReq).withEndpointArn(cpeRes.getEndpointArn());
 
     }
