@@ -100,4 +100,29 @@ public class ReviewsActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(getResources().getString(R.string.title_revofme));
     }
+
+    @Override
+    public void onBackPressed() {
+
+        if (reviewsLoaded) {
+
+            reviewsLoaded = false;
+
+            if (getFragmentManager().findFragmentByTag(DETAIL_TAG) != null)
+                getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(DETAIL_TAG)).commit();
+
+            Fragment fragment = ReviewFragment.newInstance();
+
+            getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+            getSupportActionBar().setTitle(getResources().getString(R.string.reviews_title));
+
+        } else {
+
+            startActivity(new Intent(ReviewsActivity.this, MainActivity.class));
+            finish();
+        }
+
+        return;
+    }
 }

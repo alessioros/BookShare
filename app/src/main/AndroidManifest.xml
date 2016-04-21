@@ -197,7 +197,9 @@
             android:label="@string/title_activity_requests"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.ReviewsActivity"></activity>
+        <activity
+            android:name=".activities.ReviewsActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

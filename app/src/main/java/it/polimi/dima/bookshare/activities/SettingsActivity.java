@@ -86,4 +86,22 @@ public class SettingsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+
+        if (gsetLoaded) {
+
+            gsetLoaded = false;
+            RelativeLayout settingsHeaders = (RelativeLayout) findViewById(R.id.settings_activity);
+            settingsHeaders.setVisibility(View.VISIBLE);
+
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag("general_settings")).commit();
+
+        } else {
+            startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+            finish();
+        }
+
+    }
+
 }
