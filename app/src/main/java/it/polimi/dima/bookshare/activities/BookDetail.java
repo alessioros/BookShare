@@ -6,9 +6,11 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -38,12 +42,15 @@ import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.BookRequest;
+import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
+import it.polimi.dima.bookshare.utils.OnBookRequestsLoadingCompleted;
 
 public class BookDetail extends AppCompatActivity {
 
     private Book book;
     private ManageUser manageUser;
+    private User owner;
     private static int REDIRECT_TIME_OUT = 500;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private static final String TAG = "BookDetail";
@@ -70,6 +77,9 @@ public class BookDetail extends AppCompatActivity {
         TextView bookPageCount = (TextView) findViewById(R.id.book_pagecount);
         TextView bookDescription = (TextView) findViewById(R.id.book_description);
         TextView bookPublisher = (TextView) findViewById(R.id.book_publisher);
+        final TextView name_owner = (TextView) findViewById(R.id.name_owner);
+        final TextView location_owner = (TextView) findViewById(R.id.location_owner);
+        final CircularImageView image_owner = (CircularImageView) findViewById(R.id.owner_image);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -80,6 +90,8 @@ public class BookDetail extends AppCompatActivity {
         bookPageCount.setTypeface(aller);
         bookDescription.setTypeface(aller);
         bookPublisher.setTypeface(aller);
+        name_owner.setTypeface(aller);
+        location_owner.setTypeface(aller);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -137,6 +149,29 @@ public class BookDetail extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            if(manageUser.getUser().getUserID()==book.getOwnerID()){
+
+                owner=manageUser.getUser();
+                Picasso.with(BookDetail.this).load(owner.getImgURL()).into(image_owner);
+                name_owner.setText(owner.getName() + " " + owner.getSurname());
+                location_owner.setText(owner.getCity() + ", " + owner.getCountry());
+
+            }else {
+
+                new LoadUser(new OnUserLoadingCompleted() {
+                    @Override
+                    public void onUserLoadingCompleted() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Picasso.with(BookDetail.this).load(owner.getImgURL()).into(image_owner);
+                                name_owner.setText(owner.getName() + " " + owner.getSurname());
+                                location_owner.setText(owner.getCity() + ", " + owner.getCountry());
+                            }
+                        });
+                    }
+                }).execute(book.getOwnerID());
+            }
 
             Picasso.with(this).load(book.getImgURL()).into(bookImage, new Callback() {
                 @Override
@@ -167,7 +202,8 @@ public class BookDetail extends AppCompatActivity {
                     deleteBook();
                 }
             });
-            Button deleteButton = (Button) findViewById(R.id.delete_button);
+            Button deleteButton = (Button) findViewById(R.id.button_book_detail);
+            deleteButton.setText(R.string.del_book);
             deleteButton.setVisibility(Button.VISIBLE);
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -180,7 +216,8 @@ public class BookDetail extends AppCompatActivity {
         } else if (i.getStringExtra("button").equals("add")) {
 
             fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_add));
-            Button addButton = (Button) findViewById(R.id.add_button);
+            Button addButton = (Button) findViewById(R.id.button_book_detail);
+            addButton.setText(R.string.add_book);
             addButton.setVisibility(Button.VISIBLE);
             addButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -202,7 +239,8 @@ public class BookDetail extends AppCompatActivity {
         } else if (i.getStringExtra("button").equals("ask")) {
 
             fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_bookmark));
-            Button lendButton = (Button) findViewById(R.id.lend_button);
+            Button lendButton = (Button) findViewById(R.id.button_book_detail);
+            lendButton.setText(R.string.lend_book);
             lendButton.setVisibility(Button.VISIBLE);
 
             fab.setOnClickListener(new View.OnClickListener() {
@@ -216,6 +254,28 @@ public class BookDetail extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     askBook();
+                }
+            });
+
+
+        } else if (i.getStringExtra("button").equals("return")) {
+
+            fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_settings_backup_restore));
+            Button lendButton = (Button) findViewById(R.id.button_book_detail);
+            lendButton.setText(R.string.return_book);
+            lendButton.setVisibility(Button.VISIBLE);
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    returnBook();
+                }
+            });
+
+            lendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    returnBook();
                 }
             });
 
@@ -248,9 +308,7 @@ public class BookDetail extends AppCompatActivity {
         updateBackground((FloatingActionButton) findViewById(R.id.fab), palette);
         supportStartPostponedEnterTransition();
 
-        updateButtonBackground((Button) findViewById(R.id.add_button), palette);
-        updateButtonBackground((Button) findViewById(R.id.delete_button), palette);
-        updateButtonBackground((Button) findViewById(R.id.lend_button), palette);
+        updateButtonBackground((Button) findViewById(R.id.button_book_detail), palette);
 
     }
 
@@ -352,11 +410,11 @@ public class BookDetail extends AppCompatActivity {
 
         BookRequest bookRequest = new BookRequest();
 
-        if(id==0){
-            myBookRequests=new DynamoDBManager(this).getMyBookRequests();
+        if (id == 0) {
+            myBookRequests = new DynamoDBManager(this).getMyBookRequests();
 
             for (BookRequest br : myBookRequests) {
-                if(br.getID() > id) id=br.getID();
+                if (br.getID() > id) id = br.getID();
             }
 
             PreferenceManager.getDefaultSharedPreferences(this).edit().putInt("BookRequestID", id).apply();
@@ -380,7 +438,7 @@ public class BookDetail extends AppCompatActivity {
                         && existingBookRequest.getReceiverID().equals(bookRequest.getReceiverID())) {
                     flag = true;
                     Toast.makeText(this, R.string.request_existing, Toast.LENGTH_SHORT).show();
-                } else if(manageUser.getUser().getCredits() < Constants.STANDARD_CREDITS){
+                } else if (manageUser.getUser().getCredits() < Constants.STANDARD_CREDITS) {
                     flag = true;
                     Toast.makeText(this, R.string.not_enough_credits, Toast.LENGTH_SHORT).show();
                 }
@@ -393,9 +451,34 @@ public class BookDetail extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(BookDetail.this, getResources().getString(R.string.error_ask), Toast.LENGTH_SHORT).show();
         }
+    }
 
+    private void returnBook(){
 
     }
+
+    public interface OnUserLoadingCompleted {
+        void onUserLoadingCompleted();
+    }
+
+    class LoadUser extends AsyncTask<String, Void, Void> {
+        private OnUserLoadingCompleted listener;
+
+        public LoadUser(OnUserLoadingCompleted listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+            owner = new DynamoDBManager(BookDetail.this).getUser(params[0]);
+            listener.onUserLoadingCompleted();
+
+            return null;
+        }
+
+    }
+
 }
 
 

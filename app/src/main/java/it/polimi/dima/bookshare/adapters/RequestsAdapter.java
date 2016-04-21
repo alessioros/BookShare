@@ -189,6 +189,20 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
             } else if(bookRequest.getAccepted() == 3){
 
+                holder.buttonContact.setVisibility(Button.VISIBLE);
+                holder.buttonContact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final BookRequest bookRequest = mBookRequests.get(position);
+                        user = bookRequest.getUser();
+                        book = bookRequest.getBook();
+                        DialogContact dialogContact = new DialogContact();
+                        Bundle args = new Bundle();
+                        args.putParcelable("user", user);
+                        dialogContact.setArguments(args);
+                        dialogContact.show(((FragmentActivity) context).getFragmentManager(), "Contact dialog");
+                    }
+                });
                 holder.buttonRefuse.setVisibility(Button.GONE);
                 holder.buttonAccept.setVisibility(Button.GONE);
                 holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.confirmed_icon,context.getTheme()));

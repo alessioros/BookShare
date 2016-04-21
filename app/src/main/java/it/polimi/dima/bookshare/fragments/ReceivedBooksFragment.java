@@ -104,7 +104,7 @@ public class ReceivedBooksFragment extends Fragment {
 
             recyclerView.setLayoutManager(gridLayoutManager);
 
-            recyclerView.setAdapter(new LibraryAdapter(mBooks, getActivity(), false));
+            recyclerView.setAdapter(new LibraryAdapter(mBooks, getActivity(), false, true));
         }
 
     }
