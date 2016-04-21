@@ -176,13 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.reviews) {
 
-            Fragment fragment = ReviewFragment.newInstance();
-
-            getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-
-            getSupportActionBar().setTitle("Reviews");
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary)));
-
+            startActivity(new Intent(MainActivity.this, ReviewsActivity.class));
 
         } else if (id == R.id.settings) {
 

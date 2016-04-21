@@ -1,5 +1,6 @@
 package it.polimi.dima.bookshare.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -10,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.activities.ReviewsActivity;
 import it.polimi.dima.bookshare.utils.ManageUser;
 
 public class ReviewFragment extends Fragment {
@@ -24,6 +27,7 @@ public class ReviewFragment extends Fragment {
     private TextView firstTitle, secondTitle;
     private CircularImageView myImg, revImg;
     private RatingBar aboutMeRatings, myRatings;
+    private LinearLayout myRev, revOfMe;
 
     public ReviewFragment() {
     }
@@ -69,6 +73,30 @@ public class ReviewFragment extends Fragment {
         stars2.getDrawable(0).setColorFilter(ContextCompat.getColor(getActivity(), R.color.lightgrey_star), PorterDuff.Mode.SRC_ATOP);
         stars2.getDrawable(1).setColorFilter(ContextCompat.getColor(getActivity(), R.color.yellowstar), PorterDuff.Mode.SRC_ATOP);
         stars2.getDrawable(2).setColorFilter(ContextCompat.getColor(getActivity(), R.color.yellowstar), PorterDuff.Mode.SRC_ATOP);
+
+        myRev = (LinearLayout) view.findViewById(R.id.my_reviews);
+
+        revOfMe = (LinearLayout) view.findViewById(R.id.reviews_of_me);
+
+
+        myRev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ReviewsActivity rA = (ReviewsActivity) getActivity();
+                rA.goToMyRev();
+            }
+        });
+
+        revOfMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ReviewsActivity rA = (ReviewsActivity) getActivity();
+                rA.goToRevOfMe();
+            }
+        });
+
         return view;
     }
 
