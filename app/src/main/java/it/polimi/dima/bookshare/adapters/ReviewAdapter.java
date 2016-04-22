@@ -57,7 +57,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
         final Review review = mReviews.get(position);
 
-        if (myReviews && holder.mImage != null) {
+        if (myReviews) {
 
             Picasso.with(context).load(new ManageUser(context).getUser().getImgURL()).into(holder.mImage);
 
@@ -74,7 +74,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
         holder.mTitle.setText(review.getTitle());
         holder.mDate.setText(review.getDate());
-        holder.mDescription.setText(review.getDescription());
+        holder.mDescription.setText("''" + review.getDescription() + "''");
         holder.mRating.setRating(review.getRating());
 
     }

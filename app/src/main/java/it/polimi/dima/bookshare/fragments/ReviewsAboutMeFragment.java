@@ -47,6 +47,7 @@ public class ReviewsAboutMeFragment extends Fragment {
 
 
                 mReviewers = reviewers;
+                loadRecView();
                 progressDialog.dismiss();
 
             }
@@ -68,7 +69,7 @@ public class ReviewsAboutMeFragment extends Fragment {
 
         RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.reviews_recyclerview);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
         recyclerView.setLayoutManager(linearLayoutManager);
 

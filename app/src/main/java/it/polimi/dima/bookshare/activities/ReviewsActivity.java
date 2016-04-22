@@ -33,7 +33,6 @@ public class ReviewsActivity extends AppCompatActivity {
     private final String DETAIL_TAG = "reviews_detail";
     private ProgressDialog progressDialog;
     private ArrayList<Review> myReviews, reviewsAM;
-    private ArrayList<User> mReviewers;
     private boolean firstFinish = false, secondFinish = false;
     private float myAvgRating = 0, aboutMeAvgRating = 0;
     private int numMyRev = 0, numAboutMeRev = 0;
@@ -61,6 +60,13 @@ public class ReviewsActivity extends AppCompatActivity {
                     getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag(DETAIL_TAG)).commit();
 
                 Fragment fragment = ReviewFragment.newInstance();
+
+                Bundle args = new Bundle();
+                args.putFloat("myAvgRating", myAvgRating);
+                args.putFloat("aboutMeAvgRating", aboutMeAvgRating);
+                args.putInt("numMyRev", numMyRev);
+                args.putInt("numAboutMeRev", numAboutMeRev);
+                fragment.setArguments(args);
 
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
 

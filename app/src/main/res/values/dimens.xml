@@ -236,16 +236,27 @@
 
 
     <!-- REVIEW RECYCLERVIEW -->
-    <dimen name="review_card_padding">5dp</dimen>
+    <dimen name="review_card_height">130dp</dimen>
+    <dimen name="review_card_padding">10dp</dimen>
 
-    <dimen name="reviewer_img_size">20dp</dimen>
+    <dimen name="reviewer_img_size">60dp</dimen>
     <dimen name="reviewer_img_elevation">2dp</dimen>
+    <dimen name="reviewer_img_margin">0dp</dimen>
+    <dimen name="reviewer_img_margintop">20dp</dimen>
+    <dimen name="reviewer_img_marginleft">10dp</dimen>
 
     <dimen name="review_title_marginleft">10dp</dimen>
+    <dimen name="review_title_margintop">5dp</dimen>
+    <dimen name="review_title_txtsize">18sp</dimen>
 
     <dimen name="review_rating_marginleft">10dp</dimen>
 
-    <dimen name="review_date_marginleft">10dp</dimen>
+    <dimen name="review_date_marginleft">15dp</dimen>
+    <dimen name="review_date_txtsize">14sp</dimen>
 
-    <dimen name="review_description_margintop">10dp</dimen>
+    <dimen name="review_description_margintop">8dp</dimen>
+    <dimen name="review_description_marginlr">5dp</dimen>
+    <dimen name="review_description_txtsize">12sp</dimen>
+
+    <dimen name="review_header_margintop">10dp</dimen>
 </resources>

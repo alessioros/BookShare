@@ -2,13 +2,15 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_review"
-    android:padding="@dimen/review_card_padding"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/review_card_height"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="2dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="@dimen/review_card_padding">
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/reviewer_img"
@@ -18,6 +20,9 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:elevation="@dimen/reviewer_img_elevation"
+            android:layout_margin="@dimen/reviewer_img_margin"
+            android:layout_marginLeft="@dimen/reviewer_img_marginleft"
+            android:layout_marginTop="@dimen/reviewer_img_margintop"
             app:civ_border_color="@color/white"
             app:civ_border_width="1dp"
             app:civ_shadow="true"
@@ -31,14 +36,17 @@
             android:layout_toEndOf="@id/reviewer_img"
             android:layout_toRightOf="@id/reviewer_img"
             android:layout_alignParentTop="true"
+            android:textSize="@dimen/review_title_txtsize"
             android:textColor="@color/textPrimaryLight"
-            android:layout_marginLeft="@dimen/review_title_marginleft" />
+            android:layout_marginLeft="@dimen/review_title_marginleft"
+            android:layout_marginTop="@dimen/review_title_margintop" />
 
         <RelativeLayout
             android:id="@+id/review_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/review_title"
+            android:layout_marginTop="@dimen/review_header_margintop"
             android:layout_toEndOf="@id/reviewer_img"
             android:layout_toRightOf="@id/reviewer_img">
 
@@ -57,8 +65,11 @@
                 android:id="@+id/review_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/review_rating"
+                android:layout_toRightOf="@id/review_rating"
                 android:layout_marginLeft="@dimen/review_date_marginleft"
                 android:textColor="@color/textSecondary"
+                android:textSize="@dimen/review_date_txtsize"
                 android:layout_centerVertical="true" />
 
         </RelativeLayout>
@@ -68,6 +79,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/reviewer_img"
+            android:textSize="@dimen/review_title_txtsize"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/review_description_marginlr"
+            android:layout_marginRight="@dimen/review_description_marginlr"
             android:layout_marginTop="@dimen/review_description_margintop"
             android:textColor="@color/textSecondary" />
 

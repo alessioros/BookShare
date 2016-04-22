@@ -44,7 +44,7 @@ public class MyReviewsFragment extends Fragment {
 
             RecyclerView recyclerView = (RecyclerView) view;
 
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
             recyclerView.setLayoutManager(linearLayoutManager);
 

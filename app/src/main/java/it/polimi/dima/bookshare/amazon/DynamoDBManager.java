@@ -1007,24 +1007,25 @@ public class DynamoDBManager {
 
     public ArrayList<User> getReviewers(List<Review> reviews) {
 
-        ArrayList<User> reviewers = new ArrayList<>();
+        ArrayList<User> uniqueReviewers = new ArrayList<>();
 
         for (Review review : reviews) {
 
             User user = new User();
             user.setUserID(review.getReviewerID());
 
-            if (!reviewers.contains(user)) {
+            if (!uniqueReviewers.contains(user)) {
 
-                reviewers.add(user);
+                uniqueReviewers.add(user);
             }
         }
 
-        for (User user : reviewers) {
+        ArrayList<User> reviewers = new ArrayList<>();
+
+        for (User user : uniqueReviewers) {
 
             User completeInfo = getUser(user.getUserID());
 
-            reviewers.remove(user);
             reviewers.add(completeInfo);
         }
 
