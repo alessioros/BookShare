@@ -10,7 +10,7 @@ public class Constants {
     public static final String BOOK_TABLE_NAME = "BooksV2";
     public static final String USER_TABLE_NAME = "Users";
     public static final String BOOKREQUEST_TABLE_NAME = "BookRequestsV2";
-    public static final String REVIEW_TABLE_NAME = "Reviews";
+    public static final String REVIEW_TABLE_NAME = "Review";
     public static final int STANDARD_CREDITS =10;
 
 }

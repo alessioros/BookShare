@@ -117,16 +117,17 @@ public class AmazonFinder {
             }
 
         } catch (MalformedURLException murl) {
-
+            return null;
 
         } catch (XmlPullParserException xec) {
+            return null;
 
         } catch (IOException e) {
-
+            return null;
         }
 
         try {
-            if (amazonBook.getIsbn().length() > 0)
+            if (amazonBook.getIsbn().length() > 0 && amazonBook.getTitle().length() > 0 && amazonBook.getAuthor().length() > 0)
                 return amazonBook;
 
             return null;

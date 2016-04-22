@@ -22,10 +22,12 @@ import it.polimi.dima.bookshare.utils.ManageUser;
 
 public class ReviewFragment extends Fragment {
 
-    private TextView firstTitle, secondTitle;
+    private TextView firstTitle, secondTitle, numRev, numAMeRev;
     private CircularImageView myImg, revImg;
     private RatingBar aboutMeRatings, myRatings;
     private LinearLayout myRev, revOfMe;
+    private float myAvgRating = 0, aboutMeAvgRating = 0;
+    private int numMyRev = 0, numAboutMeRev = 0;
 
     public ReviewFragment() {
     }
@@ -36,6 +38,17 @@ public class ReviewFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        try {
+            this.myAvgRating = getArguments().getFloat("myAvgRating");
+            this.aboutMeAvgRating = getArguments().getFloat("aboutMeAvgRating");
+            this.numMyRev = getArguments().getInt("numMyRev");
+            this.numAboutMeRev = getArguments().getInt("numAboutMeRev");
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
         super.onCreate(savedInstanceState);
     }
 
@@ -47,11 +60,18 @@ public class ReviewFragment extends Fragment {
 
         firstTitle = (TextView) view.findViewById(R.id.title_revofme);
         secondTitle = (TextView) view.findViewById(R.id.title_myrev);
+        numRev = (TextView) view.findViewById(R.id.num_myrev);
+        numAMeRev = (TextView) view.findViewById(R.id.num_revofme);
 
         Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
 
         firstTitle.setTypeface(aller);
         secondTitle.setTypeface(aller);
+        numRev.setTypeface(aller);
+        numAMeRev.setTypeface(aller);
+
+        numRev.setText("" + numMyRev + " " + getResources().getString(R.string.reviews_string));
+        numAMeRev.setText("" + numAboutMeRev + " " + getResources().getString(R.string.reviews_string));
 
         myImg = (CircularImageView) view.findViewById(R.id.rev_myimg);
         revImg = (CircularImageView) view.findViewById(R.id.myrev_img);
@@ -71,6 +91,9 @@ public class ReviewFragment extends Fragment {
         stars2.getDrawable(0).setColorFilter(ContextCompat.getColor(getActivity(), R.color.lightgrey_star), PorterDuff.Mode.SRC_ATOP);
         stars2.getDrawable(1).setColorFilter(ContextCompat.getColor(getActivity(), R.color.yellowstar), PorterDuff.Mode.SRC_ATOP);
         stars2.getDrawable(2).setColorFilter(ContextCompat.getColor(getActivity(), R.color.yellowstar), PorterDuff.Mode.SRC_ATOP);
+
+        myRatings.setRating(myAvgRating);
+        aboutMeRatings.setRating(aboutMeAvgRating);
 
         myRev = (LinearLayout) view.findViewById(R.id.my_reviews);
 

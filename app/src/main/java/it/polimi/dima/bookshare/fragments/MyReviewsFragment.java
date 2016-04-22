@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.ReviewAdapter;
-import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Review;
 
 public class MyReviewsFragment extends Fragment {
@@ -30,7 +29,7 @@ public class MyReviewsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        this.mReviews = new DynamoDBManager(getActivity()).getMyReviews();
+        this.mReviews = getArguments().getParcelableArrayList("reviews");
 
         super.onCreate(savedInstanceState);
     }
@@ -49,7 +48,7 @@ public class MyReviewsFragment extends Fragment {
 
             recyclerView.setLayoutManager(linearLayoutManager);
 
-            recyclerView.setAdapter(new ReviewAdapter(mReviews, getActivity(), true));
+            recyclerView.setAdapter(new ReviewAdapter(mReviews, getActivity()));
 
         }
 

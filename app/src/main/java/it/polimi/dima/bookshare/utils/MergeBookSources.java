@@ -19,9 +19,14 @@ public class MergeBookSources {
             book.setTitle(mergeThree(googleBook.getTitle(), amazonBook.getTitle(), LTBook.getTitle()));
             book.setAuthor(mergeThree(googleBook.getAuthor(), amazonBook.getAuthor(), LTBook.getAuthor()));
 
-            // mandatory info
-            if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+            try {
+                // mandatory info
+                if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+                    return null;
+
+            } catch (NullPointerException e) {
                 return null;
+            }
 
             book.setDescription(mergeThree(googleBook.getDescription(), LTBook.getDescription(), amazonBook.getDescription()));
             book.setPageCount(mergeThree(googleBook.getPageCount(), amazonBook.getPageCount(), LTBook.getPageCount()));
@@ -41,9 +46,14 @@ public class MergeBookSources {
             book.setTitle(mergeTwo(googleBook.getTitle(), amazonBook.getTitle()));
             book.setAuthor(mergeTwo(googleBook.getAuthor(), amazonBook.getAuthor()));
 
-            // mandatory info
-            if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+            try {
+                // mandatory info
+                if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+                    return null;
+
+            } catch (NullPointerException e) {
                 return null;
+            }
 
             book.setDescription(googleBook.getDescription());
             book.setPageCount(mergeTwo(googleBook.getPageCount(), amazonBook.getPageCount()));
@@ -64,9 +74,14 @@ public class MergeBookSources {
             book.setTitle(mergeTwo(amazonBook.getTitle(), LTBook.getTitle()));
             book.setAuthor(mergeTwo(LTBook.getAuthor(), amazonBook.getAuthor()));
 
-            // mandatory info
-            if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+            try {
+                // mandatory info
+                if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+                    return null;
+
+            } catch (NullPointerException e) {
                 return null;
+            }
 
             book.setDescription(LTBook.getDescription());
             book.setPageCount(mergeTwo(LTBook.getPageCount(), amazonBook.getPageCount()));
@@ -86,9 +101,14 @@ public class MergeBookSources {
             book.setTitle(amazonBook.getTitle());
             book.setAuthor(amazonBook.getAuthor());
 
-            // mandatory info
-            if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+            try {
+                // mandatory info
+                if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+                    return null;
+
+            } catch (NullPointerException e) {
                 return null;
+            }
 
             book.setDescription(amazonBook.getDescription());
             book.setPageCount(amazonBook.getPageCount());
@@ -108,9 +128,14 @@ public class MergeBookSources {
             book.setTitle(mergeTwo(googleBook.getTitle(), LTBook.getTitle()));
             book.setAuthor(mergeTwo(googleBook.getAuthor(), LTBook.getAuthor()));
 
-            // mandatory info
-            if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+            try {
+                // mandatory info
+                if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+                    return null;
+
+            } catch (NullPointerException e) {
                 return null;
+            }
 
             book.setDescription(mergeTwo(googleBook.getDescription(), LTBook.getDescription()));
             book.setPageCount(mergeTwo(googleBook.getPageCount(), LTBook.getPageCount()));
@@ -158,9 +183,14 @@ public class MergeBookSources {
             book.setTitle(LTBook.getTitle());
             book.setAuthor(LTBook.getAuthor());
 
-            // mandatory info
-            if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+            try {
+                // mandatory info
+                if (book.getIsbn().equals("") || book.getTitle().equals("") || book.getAuthor().equals(""))
+                    return null;
+
+            } catch (NullPointerException e) {
                 return null;
+            }
 
             book.setDescription(LTBook.getDescription());
             book.setPageCount(LTBook.getPageCount());

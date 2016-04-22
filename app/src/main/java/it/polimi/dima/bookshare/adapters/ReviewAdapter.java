@@ -27,24 +27,27 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     private Context context;
     private boolean myReviews;
 
-    public ReviewAdapter(List<Review> mReviews, Context context, boolean myReviews) {
+    public ReviewAdapter(List<Review> mReviews, Context context) {
 
         this.mReviews = mReviews;
         this.context = context;
-        this.myReviews = myReviews;
+        this.myReviews = true;
 
-        if (!myReviews) {
+    }
 
-            // load users that have done the reviews
-            this.mReviewers = new DynamoDBManager(context).getReviewers(mReviews);
+    public ReviewAdapter(List<Review> mReviews, ArrayList<User> mReviewers, Context context) {
 
-        }
+        this.mReviews = mReviews;
+        this.context = context;
+        this.myReviews = false;
+        this.mReviewers = mReviewers;
+
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_mybook, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_review, parent, false);
 
         return new ViewHolder(view);
     }
@@ -54,11 +57,11 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
         final Review review = mReviews.get(position);
 
-        if (myReviews) {
+        if (myReviews && holder.mImage != null) {
 
             Picasso.with(context).load(new ManageUser(context).getUser().getImgURL()).into(holder.mImage);
 
-        } else {
+        } else if (mReviewers != null) {
 
             for (User user : mReviewers) {
 

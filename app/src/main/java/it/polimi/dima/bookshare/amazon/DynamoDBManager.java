@@ -909,16 +909,98 @@ public class DynamoDBManager {
         return bookRequest;
     }
 
+    public static Review mapReviewAttributes(Map item) {
+
+        Review review = new Review();
+
+        AttributeValue attribute = (AttributeValue) item.get("reviewerID");
+        review.setReviewerID(attribute.getS());
+
+        attribute = (AttributeValue) item.get("Date");
+        review.setDate(attribute.getS());
+
+        attribute = (AttributeValue) item.get("targetUserID");
+        review.setTargetUserID(attribute.getS());
+
+        attribute = (AttributeValue) item.get("Rating");
+        review.setRating(Integer.parseInt(attribute.getN()));
+
+        attribute = (AttributeValue) item.get("Title");
+        review.setTitle(attribute.getS());
+
+        attribute = (AttributeValue) item.get("Description");
+        review.setDescription(attribute.getS());
+
+        return review;
+    }
+
     public ArrayList<Review> getReviewsAboutMe() {
 
         ArrayList<Review> mReviews = new ArrayList<>();
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+        String targetUserID = new ManageUser(context).getUser().getUserID();
+
+        // Create our map of values
+        Map keyConditions = new HashMap();
+
+        // Specify our key conditions (targetUserID == "targetUserID")
+        Condition hashKeyCondition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ.toString())
+                .withAttributeValueList(new AttributeValue().withS(targetUserID));
+        keyConditions.put("targetUserID", hashKeyCondition);
+
+        Map lastEvaluatedKey = null;
+        do {
+            QueryRequest queryRequest = new QueryRequest()
+                    .withTableName(Constants.REVIEW_TABLE_NAME)
+                    .withKeyConditions(keyConditions)
+                    .withExclusiveStartKey(lastEvaluatedKey)
+                    .withIndexName("targetUserID-index");
+
+            QueryResult queryResult = ddb.query(queryRequest);
+
+            for (Map item : queryResult.getItems()) {
+
+                Review review = mapReviewAttributes(item);
+
+                mReviews.add(review);
+            }
+
+            // If the response lastEvaluatedKey has contents,
+            // that means there are more results
+            lastEvaluatedKey = queryResult.getLastEvaluatedKey();
+
+        } while (lastEvaluatedKey != null);
 
         return mReviews;
     }
 
     public ArrayList<Review> getMyReviews() {
 
+        String myID = new ManageUser(context).getUser().getUserID();
+
         ArrayList<Review> mReviews = new ArrayList<>();
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+
+        Map<String, Condition> scanFilter = new HashMap<>();
+
+        Condition scanCondition = new Condition()
+                .withComparisonOperator(ComparisonOperator.EQ.toString())
+                .withAttributeValueList(new AttributeValue().withS(myID));
+
+        scanFilter.put("reviewerID", scanCondition);
+        scanExpression.setScanFilter(scanFilter);
+
+        PaginatedScanList<Review> result = mapper.scan(Review.class, scanExpression);
+
+        Iterator reviewIterator = result.iterator();
+
+        while (reviewIterator.hasNext()) {
+
+            mReviews.add((Review) reviewIterator.next());
+        }
 
         return mReviews;
     }
@@ -926,6 +1008,25 @@ public class DynamoDBManager {
     public ArrayList<User> getReviewers(List<Review> reviews) {
 
         ArrayList<User> reviewers = new ArrayList<>();
+
+        for (Review review : reviews) {
+
+            User user = new User();
+            user.setUserID(review.getReviewerID());
+
+            if (!reviewers.contains(user)) {
+
+                reviewers.add(user);
+            }
+        }
+
+        for (User user : reviewers) {
+
+            User completeInfo = getUser(user.getUserID());
+
+            reviewers.remove(user);
+            reviewers.add(completeInfo);
+        }
 
         return reviewers;
     }
