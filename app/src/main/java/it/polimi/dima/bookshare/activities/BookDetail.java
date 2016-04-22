@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,6 +81,7 @@ public class BookDetail extends AppCompatActivity {
         final TextView name_owner = (TextView) findViewById(R.id.name_owner);
         final TextView location_owner = (TextView) findViewById(R.id.location_owner);
         final CircularImageView image_owner = (CircularImageView) findViewById(R.id.owner_image);
+        RatingBar userVal=(RatingBar)findViewById(R.id.revofme_ratingBar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -149,28 +151,35 @@ public class BookDetail extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if(manageUser.getUser().getUserID()==book.getOwnerID()){
+            if(book.getOwnerID()!=null) {
+                if (manageUser.getUser().getUserID() == book.getOwnerID()) {
 
-                owner=manageUser.getUser();
-                Picasso.with(BookDetail.this).load(owner.getImgURL()).into(image_owner);
-                name_owner.setText(owner.getName() + " " + owner.getSurname());
-                location_owner.setText(owner.getCity() + ", " + owner.getCountry());
+                    owner = manageUser.getUser();
+                    Picasso.with(BookDetail.this).load(owner.getImgURL()).into(image_owner);
+                    name_owner.setText(owner.getName() + " " + owner.getSurname());
+                    location_owner.setText(owner.getCity() + ", " + owner.getCountry());
 
-            }else {
+                } else {
 
-                new LoadUser(new OnUserLoadingCompleted() {
-                    @Override
-                    public void onUserLoadingCompleted() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Picasso.with(BookDetail.this).load(owner.getImgURL()).into(image_owner);
-                                name_owner.setText(owner.getName() + " " + owner.getSurname());
-                                location_owner.setText(owner.getCity() + ", " + owner.getCountry());
-                            }
-                        });
-                    }
-                }).execute(book.getOwnerID());
+                    new LoadUser(new OnUserLoadingCompleted() {
+                        @Override
+                        public void onUserLoadingCompleted() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Picasso.with(BookDetail.this).load(owner.getImgURL()).into(image_owner);
+                                    name_owner.setText(owner.getName() + " " + owner.getSurname());
+                                    location_owner.setText(owner.getCity() + ", " + owner.getCountry());
+                                }
+                            });
+                        }
+                    }).execute(book.getOwnerID());
+                }
+            } else{
+                image_owner.setVisibility(CircularImageView.GONE);
+                name_owner.setVisibility(TextView.GONE);
+                location_owner.setVisibility(TextView.GONE);
+                userVal.setVisibility(RatingBar.GONE);
             }
 
             Picasso.with(this).load(book.getImgURL()).into(bookImage, new Callback() {
