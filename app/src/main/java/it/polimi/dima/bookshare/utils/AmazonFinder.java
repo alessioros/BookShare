@@ -126,15 +126,7 @@ public class AmazonFinder {
             return null;
         }
 
-        try {
-            if (amazonBook.getIsbn().length() > 0 && amazonBook.getTitle().length() > 0 && amazonBook.getAuthor().length() > 0)
-                return amazonBook;
-
-            return null;
-
-        } catch (NullPointerException e) {
-            return null;
-        }
+        return amazonBook;
 
     }
 
