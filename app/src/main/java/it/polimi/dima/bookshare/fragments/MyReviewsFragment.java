@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.ReviewAdapter;
 import it.polimi.dima.bookshare.tables.Review;
+import it.polimi.dima.bookshare.tables.User;
 
 public class MyReviewsFragment extends Fragment {
 
     private ArrayList<Review> mReviews;
+    private ArrayList<User> mTargets;
 
     public MyReviewsFragment() {
     }
@@ -30,6 +32,7 @@ public class MyReviewsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         this.mReviews = getArguments().getParcelableArrayList("reviews");
+        this.mTargets = getArguments().getParcelableArrayList("reviewers");
 
         super.onCreate(savedInstanceState);
     }
@@ -48,7 +51,7 @@ public class MyReviewsFragment extends Fragment {
 
             recyclerView.setLayoutManager(linearLayoutManager);
 
-            recyclerView.setAdapter(new ReviewAdapter(mReviews, getActivity()));
+            recyclerView.setAdapter(new ReviewAdapter(mReviews, mTargets, getActivity()));
 
         }
 

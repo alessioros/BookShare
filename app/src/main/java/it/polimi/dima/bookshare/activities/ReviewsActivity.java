@@ -8,6 +8,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -15,6 +17,7 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.adapters.ReviewAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.fragments.HomeFragment;
 import it.polimi.dima.bookshare.fragments.MyReviewsFragment;
@@ -33,6 +36,7 @@ public class ReviewsActivity extends AppCompatActivity {
     private final String DETAIL_TAG = "reviews_detail";
     private ProgressDialog progressDialog;
     private ArrayList<Review> myReviews, reviewsAM;
+    private ArrayList<User> mReviewers, mTargets;
     private boolean firstFinish = false, secondFinish = false;
     private float myAvgRating = 0, aboutMeAvgRating = 0;
     private int numMyRev = 0, numAboutMeRev = 0;
@@ -93,6 +97,7 @@ public class ReviewsActivity extends AppCompatActivity {
         Fragment fragment = MyReviewsFragment.newInstance();
         Bundle args = new Bundle();
         args.putParcelableArrayList("reviews", myReviews);
+        args.putParcelableArrayList("reviewers", mTargets);
         fragment.setArguments(args);
 
         getFragmentManager().beginTransaction()
@@ -113,6 +118,7 @@ public class ReviewsActivity extends AppCompatActivity {
         Fragment fragment = ReviewsAboutMeFragment.newInstance();
         Bundle args = new Bundle();
         args.putParcelableArrayList("reviews", reviewsAM);
+        args.putParcelableArrayList("reviewers", mReviewers);
         fragment.setArguments(args);
 
         getFragmentManager().beginTransaction()
@@ -172,31 +178,44 @@ public class ReviewsActivity extends AppCompatActivity {
 
                 myAvgRating = myAvgRating / numMyRev;
 
-                System.out.println(numMyRev + " my reviews founded with avgRating " + myAvgRating);
-                firstFinish = true;
+                for (Review rev : reviews) {
 
-                // If all the queries are completed
-                if (secondFinish) {
-
-                    progressDialog.dismiss();
-                    Fragment fragment = ReviewFragment.newInstance();
-
-                    Bundle args = new Bundle();
-                    args.putFloat("myAvgRating", myAvgRating);
-                    args.putFloat("aboutMeAvgRating", aboutMeAvgRating);
-                    args.putInt("numMyRev", numMyRev);
-                    args.putInt("numAboutMeRev", numAboutMeRev);
-                    fragment.setArguments(args);
-
-                    getFragmentManager().beginTransaction()
-                            .replace(R.id.content_frame, fragment)
-                            .addToBackStack(GENERAL_TAG)
-                            .commit();
-
-                    getSupportActionBar().setTitle(getResources().getString(R.string.reviews_title));
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+                    rev.setReviewerID(rev.getTargetUserID());
                 }
+
+                new LoadReviewers(new OnReviewersLoadingCompleted() {
+                    @Override
+                    public void onReviewersLoadingCompleted(ArrayList<User> reviewers) {
+
+                        mTargets = reviewers;
+
+                        firstFinish = true;
+
+                        // If all the queries are completed
+                        if (secondFinish) {
+
+                            progressDialog.dismiss();
+                            Fragment fragment = ReviewFragment.newInstance();
+
+                            Bundle args = new Bundle();
+                            args.putFloat("myAvgRating", myAvgRating);
+                            args.putFloat("aboutMeAvgRating", aboutMeAvgRating);
+                            args.putInt("numMyRev", numMyRev);
+                            args.putInt("numAboutMeRev", numAboutMeRev);
+                            fragment.setArguments(args);
+
+                            getFragmentManager().beginTransaction()
+                                    .replace(R.id.content_frame, fragment)
+                                    .addToBackStack(GENERAL_TAG)
+                                    .commit();
+
+                            getSupportActionBar().setTitle(getResources().getString(R.string.reviews_title));
+                            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+                        }
+                    }
+                }).execute(reviews);
+
             }
         }).execute();
 
@@ -214,32 +233,39 @@ public class ReviewsActivity extends AppCompatActivity {
                 }
 
                 aboutMeAvgRating = aboutMeAvgRating / numAboutMeRev;
-                System.out.println(numAboutMeRev + " reviews about me founded with avgRating " + aboutMeAvgRating);
-                secondFinish = true;
 
-                // If all the queries are completed
-                if (firstFinish) {
+                new LoadReviewers(new OnReviewersLoadingCompleted() {
+                    @Override
+                    public void onReviewersLoadingCompleted(ArrayList<User> reviewers) {
 
-                    progressDialog.dismiss();
-                    Fragment fragment = ReviewFragment.newInstance();
+                        mReviewers = reviewers;
 
-                    Bundle args = new Bundle();
-                    args.putFloat("myAvgRating", myAvgRating);
-                    args.putFloat("aboutMeAvgRating", aboutMeAvgRating);
-                    args.putInt("numMyRev", numMyRev);
-                    args.putInt("numAboutMeRev", numAboutMeRev);
-                    fragment.setArguments(args);
+                        secondFinish = true;
 
-                    getFragmentManager().beginTransaction()
-                            .replace(R.id.content_frame, fragment)
-                            .addToBackStack(GENERAL_TAG)
-                            .commit();
+                        // If all the queries are completed
+                        if (firstFinish) {
 
-                    getSupportActionBar().setTitle(getResources().getString(R.string.reviews_title));
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                            progressDialog.dismiss();
+                            Fragment fragment = ReviewFragment.newInstance();
 
-                }
+                            Bundle args = new Bundle();
+                            args.putFloat("myAvgRating", myAvgRating);
+                            args.putFloat("aboutMeAvgRating", aboutMeAvgRating);
+                            args.putInt("numMyRev", numMyRev);
+                            args.putInt("numAboutMeRev", numAboutMeRev);
+                            fragment.setArguments(args);
 
+                            getFragmentManager().beginTransaction()
+                                    .replace(R.id.content_frame, fragment)
+                                    .addToBackStack(GENERAL_TAG)
+                                    .commit();
+
+                            getSupportActionBar().setTitle(getResources().getString(R.string.reviews_title));
+                            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+                        }
+                    }
+                }).execute(reviewsAM);
             }
         }).execute();
 
@@ -248,6 +274,10 @@ public class ReviewsActivity extends AppCompatActivity {
 
     private interface OnReviewLoadingCompleted {
         void onReviewLoadingCompleted(ArrayList<Review> reviews);
+    }
+
+    private interface OnReviewersLoadingCompleted {
+        void onReviewersLoadingCompleted(ArrayList<User> reviewers);
     }
 
     class LoadMyReviews extends AsyncTask<Void, ArrayList<Review>, ArrayList<Review>> {
@@ -293,5 +323,28 @@ public class ReviewsActivity extends AppCompatActivity {
             listener.onReviewLoadingCompleted(reviews);
         }
     }
+
+    class LoadReviewers extends AsyncTask<ArrayList<Review>, ArrayList<User>, ArrayList<User>> {
+        private OnReviewersLoadingCompleted listener;
+
+        public LoadReviewers(OnReviewersLoadingCompleted listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected ArrayList<User> doInBackground(ArrayList<Review>... params) {
+
+            DynamoDBManager DDBM = new DynamoDBManager(ReviewsActivity.this);
+            ArrayList<User> mReviewers = DDBM.getReviewers(params[0]);
+
+            return mReviewers;
+        }
+
+        protected void onPostExecute(ArrayList<User> reviewers) {
+
+            listener.onReviewersLoadingCompleted(reviewers);
+        }
+    }
+
 
 }

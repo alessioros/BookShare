@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.ReviewAdapter;
-import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Review;
 import it.polimi.dima.bookshare.tables.User;
 
@@ -35,23 +34,7 @@ public class ReviewsAboutMeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         this.mReviews = getArguments().getParcelableArrayList("reviews");
-
-        final ProgressDialog progressDialog =
-                ProgressDialog.show(getActivity(),
-                        getResources().getString(R.string.wait),
-                        getResources().getString(R.string.loading_reviewers), true, false);
-
-        new LoadReviewers(new OnReviewersLoadingCompleted() {
-            @Override
-            public void onReviewersLoadingCompleted(ArrayList<User> reviewers) {
-
-
-                mReviewers = reviewers;
-                loadRecView();
-                progressDialog.dismiss();
-
-            }
-        }).execute(mReviews);
+        this.mReviewers = getArguments().getParcelableArrayList("reviewers");
 
         super.onCreate(savedInstanceState);
     }
@@ -62,44 +45,19 @@ public class ReviewsAboutMeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_review_list, container, false);
 
+        if (view instanceof RecyclerView) {
+
+            RecyclerView recyclerView = (RecyclerView) view;
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+
+            recyclerView.setLayoutManager(linearLayoutManager);
+
+            recyclerView.setAdapter(new ReviewAdapter(mReviews, mReviewers, getActivity()));
+
+
+        }
+
         return view;
-    }
-
-    public void loadRecView() {
-
-        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.reviews_recyclerview);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        recyclerView.setAdapter(new ReviewAdapter(mReviews, mReviewers, getActivity()));
-
-    }
-
-    private interface OnReviewersLoadingCompleted {
-        void onReviewersLoadingCompleted(ArrayList<User> reviewers);
-    }
-
-    class LoadReviewers extends AsyncTask<ArrayList<Review>, ArrayList<User>, ArrayList<User>> {
-        private OnReviewersLoadingCompleted listener;
-
-        public LoadReviewers(OnReviewersLoadingCompleted listener) {
-            this.listener = listener;
-        }
-
-        @Override
-        protected ArrayList<User> doInBackground(ArrayList<Review>... params) {
-
-            DynamoDBManager DDBM = new DynamoDBManager(getActivity());
-            ArrayList<User> mReviewers = DDBM.getReviewers(params[0]);
-
-            return mReviewers;
-        }
-
-        protected void onPostExecute(ArrayList<User> reviewers) {
-
-            listener.onReviewersLoadingCompleted(reviewers);
-        }
     }
 }

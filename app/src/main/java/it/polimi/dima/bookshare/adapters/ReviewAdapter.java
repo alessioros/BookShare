@@ -25,21 +25,11 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     private List<Review> mReviews;
     private ArrayList<User> mReviewers;
     private Context context;
-    private boolean myReviews;
-
-    public ReviewAdapter(List<Review> mReviews, Context context) {
-
-        this.mReviews = mReviews;
-        this.context = context;
-        this.myReviews = true;
-
-    }
 
     public ReviewAdapter(List<Review> mReviews, ArrayList<User> mReviewers, Context context) {
 
         this.mReviews = mReviews;
         this.context = context;
-        this.myReviews = false;
         this.mReviewers = mReviewers;
 
     }
@@ -57,18 +47,11 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
         final Review review = mReviews.get(position);
 
-        if (myReviews) {
+        for (User user : mReviewers) {
 
-            Picasso.with(context).load(new ManageUser(context).getUser().getImgURL()).into(holder.mImage);
+            if (user.getUserID().equals(review.getReviewerID())) {
 
-        } else if (mReviewers != null) {
-
-            for (User user : mReviewers) {
-
-                if (user.getUserID().equals(review.getReviewerID())) {
-
-                    Picasso.with(context).load(user.getImgURL()).into(holder.mImage);
-                }
+                Picasso.with(context).load(user.getImgURL()).into(holder.mImage);
             }
         }
 
