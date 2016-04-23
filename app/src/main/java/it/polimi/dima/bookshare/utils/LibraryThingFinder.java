@@ -46,8 +46,6 @@ public class LibraryThingFinder {
 
             URL url = new URL(BOOK_INFO + DEV_KEY + TYPE_ISBN + ISBN);
 
-            System.out.println(url.toString());
-
             XmlPullParserFactory xmlFactoryObject = XmlPullParserFactory.newInstance();
             XmlPullParser xmlParser = xmlFactoryObject.newPullParser();
             xmlParser.setInput(url.openConnection().getInputStream(), null);

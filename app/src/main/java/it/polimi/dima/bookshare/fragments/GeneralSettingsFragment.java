@@ -3,27 +3,20 @@ package it.polimi.dima.bookshare.fragments;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
 import android.text.InputType;
-import android.view.Display;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.facebook.Profile;
+import android.widget.Toast;
 
 import it.polimi.dima.bookshare.R;
-import it.polimi.dima.bookshare.activities.MainActivity;
-import it.polimi.dima.bookshare.activities.SettingsActivity;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
-import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
 
@@ -52,13 +45,6 @@ public class GeneralSettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_general_settings, container, false);
-
-        // get screen dimensions
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        final int width = size.x;
-
 
         manageUser = new ManageUser(getActivity());
 
@@ -98,17 +84,24 @@ public class GeneralSettingsFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if (!dialogEdit.getText().equals("")) {
+                        String nameString = dialogEdit.getText().toString();
 
-                            userName.setText(dialogEdit.getText().toString());
+                        if (!nameString.equals("") && isOnlyLetters(nameString)) {
+
+                            userName.setText(nameString);
 
                             User user = manageUser.getUser();
 
-                            user.setName(dialogEdit.getText().toString());
+                            user.setName(nameString);
 
                             new DynamoDBManager(getActivity()).insertUser(user);
 
                             manageUser.saveUser(user);
+
+                        } else {
+
+                            Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.invalid_name), Toast.LENGTH_SHORT);
+                            toast.show();
                         }
 
                     }
@@ -142,17 +135,24 @@ public class GeneralSettingsFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if (!dialogEdit.getText().equals("")) {
+                        String surnameString = dialogEdit.getText().toString();
 
-                            userSurname.setText(dialogEdit.getText().toString());
+                        if (!surnameString.equals("") && isOnlyLetters(surnameString)) {
+
+                            userSurname.setText(surnameString);
 
                             User user = manageUser.getUser();
 
-                            user.setSurname(dialogEdit.getText().toString());
+                            user.setSurname(surnameString);
 
                             new DynamoDBManager(getActivity()).insertUser(user);
 
                             manageUser.saveUser(user);
+
+                        } else {
+
+                            Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.invalid_surname), Toast.LENGTH_SHORT);
+                            toast.show();
                         }
 
                     }
@@ -186,17 +186,24 @@ public class GeneralSettingsFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if (!dialogEdit.getText().equals("")) {
+                        String emailString = dialogEdit.getText().toString();
 
-                            email.setText(dialogEdit.getText().toString());
+                        if (isValidEmail(emailString)) {
+
+                            email.setText(emailString);
 
                             User user = manageUser.getUser();
 
-                            user.setEmail(dialogEdit.getText().toString());
+                            user.setEmail(emailString);
 
                             new DynamoDBManager(getActivity()).insertUser(user);
 
                             manageUser.saveUser(user);
+
+                        } else {
+
+                            Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.invalid_email), Toast.LENGTH_SHORT);
+                            toast.show();
                         }
 
                     }
@@ -230,17 +237,25 @@ public class GeneralSettingsFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if (!dialogEdit.getText().equals("")) {
+                        String phoneString = dialogEdit.getText().toString();
 
-                            phone.setText(dialogEdit.getText().toString());
+                        if (PhoneNumberUtils.isGlobalPhoneNumber(phoneString) && phoneString.length() < 14 && phoneString.length() > 8) {
+
+                            phone.setText(phoneString);
 
                             User user = manageUser.getUser();
 
-                            user.setPhoneNumber(dialogEdit.getText().toString());
+                            user.setPhoneNumber(phoneString);
 
                             new DynamoDBManager(getActivity()).insertUser(user);
 
                             manageUser.saveUser(user);
+
+                        } else {
+
+                            Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.invalid_phone), Toast.LENGTH_SHORT);
+                            toast.show();
+
                         }
 
                     }
@@ -273,18 +288,30 @@ public class GeneralSettingsFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if (!dialogEdit.getText().equals("")) {
+                        String distanceString = dialogEdit.getText().toString();
+                        float distanceF = 0;
+                        try {
 
-                            distance.setText(dialogEdit.getText().toString() + " Km");
+                            distanceF = Float.parseFloat(distanceString);
 
-                            try {
+                        } catch (Exception e) {
 
-                                manageUser.setDistance(1000 * Float.parseFloat(dialogEdit.getText().toString()));
+                            Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.invalid_distance), Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
 
-                            } catch (Exception e) {
+                        if (distanceF > 9 && distanceF < 10001) {
+
+                            distance.setText(distanceString + " Km");
+
+                            manageUser.setDistance(1000 * distanceF);
 
 
-                            }
+                        } else {
+
+                            Toast toast = Toast.makeText(getActivity(), getResources().getString(R.string.invalid_distance_number), Toast.LENGTH_SHORT);
+                            toast.show();
+
                         }
 
                     }
@@ -302,5 +329,17 @@ public class GeneralSettingsFragment extends Fragment {
 
         return view;
 
+    }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+    public boolean isOnlyLetters(String name) {
+        return name.matches("[a-zA-Z]+");
     }
 }

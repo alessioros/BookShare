@@ -28,6 +28,7 @@ import com.amazonaws.services.dynamodbv2.model.ResourceNotFoundException;
 import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -423,6 +424,10 @@ public class DynamoDBManager {
             if (nearbyBooks.size() <= NUM_BOOKS) {
 
                 List<Book> books = getBooks(usersIDs[k]);
+
+                // order books randomly
+                Collections.shuffle(books);
+
                 nearbyBooks.addAll(books.subList(0, BOOKS_PER_USER));
 
             } else {
@@ -686,7 +691,6 @@ public class DynamoDBManager {
         return allUsers;
     }
 
-
     /*                                                          BOOKREQUESTS
         Insert new BookRequest in dynamo
      */
@@ -816,7 +820,6 @@ public class DynamoDBManager {
             clientManager.wipeCredentialsOnAuthError(ex);
         }
     }
-
 
     public static Book mapBookAttributes(Map item) {
 

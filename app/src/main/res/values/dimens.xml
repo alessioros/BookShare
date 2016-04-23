@@ -37,8 +37,8 @@
     <dimen name="home_img_margintop">105dp</dimen>
     <dimen name="home_img_elev">8dp</dimen>
 
-    <dimen name="profile_info_paddingtop">53dp</dimen>
-    <dimen name="profile_info_paddingbottom">20dp</dimen>
+    <dimen name="profile_info_paddingtop">50dp</dimen>
+    <dimen name="profile_info_paddingbottom">10dp</dimen>
 
     <dimen name="username_txtsize">22sp</dimen>
 
@@ -56,12 +56,14 @@
     <dimen name="userinfo_txtsize">20sp</dimen>
     <dimen name="userinfo_marginleft">7dp</dimen>
     <dimen name="bookicon_marginleft">25dp</dimen>
-    <dimen name="userinfo_margintop">15dp</dimen>
+    <dimen name="userinfo_margintop">10dp</dimen>
 
     <dimen name="userinfo_elevation">5dp</dimen>
 
-    <dimen name="books_nearby_text_margintop">40dp</dimen>
+    <dimen name="books_nearby_text_margintop">25dp</dimen>
     <dimen name="books_nearby_text_txtsize">20sp</dimen>
+
+    <dimen name="first_ruler_margintop">15dp</dimen>
 
     <dimen name="recycler_progress_size">120dp</dimen>
     <dimen name="userinfo_progress_size">30dp</dimen>

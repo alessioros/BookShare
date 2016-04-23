@@ -11,6 +11,7 @@
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="it.polimi.dima.bookshare.activities.MainActivity"
         tools:showIn="@layout/app_bar_main">
@@ -190,14 +191,14 @@
             android:layout_marginTop="@dimen/books_nearby_text_margintop"
             android:layout_below="@id/second_ruler"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/textPrimaryLight"
+            android:textColor="@color/textSecondary"
             android:text="@string/books_nearby_title" />
 
         <View
             android:id="@+id/recycler_rulerOne"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="@dimen/books_nearby_margintop"
+            android:layout_marginTop="@dimen/first_ruler_margintop"
             android:layout_marginBottom="10dp"
             android:layout_below="@+id/books_nearby_title"
             android:background="@color/recycler_ruler_color"

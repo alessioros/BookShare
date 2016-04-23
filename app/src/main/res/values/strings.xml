@@ -67,6 +67,12 @@
     <string name="book_distance_title">Search distance</string>
     <string name="distance_title">Distance</string>
 
+    <string name="invalid_email">Error, provide a valid email </string>
+    <string name="invalid_phone">Error, provide a valid phone number</string>
+    <string name="invalid_name">Error, name must contain only letters</string>
+    <string name="invalid_surname">Error, surname must contain only letters</string>
+    <string name="invalid_distance">Error, invalid distance</string>
+    <string name="invalid_distance_number">Error, distance has to be between 10 and 10.000 Km</string>
     <!-- LIBRARY ACTIVITY -->
 
     <string name="scan_isbn">Scan a ISBN</string>
