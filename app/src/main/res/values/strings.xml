@@ -141,7 +141,7 @@
     <string name="remember_text">You can also change it later</string>
 
     <!-- FRAGMENT HOME -->
-    <string name="books_nearby_title">Books nearby:</string>
+    <string name="books_nearby_title">Books nearby</string>
     <string name="nobooks_nearby">It appears that there are no books near you</string>
 
     <!-- FRAGMENT REVIEWS -->
