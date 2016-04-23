@@ -2,9 +2,11 @@ package it.polimi.dima.bookshare.fragments;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,14 +16,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.RequestsAdapter;
+import it.polimi.dima.bookshare.amazon.Constants;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
+import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
+import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.BookRequest;
+import it.polimi.dima.bookshare.tables.User;
+import it.polimi.dima.bookshare.utils.ManageUser;
 import it.polimi.dima.bookshare.utils.OnBookRequestsLoadingCompleted;
 
 /**
@@ -54,7 +65,65 @@ public class RequestsReceivedFragment extends Fragment {
 
         loadRequests();
 
+        final SwipeRefreshLayout mySwipeRefreshLayout=(SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_requests_received);
+
+        mySwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+
+                        loadRequests();
+                        mySwipeRefreshLayout.setRefreshing(false);
+
+                    }
+                }
+        );
+
         return view;
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //retrieve result of scanning - instantiate ZXing object
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        Toast toast;
+
+        //check we have a valid result
+        if (scanningResult != null) {
+            //get content from Intent Result
+            final String scanContent = scanningResult.getContents();
+
+
+            if (scanContent == null) {
+
+                toast = Toast.makeText(getActivity(), getResources().getString(R.string.no_scandata), Toast.LENGTH_SHORT);
+                toast.show();
+
+            } else {
+
+                String ownerID= PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("EXCHANGE_ID",null);
+                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().remove("EXCHANGE_ID").apply();
+
+                for(BookRequest bookReq : bookRequests){
+                    if(bookReq.getAskerID().equals(ownerID) && bookReq.getBookISBN().equals(scanContent)){
+
+                        Book b=bookReq.getBook();
+                        b.setReceiverID(null);
+                        new DynamoDBManagerTask(getActivity(),b,bookReq).execute(DynamoDBManagerType.RETURN);
+                        requestsAdapter.notifyDataSetChanged();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.return_confirmed), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
+
+            }
+
+        } else {
+            //invalid scan data or scan canceled
+            toast = Toast.makeText(getActivity(), getResources().getString(R.string.no_scandata), Toast.LENGTH_SHORT);
+            toast.show();
+        }
 
     }
 
@@ -107,22 +176,6 @@ public class RequestsReceivedFragment extends Fragment {
             Collections.sort(bookRequests,Collections.reverseOrder(new BookRequestComparator()));
             requestsAdapter=new RequestsAdapter(bookRequests, getActivity(),this);
             recyclerView.setAdapter(requestsAdapter);
-
-            final SwipeRefreshLayout mySwipeRefreshLayout=(SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh_requests_received);
-
-            mySwipeRefreshLayout.setOnRefreshListener(
-                    new SwipeRefreshLayout.OnRefreshListener() {
-                        @Override
-                        public void onRefresh() {
-
-                            Collections.sort(bookRequests,Collections.reverseOrder(new BookRequestComparator()));
-                            requestsAdapter=new RequestsAdapter(bookRequests, getActivity(),RequestsReceivedFragment.this);
-                            recyclerView.setAdapter(requestsAdapter);
-                            mySwipeRefreshLayout.setRefreshing(false);
-
-                        }
-                    }
-            );
 
         }
 

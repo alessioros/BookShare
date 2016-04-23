@@ -44,10 +44,10 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     private Book book;
     private Fragment myFragment;
 
-    public RequestsAdapter(ArrayList<BookRequest> mBookRequests, Context context,Fragment fragment) {
+    public RequestsAdapter(ArrayList<BookRequest> mBookRequests, Context context, Fragment fragment) {
         this.mBookRequests = mBookRequests;
         this.context = context;
-        this.myFragment=fragment;
+        this.myFragment = fragment;
     }
 
     @Override
@@ -57,6 +57,16 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
         return new ViewHolder(view);
     }
+
+    /*
+    * Request accepted value:
+    * 0 -> Pending
+    * 1 -> Refused
+    * 2 -> Accepted
+    * 3 -> Confirmed
+    * 4 -> Return
+    *
+    * */
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
@@ -72,13 +82,24 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         user = bookRequest.getUser();
         book = bookRequest.getBook();
 
+        holder.buttonRefuse.setVisibility(Button.GONE);
+        holder.buttonAccept.setVisibility(Button.GONE);
+
         if (bookRequest.getAskerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null))) {
 
-            holder.buttonRefuse.setVisibility(Button.GONE);
-            holder.buttonAccept.setVisibility(Button.GONE);
-            if (bookRequest.getAccepted() == 2) {
+            if (bookRequest.getAccepted() == 0) {
 
-                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.accepted_icon,context.getTheme()));
+
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.pending_icon, context.getTheme()));
+
+
+            } else if (bookRequest.getAccepted() == 1) {
+
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.refused_icon, context.getTheme()));
+
+            } else if (bookRequest.getAccepted() == 2) {
+
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.accepted_icon, context.getTheme()));
 
                 holder.buttonConfirm.setVisibility(Button.VISIBLE);
                 holder.buttonConfirm.setOnClickListener(new View.OnClickListener() {
@@ -87,11 +108,11 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                         final BookRequest bookRequest = mBookRequests.get(position);
                         user = bookRequest.getUser();
                         book = bookRequest.getBook();
-                        if(user.getCredits() < 10) {
+                        if (user.getCredits() < 10) {
 
-                            Toast.makeText(context,R.string.not_enough_credits,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, R.string.not_enough_credits, Toast.LENGTH_SHORT).show();
 
-                        }else{
+                        } else {
 
                             FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(myFragment);
                             scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
@@ -118,30 +139,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     }
                 });
 
-            } else if (bookRequest.getAccepted() == 0){
-
-
-                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.pending_icon,context.getTheme()));
-
-
-            } else if (bookRequest.getAccepted() == 1) {
-
-                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.refused_icon,context.getTheme()));
-
-            } else if(bookRequest.getAccepted() == 3){
-                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.confirmed_icon,context.getTheme()));
-            }
-
-
-        } else {
-
-            if (bookRequest.getAccepted() == 2) {
-
-                holder.buttonRefuse.setVisibility(Button.GONE);
-                holder.buttonAccept.setVisibility(Button.GONE);
-                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.accepted_icon,context.getTheme()));
-
-
+            } else if (bookRequest.getAccepted() == 3) {
                 holder.buttonContact.setVisibility(Button.VISIBLE);
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -156,8 +154,32 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                         dialogContact.show(((FragmentActivity) context).getFragmentManager(), "Contact dialog");
                     }
                 });
-            } else if (bookRequest.getAccepted() == 0) {
 
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.confirmed_icon, context.getTheme()));
+            } else if (bookRequest.getAccepted() == 4) {
+                holder.buttonContact.setVisibility(Button.VISIBLE);
+                holder.buttonContact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final BookRequest bookRequest = mBookRequests.get(position);
+                        user = bookRequest.getUser();
+                        book = bookRequest.getBook();
+                        DialogContact dialogContact = new DialogContact();
+                        Bundle args = new Bundle();
+                        args.putParcelable("user", user);
+                        dialogContact.setArguments(args);
+                        dialogContact.show(((FragmentActivity) context).getFragmentManager(), "Contact dialog");
+                    }
+                });
+
+            }
+
+
+        } else {
+
+            if (bookRequest.getAccepted() == 0) {
+
+                holder.buttonRefuse.setVisibility(Button.VISIBLE);
                 holder.buttonRefuse.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -170,6 +192,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     }
                 });
 
+                holder.buttonAccept.setVisibility(Button.VISIBLE);
                 holder.buttonAccept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -183,11 +206,12 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 });
             } else if (bookRequest.getAccepted() == 1) {
 
-                holder.buttonRefuse.setVisibility(Button.GONE);
-                holder.buttonAccept.setVisibility(Button.GONE);
-                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.refused_icon,context.getTheme()));
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.refused_icon, context.getTheme()));
 
-            } else if(bookRequest.getAccepted() == 3){
+            } else if (bookRequest.getAccepted() == 2) {
+
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.accepted_icon, context.getTheme()));
+
 
                 holder.buttonContact.setVisibility(Button.VISIBLE);
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
@@ -203,9 +227,60 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                         dialogContact.show(((FragmentActivity) context).getFragmentManager(), "Contact dialog");
                     }
                 });
-                holder.buttonRefuse.setVisibility(Button.GONE);
-                holder.buttonAccept.setVisibility(Button.GONE);
-                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.confirmed_icon,context.getTheme()));
+            } else if (bookRequest.getAccepted() == 3) {
+
+                holder.buttonContact.setVisibility(Button.VISIBLE);
+                holder.buttonContact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final BookRequest bookRequest = mBookRequests.get(position);
+                        user = bookRequest.getUser();
+                        book = bookRequest.getBook();
+                        DialogContact dialogContact = new DialogContact();
+                        Bundle args = new Bundle();
+                        args.putParcelable("user", user);
+                        dialogContact.setArguments(args);
+                        dialogContact.show(((FragmentActivity) context).getFragmentManager(), "Contact dialog");
+                    }
+                });
+
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.confirmed_icon, context.getTheme()));
+
+            } else if (bookRequest.getAccepted() == 4) {
+
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.accepted_icon, context.getTheme()));
+
+                holder.buttonConfirm.setVisibility(Button.VISIBLE);
+                holder.buttonConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final BookRequest bookRequest = mBookRequests.get(position);
+                        user = bookRequest.getUser();
+                        book = bookRequest.getBook();
+
+
+                        FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(myFragment);
+                        scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
+                        scanIntegrator.setPrompt(context.getResources().getString(R.string.scan_isbn));
+                        PreferenceManager.getDefaultSharedPreferences(context).edit().putString("EXCHANGE_ID", bookRequest.getAskerID()).apply();
+                        scanIntegrator.initiateScan();
+                    }
+                });
+
+                holder.buttonContact.setVisibility(Button.VISIBLE);
+                holder.buttonContact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final BookRequest bookRequest = mBookRequests.get(position);
+                        user = bookRequest.getUser();
+                        book = bookRequest.getBook();
+                        DialogContact dialogContact = new DialogContact();
+                        Bundle args = new Bundle();
+                        args.putParcelable("user", user);
+                        dialogContact.setArguments(args);
+                        dialogContact.show(((FragmentActivity) context).getFragmentManager(), "Contact dialog");
+                    }
+                });
 
             }
         }
@@ -231,10 +306,10 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         return mBookRequests.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         public final View mView;
-        public final ImageView mImage,infoIcon;
+        public final ImageView mImage, infoIcon;
         public final TextView mTitle, mAuthor, mOwner, mLocation;
         public final Button buttonAccept, buttonRefuse, buttonContact, buttonConfirm;
 
@@ -250,8 +325,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             buttonAccept = (Button) view.findViewById(R.id.accept_request);
             buttonRefuse = (Button) view.findViewById(R.id.refuse_request);
             buttonContact = (Button) view.findViewById(R.id.contact_user);
-            buttonConfirm=(Button) view.findViewById(R.id.confirm_isbn);
-            infoIcon=(ImageView) view.findViewById(R.id.info_icon);
+            buttonConfirm = (Button) view.findViewById(R.id.confirm_isbn);
+            infoIcon = (ImageView) view.findViewById(R.id.info_icon);
 
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
@@ -265,17 +340,17 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         }
 
         @Override
-        public boolean onLongClick(View view){
+        public boolean onLongClick(View view) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setMessage(R.string.delete_request)
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            BookRequest bookRequest=mBookRequests.get(getAdapterPosition());
-                            if(bookRequest.getAccepted()<2){
+                            BookRequest bookRequest = mBookRequests.get(getAdapterPosition());
+                            if (bookRequest.getAccepted() < 2) {
                                 new DynamoDBManager(context).deleteBookRequest(bookRequest);
                                 notifyDataSetChanged();
-                            }else{
-                                Toast.makeText(context,R.string.cant_delete,Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, R.string.cant_delete, Toast.LENGTH_SHORT).show();
                             }
                         }
                     })

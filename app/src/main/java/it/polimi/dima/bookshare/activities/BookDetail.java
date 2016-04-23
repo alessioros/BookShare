@@ -269,10 +269,10 @@ public class BookDetail extends AppCompatActivity {
 
         } else if (i.getStringExtra("button").equals("return")) {
 
-            fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_settings_backup_restore));
-            Button lendButton = (Button) findViewById(R.id.button_book_detail);
-            lendButton.setText(R.string.return_book);
-            lendButton.setVisibility(Button.VISIBLE);
+            fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.back_arrow_128));
+            Button returnButton = (Button) findViewById(R.id.button_book_detail);
+            returnButton.setText(R.string.return_book);
+            returnButton.setVisibility(Button.VISIBLE);
 
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -281,7 +281,7 @@ public class BookDetail extends AppCompatActivity {
                 }
             });
 
-            lendButton.setOnClickListener(new View.OnClickListener() {
+            returnButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     returnBook();
@@ -463,7 +463,15 @@ public class BookDetail extends AppCompatActivity {
     }
 
     private void returnBook(){
-
+        ArrayList<BookRequest> bookRequests=new DynamoDBManager(this).getMyBookRequests();
+        for(BookRequest br : bookRequests){
+            if(br.getBookISBN().equals(book.getIsbn()) && br.getReceiverID().equals(book.getOwnerID())){
+                br.setAccepted(4);
+                new DynamoDBManager(this).updateBookRequest(br);
+                Toast.makeText(this,R.string.return_sent,Toast.LENGTH_SHORT).show();
+                break;
+            }
+        }
     }
 
     public interface OnUserLoadingCompleted {

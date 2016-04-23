@@ -19,6 +19,7 @@
     <string name="lend_book">Ask Book</string>
     <string name="return_book">Return Book</string>
     <string name="delete_confirm">Are you sure ?</string>
+    <string name="return_sent">Return request sent</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
 
@@ -114,6 +115,7 @@
     <string name="confirm_isbn">Confirm with scan</string>
     <string name="send_fb_message">Send a FB message</string>
     <string name="exchange_confirmed">Exchange confirmed!</string>
+    <string name="return_confirmed">Book returned</string>
     <string name="title_activity_requests">Your Requests</string>
     <string name="loading_requests">Loading your requests</string>
     <string name="nobook_requests">No book requests yet</string>

@@ -44,6 +44,12 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
         this.bookRequest = bookRequest;
     }
 
+    public DynamoDBManagerTask(Context context,Book book, BookRequest bookRequest) {
+        this.context = context;
+        this.book=book;
+        this.bookRequest = bookRequest;
+    }
+
     public DynamoDBManagerTask(Context context, BookRequest bookRequest,Book book,User user,User user2) {
         this.context = context;
         this.user = user;
@@ -100,6 +106,11 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
         } else if (types[0] == DynamoDBManagerType.CONFIRM_BOOKREQUEST) {
             if (tableStatus.equalsIgnoreCase("ACTIVE")) {
                 DDBM.confirmExchange(bookRequest,book,user,user2);
+            }
+        } else if (types[0] == DynamoDBManagerType.RETURN) {
+            if (tableStatus.equalsIgnoreCase("ACTIVE")) {
+                DDBM.updateBook(book);
+                DDBM.deleteBookRequest(bookRequest);
             }
         }
         return result;

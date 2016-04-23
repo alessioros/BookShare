@@ -66,6 +66,20 @@ public class RequestsSentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_requests_sent, container, false);
 
         loadRequests();
+        final SwipeRefreshLayout mySwipeRefreshLayout=(SwipeRefreshLayout) view
+                .findViewById(R.id.swipe_refresh_requests_sent);
+
+        mySwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+
+                        loadRequests();
+                        mySwipeRefreshLayout.setRefreshing(false);
+
+                    }
+                }
+        );
 
         return view;
 
@@ -120,23 +134,6 @@ public class RequestsSentFragment extends Fragment {
             Collections.sort(bookRequests,Collections.reverseOrder(new BookRequestComparator()));
             requestsAdapter=new RequestsAdapter(bookRequests, getActivity(), this);
             recyclerView.setAdapter(requestsAdapter);
-
-            final SwipeRefreshLayout mySwipeRefreshLayout=(SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh_requests_sent);
-
-            mySwipeRefreshLayout.setOnRefreshListener(
-                    new SwipeRefreshLayout.OnRefreshListener() {
-                        @Override
-                        public void onRefresh() {
-
-                            Collections.sort(bookRequests,Collections.reverseOrder(new BookRequestComparator()));
-                            requestsAdapter=new RequestsAdapter(bookRequests, getActivity(),RequestsSentFragment.this);
-                            recyclerView.setAdapter(requestsAdapter);
-                            mySwipeRefreshLayout.setRefreshing(false);
-
-                        }
-                    }
-            );
-
         }
 
     }
