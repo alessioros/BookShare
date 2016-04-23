@@ -145,6 +145,9 @@
     <string name="nobooks_nearby">It appears that there are no books near you</string>
 
     <!-- FRAGMENT REVIEWS -->
+
+    <string name="avg_rating">Avg rating: </string>
+    <string name="lastinsert_title">Last inserted:</string>
     <string name="loading_reviews">Loading reviews..</string>
     <string name="loading_reviewers">Loading reviewers..</string>
 

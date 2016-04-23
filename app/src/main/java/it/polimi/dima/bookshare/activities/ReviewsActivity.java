@@ -14,7 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.ReviewAdapter;
@@ -40,6 +46,7 @@ public class ReviewsActivity extends AppCompatActivity {
     private boolean firstFinish = false, secondFinish = false;
     private float myAvgRating = 0, aboutMeAvgRating = 0;
     private int numMyRev = 0, numAboutMeRev = 0;
+    private Calendar lastRevDate, lastAboutMeRevDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +77,8 @@ public class ReviewsActivity extends AppCompatActivity {
                 args.putFloat("aboutMeAvgRating", aboutMeAvgRating);
                 args.putInt("numMyRev", numMyRev);
                 args.putInt("numAboutMeRev", numAboutMeRev);
+                args.putString("lastRevDate", getFormattedDate(lastRevDate));
+                args.putString("lastAboutMeRevDate", getFormattedDate(lastAboutMeRevDate));
                 fragment.setArguments(args);
 
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
@@ -140,6 +149,15 @@ public class ReviewsActivity extends AppCompatActivity {
 
             Fragment fragment = ReviewFragment.newInstance();
 
+            Bundle args = new Bundle();
+            args.putFloat("myAvgRating", myAvgRating);
+            args.putFloat("aboutMeAvgRating", aboutMeAvgRating);
+            args.putInt("numMyRev", numMyRev);
+            args.putInt("numAboutMeRev", numAboutMeRev);
+            args.putString("lastRevDate", getFormattedDate(lastRevDate));
+            args.putString("lastAboutMeRevDate", getFormattedDate(lastAboutMeRevDate));
+            fragment.setArguments(args);
+
             getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
 
             getSupportActionBar().setTitle(getResources().getString(R.string.reviews_title));
@@ -181,6 +199,25 @@ public class ReviewsActivity extends AppCompatActivity {
                 for (Review rev : reviews) {
 
                     rev.setReviewerID(rev.getTargetUserID());
+
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+
+                    try {
+
+                        Calendar date = Calendar.getInstance();
+                        date.setTime(format.parse(rev.getDate()));
+                        if (lastRevDate == null) {
+
+                            lastRevDate = date;
+
+                        } else if (lastRevDate.after(date)) {
+
+                            lastRevDate = date;
+                        }
+
+                    } catch (ParseException e) {
+
+                    }
                 }
 
                 new LoadReviewers(new OnReviewersLoadingCompleted() {
@@ -202,6 +239,8 @@ public class ReviewsActivity extends AppCompatActivity {
                             args.putFloat("aboutMeAvgRating", aboutMeAvgRating);
                             args.putInt("numMyRev", numMyRev);
                             args.putInt("numAboutMeRev", numAboutMeRev);
+                            args.putString("lastRevDate", getFormattedDate(lastRevDate));
+                            args.putString("lastAboutMeRevDate", getFormattedDate(lastAboutMeRevDate));
                             fragment.setArguments(args);
 
                             getFragmentManager().beginTransaction()
@@ -234,6 +273,28 @@ public class ReviewsActivity extends AppCompatActivity {
 
                 aboutMeAvgRating = aboutMeAvgRating / numAboutMeRev;
 
+                for (Review rev : reviews) {
+
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                    try {
+
+                        Calendar date = Calendar.getInstance();
+                        date.setTime(format.parse(rev.getDate()));
+                        if (lastAboutMeRevDate == null) {
+
+                            lastAboutMeRevDate = date;
+
+                        } else if (lastAboutMeRevDate.after(date)) {
+
+                            lastAboutMeRevDate = date;
+                        }
+
+                    } catch (ParseException e) {
+
+                    }
+
+                }
+
                 new LoadReviewers(new OnReviewersLoadingCompleted() {
                     @Override
                     public void onReviewersLoadingCompleted(ArrayList<User> reviewers) {
@@ -253,6 +314,8 @@ public class ReviewsActivity extends AppCompatActivity {
                             args.putFloat("aboutMeAvgRating", aboutMeAvgRating);
                             args.putInt("numMyRev", numMyRev);
                             args.putInt("numAboutMeRev", numAboutMeRev);
+                            args.putString("lastRevDate", getFormattedDate(lastRevDate));
+                            args.putString("lastAboutMeRevDate", getFormattedDate(lastAboutMeRevDate));
                             fragment.setArguments(args);
 
                             getFragmentManager().beginTransaction()
@@ -346,5 +409,17 @@ public class ReviewsActivity extends AppCompatActivity {
         }
     }
 
+    public String getFormattedDate(Calendar date) {
 
+
+        if (date.get(Calendar.MONTH) > 8) {
+
+            return date.get(Calendar.DAY_OF_MONTH) + "/" + (date.get(Calendar.MONTH) + 1) + "/" + date.get(Calendar.YEAR);
+
+        } else {
+
+            return date.get(Calendar.DAY_OF_MONTH) + "/0" + (date.get(Calendar.MONTH) + 1) + "/" + date.get(Calendar.YEAR);
+        }
+
+    }
 }

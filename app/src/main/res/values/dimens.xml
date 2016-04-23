@@ -236,6 +236,9 @@
     <dimen name="ratingbar_margintop">5dp</dimen>
     <dimen name="ratingbar_marginleft">75dp</dimen>
 
+    <dimen name="lastinsert_margintop">15dp</dimen>
+    <dimen name="lastinsert_text_marginleft">15dp</dimen>
+    <dimen name="lastinsert_txtsize">16sp</dimen>
 
     <!-- REVIEW RECYCLERVIEW -->
     <dimen name="review_card_height">130dp</dimen>

@@ -75,7 +75,6 @@
                         android:textSize="@dimen/numrev_txtsize"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/numrev_margintop"
-                        android:text="0 reviews"
                         android:textColor="@color/textPrimaryLight" />
 
                     <TextView
@@ -86,7 +85,7 @@
                         android:textSize="@dimen/avgrev_txtsize"
                         android:layout_marginTop="@dimen/avgrev_margintop"
                         android:layout_marginLeft="@dimen/avgrev_marginleft"
-                        android:text="avg rating: "
+                        android:text="@string/avg_rating"
                         android:textColor="@color/textPrimaryLight" />
 
                     <RatingBar
@@ -99,8 +98,37 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:numStars="5"
-                        android:stepSize="0.5"
-                        android:rating="4.5" />
+                        android:stepSize="0.5" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/avg_revofme"
+                        android:layout_marginTop="@dimen/lastinsert_margintop"
+                        android:layout_marginLeft="@dimen/avgrev_marginleft">
+
+                        <TextView
+                            android:id="@+id/lastinserted_revofme_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/lastinsert_txtsize"
+                            android:text="@string/lastinsert_title"
+                            android:layout_centerVertical="true"
+                            android:textColor="@color/textPrimaryLight" />
+
+                        <TextView
+                            android:id="@+id/lastinserted_revofme_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/lastinserted_revofme_title"
+                            android:layout_toRightOf="@id/lastinserted_revofme_title"
+                            android:textSize="@dimen/lastinsert_txtsize"
+                            android:layout_marginLeft="@dimen/lastinsert_text_marginleft"
+                            android:layout_centerVertical="true"
+                            android:text="10/10/2010"
+                            android:textColor="@color/textSecondary" />
+
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
@@ -182,7 +210,6 @@
                         android:textSize="@dimen/numrev_txtsize"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/numrev_margintop"
-                        android:text="0 reviews"
                         android:textColor="@color/textPrimaryLight" />
 
                     <TextView
@@ -193,7 +220,7 @@
                         android:textSize="@dimen/avgrev_txtsize"
                         android:layout_marginTop="@dimen/savgrev_margintop"
                         android:layout_marginLeft="@dimen/avgrev_marginleft"
-                        android:text="avg rating: "
+                        android:text="@string/avg_rating"
                         android:textColor="@color/textPrimaryLight" />
 
                     <RatingBar
@@ -206,8 +233,37 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:numStars="5"
-                        android:stepSize="0.5"
-                        android:rating="3.5" />
+                        android:stepSize="0.5" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/avg_myrev"
+                        android:layout_marginTop="@dimen/lastinsert_margintop"
+                        android:layout_marginLeft="@dimen/avgrev_marginleft">
+
+                        <TextView
+                            android:id="@+id/lastinserted_myrev_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/lastinsert_txtsize"
+                            android:text="@string/lastinsert_title"
+                            android:layout_centerVertical="true"
+                            android:textColor="@color/textPrimaryLight" />
+
+                        <TextView
+                            android:id="@+id/lastinserted_myrev_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/lastinserted_myrev_title"
+                            android:layout_toRightOf="@id/lastinserted_myrev_title"
+                            android:textSize="@dimen/lastinsert_txtsize"
+                            android:layout_marginLeft="@dimen/lastinsert_text_marginleft"
+                            android:layout_centerVertical="true"
+                            android:text="10/10/2010"
+                            android:textColor="@color/textSecondary" />
+
+                    </RelativeLayout>
 
                 </RelativeLayout>
 

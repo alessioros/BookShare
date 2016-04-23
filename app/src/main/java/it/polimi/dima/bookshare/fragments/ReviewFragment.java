@@ -22,12 +22,13 @@ import it.polimi.dima.bookshare.utils.ManageUser;
 
 public class ReviewFragment extends Fragment {
 
-    private TextView firstTitle, secondTitle, numRev, numAMeRev;
+    private TextView firstTitle, secondTitle, numRev, numAMeRev, lastRevInserted, lastAMeRevInserted;
     private CircularImageView myImg, revImg;
     private RatingBar aboutMeRatings, myRatings;
     private LinearLayout myRev, revOfMe;
     private float myAvgRating = 0, aboutMeAvgRating = 0;
     private int numMyRev = 0, numAboutMeRev = 0;
+    private String lastRevDate = "", lastAboutMeRevDate = "";
 
     public ReviewFragment() {
     }
@@ -44,6 +45,8 @@ public class ReviewFragment extends Fragment {
             this.aboutMeAvgRating = getArguments().getFloat("aboutMeAvgRating");
             this.numMyRev = getArguments().getInt("numMyRev");
             this.numAboutMeRev = getArguments().getInt("numAboutMeRev");
+            this.lastRevDate = getArguments().getString("lastRevDate");
+            this.lastAboutMeRevDate = getArguments().getString("lastAboutMeRevDate");
 
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -62,6 +65,8 @@ public class ReviewFragment extends Fragment {
         secondTitle = (TextView) view.findViewById(R.id.title_myrev);
         numRev = (TextView) view.findViewById(R.id.num_myrev);
         numAMeRev = (TextView) view.findViewById(R.id.num_revofme);
+        lastRevInserted = (TextView) view.findViewById(R.id.lastinserted_myrev_text);
+        lastAMeRevInserted = (TextView) view.findViewById(R.id.lastinserted_revofme_text);
 
         Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
 
@@ -72,6 +77,8 @@ public class ReviewFragment extends Fragment {
 
         numRev.setText("" + numMyRev + " " + getResources().getString(R.string.reviews_string));
         numAMeRev.setText("" + numAboutMeRev + " " + getResources().getString(R.string.reviews_string));
+        lastRevInserted.setText(lastRevDate);
+        lastAMeRevInserted.setText(lastAboutMeRevDate);
 
         myImg = (CircularImageView) view.findViewById(R.id.rev_myimg);
         revImg = (CircularImageView) view.findViewById(R.id.myrev_img);
