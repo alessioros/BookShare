@@ -63,6 +63,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_maps);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         // use english instead of system's language
         String languageToLoad = "en_US";
         Locale locale = new Locale(languageToLoad);
@@ -72,14 +77,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
-        setContentView(R.layout.activity_maps);
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         // retrieve user from sp
         manageUser = new ManageUser(MapsActivity.this);
@@ -116,6 +116,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             getSupportActionBar().setTitle(getResources().getString(R.string.toolbar_verify));
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
+            previousLoc = user.getCity() + ", " + user.getCountry();
             askLocation.setText(getResources().getString(R.string.ask_loc_verify));
             locName.setText(user.getCity() + ", " + user.getCountry());
             confirmB.setText(getResources().getText(R.string.confirm_loc_verify));
