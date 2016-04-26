@@ -33,6 +33,7 @@ import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 public class HomeFragment extends Fragment {
 
     private User user;
+    private ManageUser manageUser;
 
     public HomeFragment() {
 
@@ -53,6 +54,8 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        manageUser = new ManageUser(getActivity());
 
         CircularImageView userImage = (CircularImageView) view.findViewById(R.id.user_image);
         TextView userName = (TextView) view.findViewById(R.id.user_name);
@@ -84,7 +87,6 @@ public class HomeFragment extends Fragment {
         booksNearby.setTypeface(aller);
 
         userImage.bringToFront();
-        userInfo.setVisibility(View.GONE);
 
         try {
 
@@ -96,22 +98,17 @@ public class HomeFragment extends Fragment {
 
             userLocation.setText(user.getCity() + ", " + user.getCountry());
 
-            new LoadBookCount(new OnBookCountCompleted() {
-                @Override
-                public void onBookCountCompleted(int count, int recCount) {
-
-                    refreshTextView(count, recCount);
-
-                }
-            }).execute(user.getUserID());
-
             userCredits.setText(user.getCredits() + "");
+
+            userBooks.setText(manageUser.getBookCount() + "");
+
+            userRecBooks.setText(manageUser.getRecBookCount() + "");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        final ProgressBar recyclerProgress = (ProgressBar) view.findViewById(R.id.recycler_progressBar);
+        /*final ProgressBar recyclerProgress = (ProgressBar) view.findViewById(R.id.recycler_progressBar);
         recyclerProgress.setVisibility(View.VISIBLE);
 
         new LoadNearbyBooks(new OnBookLoadingCompleted() {
@@ -121,7 +118,7 @@ public class HomeFragment extends Fragment {
                 loadBooksNearby(books);
 
             }
-        }).execute();
+        }).execute();*/
 
         return view;
     }
@@ -177,62 +174,6 @@ public class HomeFragment extends Fragment {
 
         }
 
-    }
-
-    public interface OnBookCountCompleted {
-        void onBookCountCompleted(int count, int recCount);
-    }
-
-
-    class LoadBookCount extends AsyncTask<String, Integer, Integer> {
-        private OnBookCountCompleted listener;
-
-        public LoadBookCount(OnBookCountCompleted listener) {
-            this.listener = listener;
-        }
-
-        @Override
-        protected Integer doInBackground(String... params) {
-
-            DynamoDBManager DDBM = new DynamoDBManager(getActivity());
-            int booksCount = DDBM.getBooksCount(params[0]);
-            int receivBooksCount = DDBM.getReceivedBooksCount(params[0]);
-            listener.onBookCountCompleted(booksCount, receivBooksCount);
-
-            return booksCount;
-        }
-
-    }
-
-    public void refreshTextView(int booksCount, int recBooksCount) {
-
-        final int count = booksCount;
-        final int recCount = recBooksCount;
-
-        try {
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    RelativeLayout userInfo = (RelativeLayout) getActivity().findViewById(R.id.user_information);
-                    userInfo.setVisibility(View.VISIBLE);
-
-                    TextView userBooks = (TextView) getActivity().findViewById(R.id.user_books);
-                    userBooks.setText(count + "");
-
-                    TextView userBorrBooks = (TextView) getActivity().findViewById(R.id.user_borr_books);
-                    userBorrBooks.setText(recCount + "");
-
-                    ProgressBar userInfoProgress = (ProgressBar) getActivity().findViewById(R.id.userinfo_progressBar);
-                    userInfoProgress.setVisibility(View.GONE);
-
-                }
-            });
-
-        } catch (Exception e) {
-
-        }
     }
 
     class LoadNearbyBooks extends AsyncTask<Void, ArrayList<Book>, ArrayList<Book>> {

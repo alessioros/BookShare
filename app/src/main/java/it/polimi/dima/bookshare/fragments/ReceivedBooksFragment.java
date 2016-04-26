@@ -27,6 +27,8 @@ import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 
 public class ReceivedBooksFragment extends Fragment {
 
+    private ManageUser manageUser;
+
     public ReceivedBooksFragment() {
 
     }
@@ -47,6 +49,7 @@ public class ReceivedBooksFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_receivedbook_list, container, false);
 
+        manageUser = new ManageUser(getActivity());
         loadReceivedLibrary();
 
         return view;
@@ -86,6 +89,7 @@ public class ReceivedBooksFragment extends Fragment {
 
         if (mBooks.isEmpty()) {
 
+            manageUser.setRecBookCount(0);
             noBooks.setVisibility(View.VISIBLE);
 
             Typeface aller = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
@@ -96,6 +100,7 @@ public class ReceivedBooksFragment extends Fragment {
 
         } else {
 
+            manageUser.setRecBookCount(mBooks.size());
             noBooks.setVisibility(View.GONE);
 
             RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.recbook_list);

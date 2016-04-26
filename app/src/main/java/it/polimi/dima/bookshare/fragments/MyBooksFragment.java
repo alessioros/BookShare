@@ -52,6 +52,7 @@ public class MyBooksFragment extends Fragment {
     private String GOOGLE_API = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
     private Book amazonBook, googleBook, LTBook, book;
     private ArrayList<String> myBookIDs;
+    private ManageUser manageUser;
 
     public MyBooksFragment() {
 
@@ -73,6 +74,7 @@ public class MyBooksFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_mybook_list, container, false);
 
+        manageUser = new ManageUser(getActivity());
         loadLibrary();
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
@@ -195,9 +197,11 @@ public class MyBooksFragment extends Fragment {
             noBooks.setTypeface(aller);
 
             noBooks.setText(getResources().getString(R.string.nobooks_inserted));
+            manageUser.setBookCount(0);
 
         } else {
 
+            manageUser.setBookCount(mBooks.size());
             noBooks.setVisibility(View.GONE);
 
             RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.book_list);

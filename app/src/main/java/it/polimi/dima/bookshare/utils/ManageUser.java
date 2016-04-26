@@ -96,4 +96,42 @@ public class ManageUser {
             return 0;
         }
     }
+
+    public int getBookCount() {
+
+        try {
+
+            return sp.getInt("myBooksCount", 0);
+
+        } catch (NullPointerException e) {
+
+            return 0;
+        }
+
+    }
+
+    public void setBookCount(int bookCount) {
+
+        sp.edit().putInt("myBooksCount", bookCount).apply();
+
+    }
+
+    public int getRecBookCount() {
+
+        try {
+
+            return sp.getInt("recBooksCount", 0);
+
+        } catch (NullPointerException e) {
+
+            return 0;
+        }
+
+    }
+
+    public void setRecBookCount(int bookCount) {
+
+        sp.edit().putInt("recBooksCount", bookCount).apply();
+
+    }
 }

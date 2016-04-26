@@ -88,17 +88,6 @@
                 android:layout_marginTop="@dimen/homeruler_margintop"
                 android:background="@color/ruler_color" />
 
-            <ProgressBar
-                android:id="@+id/userinfo_progressBar"
-                android:layout_width="@dimen/userinfo_progress_size"
-                android:layout_height="@dimen/userinfo_progress_size"
-                android:indeterminate="true"
-                android:layout_below="@id/ruler"
-                android:progressTint="@color/colorPrimaryLight"
-                style="@android:style/Widget.Holo.ProgressBar"
-                android:layout_marginTop="@dimen/userinfo_margintop"
-                android:layout_centerHorizontal="true" />
-
             <RelativeLayout
                 android:id="@+id/user_information"
                 android:layout_width="wrap_content"

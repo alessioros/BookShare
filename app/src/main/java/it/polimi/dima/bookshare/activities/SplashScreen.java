@@ -65,6 +65,8 @@ public class SplashScreen extends AppCompatActivity {
                     if (user == null) {
 
                         user = new User();
+                        manageUser.setBookCount(0);
+                        manageUser.setRecBookCount(0);
 
                         GraphRequest request = GraphRequest.newMeRequest(
                                 AccessToken.getCurrentAccessToken(),
@@ -131,6 +133,15 @@ public class SplashScreen extends AppCompatActivity {
 
                     } else {
 
+                        new LoadBookCount(new OnBookCountCompleted() {
+                            @Override
+                            public void onBookCountCompleted(int count, int recCount) {
+
+                                manageUser.setBookCount(count);
+                                manageUser.setRecBookCount(recCount);
+                            }
+                        }).execute(user.getUserID());
+
                         manageUser.saveUser(user);
                         redirectToHome();
 
@@ -187,6 +198,31 @@ public class SplashScreen extends AppCompatActivity {
             listener.onUserLoadingCompleted();
 
             return null;
+        }
+
+    }
+
+    public interface OnBookCountCompleted {
+        void onBookCountCompleted(int count, int recCount);
+    }
+
+
+    class LoadBookCount extends AsyncTask<String, Integer, Integer> {
+        private OnBookCountCompleted listener;
+
+        public LoadBookCount(OnBookCountCompleted listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+
+            DynamoDBManager DDBM = new DynamoDBManager(SplashScreen.this);
+            int booksCount = DDBM.getBooksCount(params[0]);
+            int receivBooksCount = DDBM.getReceivedBooksCount(params[0]);
+            listener.onBookCountCompleted(booksCount, receivBooksCount);
+
+            return booksCount;
         }
 
     }
