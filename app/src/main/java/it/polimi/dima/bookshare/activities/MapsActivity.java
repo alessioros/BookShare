@@ -319,9 +319,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         int id = item.getItemId();
         if (id == android.R.id.home) {
 
-            Intent i = new Intent(MapsActivity.this, MainActivity.class);
-            i.putExtra("redirect", "settings");
-            startActivity(i);
+            super.onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

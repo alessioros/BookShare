@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.activities.MapsActivity;
+import it.polimi.dima.bookshare.activities.WriteReviewActivity;
 import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Book;
@@ -65,8 +66,15 @@ public class HomeFragment extends Fragment {
         TextView userRecBooks = (TextView) view.findViewById(R.id.user_borr_books);
         TextView booksNearby = (TextView) view.findViewById(R.id.books_nearby_title);
 
-        final RelativeLayout userInfo = (RelativeLayout) view.findViewById(R.id.user_information);
         RelativeLayout locInfo = (RelativeLayout) view.findViewById(R.id.location_info);
+
+        userName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                getActivity().startActivity(new Intent(getActivity(), WriteReviewActivity.class));
+            }
+        });
 
         locInfo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

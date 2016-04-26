@@ -157,4 +157,12 @@
     <string name="reviews_title">Reviews</string>
     <string name="title_revofme">Reviews About Me</string>
     <string name="title_myrev">My Reviews</string>
+
+
+    <!-- ACTIVITY WRITE REVIEW -->
+
+    <string name="review_activity_title">Write a Review</string>
+
+    <string name="rating_title">Rating:</string>
+    <string name="review_title_text">Title:</string>
 </resources>

@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -20,7 +19,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -45,7 +43,6 @@ import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.BookRequest;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
-import it.polimi.dima.bookshare.utils.OnBookRequestsLoadingCompleted;
 
 public class BookDetail extends AppCompatActivity {
 
@@ -63,6 +60,7 @@ public class BookDetail extends AppCompatActivity {
         setContentView(R.layout.activity_book_detail);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
@@ -81,7 +79,7 @@ public class BookDetail extends AppCompatActivity {
         final TextView name_owner = (TextView) findViewById(R.id.name_owner);
         final TextView location_owner = (TextView) findViewById(R.id.location_owner);
         final CircularImageView image_owner = (CircularImageView) findViewById(R.id.owner_image);
-        RatingBar userVal=(RatingBar)findViewById(R.id.revofme_ratingBar);
+        RatingBar userVal = (RatingBar) findViewById(R.id.revofme_ratingBar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -132,7 +130,6 @@ public class BookDetail extends AppCompatActivity {
                 collapsingToolbarLayout.setTitle(book.getTitle());
             }
 
-
             try {
                 if (!book.getPublisher().equals("") && !book.getPublishedDate().equals("")) {
 
@@ -151,8 +148,8 @@ public class BookDetail extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if(book.getOwnerID()!=null) {
-                if (manageUser.getUser().getUserID() == book.getOwnerID()) {
+            if (book.getOwnerID() != null) {
+                if (manageUser.getUser().getUserID().equals(book.getOwnerID())) {
 
                     owner = manageUser.getUser();
                     Picasso.with(BookDetail.this).load(owner.getImgURL()).into(image_owner);
@@ -175,7 +172,7 @@ public class BookDetail extends AppCompatActivity {
                         }
                     }).execute(book.getOwnerID());
                 }
-            } else{
+            } else {
                 image_owner.setVisibility(CircularImageView.GONE);
                 name_owner.setVisibility(TextView.GONE);
                 location_owner.setVisibility(TextView.GONE);
@@ -198,7 +195,6 @@ public class BookDetail extends AppCompatActivity {
 
                 }
             });
-
         }
 
         if (i.getStringExtra("button").equals("delete")) {
@@ -266,7 +262,6 @@ public class BookDetail extends AppCompatActivity {
                 }
             });
 
-
         } else if (i.getStringExtra("button").equals("return")) {
 
             fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.back_arrow_128));
@@ -287,8 +282,6 @@ public class BookDetail extends AppCompatActivity {
                     returnBook();
                 }
             });
-
-
         }
     }
 
@@ -347,8 +340,7 @@ public class BookDetail extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
 
                 try {
-                    DynamoDBManager DDMB = new DynamoDBManager(BookDetail.this);
-                    DDMB.deleteBook(book);
+                    new DynamoDBManager(BookDetail.this).deleteBook(book);
 
                     Toast.makeText(BookDetail.this, getResources().getString(R.string.success_delete), Toast.LENGTH_SHORT).show();
 
@@ -393,7 +385,6 @@ public class BookDetail extends AppCompatActivity {
             Toast.makeText(BookDetail.this, getResources().getString(R.string.error_add), Toast.LENGTH_SHORT);
 
         }
-
 
         // redirects to library after 0.5 seconds, allowing library to display the new book
         new Handler().postDelayed(new Runnable() {
@@ -462,13 +453,13 @@ public class BookDetail extends AppCompatActivity {
         }
     }
 
-    private void returnBook(){
-        ArrayList<BookRequest> bookRequests=new DynamoDBManager(this).getMyBookRequests();
-        for(BookRequest br : bookRequests){
-            if(br.getBookISBN().equals(book.getIsbn()) && br.getReceiverID().equals(book.getOwnerID())){
+    private void returnBook() {
+        ArrayList<BookRequest> bookRequests = new DynamoDBManager(this).getMyBookRequests();
+        for (BookRequest br : bookRequests) {
+            if (br.getBookISBN().equals(book.getIsbn()) && br.getReceiverID().equals(book.getOwnerID())) {
                 br.setAccepted(4);
                 new DynamoDBManager(this).updateBookRequest(br);
-                Toast.makeText(this,R.string.return_sent,Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.return_sent, Toast.LENGTH_SHORT).show();
                 break;
             }
         }

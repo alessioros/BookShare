@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="it.polimi.dima.bookshare.activities.WriteReviewActivity">
+
+    <TextView
+        android:id="@+id/rating_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/titles_marginleft"
+        android:layout_marginTop="@dimen/rating_title_margintop"
+        android:text="@string/rating_title"
+        android:textColor="@color/textPrimaryLight"
+        android:textSize="@dimen/titles_txtsize" />
+
+    <RatingBar
+        android:id="@+id/review_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rating_title"
+        android:layout_marginLeft="@dimen/rating_bar_marginleft"
+        android:layout_marginTop="@dimen/rating_bar_margintop"
+        android:stepSize="1" />
+
+    <TextView
+        android:id="@+id/review_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/review_rating"
+        android:layout_marginLeft="@dimen/titles_marginleft"
+        android:layout_marginTop="@dimen/rating_title_margintop"
+        android:text="@string/review_title_text"
+        android:textColor="@color/textPrimaryLight"
+        android:textSize="@dimen/titles_txtsize" />
+
+</RelativeLayout>

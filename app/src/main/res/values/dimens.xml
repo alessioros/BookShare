@@ -264,4 +264,12 @@
     <dimen name="review_description_txtsize">12sp</dimen>
 
     <dimen name="review_header_margintop">10dp</dimen>
+
+    <!-- ACTIVITY WRITE A REVIEW -->
+    <dimen name="titles_txtsize">20sp</dimen>
+    <dimen name="titles_marginleft">30dp</dimen>
+
+    <dimen name="rating_title_margintop">15dp</dimen>
+    <dimen name="rating_bar_marginleft">10dp</dimen>
+    <dimen name="rating_bar_margintop">15dp</dimen>
 </resources>
