@@ -39,9 +39,9 @@ import it.polimi.dima.bookshare.utils.OnBookRequestsLoadingCompleted;
  */
 public class RequestsSentFragment extends Fragment {
 
-    private final static String TAG="RequestsSentFragment";
+    private final static String TAG = "RequestsSentFragment";
     private RecyclerView recyclerView;
-    private ArrayList<BookRequest> bookRequests =new ArrayList<>();
+    private ArrayList<BookRequest> bookRequests = new ArrayList<>();
     private RequestsAdapter requestsAdapter;
     private ManageUser mu;
 
@@ -66,7 +66,7 @@ public class RequestsSentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_requests_sent, container, false);
 
         loadRequests();
-        final SwipeRefreshLayout mySwipeRefreshLayout=(SwipeRefreshLayout) view
+        final SwipeRefreshLayout mySwipeRefreshLayout = (SwipeRefreshLayout) view
                 .findViewById(R.id.swipe_refresh_requests_sent);
 
         mySwipeRefreshLayout.setOnRefreshListener(
@@ -131,8 +131,8 @@ public class RequestsSentFragment extends Fragment {
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            Collections.sort(bookRequests,Collections.reverseOrder(new BookRequestComparator()));
-            requestsAdapter=new RequestsAdapter(bookRequests, getActivity(), this);
+            Collections.sort(bookRequests, Collections.reverseOrder(new BookRequestComparator()));
+            requestsAdapter = new RequestsAdapter(bookRequests, getActivity(), this);
             recyclerView.setAdapter(requestsAdapter);
         }
 
@@ -148,10 +148,10 @@ public class RequestsSentFragment extends Fragment {
         @Override
         protected ArrayList<BookRequest> doInBackground(Void... params) {
 
-            bookRequests =new DynamoDBManager(getActivity()).getMyBookRequests();
-            for(BookRequest bookRequest : bookRequests){
-                    bookRequest.setUser(new DynamoDBManager(getActivity()).getUser(bookRequest.getReceiverID()));
-                    bookRequest.setBook(new DynamoDBManager(getActivity()).getBook(bookRequest.getBookISBN(), bookRequest.getReceiverID()));
+            bookRequests = new DynamoDBManager(getActivity()).getMyBookRequests();
+            for (BookRequest bookRequest : bookRequests) {
+                bookRequest.setUser(new DynamoDBManager(getActivity()).getUser(bookRequest.getReceiverID()));
+                bookRequest.setBook(new DynamoDBManager(getActivity()).getBook(bookRequest.getBookISBN(), bookRequest.getReceiverID()));
             }
 
             return bookRequests;
@@ -181,26 +181,25 @@ public class RequestsSentFragment extends Fragment {
 
             } else {
 
-                String ownerID=PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("EXCHANGE_ID",null);
+                String ownerID = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("EXCHANGE_ID", null);
                 PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().remove("EXCHANGE_ID").apply();
 
-                for(BookRequest bookReq : bookRequests){
-                    if(bookReq.getReceiverID().equals(ownerID) && bookReq.getBookISBN().equals(scanContent)){
+                for (BookRequest bookReq : bookRequests) {
+                    if (bookReq.getReceiverID().equals(ownerID) && bookReq.getBookISBN().equals(scanContent)) {
 
-                        mu=new ManageUser(getActivity());
-                        User me=mu.getUser();
-                        bookReq.getBook().setReceiverID(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("ID",null));
+                        mu = new ManageUser(getActivity());
+                        User me = mu.getUser();
+                        bookReq.getBook().setReceiverID(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("ID", null));
                         bookReq.setAccepted(3);
                         bookReq.getUser().setCredits(bookReq.getUser().getCredits() + Constants.STANDARD_CREDITS);
-                        me.setCredits(me.getCredits()-Constants.STANDARD_CREDITS);
+                        me.setCredits(me.getCredits() - Constants.STANDARD_CREDITS);
                         mu.saveUser(me);
-                        new DynamoDBManagerTask(getActivity(),bookReq,bookReq.getBook(),bookReq.getUser(), me).execute(DynamoDBManagerType.CONFIRM_BOOKREQUEST);
+                        new DynamoDBManagerTask(getActivity(), bookReq, bookReq.getBook(), bookReq.getUser(), me).execute(DynamoDBManagerType.CONFIRM_BOOKREQUEST);
+
                         requestsAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), getResources().getString(R.string.exchange_confirmed), Toast.LENGTH_SHORT).show();
                     }
                 }
-
-
             }
 
         } else {
@@ -208,7 +207,6 @@ public class RequestsSentFragment extends Fragment {
             toast = Toast.makeText(getActivity(), getResources().getString(R.string.no_scandata), Toast.LENGTH_SHORT);
             toast.show();
         }
-
     }
 
     public class BookRequestComparator implements Comparator<BookRequest> {

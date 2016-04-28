@@ -75,7 +75,7 @@
     <string name="invalid_distance">Error, invalid distance</string>
     <string name="invalid_distance_number">Error, distance has to be between 10 and 10.000 Km</string>
     <!-- LIBRARY ACTIVITY -->
-
+    <string name="error_loading_library">Error while loading library, try again</string>
     <string name="scan_isbn">Scan a ISBN</string>
     <string name="no_scandata">No book scan data received!</string>
     <string name="found">found</string>

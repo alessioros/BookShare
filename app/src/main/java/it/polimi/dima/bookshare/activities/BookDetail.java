@@ -42,6 +42,7 @@ import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.BookRequest;
 import it.polimi.dima.bookshare.tables.User;
+import it.polimi.dima.bookshare.utils.InternalStorage;
 import it.polimi.dima.bookshare.utils.ManageUser;
 
 public class BookDetail extends AppCompatActivity {
@@ -52,6 +53,8 @@ public class BookDetail extends AppCompatActivity {
     private static int REDIRECT_TIME_OUT = 500;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private static final String TAG = "BookDetail";
+    private String RECBOOKS_KEY = "RECBOOKS";
+    private String MYBOOKS_KEY = "MYBOOKS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -340,14 +343,26 @@ public class BookDetail extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
 
                 try {
+
                     new DynamoDBManager(BookDetail.this).deleteBook(book);
+
+                    ArrayList<Book> myNewBooks = (ArrayList<Book>) InternalStorage.readObject(BookDetail.this, MYBOOKS_KEY);
+                    Book candidate = new Book();
+
+                    for (Book item : myNewBooks) {
+
+                        if (item.getIsbn().equals(book.getIsbn())) {
+
+                            candidate = item;
+                        }
+                    }
+                    myNewBooks.remove(candidate);
+
+                    InternalStorage.cacheObject(BookDetail.this, MYBOOKS_KEY, myNewBooks);
 
                     Toast.makeText(BookDetail.this, getResources().getString(R.string.success_delete), Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(BookDetail.this, MainActivity.class);
-
-                    intent.putExtra("redirect", "library");
-                    startActivity(intent);
+                    startActivity(new Intent(BookDetail.this, LibraryActivity.class));
 
                 } catch (Exception e) {
 
@@ -378,11 +393,16 @@ public class BookDetail extends AppCompatActivity {
 
             // add book to DynamoDB
             new DynamoDBManagerTask(BookDetail.this, book).execute(DynamoDBManagerType.INSERT_BOOK);
+
+            ArrayList<Book> myNewBooks = (ArrayList<Book>) InternalStorage.readObject(BookDetail.this, MYBOOKS_KEY);
+            myNewBooks.add(book);
+            InternalStorage.cacheObject(BookDetail.this, MYBOOKS_KEY, myNewBooks);
+
             Toast.makeText(BookDetail.this, getResources().getString(R.string.success_add), Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
 
-            Toast.makeText(BookDetail.this, getResources().getString(R.string.error_add), Toast.LENGTH_SHORT);
+            Toast.makeText(BookDetail.this, getResources().getString(R.string.error_add), Toast.LENGTH_SHORT).show();
 
         }
 
@@ -392,10 +412,7 @@ public class BookDetail extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent intent = new Intent(BookDetail.this, MainActivity.class);
-
-                intent.putExtra("redirect", "library");
-                startActivity(intent);
+                startActivity(new Intent(BookDetail.this, LibraryActivity.class));
 
                 finish();
             }

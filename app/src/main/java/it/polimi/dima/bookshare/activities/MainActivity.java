@@ -27,7 +27,6 @@ import com.squareup.picasso.Picasso;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.fragments.HomeFragment;
-import it.polimi.dima.bookshare.fragments.ReviewFragment;
 import it.polimi.dima.bookshare.services.RegistrationIntentService;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if(getIntent().getExtras()!=null){
+        if (getIntent().getExtras() != null) {
 
             Bundle extras = getIntent().getExtras();
             String redirect = "";
@@ -81,15 +80,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 toolbar.setTitleTextColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary));
             }
 
-            if (redirect.equals("library")) {
-
-                startActivity(new Intent(MainActivity.this, LibraryActivity.class));
-
-            } else if (redirect.equals("settings")) {
+            if (redirect.equals("settings")) {
 
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             }
-        }else{
+
+        } else {
 
             Fragment fragment = HomeFragment.newInstance();
 
@@ -98,8 +94,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().setTitle("");
 
         }
-
-
     }
 
     @Override
@@ -170,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             startActivity(new Intent(MainActivity.this, LibraryActivity.class));
 
-        }else if (id == R.id.requests) {
+        } else if (id == R.id.requests) {
 
             startActivity(new Intent(MainActivity.this, RequestsActivity.class));
 

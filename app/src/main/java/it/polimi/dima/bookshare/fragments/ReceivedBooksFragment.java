@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,20 +13,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.Profile;
-
+import java.io.IOException;
 import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.utils.InternalStorage;
 import it.polimi.dima.bookshare.utils.ManageUser;
 import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 
 public class ReceivedBooksFragment extends Fragment {
 
     private ManageUser manageUser;
+    private String RECBOOKS_KEY = "RECBOOKS";
 
     public ReceivedBooksFragment() {
 
@@ -50,42 +50,72 @@ public class ReceivedBooksFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_receivedbook_list, container, false);
 
         manageUser = new ManageUser(getActivity());
-        loadReceivedLibrary();
+        loadReceivedLibrary(view);
 
         return view;
     }
 
-    public void loadReceivedLibrary() {
+    public void loadReceivedLibrary(View view) {
 
-        final ProgressDialog progressDialog =
-                ProgressDialog.show(getActivity(),
-                        getResources().getString(R.string.wait),
-                        getResources().getString(R.string.loading_library), true, false);
-
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        ArrayList<Book> recBooks;
+        final View mView = view;
 
         try {
 
-            new LoadReceivedBooks(new OnBookLoadingCompleted() {
-                @Override
-                public void onBookLoadingCompleted(ArrayList<Book> books) {
+            recBooks = (ArrayList<Book>) InternalStorage.readObject(getActivity(), RECBOOKS_KEY);
 
-                    loadRecyclerView(books);
-                    progressDialog.dismiss();
-
-                }
-            }).execute();
-
-        } catch (Exception e) {
-
-            new Toast(getActivity()).makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            recBooks = null;
+        } catch (ClassNotFoundException e) {
+            recBooks = null;
         }
+
+        if (recBooks == null) {
+
+            final ProgressDialog progressDialog =
+                    ProgressDialog.show(getActivity(),
+                            getResources().getString(R.string.wait),
+                            getResources().getString(R.string.loading_library), true, false);
+
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+            try {
+
+                new LoadReceivedBooks(new OnBookLoadingCompleted() {
+                    @Override
+                    public void onBookLoadingCompleted(ArrayList<Book> books) {
+
+                        loadRecyclerView(books, mView);
+
+                        try {
+
+                            InternalStorage.cacheObject(getActivity(), RECBOOKS_KEY, books);
+
+                        } catch (IOException e) {
+                            System.out.println("Error while caching objects");
+                        }
+
+                        progressDialog.dismiss();
+
+                    }
+                }).execute();
+
+            } catch (Exception e) {
+
+                new Toast(getActivity()).makeText(getActivity(), getResources().getString(R.string.error_loading_library), Toast.LENGTH_SHORT).show();
+            }
+
+        } else {
+
+            loadRecyclerView(recBooks, mView);
+        }
+
     }
 
-    public void loadRecyclerView(ArrayList<Book> mBooks) {
+    public void loadRecyclerView(ArrayList<Book> mBooks, View mView) {
 
 
-        TextView noBooks = (TextView) getActivity().findViewById(R.id.recnobooks_text);
+        TextView noBooks = (TextView) mView.findViewById(R.id.recnobooks_text);
 
         if (mBooks.isEmpty()) {
 
@@ -103,7 +133,7 @@ public class ReceivedBooksFragment extends Fragment {
             manageUser.setRecBookCount(mBooks.size());
             noBooks.setVisibility(View.GONE);
 
-            RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.recbook_list);
+            RecyclerView recyclerView = (RecyclerView) mView.findViewById(R.id.recbook_list);
 
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
 

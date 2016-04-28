@@ -6,13 +6,8 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIgnore;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 
-import java.util.Comparator;
-
 import it.polimi.dima.bookshare.amazon.Constants;
 
-/**
- * Created by matteo on 05/04/16.
- */
 @DynamoDBTable(tableName = Constants.BOOKREQUEST_TABLE_NAME)
 public class BookRequest {
     private int ID;
@@ -24,7 +19,8 @@ public class BookRequest {
     private User user;
     private Book book;
 
-    public BookRequest(){}
+    public BookRequest() {
+    }
 
     @DynamoDBHashKey(attributeName = "AskerID")
     public String getAskerID() {

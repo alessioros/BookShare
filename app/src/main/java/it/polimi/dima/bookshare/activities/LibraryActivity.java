@@ -53,7 +53,7 @@ public class LibraryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
 
-            super.onBackPressed();
+            startActivity(new Intent(LibraryActivity.this, MainActivity.class));
             return true;
         }
 

@@ -6,9 +6,8 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,15 +22,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.facebook.Profile;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLDecoder;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
@@ -42,6 +38,7 @@ import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.utils.AmazonFinder;
 import it.polimi.dima.bookshare.utils.GoogleBooksFinder;
+import it.polimi.dima.bookshare.utils.InternalStorage;
 import it.polimi.dima.bookshare.utils.LibraryThingFinder;
 import it.polimi.dima.bookshare.utils.ManageUser;
 import it.polimi.dima.bookshare.utils.MergeBookSources;
@@ -53,6 +50,7 @@ public class MyBooksFragment extends Fragment {
     private Book amazonBook, googleBook, LTBook, book;
     private ArrayList<String> myBookIDs;
     private ManageUser manageUser;
+    private String MYBOOKS_KEY = "MYBOOKS";
 
     public MyBooksFragment() {
 
@@ -75,7 +73,7 @@ public class MyBooksFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mybook_list, container, false);
 
         manageUser = new ManageUser(getActivity());
-        loadLibrary();
+        loadLibrary(view);
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
 
@@ -135,7 +133,7 @@ public class MyBooksFragment extends Fragment {
                         if (book != null) {
 
                             Intent bookIntent = new Intent(getActivity(), BookDetail.class);
-                            bookIntent.putExtra("book", book);
+                            bookIntent.putExtra("book", (Parcelable) book);
                             bookIntent.putExtra("button", "add");
                             getActivity().startActivity(bookIntent);
 
@@ -157,36 +155,66 @@ public class MyBooksFragment extends Fragment {
 
     }
 
-    public void loadLibrary() {
+    public void loadLibrary(View view) {
 
-        final ProgressDialog progressDialog =
-                ProgressDialog.show(getActivity(),
-                        getResources().getString(R.string.wait),
-                        getResources().getString(R.string.loading_library), true, false);
-
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        ArrayList<Book> myBooks;
+        final View mView = view;
 
         try {
 
-            new LoadBooks(new OnBookLoadingCompleted() {
-                @Override
-                public void onBookLoadingCompleted(ArrayList<Book> books) {
+            myBooks = (ArrayList<Book>) InternalStorage.readObject(getActivity(), MYBOOKS_KEY);
 
-                    loadRecyclerView(books);
-                    progressDialog.dismiss();
-
-                }
-            }).execute();
-
-        } catch (Exception e) {
-
-            new Toast(getActivity()).makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            myBooks = null;
+        } catch (ClassNotFoundException e) {
+            myBooks = null;
         }
+
+        if (myBooks == null) {
+
+            final ProgressDialog progressDialog =
+                    ProgressDialog.show(getActivity(),
+                            getResources().getString(R.string.wait),
+                            getResources().getString(R.string.loading_library), true, false);
+
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+            try {
+
+                new LoadBooks(new OnBookLoadingCompleted() {
+                    @Override
+                    public void onBookLoadingCompleted(ArrayList<Book> books) {
+
+                        loadRecyclerView(books, mView);
+
+                        try {
+                            InternalStorage.cacheObject(getActivity(), MYBOOKS_KEY, books);
+
+                        } catch (IOException e) {
+                            System.out.println("Error while caching objects");
+                        }
+
+                        progressDialog.dismiss();
+
+                    }
+                }).execute();
+
+            } catch (Exception e) {
+
+                new Toast(getActivity()).makeText(getActivity(), getResources().getString(R.string.error_loading_library), Toast.LENGTH_SHORT).show();
+            }
+
+        } else {
+
+            loadRecyclerView(myBooks, mView);
+        }
+
     }
 
-    public void loadRecyclerView(ArrayList<Book> mBooks) {
+    public void loadRecyclerView(ArrayList<Book> mBooks, View mView) {
 
-        TextView noBooks = (TextView) getActivity().findViewById(R.id.nobooks_text);
+        TextView noBooks = (TextView) mView.findViewById(R.id.nobooks_text);
+        myBookIDs = new ArrayList<>();
 
         if (mBooks.isEmpty()) {
 
@@ -201,10 +229,16 @@ public class MyBooksFragment extends Fragment {
 
         } else {
 
+            for (Book book : mBooks) {
+
+                myBookIDs.add(book.getIsbn());
+            }
+
             manageUser.setBookCount(mBooks.size());
+
             noBooks.setVisibility(View.GONE);
 
-            RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.book_list);
+            RecyclerView recyclerView = (RecyclerView) mView.findViewById(R.id.book_list);
 
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
 
@@ -228,11 +262,6 @@ public class MyBooksFragment extends Fragment {
             DynamoDBManager DDBM = new DynamoDBManager(getActivity());
             ArrayList<Book> mBooks = DDBM.getBooks(new ManageUser(getActivity()).getUser().getUserID());
 
-            myBookIDs = new ArrayList<>();
-            for (Book book : mBooks) {
-
-                myBookIDs.add(book.getIsbn());
-            }
             return mBooks;
         }
 

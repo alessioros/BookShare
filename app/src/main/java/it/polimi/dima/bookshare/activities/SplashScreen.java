@@ -17,6 +17,7 @@ import com.facebook.Profile;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -26,6 +27,7 @@ import it.polimi.dima.bookshare.amazon.CognitoSyncClientManager;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.User;
+import it.polimi.dima.bookshare.utils.InternalStorage;
 import it.polimi.dima.bookshare.utils.ManageUser;
 
 public class SplashScreen extends AppCompatActivity {
@@ -35,6 +37,8 @@ public class SplashScreen extends AppCompatActivity {
     private User user;
     private ManageUser manageUser;
     private final float DEFAULT_MAX_DIST = 200000f;
+    private String MYBOOKS_KEY = "MYBOOKS";
+    private String RECBOOKS_KEY = "RECBOOKS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,12 +137,22 @@ public class SplashScreen extends AppCompatActivity {
 
                     } else {
 
-                        new LoadBookCount(new OnBookCountCompleted() {
+                        new LoadBooks(new OnBooksLoadingCompleted() {
                             @Override
-                            public void onBookCountCompleted(int count, int recCount) {
+                            public void onBooksLoadingCompleted(ArrayList<Book> myBooks, ArrayList<Book> recBooks) {
 
-                                manageUser.setBookCount(count);
-                                manageUser.setRecBookCount(recCount);
+                                manageUser.setBookCount(myBooks.size());
+                                manageUser.setRecBookCount(recBooks.size());
+
+                                try {
+
+                                    InternalStorage.cacheObject(SplashScreen.this, MYBOOKS_KEY, myBooks);
+                                    InternalStorage.cacheObject(SplashScreen.this, RECBOOKS_KEY, recBooks);
+
+                                } catch (IOException e) {
+
+                                }
+
                             }
                         }).execute(user.getUserID());
 
@@ -202,27 +216,26 @@ public class SplashScreen extends AppCompatActivity {
 
     }
 
-    public interface OnBookCountCompleted {
-        void onBookCountCompleted(int count, int recCount);
+    public interface OnBooksLoadingCompleted {
+        void onBooksLoadingCompleted(ArrayList<Book> myBooks, ArrayList<Book> recBooks);
     }
 
 
-    class LoadBookCount extends AsyncTask<String, Integer, Integer> {
-        private OnBookCountCompleted listener;
+    class LoadBooks extends AsyncTask<String, Void, Void> {
+        private OnBooksLoadingCompleted listener;
 
-        public LoadBookCount(OnBookCountCompleted listener) {
+        public LoadBooks(OnBooksLoadingCompleted listener) {
             this.listener = listener;
         }
 
         @Override
-        protected Integer doInBackground(String... params) {
+        protected Void doInBackground(String... params) {
 
             DynamoDBManager DDBM = new DynamoDBManager(SplashScreen.this);
-            int booksCount = DDBM.getBooksCount(params[0]);
-            int receivBooksCount = DDBM.getReceivedBooksCount(params[0]);
-            listener.onBookCountCompleted(booksCount, receivBooksCount);
 
-            return booksCount;
+            listener.onBooksLoadingCompleted(DDBM.getBooks(params[0]), DDBM.getReceivedBooks(params[0]));
+
+            return null;
         }
 
     }

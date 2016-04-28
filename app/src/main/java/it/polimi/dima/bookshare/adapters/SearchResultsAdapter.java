@@ -1,10 +1,9 @@
 package it.polimi.dima.bookshare.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.preference.PreferenceManager;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.activities.BookDetail;
-import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.User;
 
@@ -31,7 +29,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
     public SearchResultsAdapter(ArrayList<Book> mBooks, Context context) {
         this.mBooks = mBooks;
         this.context = context;
-        this.aller=Typeface.createFromAsset(context.getAssets(), "fonts/Aller_Rg.ttf");
+        this.aller = Typeface.createFromAsset(context.getAssets(), "fonts/Aller_Rg.ttf");
     }
 
     @Override
@@ -73,7 +71,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         return mBooks.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final View mView;
         public final ImageView mImage;
@@ -96,9 +94,9 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         @Override
         public void onClick(View view) {
 
-            Intent startDetail=new Intent(context, BookDetail.class);
-            startDetail.putExtra("button","ask");
-            startDetail.putExtra("book",mBooks.get(getLayoutPosition()));
+            Intent startDetail = new Intent(context, BookDetail.class);
+            startDetail.putExtra("button", "ask");
+            startDetail.putExtra("book", (Parcelable) mBooks.get(getLayoutPosition()));
             context.startActivity(startDetail);
         }
     }

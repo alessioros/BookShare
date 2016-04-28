@@ -6,15 +6,16 @@ import android.os.Parcelable;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribute;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIgnore;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexHashKey;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
+
+import java.io.Serializable;
 
 import it.polimi.dima.bookshare.amazon.Constants;
 
 @DynamoDBTable(tableName = Constants.BOOK_TABLE_NAME)
-public class Book implements Parcelable{
+public class Book implements Parcelable, Serializable {
+
     private String isbn;
     private String title;
     private String author;
@@ -27,7 +28,8 @@ public class Book implements Parcelable{
     private String receiverID;
     private User owner;
 
-    public Book() {}
+    public Book() {
+    }
 
     @DynamoDBHashKey(attributeName = "ISBN")
     public String getIsbn() {

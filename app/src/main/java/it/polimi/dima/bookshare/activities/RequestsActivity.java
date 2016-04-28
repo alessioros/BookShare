@@ -18,7 +18,7 @@ public class RequestsActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private static final String TAG="RequestsActivity";
+    private static final String TAG = "RequestsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,8 @@ public class RequestsActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        if(getIntent().hasExtra("tab")) viewPager.setCurrentItem(getIntent().getExtras().getInt("tab"));
+        if (getIntent().hasExtra("tab"))
+            viewPager.setCurrentItem(getIntent().getExtras().getInt("tab"));
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);

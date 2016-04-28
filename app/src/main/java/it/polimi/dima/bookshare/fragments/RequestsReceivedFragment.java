@@ -19,30 +19,27 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.adapters.RequestsAdapter;
-import it.polimi.dima.bookshare.amazon.Constants;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.BookRequest;
-import it.polimi.dima.bookshare.tables.User;
-import it.polimi.dima.bookshare.utils.ManageUser;
+import it.polimi.dima.bookshare.utils.InternalStorage;
 import it.polimi.dima.bookshare.utils.OnBookRequestsLoadingCompleted;
 
-/**
- * Created by matteo on 19/04/16.
- */
 public class RequestsReceivedFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private ArrayList<BookRequest> bookRequests =new ArrayList<>();
+    private ArrayList<BookRequest> bookRequests = new ArrayList<>();
     private RequestsAdapter requestsAdapter;
+    private String MYBOOKS_KEY = "MYBOOKS";
 
     public RequestsReceivedFragment() {
     }
@@ -56,7 +53,6 @@ public class RequestsReceivedFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,7 +61,7 @@ public class RequestsReceivedFragment extends Fragment {
 
         loadRequests();
 
-        final SwipeRefreshLayout mySwipeRefreshLayout=(SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_requests_received);
+        final SwipeRefreshLayout mySwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_requests_received);
 
         mySwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -101,22 +97,42 @@ public class RequestsReceivedFragment extends Fragment {
 
             } else {
 
-                String ownerID= PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("EXCHANGE_ID",null);
+                String ownerID = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("EXCHANGE_ID", null);
                 PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().remove("EXCHANGE_ID").apply();
 
-                for(BookRequest bookReq : bookRequests){
-                    if(bookReq.getAskerID().equals(ownerID) && bookReq.getBookISBN().equals(scanContent)){
+                for (BookRequest bookReq : bookRequests) {
+                    if (bookReq.getAskerID().equals(ownerID) && bookReq.getBookISBN().equals(scanContent)) {
 
-                        Book b=bookReq.getBook();
+                        Book b = bookReq.getBook();
                         b.setReceiverID(null);
-                        new DynamoDBManagerTask(getActivity(),b,bookReq).execute(DynamoDBManagerType.RETURN);
+
+                        try {
+
+                            ArrayList<Book> myNewBooks = (ArrayList<Book>) InternalStorage.readObject(getActivity(), MYBOOKS_KEY);
+                            Book candidate = new Book();
+                            for (Book book : myNewBooks) {
+
+                                if (book.getIsbn().equals(b.getIsbn())) {
+
+                                    candidate = book;
+                                }
+                            }
+
+                            myNewBooks.remove(candidate);
+                            myNewBooks.add(b);
+                            InternalStorage.cacheObject(getActivity(), MYBOOKS_KEY, myNewBooks);
+
+                        } catch (IOException | ClassNotFoundException e) {
+
+                            Toast.makeText(getActivity(), "Error while caching books", Toast.LENGTH_SHORT).show();
+                        }
+
+                        new DynamoDBManagerTask(getActivity(), b, bookReq).execute(DynamoDBManagerType.RETURN);
                         requestsAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), getResources().getString(R.string.return_confirmed), Toast.LENGTH_SHORT).show();
 
                     }
                 }
-
-
             }
 
         } else {
@@ -149,7 +165,7 @@ public class RequestsReceivedFragment extends Fragment {
 
         } catch (Exception e) {
 
-            new Toast(getActivity()).makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -173,12 +189,11 @@ public class RequestsReceivedFragment extends Fragment {
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            Collections.sort(bookRequests,Collections.reverseOrder(new BookRequestComparator()));
-            requestsAdapter=new RequestsAdapter(bookRequests, getActivity(),this);
+            Collections.sort(bookRequests, Collections.reverseOrder(new BookRequestComparator()));
+            requestsAdapter = new RequestsAdapter(bookRequests, getActivity(), this);
             recyclerView.setAdapter(requestsAdapter);
 
         }
-
     }
 
     class LoadRequests extends AsyncTask<Void, ArrayList<BookRequest>, ArrayList<BookRequest>> {
@@ -191,12 +206,11 @@ public class RequestsReceivedFragment extends Fragment {
         @Override
         protected ArrayList<BookRequest> doInBackground(Void... params) {
 
-            bookRequests =new DynamoDBManager(getActivity()).getReceivedRequests();
-            for(BookRequest bookRequest : bookRequests){
+            bookRequests = new DynamoDBManager(getActivity()).getReceivedRequests();
+            for (BookRequest bookRequest : bookRequests) {
 
-                    bookRequest.setUser(new DynamoDBManager(getActivity()).getUser(bookRequest.getAskerID()));
-                    bookRequest.setBook(new DynamoDBManager(getActivity()).getBook(bookRequest.getBookISBN(), bookRequest.getReceiverID()));
-
+                bookRequest.setUser(new DynamoDBManager(getActivity()).getUser(bookRequest.getAskerID()));
+                bookRequest.setBook(new DynamoDBManager(getActivity()).getBook(bookRequest.getBookISBN(), bookRequest.getReceiverID()));
             }
 
             return bookRequests;
