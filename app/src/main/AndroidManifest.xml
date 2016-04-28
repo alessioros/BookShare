@@ -194,7 +194,9 @@
         <activity
             android:name=".activities.ReviewsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.WriteReviewActivity"></activity>
+        <activity
+            android:name=".activities.WriteReviewActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

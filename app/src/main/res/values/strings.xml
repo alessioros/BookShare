@@ -164,5 +164,15 @@
     <string name="review_activity_title">Write a Review</string>
 
     <string name="rating_title">Rating:</string>
-    <string name="review_title_text">Title:</string>
+    <string name="review_title_text">Title</string>
+    <string name="review_description_text">Description:</string>
+    <string name="add_review_text">add review</string>
+
+    <string name="maxchar_incomplete">/200</string>
+    <string name="maxchar_default">0/200</string>
+
+    <string name="rev_notitle_err">Error, insert a title</string>
+    <string name="rev_norating_err">Error, insert a rating</string>
+    <string name="rev_nodesc_err">Error, insert a description</string>
+    <string name="rev_incomplete_err">Error, complete all the fields</string>
 </resources>

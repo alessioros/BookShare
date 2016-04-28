@@ -269,7 +269,28 @@
     <dimen name="titles_txtsize">20sp</dimen>
     <dimen name="titles_marginleft">30dp</dimen>
 
-    <dimen name="rating_title_margintop">15dp</dimen>
-    <dimen name="rating_bar_marginleft">10dp</dimen>
-    <dimen name="rating_bar_margintop">15dp</dimen>
+    <dimen name="rating_title_margintop">10dp</dimen>
+    <dimen name="rating_bar_marginleft">5dp</dimen>
+    <dimen name="rating_bar_margintop">5dp</dimen>
+
+    <dimen name="rev_ruler_margintop">5dp</dimen>
+
+    <dimen name="rev_title_margintop">15dp</dimen>
+    <dimen name="rev_title_paddingleft">5dp</dimen>
+
+    <dimen name="rev_description_height">160dp</dimen>
+    <dimen name="rev_description_margintop">20dp</dimen>
+    <dimen name="rev_description_padding">10dp</dimen>
+    <dimen name="rev_description_txtsize">18sp</dimen>
+
+    <dimen name="rev_descr_text_margintop">15dp</dimen>
+
+    <dimen name="char_count_txtsize">16sp</dimen>
+    <dimen name="char_count_margintop">5dp</dimen>
+    <dimen name="char_count_marginright">35dp</dimen>
+
+    <dimen name="button_add_rev_padding">10dp</dimen>
+    <dimen name="button_add_rev_paddinglr">35dp</dimen>
+    <dimen name="button_add_rev_margintop">25dp</dimen>
+
 </resources>
