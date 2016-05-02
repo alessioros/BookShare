@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -25,6 +26,8 @@ import android.widget.TextView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.prefs.PreferenceChangeEvent;
+
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.fragments.HomeFragment;
 import it.polimi.dima.bookshare.services.RegistrationIntentService;
@@ -40,8 +43,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, RegistrationIntentService.class);
-        startService(intent);
+        if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("RegARN",true)) {
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        } else{
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("RegARN",false).apply();
+        }
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

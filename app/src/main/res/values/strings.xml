@@ -2,7 +2,7 @@
     <string name="app_name">BookShare</string>
     <string name="facebook_app_id">"1716685071920315"</string>
 
-    <string name="notification_name">New book request</string>
+    <string name="notification_name">Bookshare</string>
     <string name="search">Search</string>
     <string name="email">Email</string>
     <string name="password">Password</string>

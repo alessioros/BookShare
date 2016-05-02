@@ -140,6 +140,24 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 });
 
             } else if (bookRequest.getAccepted() == 3) {
+
+                holder.buttonConfirm.setVisibility(Button.VISIBLE);
+                holder.buttonConfirm.setText(R.string.return_book);
+                holder.buttonConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ArrayList<BookRequest> bookRequests = new DynamoDBManager(context).getMyBookRequests();
+                        for (BookRequest br : bookRequests) {
+                            if (br.getBookISBN().equals(book.getIsbn()) && br.getReceiverID().equals(book.getOwnerID())) {
+                                br.setAccepted(4);
+                                new DynamoDBManager(context).updateBookRequest(br);
+                                Toast.makeText(context, R.string.return_sent, Toast.LENGTH_SHORT).show();
+                                break;
+                            }
+                        }
+                    }
+                });
+
                 holder.buttonContact.setVisibility(Button.VISIBLE);
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -250,23 +268,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
                 holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.accepted_icon, context.getTheme()));
 
-                holder.buttonConfirm.setVisibility(Button.VISIBLE);
-                holder.buttonConfirm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final BookRequest bookRequest = mBookRequests.get(position);
-                        user = bookRequest.getUser();
-                        book = bookRequest.getBook();
-
-
-                        FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(myFragment);
-                        scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
-                        scanIntegrator.setPrompt(context.getResources().getString(R.string.scan_isbn));
-                        PreferenceManager.getDefaultSharedPreferences(context).edit().putString("EXCHANGE_ID", bookRequest.getAskerID()).apply();
-                        scanIntegrator.initiateScan();
-                    }
-                });
-
                 holder.buttonContact.setVisibility(Button.VISIBLE);
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -348,6 +349,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                             BookRequest bookRequest = mBookRequests.get(getAdapterPosition());
                             if (bookRequest.getAccepted() < 2) {
                                 new DynamoDBManager(context).deleteBookRequest(bookRequest);
+                                mBookRequests.remove(bookRequest);
                                 notifyDataSetChanged();
                             } else {
                                 Toast.makeText(context, R.string.cant_delete, Toast.LENGTH_SHORT).show();

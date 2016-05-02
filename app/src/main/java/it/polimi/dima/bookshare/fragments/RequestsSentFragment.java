@@ -196,6 +196,7 @@ public class RequestsSentFragment extends Fragment {
                         mu.saveUser(me);
                         new DynamoDBManagerTask(getActivity(), bookReq, bookReq.getBook(), bookReq.getUser(), me).execute(DynamoDBManagerType.CONFIRM_BOOKREQUEST);
 
+                        bookRequests.get(bookRequests.indexOf(bookReq)).setAccepted(3);
                         requestsAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), getResources().getString(R.string.exchange_confirmed), Toast.LENGTH_SHORT).show();
                     }

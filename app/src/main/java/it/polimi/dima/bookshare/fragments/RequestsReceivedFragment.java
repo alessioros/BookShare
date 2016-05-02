@@ -128,6 +128,7 @@ public class RequestsReceivedFragment extends Fragment {
                         }
 
                         new DynamoDBManagerTask(getActivity(), b, bookReq).execute(DynamoDBManagerType.RETURN);
+                        bookRequests.remove(bookReq);
                         requestsAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), getResources().getString(R.string.return_confirmed), Toast.LENGTH_SHORT).show();
 
