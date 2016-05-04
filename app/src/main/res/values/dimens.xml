@@ -73,9 +73,9 @@
 
     <dimen name="nobooks_nearby_margintop">40dp</dimen>
     <dimen name="nobooks_nearby_txtsize">20sp</dimen>
-    <!-- SEARCH RESULT -->
-    <dimen name="card_image_width">80dp</dimen>
-    <dimen name="card_image_height">125dp</dimen>
+    <!-- CARDS -->
+    <dimen name="card_image_width">96dp</dimen>
+    <dimen name="card_image_height">150dp</dimen>
     <dimen name="card_image_margin">10dp</dimen>
     <dimen name="card_image_elev">5dp</dimen>
 
@@ -85,20 +85,24 @@
     <dimen name="card_title_margintop">15dp</dimen>
 
     <dimen name="card_author_margintop">10dp</dimen>
-    <dimen name="card_author_txtsize">18sp</dimen>
+    <dimen name="card_author_txtsize">15sp</dimen>
 
-    <dimen name="owner_info_margintop">15dp</dimen>
+    <dimen name="owner_info_margintop">100dp</dimen>
+    <dimen name="search_owner_info_margintop">20dp</dimen>
+    <dimen name="owner_info_marginright">10dp</dimen>
+
+    <dimen name="card_owner_image">40dp</dimen>
 
     <dimen name="searchruler_margintop">15dp</dimen>
     <dimen name="searchruler_width">100dp</dimen>
-    <dimen name="card_owner_txtsize">18sp</dimen>
+    <dimen name="card_owner_txtsize">15sp</dimen>
     <dimen name="card_owner_maxwidth">150dp</dimen>
 
-    <dimen name="card_ownerloc_txtsize">18sp</dimen>
+    <dimen name="card_ownerloc_txtsize">13sp</dimen>
     <dimen name="card_ownerloc_marginleft">10dp</dimen>
 
     <!-- REQUESTS ACTIVITY -->
-    <dimen name="margin_top_buttons">30dp</dimen>
+    <dimen name="margin_top_buttons">15dp</dimen>
     <dimen name="margin_between_buttons">40dp</dimen>
     <dimen name="margin_info_request">15dp</dimen>
     <dimen name="margin_top_info_request">15dp</dimen>

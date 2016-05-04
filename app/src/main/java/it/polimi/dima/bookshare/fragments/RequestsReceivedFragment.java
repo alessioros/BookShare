@@ -40,6 +40,8 @@ public class RequestsReceivedFragment extends Fragment {
     private ArrayList<BookRequest> bookRequests = new ArrayList<>();
     private RequestsAdapter requestsAdapter;
     private String MYBOOKS_KEY = "MYBOOKS";
+    private String RECBOOKS_KEY = "RECBOOKS";
+
 
     public RequestsReceivedFragment() {
     }
@@ -128,6 +130,7 @@ public class RequestsReceivedFragment extends Fragment {
                         }
 
                         new DynamoDBManagerTask(getActivity(), b, bookReq).execute(DynamoDBManagerType.RETURN);
+
                         bookRequests.remove(bookReq);
                         requestsAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), getResources().getString(R.string.return_confirmed), Toast.LENGTH_SHORT).show();

@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("RegARN",true)) {
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
-        } else{
             PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("RegARN",false).apply();
         }
 

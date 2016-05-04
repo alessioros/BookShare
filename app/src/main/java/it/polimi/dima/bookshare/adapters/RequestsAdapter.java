@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -190,6 +191,8 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     }
                 });
 
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.confirmed_icon, context.getTheme()));
+
             }
 
 
@@ -266,7 +269,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
             } else if (bookRequest.getAccepted() == 4) {
 
-                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.accepted_icon, context.getTheme()));
+                holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.confirmed_icon, context.getTheme()));
 
                 holder.buttonContact.setVisibility(Button.VISIBLE);
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
@@ -297,6 +300,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         }
 
         holder.mAuthor.setText(book.getAuthor());
+        Picasso.with(context).load(user.getImgURL()).into(holder.mOwnerImage);
         holder.mOwner.setText(user.getName() + " " + user.getSurname());
         holder.mLocation.setText(user.getCity() + ", " + user.getCountry());
 
@@ -311,6 +315,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
         public final View mView;
         public final ImageView mImage, infoIcon;
+        public final CircularImageView mOwnerImage;
         public final TextView mTitle, mAuthor, mOwner, mLocation;
         public final Button buttonAccept, buttonRefuse, buttonContact, buttonConfirm;
 
@@ -321,6 +326,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             mImage = (ImageView) view.findViewById(R.id.card_image);
             mTitle = (TextView) view.findViewById(R.id.card_title);
             mAuthor = (TextView) view.findViewById(R.id.card_author);
+            mOwnerImage = (CircularImageView) view.findViewById(R.id.card_owner_image);
             mOwner = (TextView) view.findViewById(R.id.card_owner);
             mLocation = (TextView) view.findViewById(R.id.card_owner_location);
             buttonAccept = (Button) view.findViewById(R.id.accept_request);

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,8 +30,10 @@ import it.polimi.dima.bookshare.amazon.Constants;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
+import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.BookRequest;
 import it.polimi.dima.bookshare.tables.User;
+import it.polimi.dima.bookshare.utils.InternalStorage;
 import it.polimi.dima.bookshare.utils.ManageUser;
 import it.polimi.dima.bookshare.utils.OnBookRequestsLoadingCompleted;
 
@@ -44,6 +47,7 @@ public class RequestsSentFragment extends Fragment {
     private ArrayList<BookRequest> bookRequests = new ArrayList<>();
     private RequestsAdapter requestsAdapter;
     private ManageUser mu;
+    private String RECBOOKS_KEY = "RECBOOKS";
 
     public RequestsSentFragment() {
     }
@@ -195,6 +199,20 @@ public class RequestsSentFragment extends Fragment {
                         me.setCredits(me.getCredits() - Constants.STANDARD_CREDITS);
                         mu.saveUser(me);
                         new DynamoDBManagerTask(getActivity(), bookReq, bookReq.getBook(), bookReq.getUser(), me).execute(DynamoDBManagerType.CONFIRM_BOOKREQUEST);
+
+                        ArrayList<Book> recBooks;
+                        try {
+                            recBooks = (ArrayList<Book>) InternalStorage.readObject(getActivity(), RECBOOKS_KEY);
+
+                            recBooks.add(bookReq.getBook());
+
+                            InternalStorage.cacheObject(getActivity(), RECBOOKS_KEY, recBooks);
+
+                        } catch (IOException e) {
+                            System.out.println("Error while caching objects");
+                        } catch (ClassNotFoundException e) {
+                            recBooks = null;
+                        }
 
                         bookRequests.get(bookRequests.indexOf(bookReq)).setAccepted(3);
                         requestsAdapter.notifyDataSetChanged();

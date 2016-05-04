@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:id="@+id/card_search_result"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,17 +16,16 @@
         <ImageView
             android:id="@+id/info_icon"
             android:layout_alignParentRight="true"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
 
         <ImageView
             android:id="@+id/card_image"
             android:layout_width="@dimen/card_image_width"
             android:layout_height="@dimen/card_image_height"
+            android:layout_marginRight="@dimen/card_image_margin"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/card_image_margin"
             android:contentDescription="@string/card_image_contdesc"
             android:elevation="@dimen/card_image_elev" />
 
@@ -39,8 +39,6 @@
             android:layout_toRightOf="@id/card_image"
             android:maxLines="1"
             android:maxWidth="@dimen/card_title_maxwidth"
-            android:shadowColor="@color/text_shadow"
-            android:shadowRadius="2"
             android:textColor="@color/black"
             android:textSize="@dimen/card_title_txtsize" />
 
@@ -50,7 +48,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/card_title"
             android:layout_marginLeft="@dimen/card_title_marginleft"
-            android:layout_marginTop="@dimen/card_author_margintop"
             android:layout_toEndOf="@id/card_image"
             android:layout_toRightOf="@id/card_image"
             android:textColor="@color/textSecondary"
@@ -61,17 +58,26 @@
             android:id="@+id/owner_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/card_author"
             android:layout_marginLeft="@dimen/card_title_marginleft"
-            android:layout_marginTop="@dimen/owner_info_margintop"
-            android:layout_toEndOf="@id/card_image"
-            android:layout_toRightOf="@id/card_image">
+            android:layout_marginRight="@dimen/owner_info_marginright"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/owner_info_margintop">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/card_owner_image"
+                android:layout_width="@dimen/card_owner_image"
+                android:layout_height="@dimen/card_owner_image"
+                android:layout_centerVertical="true"
+                app:civ_shadow="true"
+                app:civ_shadow_color="@color/black_overlay"
+                app:civ_shadow_radius="3"/>
 
             <TextView
                 android:id="@+id/card_owner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/card_owner_image"
                 android:maxLines="1"
                 android:maxWidth="@dimen/card_owner_maxwidth"
                 android:textColor="@color/textPrimaryLight"
@@ -81,21 +87,26 @@
                 android:id="@+id/card_owner_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/card_ownerloc_marginleft"
-                android:layout_toEndOf="@id/card_owner"
-                android:layout_toRightOf="@id/card_owner"
+                android:layout_below="@id/card_owner"
+                android:layout_toRightOf="@+id/card_owner_image"
                 android:textColor="@color/textSecondary"
                 android:textSize="@dimen/card_ownerloc_txtsize" />
 
         </RelativeLayout>
 
+        <View
+            android:id="@+id/ruler"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/buttons"
+            android:background="@color/recycler_ruler_color" />
+
         <RelativeLayout
             android:id="@+id/buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/card_image"
-            android:layout_marginTop="@dimen/margin_top_buttons">
+            android:layout_below="@id/card_image">
 
             <Button
                 android:id="@+id/refuse_request"
