@@ -95,6 +95,7 @@
                 android:id="@+id/owner_rating"
                 android:scaleX="0.25"
                 android:scaleY="0.25"
+                android:isIndicator="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

@@ -4,36 +4,25 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.RelativeLayout;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import it.polimi.dima.bookshare.R;
-import it.polimi.dima.bookshare.adapters.ReviewAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
-import it.polimi.dima.bookshare.fragments.HomeFragment;
 import it.polimi.dima.bookshare.fragments.MyReviewsFragment;
 import it.polimi.dima.bookshare.fragments.ReviewFragment;
 import it.polimi.dima.bookshare.fragments.ReviewsAboutMeFragment;
-import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.Review;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
-import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 
 public class ReviewsActivity extends AppCompatActivity {
 
@@ -167,8 +156,6 @@ public class ReviewsActivity extends AppCompatActivity {
             startActivity(new Intent(ReviewsActivity.this, MainActivity.class));
             finish();
         }
-
-        return;
     }
 
     public void loadReviews() {
@@ -216,7 +203,7 @@ public class ReviewsActivity extends AppCompatActivity {
                         }
 
                     } catch (ParseException e) {
-
+                        e.printStackTrace();
                     }
                 }
 
@@ -290,7 +277,7 @@ public class ReviewsActivity extends AppCompatActivity {
                         }
 
                     } catch (ParseException e) {
-
+                        e.printStackTrace();
                     }
 
                 }
@@ -354,9 +341,8 @@ public class ReviewsActivity extends AppCompatActivity {
         protected ArrayList<Review> doInBackground(Void... params) {
 
             DynamoDBManager DDBM = new DynamoDBManager(ReviewsActivity.this);
-            ArrayList<Review> mReviews = DDBM.getMyReviews();
 
-            return mReviews;
+            return DDBM.getMyReviews();
         }
 
         protected void onPostExecute(ArrayList<Review> reviews) {
@@ -375,10 +361,7 @@ public class ReviewsActivity extends AppCompatActivity {
         @Override
         protected ArrayList<Review> doInBackground(Void... params) {
 
-            DynamoDBManager DDBM = new DynamoDBManager(ReviewsActivity.this);
-            ArrayList<Review> mReviews = DDBM.getReviewsAboutMe();
-
-            return mReviews;
+            return new DynamoDBManager(ReviewsActivity.this).getReviewsAbout(new ManageUser(ReviewsActivity.this).getUser().getUserID());
         }
 
         protected void onPostExecute(ArrayList<Review> reviews) {
@@ -398,9 +381,8 @@ public class ReviewsActivity extends AppCompatActivity {
         protected ArrayList<User> doInBackground(ArrayList<Review>... params) {
 
             DynamoDBManager DDBM = new DynamoDBManager(ReviewsActivity.this);
-            ArrayList<User> mReviewers = DDBM.getReviewers(params[0]);
 
-            return mReviewers;
+            return DDBM.getReviewers(params[0]);
         }
 
         protected void onPostExecute(ArrayList<User> reviewers) {

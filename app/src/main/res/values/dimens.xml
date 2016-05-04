@@ -143,7 +143,7 @@
 
     <!-- BOOK DETAIL -->
     <dimen name="owner_image">80dp</dimen>
-    <dimen name="owner_margin">20dp</dimen>
+    <dimen name="owner_margin">5dp</dimen>
     <dimen name="card_margin">0dp</dimen>
     <dimen name="card_elevation">5dp</dimen>
     <dimen name="card_paddingbottom">30dp</dimen>
@@ -154,14 +154,14 @@
     <dimen name="title_maxwidth">300dp</dimen>
     <dimen name="title_txtsize">23sp</dimen>
 
-    <dimen name="author_margintop">15dp</dimen>
+    <dimen name="author_margintop">10dp</dimen>
     <dimen name="author_txtsize">20sp</dimen>
 
     <dimen name="publisher_txtsize">16sp</dimen>
     <dimen name="publisher_margintop">20dp</dimen>
 
     <dimen name="pagecount_txtsize">16sp</dimen>
-    <dimen name="pagecount_margintop">15dp</dimen>
+    <dimen name="pagecount_margintop">5dp</dimen>
 
     <dimen name="ruler_margintop">20dp</dimen>
 
@@ -175,6 +175,17 @@
 
     <dimen name="fab_marginright">20dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+
+    <dimen name="owner_name_txtsize">17sp</dimen>
+    <dimen name="owner_name_margintop">16dp</dimen>
+
+    <dimen name="owner_image_marginleft">30dp</dimen>
+    <dimen name="owner_ratingb_marginleft">-45dp</dimen>
+    <dimen name="owner_ratingb_margintop">-5dp</dimen>
+
+    <dimen name="owner_loc_margintop">3dp</dimen>
+    <dimen name="owner_loc_txtsize">15sp</dimen>
+    <dimen name="owner_textinfo_marginleft">25dp</dimen>
 
     <!-- SETTINGS FRAGMENT -->
 

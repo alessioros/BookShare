@@ -107,9 +107,17 @@
                     android:textColor="@color/textSecondary"
                     android:textSize="@dimen/pagecount_txtsize" />
 
+                <View
+                    android:id="@+id/first_ruler"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/ruler_margintop"
+                    android:layout_below="@+id/book_pagecount"
+                    android:background="@color/book_ruler_color" />
+
                 <RelativeLayout
                     android:id="@+id/layout_owner"
-                    android:layout_below="@+id/book_pagecount"
+                    android:layout_below="@+id/first_ruler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/owner_margin">
@@ -119,33 +127,47 @@
                         android:layout_width="@dimen/owner_image"
                         android:layout_height="@dimen/owner_image"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentLeft="true" />
+                        android:layout_marginLeft="@dimen/owner_image_marginleft"
+                        android:layout_marginStart="@dimen/owner_image_marginleft"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
 
                     <TextView
                         android:id="@+id/name_owner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16dp"
-                        android:layout_marginLeft="@dimen/owner_margin"
-                        android:layout_toRightOf="@id/owner_image" />
+                        android:textSize="@dimen/owner_name_txtsize"
+                        android:layout_marginTop="@dimen/owner_name_margintop"
+                        android:layout_marginLeft="@dimen/owner_textinfo_marginleft"
+                        android:layout_marginStart="@dimen/owner_textinfo_marginleft"
+                        android:layout_toRightOf="@id/owner_image"
+                        android:layout_toEndOf="@id/owner_image" />
 
                     <TextView
                         android:id="@+id/location_owner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/name_owner"
-                        android:textSize="14dp"
-                        android:layout_marginLeft="@dimen/owner_margin"
-                        android:layout_toRightOf="@id/owner_image" />
+                        android:textSize="@dimen/owner_loc_txtsize"
+                        android:layout_marginTop="@dimen/owner_loc_margintop"
+                        android:layout_marginLeft="@dimen/owner_textinfo_marginleft"
+                        android:layout_marginStart="@dimen/owner_textinfo_marginleft"
+                        android:layout_toRightOf="@id/owner_image"
+                        android:layout_toEndOf="@id/owner_image" />
 
                     <RatingBar
-                        android:id="@+id/revofme_ratingBar"
+                        android:id="@+id/owner_avgRating"
                         android:scaleX="0.5"
                         android:scaleY="0.5"
                         android:layout_below="@id/location_owner"
+                        android:isIndicator="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/owner_ratingb_margintop"
+                        android:layout_marginLeft="@dimen/owner_ratingb_marginleft"
+                        android:layout_marginStart="@dimen/owner_ratingb_marginleft"
+                        android:layout_toRightOf="@id/owner_image"
+                        android:layout_toEndOf="@id/owner_image"
                         android:numStars="5"
                         android:stepSize="0.5"
                         android:rating="4.5" />
@@ -196,6 +218,7 @@
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
         android:layout_marginRight="@dimen/fab_marginright"
+        android:layout_marginEnd="@dimen/fab_marginright"
         android:background="@color/colorPrimaryLight"
         android:scaleType="center"
         android:src="@drawable/ic_add"

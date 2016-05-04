@@ -937,12 +937,11 @@ public class DynamoDBManager {
         return review;
     }
 
-    public ArrayList<Review> getReviewsAboutMe() {
+    public ArrayList<Review> getReviewsAbout(String targetUserID) {
 
         ArrayList<Review> mReviews = new ArrayList<>();
 
         AmazonDynamoDBClient ddb = clientManager.ddb();
-        String targetUserID = new ManageUser(context).getUser().getUserID();
 
         // Create our map of values
         Map keyConditions = new HashMap();

@@ -4,8 +4,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +43,7 @@ import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.BookRequest;
+import it.polimi.dima.bookshare.tables.Review;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.InternalStorage;
 import it.polimi.dima.bookshare.utils.ManageUser;
@@ -55,6 +58,7 @@ public class BookDetail extends AppCompatActivity {
     private static final String TAG = "BookDetail";
     private String RECBOOKS_KEY = "RECBOOKS";
     private String MYBOOKS_KEY = "MYBOOKS";
+    private RatingBar ownerRating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,8 @@ public class BookDetail extends AppCompatActivity {
         RatingBar userVal = (RatingBar) findViewById(R.id.revofme_ratingBar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        ownerRating = (RatingBar) findViewById(R.id.owner_avgRating);
 
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
 
@@ -152,6 +158,27 @@ public class BookDetail extends AppCompatActivity {
             }
 
             if (book.getOwnerID() != null) {
+
+                new LoadReviews(new OnReviewLoadingCompleted() {
+                    @Override
+                    public void onReviewLoadingCompleted(final ArrayList<Review> reviews) {
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                float sumRat = 0;
+                                for (Review rev : reviews) {
+                                    sumRat += rev.getRating();
+                                }
+                                sumRat = sumRat / reviews.size();
+                                ownerRating.setRating(sumRat);
+                            }
+                        });
+
+                    }
+                }).execute(book.getOwnerID());
+
                 if (manageUser.getUser().getUserID().equals(book.getOwnerID())) {
 
                     owner = manageUser.getUser();
@@ -314,7 +341,7 @@ public class BookDetail extends AppCompatActivity {
         supportStartPostponedEnterTransition();
 
         updateButtonBackground((Button) findViewById(R.id.button_book_detail), palette);
-
+        updateRatingBackground(palette);
     }
 
     private void updateBackground(FloatingActionButton fab, Palette palette) {
@@ -333,6 +360,16 @@ public class BookDetail extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             button.setBackgroundTintList(ColorStateList.valueOf(vibrantColor));
         }
+    }
+
+    private void updateRatingBackground(Palette palette) {
+
+        int vibrantColor = palette.getVibrantColor(ContextCompat.getColor(this, R.color.colorAccent));
+
+        LayerDrawable stars = (LayerDrawable) ownerRating.getProgressDrawable();
+        stars.getDrawable(0).setColorFilter(ContextCompat.getColor(BookDetail.this, R.color.lightgrey_star), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(vibrantColor, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(vibrantColor, PorterDuff.Mode.SRC_ATOP);
     }
 
     private void deleteBook() {
@@ -486,6 +523,10 @@ public class BookDetail extends AppCompatActivity {
         void onUserLoadingCompleted();
     }
 
+    private interface OnReviewLoadingCompleted {
+        void onReviewLoadingCompleted(ArrayList<Review> reviews);
+    }
+
     class LoadUser extends AsyncTask<String, Void, Void> {
         private OnUserLoadingCompleted listener;
 
@@ -503,6 +544,28 @@ public class BookDetail extends AppCompatActivity {
         }
 
     }
+
+    class LoadReviews extends AsyncTask<String, ArrayList<Review>, ArrayList<Review>> {
+        private OnReviewLoadingCompleted listener;
+
+        public LoadReviews(OnReviewLoadingCompleted listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected ArrayList<Review> doInBackground(String... params) {
+
+            DynamoDBManager DDBM = new DynamoDBManager(BookDetail.this);
+
+            return DDBM.getReviewsAbout(params[0]);
+        }
+
+        protected void onPostExecute(ArrayList<Review> reviews) {
+
+            listener.onReviewLoadingCompleted(reviews);
+        }
+    }
+
 
 }
 
