@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     * */
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         Typeface aller = Typeface.createFromAsset(context.getAssets(), "fonts/Aller_Rg.ttf");
 
@@ -147,14 +148,24 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ArrayList<BookRequest> bookRequests = new DynamoDBManager(context).getMyBookRequests();
-                        for (BookRequest br : bookRequests) {
-                            if (br.getBookISBN().equals(book.getIsbn()) && br.getReceiverID().equals(book.getOwnerID())) {
-                                br.setAccepted(4);
-                                new DynamoDBManager(context).updateBookRequest(br);
-                                Toast.makeText(context, R.string.return_sent, Toast.LENGTH_SHORT).show();
-                                break;
+                        try {
+                            final BookRequest bookRequest = mBookRequests.get(position);
+                            user = bookRequest.getUser();
+                            book = bookRequest.getBook();
+                            ArrayList<BookRequest> bookRequests = new DynamoDBManager(context).getMyBookRequests();
+                            for (BookRequest br : bookRequests) {
+                                if (br.getBookISBN().equals(book.getIsbn()) && br.getReceiverID().equals(book.getOwnerID())) {
+                                    br.setAccepted(4);
+
+                                    new DynamoDBManager(context).updateBookRequest(br);
+                                    Toast.makeText(context, R.string.return_sent, Toast.LENGTH_SHORT).show();
+                                    holder.buttonConfirm.setVisibility(Button.INVISIBLE);
+                                    break;
+
+                                }
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 });
