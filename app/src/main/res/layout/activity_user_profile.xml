@@ -70,11 +70,11 @@
                     android:id="@+id/owner_location_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/owner_locinfo_marginleft"
                     android:layout_marginStart="@dimen/owner_locinfo_marginleft"
                     android:layout_toEndOf="@id/location_icon"
                     android:layout_toRightOf="@id/location_icon"
-                    android:layout_centerVertical="true"
                     android:textColor="@color/textPrimary"
                     android:textSize="@dimen/owner_locinfo_txtsize" />
 
@@ -85,42 +85,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/owner_location_info"
-                android:layout_marginTop="@dimen/owner_distance_margintop"
+                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/owner_distance_margintop"
+                android:layout_marginTop="@dimen/owner_distance_margintop"
                 android:textColor="@color/textPrimaryLight"
-                android:textSize="@dimen/owner_distance_txtsize"
-                android:layout_centerHorizontal="true" />
+                android:textSize="@dimen/owner_distance_txtsize" />
 
             <RelativeLayout
                 android:id="@+id/owner_reviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/owner_distance">
+                android:layout_below="@id/owner_distance"
+                android:layout_centerHorizontal="true">
 
                 <RatingBar
                     android:id="@+id/owner_reviews_avgrating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="-30dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="-30dp"
                     android:isIndicator="true"
-                    android:scaleY="0.6"
-                    android:scaleX="0.6"
                     android:numStars="5"
+                    android:scaleX="0.6"
+                    android:scaleY="0.6"
                     android:stepSize="0.5" />
 
                 <TextView
                     android:id="@+id/owner_reviews_avg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="-35dp"
                     android:layout_toEndOf="@id/owner_reviews_avgrating"
                     android:layout_toRightOf="@id/owner_reviews_avgrating"
-                    android:layout_marginLeft="-35dp"
+                    android:text="0"
                     android:textColor="@color/textPrimaryLight"
-                    android:textSize="22sp"
-                    android:layout_centerVertical="true" />
+                    android:textSize="22sp" />
 
             </RelativeLayout>
 
@@ -129,18 +129,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/owner_reviews"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="-5dp"
                 android:text="no reviews yet"
                 android:textColor="@color/textPrimaryLight"
-                android:textSize="18sp"
-                android:layout_centerHorizontal="true" />
+                android:textSize="18sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/ruler_color"
+                android:layout_below="@id/owner_reviews_count"
                 android:layout_marginTop="15dp"
-                android:layout_below="@id/owner_reviews_count" />
+                android:background="@color/ruler_color" />
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
