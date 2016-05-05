@@ -178,6 +178,7 @@
                     android:id="@+id/ruler"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/second_ruler_margintop"
                     android:layout_below="@+id/layout_owner"
                     android:background="@color/book_ruler_color" />
 

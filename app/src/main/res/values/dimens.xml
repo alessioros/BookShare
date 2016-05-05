@@ -187,6 +187,8 @@
     <dimen name="owner_loc_txtsize">15sp</dimen>
     <dimen name="owner_textinfo_marginleft">25dp</dimen>
 
+    <dimen name="second_ruler_margintop">20dp</dimen>
+
     <!-- SETTINGS FRAGMENT -->
 
     <dimen name="settings_headers_padding">15dp</dimen>
@@ -308,4 +310,16 @@
     <dimen name="button_add_rev_paddinglr">35dp</dimen>
     <dimen name="button_add_rev_margintop">25dp</dimen>
 
+    <!-- ACTIVITY USER PROFILE -->
+    <dimen name="owner_image_height">200dp</dimen>
+    <dimen name="nescroll_view_paddingbottom">5dp</dimen>
+
+    <dimen name="owner_locinfo_margintop">20dp</dimen>
+    <dimen name="owner_loc_img_height">27dp</dimen>
+    <dimen name="owner_loc_img_width">20dp</dimen>
+    <dimen name="owner_locinfo_txtsize">22sp</dimen>
+    <dimen name="owner_locinfo_marginleft">15dp</dimen>
+
+    <dimen name="owner_distance_margintop">15dp</dimen>
+    <dimen name="owner_distance_txtsize">20sp</dimen>
 </resources>

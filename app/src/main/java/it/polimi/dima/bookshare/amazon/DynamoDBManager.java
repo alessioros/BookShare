@@ -370,7 +370,6 @@ public class DynamoDBManager {
 
         // retrieve user's location
         ManageUser manageUser = new ManageUser(context);
-        String ownerID = manageUser.getUser().getUserID();
         Location myLoc = new Location(LocationManager.GPS_PROVIDER);
         myLoc.setLatitude(manageUser.getUser().getLatitude());
         myLoc.setLongitude(manageUser.getUser().getLongitude());
@@ -466,6 +465,8 @@ public class DynamoDBManager {
 
         } catch (AmazonServiceException ex) {
             clientManager.wipeCredentialsOnAuthError(ex);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
         return null;

@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,11 @@ public class BookDetail extends AppCompatActivity {
     private String RECBOOKS_KEY = "RECBOOKS";
     private String MYBOOKS_KEY = "MYBOOKS";
     private RatingBar ownerRating;
+    private View ruler, secondRuler;
+    private boolean loadUserFinished = false, loadRevFinished = false;
+    private RelativeLayout ownerInfoLayout;
+
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +96,9 @@ public class BookDetail extends AppCompatActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
+        ownerInfoLayout = (RelativeLayout) findViewById(R.id.layout_owner);
+        ruler = findViewById(R.id.first_ruler);
+        secondRuler = findViewById(R.id.ruler);
         ownerRating = (RatingBar) findViewById(R.id.owner_avgRating);
 
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
@@ -159,49 +168,83 @@ public class BookDetail extends AppCompatActivity {
 
             if (book.getOwnerID() != null) {
 
-                new LoadReviews(new OnReviewLoadingCompleted() {
-                    @Override
-                    public void onReviewLoadingCompleted(final ArrayList<Review> reviews) {
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                float sumRat = 0;
-                                for (Review rev : reviews) {
-                                    sumRat += rev.getRating();
-                                }
-                                sumRat = sumRat / reviews.size();
-                                ownerRating.setRating(sumRat);
-                            }
-                        });
-
-                    }
-                }).execute(book.getOwnerID());
-
                 if (manageUser.getUser().getUserID().equals(book.getOwnerID())) {
 
-                    owner = manageUser.getUser();
-                    Picasso.with(BookDetail.this).load(owner.getImgURL()).into(image_owner);
-                    name_owner.setText(owner.getName() + " " + owner.getSurname());
-                    location_owner.setText(owner.getCity() + ", " + owner.getCountry());
+                    ruler.setVisibility(View.GONE);
+                    ownerInfoLayout.setVisibility(View.GONE);
 
                 } else {
 
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) secondRuler.getLayoutParams();
+                    params.setMargins(0, 0, 0, 0); //substitute parameters for left, top, right, bottom
+                    secondRuler.setLayoutParams(params);
+                    intent = new Intent(BookDetail.this, UserProfileActivity.class);
+                    // load user's reviews to compute avg rating
+                    new LoadReviews(new OnReviewLoadingCompleted() {
+                        @Override
+                        public void onReviewLoadingCompleted(final ArrayList<Review> reviews) {
+
+                            intent.putParcelableArrayListExtra("user_reviews", reviews);
+                            loadRevFinished = true;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    float sumRat = 0;
+                                    for (Review rev : reviews) {
+                                        sumRat += rev.getRating();
+                                    }
+                                    sumRat = sumRat / reviews.size();
+                                    ownerRating.setRating(sumRat);
+                                    intent.putExtra("avg_rating", sumRat);
+                                    if (loadUserFinished) {
+                                        ownerInfoLayout.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                                startActivity(intent);
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+
+
+                        }
+                    }).execute(book.getOwnerID());
+
+                    // load user's info
                     new LoadUser(new OnUserLoadingCompleted() {
                         @Override
                         public void onUserLoadingCompleted() {
+
+                            intent.putExtra("user", owner);
+                            loadUserFinished = true;
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     Picasso.with(BookDetail.this).load(owner.getImgURL()).into(image_owner);
                                     name_owner.setText(owner.getName() + " " + owner.getSurname());
                                     location_owner.setText(owner.getCity() + ", " + owner.getCountry());
+
+                                    if (loadRevFinished) {
+                                        ownerInfoLayout.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                                startActivity(intent);
+                                            }
+                                        });
+                                    }
                                 }
                             });
+
+
                         }
                     }).execute(book.getOwnerID());
+
                 }
+
             } else {
                 image_owner.setVisibility(CircularImageView.GONE);
                 name_owner.setVisibility(TextView.GONE);

@@ -86,6 +86,16 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
         } else {
 
+            try {
+                if (!book.getReceiverID().equals("")) {
+
+                    holder.mImage.setAlpha(0.5f);
+
+                }
+            } catch (NullPointerException e) {
+
+            }
+
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

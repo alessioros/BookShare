@@ -12,7 +12,7 @@
             android:title="Library" />
         <item
             android:id="@+id/requests"
-            android:icon="@drawable/ic_menu_share"
+            android:icon="@drawable/ic_requests"
             android:title="Requests" />
         <item
             android:id="@+id/reviews"

@@ -167,6 +167,24 @@ public class SplashScreen extends AppCompatActivity {
 
         } else {
 
+            new LoadBooks(new OnBooksLoadingCompleted() {
+                @Override
+                public void onBooksLoadingCompleted(ArrayList<Book> myBooks, ArrayList<Book> recBooks) {
+
+                    manageUser.setBookCount(myBooks.size());
+                    manageUser.setRecBookCount(recBooks.size());
+
+                    try {
+
+                        InternalStorage.cacheObject(SplashScreen.this, MYBOOKS_KEY, myBooks);
+                        InternalStorage.cacheObject(SplashScreen.this, RECBOOKS_KEY, recBooks);
+
+                    } catch (IOException e) {
+
+                    }
+
+                }
+            }).execute(user.getUserID());
             redirectToHome();
         }
 

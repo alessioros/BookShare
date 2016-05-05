@@ -175,4 +175,10 @@
     <string name="rev_norating_err">Error, insert a rating</string>
     <string name="rev_nodesc_err">Error, insert a description</string>
     <string name="rev_incomplete_err">Error, complete all the fields</string>
+
+    <!-- ACTIVITY USER PROFILE -->
+    <string name="far_from_you">Km far from you</string>
+    <string name="no_owner_reviews">no reviews yet</string>
+    <string name="owner_review_count">review, click to view</string>
+    <string name="owner_reviews_count">reviews, click to view</string>
 </resources>
