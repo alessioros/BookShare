@@ -310,6 +310,8 @@
     <dimen name="button_add_rev_paddinglr">35dp</dimen>
     <dimen name="button_add_rev_margintop">25dp</dimen>
 
+    <dimen name="button_skip_margin_bottom">28dp</dimen>
+
     <!-- ACTIVITY USER PROFILE -->
     <dimen name="owner_image_height">200dp</dimen>
     <dimen name="nescroll_view_paddingbottom">5dp</dimen>

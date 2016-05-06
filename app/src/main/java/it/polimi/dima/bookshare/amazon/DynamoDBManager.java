@@ -448,14 +448,28 @@ public class DynamoDBManager {
         DynamoDBMapper mapper = new DynamoDBMapper(ddb);
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+
+        Condition condition = new Condition()
+                .withComparisonOperator(ComparisonOperator.CONTAINS.toString())
+                .withAttributeValueList(new AttributeValue().withS(query));
+
+        scanExpression.addFilterCondition("Title",condition);
+
         try {
             PaginatedScanList<Book> result = mapper.scan(Book.class, scanExpression);
 
             ArrayList<Book> resultList = new ArrayList<Book>();
 
-            for (Book book : result) {
+            /*for (Book book : result) {
                 if (Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(book.getTitle()).find()
                         && !book.getOwnerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null))
+                        && book.getReceiverID() == null) {
+                    resultList.add(book);
+                }
+            }*/
+
+            for (Book book : result) {
+                if (!book.getOwnerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null))
                         && book.getReceiverID() == null) {
                     resultList.add(book);
                 }
@@ -1033,6 +1047,23 @@ public class DynamoDBManager {
         }
 
         return reviewers;
+    }
+
+    public static void insertReview(Review review) {
+
+        AmazonDynamoDBClient ddb = clientManager.ddb();
+        DynamoDBMapper mapper = new DynamoDBMapper(ddb);
+
+        try {
+
+            Log.d(TAG, "Inserting review");
+            mapper.save(review);
+            Log.d(TAG, "Review inserted");
+
+        } catch (AmazonServiceException ex) {
+            Log.e(TAG, "Error inserting review");
+            clientManager.wipeCredentialsOnAuthError(ex);
+        }
     }
 
 }

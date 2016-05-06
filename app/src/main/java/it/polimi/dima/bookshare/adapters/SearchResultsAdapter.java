@@ -64,7 +64,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             holder.mTitle.setText(book.getTitle());
         }
 
-        holder.mOwnerRating.setRating(4f);
+        holder.mOwnerRating.setRating((float)owner.getAvgrating());
         holder.mAuthor.setText(book.getAuthor());
         holder.mOwner.setText(owner.getName() + " " + owner.getSurname());
         holder.mLocation.setText(owner.getCity() + ", " + owner.getCountry());

@@ -9,6 +9,7 @@ import com.facebook.Profile;
 
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.BookRequest;
+import it.polimi.dima.bookshare.tables.Review;
 import it.polimi.dima.bookshare.tables.User;
 
 /**
@@ -21,6 +22,7 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
     private User user,user2;
     private BookRequest bookRequest;
     private String id;
+    private Review review;
 
     public DynamoDBManagerTask(Context context, String id) {
 
@@ -42,6 +44,12 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
     public DynamoDBManagerTask(Context context, BookRequest bookRequest) {
         this.context = context;
         this.bookRequest = bookRequest;
+    }
+
+    public DynamoDBManagerTask(Context context, Review review) {
+
+        this.context = context;
+        this.review = review;
     }
 
     public DynamoDBManagerTask(Context context,Book book, BookRequest bookRequest) {
@@ -111,6 +119,10 @@ public class DynamoDBManagerTask extends AsyncTask<DynamoDBManagerType, Void, Dy
             if (tableStatus.equalsIgnoreCase("ACTIVE")) {
                 DDBM.updateBook(book);
                 DDBM.deleteBookRequest(bookRequest);
+            }
+        } else if (types[0] == DynamoDBManagerType.INSERT_REVIEW) {
+            if (tableStatus.equalsIgnoreCase("ACTIVE")) {
+                DDBM.insertReview(review);
             }
         }
         return result;

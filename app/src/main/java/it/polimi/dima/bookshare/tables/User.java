@@ -24,6 +24,8 @@ public class User implements Parcelable {
     private String arn;
     private String email;
     private String phoneNumber;
+    private double avgrating;
+    private int numreviews;
 
     public User() {
     }
@@ -134,6 +136,25 @@ public class User implements Parcelable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+
+    @DynamoDBAttribute(attributeName = "Numreviews")
+    public int getNumreviews() {
+        return numreviews;
+    }
+
+    public void setNumreviews(int numreviews) {
+        this.numreviews = numreviews;
+    }
+
+    @DynamoDBAttribute(attributeName = "Avgrating")
+    public double getAvgrating() {
+        return avgrating;
+    }
+
+    public void setAvgrating(double avgrating) {
+        this.avgrating = avgrating;
     }
 
     @Override

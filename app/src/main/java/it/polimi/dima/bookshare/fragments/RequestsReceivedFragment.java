@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.activities.WriteReviewActivity;
 import it.polimi.dima.bookshare.adapters.RequestsAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
@@ -134,6 +135,12 @@ public class RequestsReceivedFragment extends Fragment {
                         bookRequests.remove(bookReq);
                         requestsAdapter.notifyDataSetChanged();
                         Toast.makeText(getActivity(), getResources().getString(R.string.return_confirmed), Toast.LENGTH_SHORT).show();
+
+                        Intent writereview=new Intent(getActivity(),WriteReviewActivity.class);
+                        writereview.putExtra("targetUser",bookReq.getUser().getUserID());
+                        startActivity(writereview);
+
+                        getActivity().finish();
 
                     }
                 }

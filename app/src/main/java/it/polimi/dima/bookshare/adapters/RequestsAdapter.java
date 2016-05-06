@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.activities.VerticalOrientationCA;
+import it.polimi.dima.bookshare.activities.WriteReviewActivity;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.fragments.FragmentIntentIntegrator;
 import it.polimi.dima.bookshare.tables.Book;
@@ -149,6 +151,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     @Override
                     public void onClick(View view) {
                         try {
+
                             final BookRequest bookRequest = mBookRequests.get(position);
                             user = bookRequest.getUser();
                             book = bookRequest.getBook();
@@ -164,6 +167,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
                                 }
                             }
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -187,6 +191,31 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
                 holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.confirmed_icon, context.getTheme()));
             } else if (bookRequest.getAccepted() == 4) {
+
+                if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean(user.getUserID()+""+book.getIsbn(),true)) {
+                    holder.buttonConfirm.setVisibility(Button.VISIBLE);
+                    holder.buttonConfirm.setText(R.string.write_review);
+                    holder.buttonConfirm.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            try {
+
+                                final BookRequest bookRequest = mBookRequests.get(position);
+                                user = bookRequest.getUser();
+
+                                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(user.getUserID()+""+book.getIsbn(),false);
+
+                                Intent writereview = new Intent(context, WriteReviewActivity.class);
+                                writereview.putExtra("targetUser", user.getUserID());
+                                context.startActivity(writereview);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+
                 holder.buttonContact.setVisibility(Button.VISIBLE);
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -103,6 +103,7 @@
     <string name="loading_library">loading library..</string>
 
     <!-- REQUEST ACTIVITY -->
+    <string name="write_review">Write a review</string>
     <string name="tab_sent">Sent</string>
     <string name="tab_received">Received</string>
     <string name="refuse_button">Refuse</string>
@@ -167,6 +168,7 @@
     <string name="review_title_text">Title</string>
     <string name="review_description_text">Description:</string>
     <string name="add_review_text">add review</string>
+    <string name="skip_review_text">skip</string>
 
     <string name="maxchar_incomplete">/200</string>
     <string name="maxchar_default">0/200</string>
