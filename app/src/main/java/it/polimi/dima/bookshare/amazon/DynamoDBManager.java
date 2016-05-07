@@ -30,7 +30,6 @@ import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -69,7 +68,7 @@ public class DynamoDBManager {
         AttributeDefinition isbn = new AttributeDefinition().withAttributeName("ISBN").withAttributeType(ScalarAttributeType.S);
         AttributeDefinition ownerID = new AttributeDefinition().withAttributeName("ownerID").withAttributeType(ScalarAttributeType.S);
 
-        ProvisionedThroughput pt = new ProvisionedThroughput().withReadCapacityUnits(5l).withWriteCapacityUnits(5l);
+        ProvisionedThroughput pt = new ProvisionedThroughput().withReadCapacityUnits(5L).withWriteCapacityUnits(5L);
 
         CreateTableRequest request = new CreateTableRequest()
                 .withTableName(Constants.BOOK_TABLE_NAME)
@@ -101,7 +100,7 @@ public class DynamoDBManager {
             String status = result.getTable().getTableStatus();
             return status == null ? "" : status;
 
-        } catch (ResourceNotFoundException e) {
+        } catch (ResourceNotFoundException ignored) {
         } catch (AmazonServiceException ex) {
             clientManager
                     .wipeCredentialsOnAuthError(ex);
@@ -141,7 +140,7 @@ public class DynamoDBManager {
         try {
             PaginatedScanList<Book> result = mapper.scan(Book.class, scanExpression);
 
-            ArrayList<Book> resultList = new ArrayList<Book>();
+            ArrayList<Book> resultList = new ArrayList<>();
             for (Book book : result) {
                 resultList.add(book);
             }
@@ -165,9 +164,8 @@ public class DynamoDBManager {
         DynamoDBMapper mapper = new DynamoDBMapper(ddb);
 
         try {
-            Book book = mapper.load(Book.class, ISBN, ownerID);
 
-            return book;
+            return mapper.load(Book.class, ISBN, ownerID);
 
         } catch (AmazonServiceException ex) {
             clientManager
@@ -230,7 +228,7 @@ public class DynamoDBManager {
         }
     }
 
-    public static ArrayList<Book> getBooks(String ownerID) {
+    public ArrayList<Book> getBooks(String ownerID) {
 
         ArrayList<Book> userBooks = new ArrayList<>();
 
@@ -271,30 +269,7 @@ public class DynamoDBManager {
         return userBooks;
     }
 
-    public static int getBooksCount(String ownerID) {
-
-        AmazonDynamoDBClient ddb = clientManager.ddb();
-
-        // Create our map of values
-        Map keyConditions = new HashMap();
-
-        // Specify our key conditions (ownerId == "ownerID")
-        Condition hashKeyCondition = new Condition()
-                .withComparisonOperator(ComparisonOperator.EQ.toString())
-                .withAttributeValueList(new AttributeValue().withS(ownerID));
-        keyConditions.put("ownerID", hashKeyCondition);
-
-        QueryRequest queryRequest = new QueryRequest()
-                .withTableName(Constants.BOOK_TABLE_NAME)
-                .withKeyConditions(keyConditions)
-                .withIndexName("ownerID-index");
-
-        QueryResult queryResult = ddb.query(queryRequest);
-
-        return queryResult.getCount();
-    }
-
-    public static ArrayList<Book> getReceivedBooks(String receiverID) {
+    public ArrayList<Book> getReceivedBooks(String receiverID) {
 
         ArrayList<Book> userBooks = new ArrayList<>();
 
@@ -333,34 +308,6 @@ public class DynamoDBManager {
         } while (lastEvaluatedKey != null);
 
         return userBooks;
-    }
-
-    public static int getReceivedBooksCount(String receiverID) {
-
-        ArrayList<Book> userBooks = new ArrayList<>();
-
-        AmazonDynamoDBClient ddb = clientManager.ddb();
-
-        // Create our map of values
-        Map keyConditions = new HashMap();
-
-        // Specify our key conditions (receiverId == "receiverID")
-        Condition hashKeyCondition = new Condition()
-                .withComparisonOperator(ComparisonOperator.EQ.toString())
-                .withAttributeValueList(new AttributeValue().withS(receiverID));
-        keyConditions.put("receiverID", hashKeyCondition);
-
-        Map lastEvaluatedKey = null;
-
-        QueryRequest queryRequest = new QueryRequest()
-                .withTableName(Constants.BOOK_TABLE_NAME)
-                .withKeyConditions(keyConditions)
-                .withExclusiveStartKey(lastEvaluatedKey)
-                .withIndexName("receiverID-index");
-
-        QueryResult queryResult = ddb.query(queryRequest);
-
-        return queryResult.getCount();
     }
 
     public ArrayList<Book> getNearbyBooks(float maxDistance) {
@@ -458,7 +405,7 @@ public class DynamoDBManager {
         try {
             PaginatedScanList<Book> result = mapper.scan(Book.class, scanExpression);
 
-            ArrayList<Book> resultList = new ArrayList<Book>();
+            ArrayList<Book> resultList = new ArrayList<>();
 
             /*for (Book book : result) {
                 if (Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(book.getTitle()).find()
@@ -580,7 +527,7 @@ public class DynamoDBManager {
 
         AttributeDefinition ad = new AttributeDefinition().withAttributeName("UserID").withAttributeType(ScalarAttributeType.S);
 
-        ProvisionedThroughput pt = new ProvisionedThroughput().withReadCapacityUnits(5l).withWriteCapacityUnits(5l);
+        ProvisionedThroughput pt = new ProvisionedThroughput().withReadCapacityUnits(5L).withWriteCapacityUnits(5L);
 
         CreateTableRequest request = new CreateTableRequest()
                 .withTableName(Constants.USER_TABLE_NAME)
@@ -675,9 +622,8 @@ public class DynamoDBManager {
         DynamoDBMapper mapper = new DynamoDBMapper(ddb);
 
         try {
-            User user = mapper.load(User.class, userID);
 
-            return user;
+            return mapper.load(User.class, userID);
 
         } catch (AmazonServiceException ex) {
             clientManager.wipeCredentialsOnAuthError(ex);
@@ -694,10 +640,7 @@ public class DynamoDBManager {
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
         PaginatedScanList<User> result = mapper.scan(User.class, scanExpression);
 
-        Iterator allUsersIterator = result.iterator();
-        while (allUsersIterator.hasNext()) {
-
-            User nextUser = (User) allUsersIterator.next();
+        for (User nextUser : result) {
 
             if (!nextUser.getUserID().equals(myID))
                 allUsers.add(nextUser);
@@ -846,7 +789,7 @@ public class DynamoDBManager {
         try {
             attribute = (AttributeValue) item.get("Description");
             book.setDescription(attribute.getS());
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
         }
 
         attribute = (AttributeValue) item.get("Title");
@@ -867,35 +810,35 @@ public class DynamoDBManager {
         try {
             attribute = (AttributeValue) item.get("PageCount");
             book.setPageCount(Integer.parseInt(attribute.getN()));
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
         }
 
         try {
             attribute = (AttributeValue) item.get("Author");
             book.setAuthor(attribute.getS());
 
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
         }
 
         try {
             attribute = (AttributeValue) item.get("imgURL");
             book.setImgURL(attribute.getS());
 
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
         }
 
         try {
             attribute = (AttributeValue) item.get("Publisher");
             book.setPublisher(attribute.getS());
 
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
         }
 
         try {
             attribute = (AttributeValue) item.get("PublishedDate");
             book.setPublishedDate(attribute.getS());
 
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
         }
 
         return book;
@@ -1012,11 +955,9 @@ public class DynamoDBManager {
 
         PaginatedScanList<Review> result = mapper.scan(Review.class, scanExpression);
 
-        Iterator reviewIterator = result.iterator();
+        for (Review aResult : result) {
 
-        while (reviewIterator.hasNext()) {
-
-            mReviews.add((Review) reviewIterator.next());
+            mReviews.add(aResult);
         }
 
         return mReviews;

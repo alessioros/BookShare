@@ -17,8 +17,6 @@ import android.widget.TextView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
@@ -140,7 +138,7 @@ public class HomeFragment extends Fragment {
             bookSize = books.size();
 
         } catch (NullPointerException e) {
-
+            e.printStackTrace();
         }
 
         if (bookSize > 0) {
@@ -155,7 +153,7 @@ public class HomeFragment extends Fragment {
                 booksNearby.setAdapter(new LibraryAdapter(books, getActivity(), true, false));
 
             } catch (NullPointerException e) {
-
+                e.printStackTrace();
             }
 
 
@@ -167,7 +165,7 @@ public class HomeFragment extends Fragment {
                 noBooks.setVisibility(View.VISIBLE);
 
             } catch (NullPointerException e) {
-
+                e.printStackTrace();
             }
 
 
@@ -179,7 +177,7 @@ public class HomeFragment extends Fragment {
             recyclerProgress.setVisibility(View.GONE);
 
         } catch (NullPointerException e) {
-
+            e.printStackTrace();
         }
 
     }
@@ -200,7 +198,7 @@ public class HomeFragment extends Fragment {
 
                 mBooks = DDBM.getNearbyBooks(new ManageUser(getActivity()).getDistance());
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
 
             return mBooks;

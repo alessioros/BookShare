@@ -62,6 +62,7 @@ public class BookDetail extends AppCompatActivity {
     private RatingBar ownerRating;
     private View ruler, secondRuler;
     private boolean loadUserFinished = false, loadRevFinished = false;
+    private boolean fromUserProfile = false;
     private RelativeLayout ownerInfoLayout;
 
     private Intent intent;
@@ -179,69 +180,107 @@ public class BookDetail extends AppCompatActivity {
                     params.setMargins(0, 0, 0, 0); //substitute parameters for left, top, right, bottom
                     secondRuler.setLayoutParams(params);
                     intent = new Intent(BookDetail.this, UserProfileActivity.class);
-                    // load user's reviews to compute avg rating
-                    new LoadReviews(new OnReviewLoadingCompleted() {
-                        @Override
-                        public void onReviewLoadingCompleted(final ArrayList<Review> reviews) {
 
-                            intent.putParcelableArrayListExtra("user_reviews", reviews);
-                            loadRevFinished = true;
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+                    try {
 
-                                    float sumRat = 0;
-                                    for (Review rev : reviews) {
-                                        sumRat += rev.getRating();
-                                    }
-                                    sumRat = sumRat / reviews.size();
-                                    ownerRating.setRating(sumRat);
-                                    intent.putExtra("avg_rating", sumRat);
-                                    if (loadUserFinished) {
-                                        ownerInfoLayout.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
+                        owner = i.getParcelableExtra("book_owner");
+                        final ArrayList<Review> reviews = i.getParcelableArrayListExtra("owner_reviews");
+                        intent.putParcelableArrayListExtra("user_reviews", reviews);
+                        intent.putExtra("user", owner);
 
-                                                startActivity(intent);
-                                            }
-                                        });
-                                    }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                float sumRat = 0;
+                                for (Review rev : reviews) {
+                                    sumRat += rev.getRating();
                                 }
-                            });
+                                sumRat = sumRat / reviews.size();
+                                ownerRating.setRating(sumRat);
+                                intent.putExtra("avg_rating", sumRat);
 
+                                Picasso.with(BookDetail.this).load(owner.getImgURL()).into(image_owner);
+                                name_owner.setText(owner.getName() + " " + owner.getSurname());
+                                location_owner.setText(owner.getCity() + ", " + owner.getCountry());
 
-                        }
-                    }).execute(book.getOwnerID());
+                                ownerInfoLayout.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
 
-                    // load user's info
-                    new LoadUser(new OnUserLoadingCompleted() {
-                        @Override
-                        public void onUserLoadingCompleted() {
-
-                            intent.putExtra("user", owner);
-                            loadUserFinished = true;
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Picasso.with(BookDetail.this).load(owner.getImgURL()).into(image_owner);
-                                    name_owner.setText(owner.getName() + " " + owner.getSurname());
-                                    location_owner.setText(owner.getCity() + ", " + owner.getCountry());
-
-                                    if (loadRevFinished) {
-                                        ownerInfoLayout.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-
-                                                startActivity(intent);
-                                            }
-                                        });
+                                        startActivity(intent);
                                     }
-                                }
-                            });
+                                });
+
+                            }
+                        });
+
+                    } catch (Exception e) {
+
+                        // load user's reviews to compute avg rating
+                        new LoadReviews(new OnReviewLoadingCompleted() {
+                            @Override
+                            public void onReviewLoadingCompleted(final ArrayList<Review> reviews) {
+
+                                intent.putParcelableArrayListExtra("user_reviews", reviews);
+                                loadRevFinished = true;
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        float sumRat = 0;
+                                        for (Review rev : reviews) {
+                                            sumRat += rev.getRating();
+                                        }
+                                        sumRat = sumRat / reviews.size();
+                                        ownerRating.setRating(sumRat);
+                                        intent.putExtra("avg_rating", sumRat);
+                                        if (loadUserFinished) {
+                                            ownerInfoLayout.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+
+                                                    startActivity(intent);
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
 
 
-                        }
-                    }).execute(book.getOwnerID());
+                            }
+                        }).execute(book.getOwnerID());
+
+                        // load user's info
+                        new LoadUser(new OnUserLoadingCompleted() {
+                            @Override
+                            public void onUserLoadingCompleted() {
+
+                                intent.putExtra("user", owner);
+                                loadUserFinished = true;
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Picasso.with(BookDetail.this).load(owner.getImgURL()).into(image_owner);
+                                        name_owner.setText(owner.getName() + " " + owner.getSurname());
+                                        location_owner.setText(owner.getCity() + ", " + owner.getCountry());
+
+                                        if (loadRevFinished) {
+                                            ownerInfoLayout.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+
+                                                    startActivity(intent);
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        }).execute(book.getOwnerID());
+                    }
 
                 }
 

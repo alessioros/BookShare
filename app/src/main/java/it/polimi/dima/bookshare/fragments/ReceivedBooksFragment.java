@@ -64,9 +64,7 @@ public class ReceivedBooksFragment extends Fragment {
 
             recBooks = (ArrayList<Book>) InternalStorage.readObject(getActivity(), RECBOOKS_KEY);
 
-        } catch (IOException e) {
-            recBooks = null;
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             recBooks = null;
         }
 
@@ -102,7 +100,7 @@ public class ReceivedBooksFragment extends Fragment {
 
             } catch (Exception e) {
 
-                new Toast(getActivity()).makeText(getActivity(), getResources().getString(R.string.error_loading_library), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_loading_library), Toast.LENGTH_SHORT).show();
             }
 
         } else {
@@ -155,9 +153,8 @@ public class ReceivedBooksFragment extends Fragment {
         protected ArrayList<Book> doInBackground(Void... params) {
 
             DynamoDBManager DDBM = new DynamoDBManager(getActivity());
-            ArrayList<Book> mBooks = DDBM.getReceivedBooks(new ManageUser(getActivity()).getUser().getUserID());
 
-            return mBooks;
+            return DDBM.getReceivedBooks(new ManageUser(getActivity()).getUser().getUserID());
         }
 
         protected void onPostExecute(ArrayList<Book> books) {

@@ -324,4 +324,7 @@
 
     <dimen name="owner_distance_margintop">15dp</dimen>
     <dimen name="owner_distance_txtsize">20sp</dimen>
+
+    <dimen name="owner_rev_avg_marginleft">-30dp</dimen>
+    <dimen name="owner_rev_avg_text_marginleft">-35dp</dimen>
 </resources>

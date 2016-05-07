@@ -183,4 +183,5 @@
     <string name="no_owner_reviews">no reviews yet</string>
     <string name="owner_review_count">review, click to view</string>
     <string name="owner_reviews_count">reviews, click to view</string>
+    <string name="zero">0</string>
 </resources>

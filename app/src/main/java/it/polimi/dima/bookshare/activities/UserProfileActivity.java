@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.view.MenuItem;
@@ -19,14 +21,18 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
+import it.polimi.dima.bookshare.adapters.LibraryAdapter;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.fragments.ReviewsAboutMeFragment;
+import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.Review;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
+import it.polimi.dima.bookshare.utils.OnBookLoadingCompleted;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -59,6 +65,7 @@ public class UserProfileActivity extends AppCompatActivity {
             owner = extras.getParcelable("user");
             float avgRating = extras.getFloat("avg_rating");
 
+            loadRecyclerView();
             toolbar.setTitle(owner.getName() + " " + owner.getSurname());
 
             ImageView ownerImage = (ImageView) findViewById(R.id.owner_image);
@@ -114,10 +121,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
                                 CoordinatorLayout cl = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
                                 cl.setVisibility(View.GONE);
-
-                                Toolbar toolbar = (Toolbar) findViewById(R.id.owner_reviewlist_toolbar);
-                                toolbar.setTitle(owner.getName() + "'s Reviews");
-                                toolbar.setVisibility(View.VISIBLE);
 
                                 fragment = ReviewsAboutMeFragment.newInstance();
                                 Bundle args = new Bundle();
@@ -183,11 +186,11 @@ public class UserProfileActivity extends AppCompatActivity {
             CoordinatorLayout cl = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
             cl.setVisibility(View.VISIBLE);
 
-            Toolbar toolbar = (Toolbar) findViewById(R.id.owner_reviewlist_toolbar);
-            toolbar.setVisibility(View.GONE);
-
             reviewsFragmentLoaded = false;
 
+        } else {
+
+            super.onBackPressed();
         }
     }
 
@@ -198,6 +201,31 @@ public class UserProfileActivity extends AppCompatActivity {
             getWindow().setEnterTransition(transition);
             getWindow().setReturnTransition(transition);
         }
+    }
+
+    private void loadRecyclerView() {
+
+        new LoadBooks(new OnBookLoadingCompleted() {
+            @Override
+            public void onBookLoadingCompleted(ArrayList<Book> books) {
+
+                final ArrayList<Book> ownerBooks = books;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.owner_books_recyclerview);
+
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(UserProfileActivity.this, 3);
+
+                        recyclerView.setLayoutManager(gridLayoutManager);
+                        recyclerView.setNestedScrollingEnabled(false);
+
+                        recyclerView.setAdapter(new LibraryAdapter(ownerBooks, owner, userReviews, UserProfileActivity.this));
+                    }
+                });
+            }
+        }).execute();
     }
 
     private interface OnReviewersLoadingCompleted {
@@ -211,8 +239,9 @@ public class UserProfileActivity extends AppCompatActivity {
             this.listener = listener;
         }
 
+        @SafeVarargs
         @Override
-        protected ArrayList<User> doInBackground(ArrayList<Review>... params) {
+        protected final ArrayList<User> doInBackground(ArrayList<Review>... params) {
 
             DynamoDBManager DDBM = new DynamoDBManager(UserProfileActivity.this);
 
@@ -222,6 +251,27 @@ public class UserProfileActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<User> reviewers) {
 
             listener.onReviewersLoadingCompleted(reviewers);
+        }
+    }
+
+    class LoadBooks extends AsyncTask<Void, ArrayList<Book>, ArrayList<Book>> {
+        private OnBookLoadingCompleted listener;
+
+        public LoadBooks(OnBookLoadingCompleted listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected ArrayList<Book> doInBackground(Void... params) {
+
+            DynamoDBManager DDBM = new DynamoDBManager(UserProfileActivity.this);
+
+            return DDBM.getBooks(owner.getUserID());
+        }
+
+        protected void onPostExecute(ArrayList<Book> books) {
+
+            listener.onBookLoadingCompleted(books);
         }
     }
 }

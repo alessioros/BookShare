@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_frame"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/content_frame">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/owner_reviewlist_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:visibility="gone" />
+    android:layout_height="match_parent">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
@@ -104,11 +98,20 @@
                     android:textColor="@color/textPrimaryLight"
                     android:textSize="@dimen/owner_distance_txtsize" />
 
+                <View
+                    android:id="@+id/first_ruler"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/owner_distance"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/ruler_color" />
+
                 <RelativeLayout
                     android:id="@+id/owner_reviews"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/owner_distance"
+                    android:layout_below="@id/first_ruler"
                     android:layout_centerHorizontal="true">
 
                     <RatingBar
@@ -116,7 +119,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="-30dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginLeft="@dimen/owner_rev_avg_marginleft"
+                        android:layout_marginStart="@dimen/owner_rev_avg_marginleft"
                         android:isIndicator="true"
                         android:numStars="5"
                         android:scaleX="0.6"
@@ -128,10 +133,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="-35dp"
+                        android:layout_marginLeft="@dimen/owner_rev_avg_text_marginleft"
+                        android:layout_marginStart="@dimen/owner_rev_avg_text_marginleft"
                         android:layout_toEndOf="@id/owner_reviews_avgrating"
                         android:layout_toRightOf="@id/owner_reviews_avgrating"
-                        android:text="0"
+                        android:text="@string/zero"
                         android:textColor="@color/textPrimaryLight"
                         android:textSize="22sp" />
 
@@ -144,17 +150,28 @@
                     android:layout_below="@id/owner_reviews"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="-5dp"
-                    android:text="no reviews yet"
+                    android:text="@string/no_owner_reviews"
                     android:textColor="@color/textPrimaryLight"
                     android:textSize="18sp" />
 
                 <View
+                    android:id="@+id/last_ruler"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@id/owner_reviews_count"
                     android:layout_marginTop="15dp"
                     android:background="@color/ruler_color" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/owner_books_recyclerview"
+                    android:layout_below="@id/last_ruler"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/fragment_mybook" />
+
             </RelativeLayout>
         </android.support.v4.widget.NestedScrollView>
+
     </android.support.design.widget.CoordinatorLayout>
 </FrameLayout>

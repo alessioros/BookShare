@@ -7,22 +7,29 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.activities.BookDetail;
 import it.polimi.dima.bookshare.tables.Book;
+import it.polimi.dima.bookshare.tables.Review;
+import it.polimi.dima.bookshare.tables.User;
 
 public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHolder> {
 
     private List<Book> mBooks;
+    private ArrayList<Review> ownerReviews;
+    private User bookOwner;
     private Context context;
     private boolean booksNearby;
     private boolean booksBorrowed;
+    private boolean ownersBooks;
 
     public LibraryAdapter(List<Book> mBooks, Context context, boolean booksNearby, boolean booksBorrowed) {
 
@@ -30,7 +37,20 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
         this.context = context;
         this.booksNearby = booksNearby;
         this.booksBorrowed = booksBorrowed;
+        this.ownersBooks = false;
     }
+
+    public LibraryAdapter(List<Book> mBooks, User bookOwner, ArrayList<Review> ownerRev, Context context) {
+
+        this.mBooks = mBooks;
+        this.context = context;
+        this.ownerReviews = ownerRev;
+        this.bookOwner = bookOwner;
+        this.booksNearby = false;
+        this.booksBorrowed = false;
+        this.ownersBooks = true;
+    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -84,6 +104,23 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
                 }
             });
 
+        } else if (ownersBooks) {
+
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(context, BookDetail.class);
+                    intent.putExtra("book", (Parcelable) book);
+                    intent.putParcelableArrayListExtra("owner_reviews", ownerReviews);
+                    intent.putExtra("book_owner", bookOwner);
+                    intent.putExtra("button", "ask");
+
+                    context.startActivity(intent);
+                }
+            });
+
+
         } else {
 
             try {
@@ -92,7 +129,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
                     holder.mImage.setAlpha(0.5f);
 
                 }
-            } catch (NullPointerException e) {
+            } catch (NullPointerException ignored) {
 
             }
 
