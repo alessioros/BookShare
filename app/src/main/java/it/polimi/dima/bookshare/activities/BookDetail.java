@@ -93,7 +93,6 @@ public class BookDetail extends AppCompatActivity {
         final TextView name_owner = (TextView) findViewById(R.id.name_owner);
         final TextView location_owner = (TextView) findViewById(R.id.location_owner);
         final CircularImageView image_owner = (CircularImageView) findViewById(R.id.owner_image);
-        RatingBar userVal = (RatingBar) findViewById(R.id.revofme_ratingBar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -285,10 +284,9 @@ public class BookDetail extends AppCompatActivity {
                 }
 
             } else {
-                image_owner.setVisibility(CircularImageView.GONE);
-                name_owner.setVisibility(TextView.GONE);
-                location_owner.setVisibility(TextView.GONE);
-                userVal.setVisibility(RatingBar.GONE);
+
+                ruler.setVisibility(View.GONE);
+                ownerInfoLayout.setVisibility(View.GONE);
             }
 
             Picasso.with(this).load(book.getImgURL()).into(bookImage, new Callback() {
