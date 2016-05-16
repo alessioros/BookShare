@@ -407,20 +407,21 @@ public class DynamoDBManager {
 
             ArrayList<Book> resultList = new ArrayList<>();
 
-            /*for (Book book : result) {
+            for (Book book : result) {
                 if (Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(book.getTitle()).find()
                         && !book.getOwnerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null))
                         && book.getReceiverID() == null) {
                     resultList.add(book);
                 }
-            }*/
+            }
 
+            /*
             for (Book book : result) {
                 if (!book.getOwnerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null))
                         && book.getReceiverID() == null) {
                     resultList.add(book);
                 }
-            }
+            }*/
 
             return resultList;
 

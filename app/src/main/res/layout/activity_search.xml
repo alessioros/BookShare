@@ -21,6 +21,15 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <TextView
+        android:id="@+id/nobooks_found_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/nobook_margintop"
+        android:textSize="@dimen/nobook_txtsize"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+
     <include layout="@layout/content_search"
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"

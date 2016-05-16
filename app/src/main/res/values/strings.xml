@@ -38,6 +38,8 @@
 
     <!-- SEARCH RESULT -->
     <string name="card_image_contdesc">book image</string>
+    <string name="loading_search_results">Searching book...</string>
+    <string name="nobooks_for_that_title">We're sorry, book not found!</string>
 
     <!-- SETTINGS FRAGMENT -->
     <string name="settings_title">Settings</string>

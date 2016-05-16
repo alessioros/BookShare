@@ -192,7 +192,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.confirmed_icon, context.getTheme()));
             } else if (bookRequest.getAccepted() == 4) {
 
-                if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean(user.getUserID()+""+book.getIsbn(),true)) {
+                if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(user.getUserID() + "" + book.getIsbn(), true)) {
                     holder.buttonConfirm.setVisibility(Button.VISIBLE);
                     holder.buttonConfirm.setText(R.string.write_review);
                     holder.buttonConfirm.setOnClickListener(new View.OnClickListener() {
@@ -203,7 +203,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                 final BookRequest bookRequest = mBookRequests.get(position);
                                 user = bookRequest.getUser();
 
-                                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(user.getUserID()+""+book.getIsbn(),false);
+                                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(user.getUserID() + "" + book.getIsbn(), false);
 
                                 Intent writereview = new Intent(context, WriteReviewActivity.class);
                                 writereview.putExtra("targetUser", user.getUserID());
@@ -310,6 +310,21 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             } else if (bookRequest.getAccepted() == 4) {
 
                 holder.infoIcon.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.confirmed_icon, context.getTheme()));
+
+                holder.buttonConfirm.setVisibility(Button.VISIBLE);
+                holder.buttonConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final BookRequest bookRequest = mBookRequests.get(position);
+
+                        FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(myFragment);
+                        scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
+                        scanIntegrator.setPrompt(context.getResources().getString(R.string.scan_isbn));
+                        PreferenceManager.getDefaultSharedPreferences(context).edit().putString("EXCHANGE_ID", bookRequest.getReceiverID()).apply();
+                        scanIntegrator.initiateScan();
+
+                    }
+                });
 
                 holder.buttonContact.setVisibility(Button.VISIBLE);
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
