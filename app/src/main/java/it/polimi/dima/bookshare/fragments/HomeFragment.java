@@ -114,7 +114,7 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
 
-        /*final ProgressBar recyclerProgress = (ProgressBar) view.findViewById(R.id.recycler_progressBar);
+        final ProgressBar recyclerProgress = (ProgressBar) view.findViewById(R.id.recycler_progressBar);
         recyclerProgress.setVisibility(View.VISIBLE);
 
         new LoadNearbyBooks(new OnBookLoadingCompleted() {
@@ -124,7 +124,7 @@ public class HomeFragment extends Fragment {
                 loadBooksNearby(books);
 
             }
-        }).execute();*/
+        }).execute();
 
         return view;
     }
