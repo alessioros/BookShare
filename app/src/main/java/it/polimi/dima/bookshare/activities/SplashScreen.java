@@ -5,7 +5,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -23,7 +22,6 @@ import java.util.List;
 import java.util.Locale;
 
 import it.polimi.dima.bookshare.R;
-import it.polimi.dima.bookshare.amazon.CognitoSyncClientManager;
 import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.User;
@@ -32,13 +30,10 @@ import it.polimi.dima.bookshare.utils.ManageUser;
 
 public class SplashScreen extends AppCompatActivity {
 
-    // Splash screen timer
-    private static int SPLASH_TIME_OUT = 500;
     private User user;
     private ManageUser manageUser;
-    private final float DEFAULT_MAX_DIST = 200000f;
-    private String MYBOOKS_KEY = "MYBOOKS";
-    private String RECBOOKS_KEY = "RECBOOKS";
+    private final String MYBOOKS_KEY = "MYBOOKS";
+    private final String RECBOOKS_KEY = "RECBOOKS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +41,10 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        int uiOptions = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        }
         decorView.setSystemUiVisibility(uiOptions);
 
         manageUser = new ManageUser(SplashScreen.this);
@@ -61,6 +59,7 @@ public class SplashScreen extends AppCompatActivity {
 
         if (user == null || !manageUser.verifyRegistered()) {
 
+            float DEFAULT_MAX_DIST = 200000f;
             manageUser.setDistance(DEFAULT_MAX_DIST);
             new LoadUser(new OnUserLoadingCompleted() {
                 @Override
@@ -149,7 +148,7 @@ public class SplashScreen extends AppCompatActivity {
                                     InternalStorage.cacheObject(SplashScreen.this, MYBOOKS_KEY, myBooks);
                                     InternalStorage.cacheObject(SplashScreen.this, RECBOOKS_KEY, recBooks);
 
-                                } catch (IOException e) {
+                                } catch (IOException ignored) {
 
                                 }
 
@@ -179,7 +178,7 @@ public class SplashScreen extends AppCompatActivity {
                         InternalStorage.cacheObject(SplashScreen.this, MYBOOKS_KEY, myBooks);
                         InternalStorage.cacheObject(SplashScreen.this, RECBOOKS_KEY, recBooks);
 
-                    } catch (IOException e) {
+                    } catch (IOException ignored) {
 
                     }
 
@@ -190,25 +189,12 @@ public class SplashScreen extends AppCompatActivity {
 
     }
 
-    public void redirectToHome() {
+    private void redirectToHome() {
 
         Intent i = new Intent(SplashScreen.this, MainActivity.class);
         startActivity(i);
 
         finish();
-
-
-        /*new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-
-                Intent i = new Intent(SplashScreen.this, MainActivity.class);
-                startActivity(i);
-
-                finish();
-            }
-        }, SPLASH_TIME_OUT);*/
 
     }
 

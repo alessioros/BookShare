@@ -26,17 +26,14 @@ import android.widget.TextView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
-import java.util.prefs.PreferenceChangeEvent;
-
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.fragments.HomeFragment;
 import it.polimi.dima.bookshare.services.RegistrationIntentService;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.ManageUser;
 
+@SuppressWarnings("ConstantConditions")
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         searchView.setSearchableInfo(searchManager.getSearchableInfo(cn));
 
 
-        user = new ManageUser(MainActivity.this).getUser();
+        User user = new ManageUser(MainActivity.this).getUser();
 
         TextView username = (TextView) findViewById(R.id.username);
 

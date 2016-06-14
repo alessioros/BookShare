@@ -1,13 +1,9 @@
 package it.polimi.dima.bookshare.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,11 +22,12 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.amazon.CognitoSyncClientManager;
 
+@SuppressWarnings("ConstantConditions")
 public class LoginActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
@@ -100,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // start Facebook Login
-                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile,user_location,email"));
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Collections.singletonList("public_profile,user_location,email"));
                 LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
