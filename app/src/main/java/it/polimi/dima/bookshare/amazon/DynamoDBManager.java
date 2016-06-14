@@ -396,11 +396,11 @@ public class DynamoDBManager {
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
 
-        Condition condition = new Condition()
+        /*Condition condition = new Condition()
                 .withComparisonOperator(ComparisonOperator.CONTAINS.toString())
                 .withAttributeValueList(new AttributeValue().withS(query));
 
-        scanExpression.addFilterCondition("Title",condition);
+        scanExpression.addFilterCondition("Title",condition);*/
 
         try {
             PaginatedScanList<Book> result = mapper.scan(Book.class, scanExpression);

@@ -134,7 +134,7 @@ public class SearchActivity extends AppCompatActivity {
 
     public void loadRecyclerView(ArrayList<Book> booksSearched) {
 
-        TextView noResults = (TextView) this.findViewById(R.id.nobooks_found_text);
+        TextView noResults = (TextView) this.findViewById(R.id.nobooks_search_text);
 
         if (booksSearched.isEmpty()) {
 

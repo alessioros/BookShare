@@ -5,6 +5,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <TextView
+        android:id="@+id/nobooks_search_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/nobook_found_margintop"
+        android:textSize="@dimen/nobook_txtsize"
+        android:visibility="gone" />
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_list"
         android:layout_width="match_parent"

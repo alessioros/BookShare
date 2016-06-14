@@ -29,6 +29,7 @@
 
     <dimen name="nobook_txtsize">25dp</dimen>
     <dimen name="nobook_margintop">35dp</dimen>
+
     <!-- HOME FRAGMENT -->
     <dimen name="profile_header_height">170dp</dimen>
     <dimen name="profile_header_elev">2dp</dimen>
@@ -73,7 +74,9 @@
 
     <dimen name="nobooks_nearby_margintop">40dp</dimen>
     <dimen name="nobooks_nearby_txtsize">20sp</dimen>
+
     <!-- CARDS -->
+
     <dimen name="card_image_width">96dp</dimen>
     <dimen name="card_image_height">150dp</dimen>
     <dimen name="card_image_margin">10dp</dimen>
@@ -222,6 +225,7 @@
     <dimen name="alert_margin">15dp</dimen>
 
     <!-- REVIEWS FRAGMENT -->
+
     <dimen name="first_lay_paddingtop">25dp</dimen>
     <dimen name="first_lay_paddingbottom">15dp</dimen>
     <dimen name="second_lay_paddingtop">5dp</dimen>
@@ -258,6 +262,7 @@
     <dimen name="lastinsert_txtsize">16sp</dimen>
 
     <!-- REVIEW RECYCLERVIEW -->
+
     <dimen name="review_card_height">130dp</dimen>
     <dimen name="review_card_padding">10dp</dimen>
 
@@ -327,4 +332,6 @@
 
     <dimen name="owner_rev_avg_marginleft">-30dp</dimen>
     <dimen name="owner_rev_avg_text_marginleft">-35dp</dimen>
+
+    <dimen name="nobook_found_margintop">160dp</dimen>
 </resources>

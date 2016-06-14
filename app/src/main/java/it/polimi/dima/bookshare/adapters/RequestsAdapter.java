@@ -320,7 +320,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                         FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(myFragment);
                         scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
                         scanIntegrator.setPrompt(context.getResources().getString(R.string.scan_isbn));
-                        PreferenceManager.getDefaultSharedPreferences(context).edit().putString("EXCHANGE_ID", bookRequest.getReceiverID()).apply();
+                        PreferenceManager.getDefaultSharedPreferences(context).edit().putString("EXCHANGE_ID", bookRequest.getAskerID()).apply();
                         scanIntegrator.initiateScan();
 
                     }
