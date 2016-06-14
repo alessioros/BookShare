@@ -52,45 +52,13 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         TextView title = (TextView) findViewById(R.id.logo);
-        EditText email = (EditText) findViewById(R.id.email);
-        EditText password = (EditText) findViewById(R.id.password);
-        TextView register = (TextView) findViewById(R.id.register);
-        Button login = (Button) findViewById(R.id.login_button);
         Button loginFB = (Button) findViewById(R.id.login_fb);
-
-        /* ------- TEMPORARY INVISIBLE */
-        ImageView emailImg = (ImageView) findViewById(R.id.email_icon);
-        ImageView passImg = (ImageView) findViewById(R.id.password_icon);
-
-        emailImg.setVisibility(View.INVISIBLE);
-        passImg.setVisibility(View.INVISIBLE);
-        login.setVisibility(View.INVISIBLE);
-        password.setVisibility(View.INVISIBLE);
-        email.setVisibility(View.INVISIBLE);
-        register.setVisibility(View.INVISIBLE);
-
-        /* ------- */
 
         Typeface zaguatica = Typeface.createFromAsset(getAssets(), "fonts/zaguatica-Bold.otf");
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
 
         title.setTypeface(zaguatica);
-        email.setTypeface(aller);
-        password.setTypeface(aller);
-        register.setTypeface(aller);
-        login.setTypeface(aller);
         loginFB.setTypeface(aller);
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(LoginActivity.this, SplashScreen.class);
-                startActivity(intent);
-
-                LoginActivity.this.finish();
-            }
-        });
 
         loginFB.setOnClickListener(new View.OnClickListener() {
             @Override

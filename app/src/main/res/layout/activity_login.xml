@@ -40,6 +40,7 @@
         android:layout_below="@id/logo"
         android:layout_marginTop="25dp" />
 
+    <!--
     <EditText
         android:id="@+id/email"
         android:hint="@string/email"
@@ -102,18 +103,20 @@
         android:textColor="@color/colorPrimaryLight"
         android:textSize="20sp" />
 
+    -->
     <Button
         android:id="@+id/login_fb"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/login_button"
+        android:layout_centerHorizontal="true"
         android:layout_width="@dimen/login_input"
         android:layout_height="@dimen/input_height"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/line"
+        android:layout_marginTop="100dp"
         android:text="@string/loginfb"
         android:background="@color/white"
         android:textColor="@color/colorPrimaryLight"
         android:textSize="20sp" />
 
+    <!--
     <TextView
         android:id="@+id/register"
         android:layout_width="wrap_content"
@@ -124,6 +127,6 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="15sp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" />-->
 
 </RelativeLayout>

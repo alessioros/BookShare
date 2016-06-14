@@ -124,9 +124,10 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
         } else {
 
             try {
-                if (!book.getReceiverID().equals("")) {
+                if (!book.getReceiverID().equals("") && !book.getReceiverID().equals("0")) {
 
-                    holder.mImage.setAlpha(0.5f);
+                    System.out.println(book.getTitle() + book.getReceiverID());
+                    holder.mImage.setAlpha(0.1f);
 
                 }
             } catch (NullPointerException ignored) {
