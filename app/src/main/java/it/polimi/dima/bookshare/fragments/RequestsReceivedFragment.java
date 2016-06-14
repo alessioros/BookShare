@@ -141,6 +141,7 @@ public class RequestsReceivedFragment extends Fragment {
                         startActivity(writereview);
 
                         getActivity().finish();
+                        break;
 
                     }
                 }

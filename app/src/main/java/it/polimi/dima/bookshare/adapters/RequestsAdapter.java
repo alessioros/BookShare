@@ -35,6 +35,7 @@ import it.polimi.dima.bookshare.tables.Book;
 import it.polimi.dima.bookshare.tables.BookRequest;
 import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.DialogContact;
+import it.polimi.dima.bookshare.utils.ManageUser;
 
 /**
  * Created by matteo on 13/04/16.
@@ -47,11 +48,13 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     private User user;
     private Book book;
     private Fragment myFragment;
+    private ManageUser manageUser;
 
     public RequestsAdapter(ArrayList<BookRequest> mBookRequests, Context context, Fragment fragment) {
         this.mBookRequests = mBookRequests;
         this.context = context;
         this.myFragment = fragment;
+        manageUser=new ManageUser(context);
     }
 
     @Override
@@ -109,10 +112,12 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         final BookRequest bookRequest = mBookRequests.get(position);
                         user = bookRequest.getUser();
                         book = bookRequest.getBook();
-                        if (user.getCredits() < 10) {
+
+                        if (manageUser.getUser().getCredits() < 10) {
 
                             Toast.makeText(context, R.string.not_enough_credits, Toast.LENGTH_SHORT).show();
 
@@ -203,7 +208,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                                 final BookRequest bookRequest = mBookRequests.get(position);
                                 user = bookRequest.getUser();
 
-                                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(user.getUserID() + "" + book.getIsbn(), false);
+                                PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(user.getUserID() + "" + book.getIsbn(), false).apply();
 
                                 Intent writereview = new Intent(context, WriteReviewActivity.class);
                                 writereview.putExtra("targetUser", user.getUserID());

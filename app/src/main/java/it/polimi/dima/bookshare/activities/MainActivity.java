@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,12 +36,14 @@ import it.polimi.dima.bookshare.utils.ManageUser;
 @SuppressWarnings("ConstantConditions")
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG="MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("RegARN",true)) {
+        if(true) {
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
             PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("RegARN",false).apply();
