@@ -43,11 +43,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(true) {
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("RegARN",false).apply();
-        }
+        Intent intent = new Intent(this, RegistrationIntentService.class);
+        startService(intent);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

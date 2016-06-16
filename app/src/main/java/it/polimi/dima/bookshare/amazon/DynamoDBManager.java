@@ -410,7 +410,11 @@ public class DynamoDBManager {
             for (Book book : result) {
                 if (Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(book.getTitle()).find()
                         && !book.getOwnerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null))
-                        && book.getReceiverID() == null) {
+                        && book.getReceiverID() == null
+                        ||
+                        Pattern.compile(Pattern.quote(query), Pattern.CASE_INSENSITIVE).matcher(book.getAuthor()).find()
+                                && !book.getOwnerID().equals(PreferenceManager.getDefaultSharedPreferences(context).getString("ID", null))
+                                && book.getReceiverID() == null ) {
                     resultList.add(book);
                 }
             }
