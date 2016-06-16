@@ -152,11 +152,11 @@ public class SplashScreen extends AppCompatActivity {
 
                                 }
 
+                                manageUser.saveUser(user);
+                                redirectToHome();
+
                             }
                         }).execute(user.getUserID());
-
-                        manageUser.saveUser(user);
-                        redirectToHome();
 
                     }
                 }
@@ -181,10 +181,11 @@ public class SplashScreen extends AppCompatActivity {
                     } catch (IOException ignored) {
 
                     }
+                    redirectToHome();
 
                 }
             }).execute(user.getUserID());
-            redirectToHome();
+
         }
 
     }
