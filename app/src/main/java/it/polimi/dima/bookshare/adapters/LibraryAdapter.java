@@ -124,30 +124,42 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
         } else {
 
             try {
+
                 if (!book.getReceiverID().equals("") && !book.getReceiverID().equals("0")) {
 
-                    System.out.println(book.getTitle() + book.getReceiverID());
+                    holder.setIsRecyclable(false);
                     holder.mImage.setAlpha(0.1f);
 
+                } else {
+
+                    holder.mView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            Intent intent = new Intent(context, BookDetail.class);
+                            intent.putExtra("book", (Parcelable) book);
+                            intent.putExtra("button", "delete");
+
+                            context.startActivity(intent);
+                        }
+                    });
                 }
+
             } catch (NullPointerException ignored) {
 
+                holder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(context, BookDetail.class);
+                        intent.putExtra("book", (Parcelable) book);
+                        intent.putExtra("button", "delete");
+
+                        context.startActivity(intent);
+                    }
+                });
             }
-
-            holder.mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent intent = new Intent(context, BookDetail.class);
-                    intent.putExtra("book", (Parcelable) book);
-                    intent.putExtra("button", "delete");
-
-                    context.startActivity(intent);
-                }
-            });
-
         }
-
     }
 
     @Override

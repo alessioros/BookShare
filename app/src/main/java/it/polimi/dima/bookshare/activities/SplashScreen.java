@@ -59,12 +59,15 @@ public class SplashScreen extends AppCompatActivity {
 
         if (user == null || !manageUser.verifyRegistered()) {
 
+            // the default max distance is 200km
             float DEFAULT_MAX_DIST = 200000f;
             manageUser.setDistance(DEFAULT_MAX_DIST);
+
             new LoadUser(new OnUserLoadingCompleted() {
                 @Override
                 public void onUserLoadingCompleted() {
 
+                    // if the user is not present in DynamoDB
                     if (user == null) {
 
                         user = new User();
@@ -84,8 +87,8 @@ public class SplashScreen extends AppCompatActivity {
                                             user.setCity(columns[0]);
                                             user.setCountry(columns[1]);
 
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
+                                        } catch (JSONException | ArrayIndexOutOfBoundsException ignored) {
+
                                         }
 
                                         try {
@@ -123,6 +126,7 @@ public class SplashScreen extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
 
+                                        // user is requested to confirm his location at the next step
                                         Intent askLocationIntent = new Intent(SplashScreen.this, MapsActivity.class);
                                         startActivity(askLocationIntent);
 
@@ -136,7 +140,7 @@ public class SplashScreen extends AppCompatActivity {
 
                     } else {
 
-                        new LoadBooks(new OnBooksLoadingCompleted() {
+                        /*new LoadBooks(new OnBooksLoadingCompleted() {
                             @Override
                             public void onBooksLoadingCompleted(ArrayList<Book> myBooks, ArrayList<Book> recBooks) {
 
@@ -156,7 +160,8 @@ public class SplashScreen extends AppCompatActivity {
                                 redirectToHome();
 
                             }
-                        }).execute(user.getUserID());
+                        }).execute(user.getUserID());*/
+                        redirectToHome();
 
                     }
                 }
@@ -166,7 +171,7 @@ public class SplashScreen extends AppCompatActivity {
 
         } else {
 
-            new LoadBooks(new OnBooksLoadingCompleted() {
+            /*new LoadBooks(new OnBooksLoadingCompleted() {
                 @Override
                 public void onBooksLoadingCompleted(ArrayList<Book> myBooks, ArrayList<Book> recBooks) {
 
@@ -184,7 +189,8 @@ public class SplashScreen extends AppCompatActivity {
                     redirectToHome();
 
                 }
-            }).execute(user.getUserID());
+            }).execute(user.getUserID());*/
+            redirectToHome();
 
         }
 
