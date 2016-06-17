@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import it.polimi.dima.bookshare.R;
@@ -143,14 +143,14 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     numReviews.setText(userReviews.size() + " " + getResources().getString(R.string.owner_reviews_count));
 
-                    avgRatingText.setText("" + avgRating);
+                    avgRatingText.setText("" + new DecimalFormat("#.##").format(avgRating));
                     avgRatingCount.setRating(avgRating);
 
                 } else {
 
                     numReviews.setText(userReviews.size() + " " + getResources().getString(R.string.owner_review_count));
 
-                    avgRatingText.setText("" + avgRating);
+                    avgRatingText.setText("" + new DecimalFormat("#.##").format(avgRating));
                     avgRatingCount.setRating(avgRating);
                 }
 

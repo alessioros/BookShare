@@ -1,6 +1,5 @@
 package it.polimi.dima.bookshare.adapters;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -12,7 +11,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,9 +35,6 @@ import it.polimi.dima.bookshare.tables.User;
 import it.polimi.dima.bookshare.utils.DialogContact;
 import it.polimi.dima.bookshare.utils.ManageUser;
 
-/**
- * Created by matteo on 13/04/16.
- */
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHolder> {
 
     private static final String TAG = "RequestsAdapter";
@@ -76,7 +71,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     * */
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
         Typeface aller = Typeface.createFromAsset(context.getAssets(), "fonts/Aller_Rg.ttf");
 
@@ -113,7 +108,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     @Override
                     public void onClick(View view) {
 
-                        final BookRequest bookRequest = mBookRequests.get(position);
+                        final BookRequest bookRequest = mBookRequests.get(holder.getAdapterPosition());
                         user = bookRequest.getUser();
                         book = bookRequest.getBook();
 
@@ -137,7 +132,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final BookRequest bookRequest = mBookRequests.get(position);
+                        final BookRequest bookRequest = mBookRequests.get(holder.getAdapterPosition());
                         user = bookRequest.getUser();
                         book = bookRequest.getBook();
                         DialogContact dialogContact = new DialogContact();
@@ -157,7 +152,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     public void onClick(View view) {
                         try {
 
-                            final BookRequest bookRequest = mBookRequests.get(position);
+                            final BookRequest bookRequest = mBookRequests.get(holder.getAdapterPosition());
                             user = bookRequest.getUser();
                             book = bookRequest.getBook();
                             ArrayList<BookRequest> bookRequests = new DynamoDBManager(context).getMyBookRequests();
@@ -183,7 +178,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final BookRequest bookRequest = mBookRequests.get(position);
+                        final BookRequest bookRequest = mBookRequests.get(holder.getAdapterPosition());
                         user = bookRequest.getUser();
                         book = bookRequest.getBook();
                         DialogContact dialogContact = new DialogContact();
@@ -205,7 +200,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                         public void onClick(View view) {
                             try {
 
-                                final BookRequest bookRequest = mBookRequests.get(position);
+                                final BookRequest bookRequest = mBookRequests.get(holder.getAdapterPosition());
                                 user = bookRequest.getUser();
 
                                 PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(user.getUserID() + "" + book.getIsbn(), false).apply();
@@ -225,7 +220,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final BookRequest bookRequest = mBookRequests.get(position);
+                        final BookRequest bookRequest = mBookRequests.get(holder.getAdapterPosition());
                         user = bookRequest.getUser();
                         book = bookRequest.getBook();
                         DialogContact dialogContact = new DialogContact();
@@ -249,7 +244,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonRefuse.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final BookRequest bookRequest = mBookRequests.get(position);
+                        final BookRequest bookRequest = mBookRequests.get(holder.getAdapterPosition());
                         user = bookRequest.getUser();
                         book = bookRequest.getBook();
                         bookRequest.setAccepted(1);
@@ -262,7 +257,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonAccept.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final BookRequest bookRequest = mBookRequests.get(position);
+                        final BookRequest bookRequest = mBookRequests.get(holder.getAdapterPosition());
                         user = bookRequest.getUser();
                         book = bookRequest.getBook();
                         bookRequest.setAccepted(2);
@@ -283,7 +278,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final BookRequest bookRequest = mBookRequests.get(position);
+                        final BookRequest bookRequest = mBookRequests.get(holder.getAdapterPosition());
                         user = bookRequest.getUser();
                         book = bookRequest.getBook();
                         DialogContact dialogContact = new DialogContact();
@@ -299,7 +294,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final BookRequest bookRequest = mBookRequests.get(position);
+                        final BookRequest bookRequest = mBookRequests.get(holder.getAdapterPosition());
                         user = bookRequest.getUser();
                         book = bookRequest.getBook();
                         DialogContact dialogContact = new DialogContact();
@@ -320,7 +315,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final BookRequest bookRequest = mBookRequests.get(position);
+                        final BookRequest bookRequest = mBookRequests.get(holder.getAdapterPosition());
 
                         FragmentIntentIntegrator scanIntegrator = new FragmentIntentIntegrator(myFragment);
                         scanIntegrator.setCaptureActivity(VerticalOrientationCA.class);
@@ -335,7 +330,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 holder.buttonContact.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final BookRequest bookRequest = mBookRequests.get(position);
+                        final BookRequest bookRequest = mBookRequests.get(holder.getAdapterPosition());
                         user = bookRequest.getUser();
                         book = bookRequest.getBook();
                         DialogContact dialogContact = new DialogContact();
@@ -351,9 +346,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
         Picasso.with(context).load(book.getImgURL()).into(holder.mImage);
 
-        if (book.getTitle().length() > 23) {
+        if (book.getTitle().length() > 20) {
 
-            holder.mTitle.setText(book.getTitle().substring(0, 23) + "..");
+            holder.mTitle.setText(book.getTitle().substring(0, 20) + "..");
         } else {
 
             holder.mTitle.setText(book.getTitle());

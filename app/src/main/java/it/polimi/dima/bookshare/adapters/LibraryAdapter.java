@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -75,6 +74,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
         final Book book = mBooks.get(position);
 
         Picasso.with(context).load(book.getImgURL()).into(holder.mImage);
+        holder.setIsRecyclable(false);
 
         if (booksNearby) {
 
@@ -127,7 +127,6 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
                 if (!book.getReceiverID().equals("") && !book.getReceiverID().equals("0")) {
 
-                    holder.setIsRecyclable(false);
                     holder.mImage.setAlpha(0.1f);
 
                 } else {
