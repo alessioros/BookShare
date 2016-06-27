@@ -10,6 +10,7 @@
 
     <color name="input_login">#222222</color>
     <color name="input_login_hint">#999999</color>
+    <color name="facebook_color">#3b5998</color>
 
     <color name="ruler_color">#999999</color>
     <color name="book_ruler_color">#AAAAAA</color>

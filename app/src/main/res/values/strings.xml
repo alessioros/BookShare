@@ -13,7 +13,7 @@
     <string name="yes">Yes</string>
     <string name="scan">Scan a Book</string>
     <string name="login">Login</string>
-    <string name="loginfb">Login with FB</string>
+    <string name="loginfb">Login with Facebook</string>
     <string name="add_book">Add Book</string>
     <string name="del_book">Delete Book</string>
     <string name="lend_book">Ask Book</string>

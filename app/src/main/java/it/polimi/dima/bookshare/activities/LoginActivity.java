@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         Typeface aller = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
 
         title.setTypeface(zaguatica);
-        loginFB.setTypeface(aller);
+        //loginFB.setTypeface(aller);
 
         loginFB.setOnClickListener(new View.OnClickListener() {
             @Override

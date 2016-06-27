@@ -161,6 +161,7 @@ public class SplashScreen extends AppCompatActivity {
 
                             }
                         }).execute(user.getUserID());*/
+                        manageUser.saveUser(user);
                         redirectToHome();
 
                     }
