@@ -91,19 +91,6 @@
                 android:layout_marginLeft="@dimen/card_ownerloc_marginleft"
                 android:textSize="@dimen/card_ownerloc_txtsize" />
 
-            <RatingBar
-                android:id="@+id/owner_rating"
-                android:scaleX="0.25"
-                android:scaleY="0.25"
-                android:isIndicator="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="-40dp"
-                android:layout_marginBottom="0dp"
-                android:paddingBottom="0dp"
-                android:numStars="5" />
-
         </RelativeLayout>
 
     </RelativeLayout>

@@ -64,7 +64,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             holder.mTitle.setText(book.getTitle());
         }
 
-        holder.mOwnerRating.setRating((float)owner.getAvgrating());
         holder.mAuthor.setText(book.getAuthor());
         holder.mOwner.setText(owner.getName() + " " + owner.getSurname());
         holder.mLocation.setText(owner.getCity() + ", " + owner.getCountry());
@@ -82,7 +81,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         public final ImageView mImage;
         public final TextView mTitle, mAuthor, mOwner, mLocation;
         public final CircularImageView mOwnerImage;
-        public final RatingBar mOwnerRating;
 
         public ViewHolder(View view) {
 
@@ -94,7 +92,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
             mOwner = (TextView) view.findViewById(R.id.card_owner);
             mLocation = (TextView) view.findViewById(R.id.card_owner_location);
             mOwnerImage=(CircularImageView) view.findViewById(R.id.card_owner_image);
-            mOwnerRating=(RatingBar) view.findViewById(R.id.owner_rating);
 
             view.setOnClickListener(this);
             view.setClickable(true);
