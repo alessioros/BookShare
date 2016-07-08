@@ -117,9 +117,9 @@ public class BookDetail extends AppCompatActivity {
             book = i.getParcelableExtra("book");
 
             try {
-                if (book.getDescription().length() > 595) {
+                if (book.getDescription().length() > 500) {
 
-                    bookDescription.setText(book.getDescription().substring(0, 595) + "..");
+                    bookDescription.setText(book.getDescription().substring(0, 500) + "..");
 
                 } else if (!book.getDescription().equals("")) {
 

@@ -1,6 +1,7 @@
 package it.polimi.dima.bookshare.activities;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
@@ -169,7 +170,7 @@ public class UserProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
 
-            super.onBackPressed();
+            startActivity(new Intent(UserProfileActivity.this, MainActivity.class));
             return true;
         }
 
