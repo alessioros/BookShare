@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.NetworkOnMainThreadException;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.res.ResourcesCompat;
@@ -261,7 +262,11 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                         user = bookRequest.getUser();
                         book = bookRequest.getBook();
                         bookRequest.setAccepted(2);
-                        new DynamoDBManager(context).updateBookRequest(bookRequest);
+                        try {
+                            new DynamoDBManager(context).updateBookRequest(bookRequest);
+                        }catch (NetworkOnMainThreadException e){
+                            e.printStackTrace();
+                        }
                         notifyDataSetChanged();
                     }
                 });
