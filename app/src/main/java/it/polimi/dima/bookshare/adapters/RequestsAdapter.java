@@ -408,7 +408,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             BookRequest bookRequest = mBookRequests.get(getAdapterPosition());
-                            if (bookRequest.getAccepted() < 2) {
+                            if (bookRequest.getAccepted() < 3) {
                                 new DynamoDBManager(context).deleteBookRequest(bookRequest);
                                 mBookRequests.remove(bookRequest);
                                 notifyDataSetChanged();

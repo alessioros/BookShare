@@ -123,7 +123,7 @@
     <string name="loading_requests">Loading your requests</string>
     <string name="nobook_requests">No book requests yet</string>
     <string name="delete_request">Delete Request?</string>
-    <string name="cant_delete">Can\'t delete accepted request!</string>
+    <string name="cant_delete">Can\'t delete confirmed request!</string>
     <string name="not_enough_credits">You don\'t have enough credits!</string>
     <string name="request_existing">You already have a request on this book!</string>
 
