@@ -140,7 +140,7 @@ public class SplashScreen extends AppCompatActivity {
 
                     } else {
 
-                        /*new LoadBooks(new OnBooksLoadingCompleted() {
+                        new LoadBooks(new OnBooksLoadingCompleted() {
                             @Override
                             public void onBooksLoadingCompleted(ArrayList<Book> myBooks, ArrayList<Book> recBooks) {
 
@@ -160,7 +160,7 @@ public class SplashScreen extends AppCompatActivity {
                                 redirectToHome();
 
                             }
-                        }).execute(user.getUserID());*/
+                        }).execute(user.getUserID());
                         manageUser.saveUser(user);
                         redirectToHome();
 
@@ -172,7 +172,7 @@ public class SplashScreen extends AppCompatActivity {
 
         } else {
 
-            /*new LoadBooks(new OnBooksLoadingCompleted() {
+            new LoadBooks(new OnBooksLoadingCompleted() {
                 @Override
                 public void onBooksLoadingCompleted(ArrayList<Book> myBooks, ArrayList<Book> recBooks) {
 
@@ -190,7 +190,7 @@ public class SplashScreen extends AppCompatActivity {
                     redirectToHome();
 
                 }
-            }).execute(user.getUserID());*/
+            }).execute(user.getUserID());
             redirectToHome();
 
         }
