@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import it.polimi.dima.bookshare.R;
 import it.polimi.dima.bookshare.amazon.CognitoSyncClientManager;
+import it.polimi.dima.bookshare.amazon.DynamoDBManager;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerTask;
 import it.polimi.dima.bookshare.amazon.DynamoDBManagerType;
 import it.polimi.dima.bookshare.tables.User;
@@ -120,6 +121,8 @@ public class RegistrationIntentService extends IntentService {
         Log.i(TAG,cpeRes.getEndpointArn());
         ManageUser manageUser = new ManageUser(this);
         User user = manageUser.getUser();
+        User newuser = new DynamoDBManager(this).getUser(user.getUserID());
+        user.setCredits(newuser.getCredits());
         user.setArn(cpeRes.getEndpointArn());
         new DynamoDBManagerTask(this, user).execute(DynamoDBManagerType.INSERT_USER);
         manageUser.saveUser(user);
