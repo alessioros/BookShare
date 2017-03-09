@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/5a03f7f44f8f647e479bf1676d17b0b722d50cbe/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="702d339bc0a81d21354cd7e2cf2b67225fa4a16c">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_b682415c53edbd31cfcf6294983932526c966ec8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-ddb-mapper/2.3.9/b64f410bf2f4d4db5642f066d9bad54d2ea4608c/aws-android-sdk-ddb-mapper-2.3.9.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b64f410bf2f4d4db5642f066d9bad54d2ea4608c">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/aws-android-sdk-ddb-mapper-2.3.9_c2de70a1f1cdc999dce5e7a358fc119b23907426.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/122f082e3b1d3067a20e7633949d310507350389/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0d5cbbbfe040201c7569478b70a13b58fd11aab4">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_77d91e7b41ef35779df0fb8ef80072eec54e3a78.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/852394e85765c4ead847aa9721d057f4cb9ecf2a/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="98684c2dd540ae9d80457028a4fce156e8f9b7d3">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_20976e213c462edb3d7be73bb2ae667412117620.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-ddb/2.3.9/5d12b8c7c10b169cdddb3d6c09c800a42dfba6b7/aws-android-sdk-ddb-2.3.9.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5d12b8c7c10b169cdddb3d6c09c800a42dfba6b7">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/aws-android-sdk-ddb-2.3.9_a305b4a58fef79d981ffffb7f268ee7c0e47b7eb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-cognito/2.3.9/d7e881325e8217fd65651fc7153a3db06f2e454c/aws-android-sdk-cognito-2.3.9.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7e881325e8217fd65651fc7153a3db06f2e454c">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/aws-android-sdk-cognito-2.3.9_45948c18d9b883824beb68650d5c600ad4ae005d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/2afb8d18ac7eb2cc4081fdf876b53580fb215bac/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a61e7010aa7be5da53cd1bc5279630510c9a4912">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_8278d4f83a72b513e8167980c581658949eba2cb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/304eb6cbd450184dd027e04658a9dc224eb14d33/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2cd4b982617e544728de0782d718a58ce1b06e3f">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_a1331abee279d1e3dfdf33ddbe46f4f5a58050d5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/0880683075759f84c3fd72bbb2ae18c18818bd70/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="30a4938ea5235ccf532b3e9f04200e68547e36ad">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_5693be0f926a1890fa52cc124de84c5e952318d8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/b4d1a71edbf11279ce90469f68bf0ed575e36628/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e820b7be8c035dd522da4bc822e8a76c8e27921a">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_9a1512066e12ae3fee99e9688baec3c472a3c035.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/175fd89b781f0033b7053715df9136f36816c14e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="421a5cebe9ff187c98075c59786e9464c5c67d36">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_1a6e428e0d79f49b6ef045913e067f830bcabc57.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/21fa07647aba5daf7cb558f6da03034374dff81e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ee394a892dd21c03a528139c1e8d4e0e1264ac84">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_6a4a07a1013875055a2a68cb6e32c6f8be950d9b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/99760fc8599d9ea8599064c25d55d841c40eaf9d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="810f41e5b7fd99f196ebeabe865ba2c54e7e76dc">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_dfd87e5fb68a79b7c4b842060b57668e5c12c318.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/8d095843bc3a272f070810ac341092212ae9ba8d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fa0446a14ed5dd3725047d6399ffea771a564b30">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_28daf44047035f91bc802611532b8c624d1965dd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/eefe7442718bea7d8900d3e36110d0ae5ee7e331/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bd75f9f0296fe220da6d0ad961831b04541c4452">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_ca86197e3d695aace0bf1c7f2fdd7a14a7280c77.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/d3c357c66349de7d663eb81d7d154a01fc59f5a9/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1ac56e5801e986583cbe27f2cce57f626cc7ff93">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_90e2d596c5a50027c23c74d5248be60a43eae888.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/30ea4440cbec6f1c30509fd08c47713c0e9c8b7f/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="cb2ef781533c3f11c4e80341cbaebad275c66586">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_58d3d3acbdfa9960eaaa1d84b461561ad5863913.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/1330a5aa7de48ad2b79ccb2eb28477e6b17f85da/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="20e6d443b368a3cbcfd9121e6f424708e772967e">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_3155fc0601706fec2a19c7dc9aa286fa30f52452.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.gradle/caches/modules-2/files-2.1/com.google.zxing/core/3.2.1/2287494d4f5f9f3a9a2bb6980e3f32053721b315/core-3.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2287494d4f5f9f3a9a2bb6980e3f32053721b315">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/core-3.2.1_d147d1c10c1ab28dbf26523c68227d18aa163049.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/a8a9f4659f56963f6a317efcc0b379bdf7edcc02/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ea6a989b83d19b1b461281e0475a6cd6514897f8">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_e8ae910e64d85bbb9e5dc73df17f75774cfd0755.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/7b681e04d28154db9a9073f339ba011fbdc9b417/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3d13e510077b35fe8e49930a627dd849ad5da0dc">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_64fe4c2864e1b7b36eebc92c825d8b6dc2481f77.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/9270f54b5e7fb6fd855797edd922267a4cda6411/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3d6951cb416ebf8c66a32b9480808ca247b68344">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_0386d403ea9958adb14454998df144d843086c9d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-sqs/2.3.9/a1278f3266ff8c936dd0de6485de8029a900091f/aws-android-sdk-sqs-2.3.9.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a1278f3266ff8c936dd0de6485de8029a900091f">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/aws-android-sdk-sqs-2.3.9_f9b474134dbb8017080a853b28d4630fa7161ccb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/b3f7f27dc38c750e251ee6f4ef0e0de48f094c68/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="67eb33110dbacb46a48175b08ae0c96761d2c17d">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_e328a094f7ef3df0a4d06f8d45e3c8ce81b5729c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.4.0/d85884acf6810a3bbbecb587f239005cbc846dc4/bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/bolts-tasks-1.4.0_36e93eaf61b2effe6ac64c0b4ced904e683a939f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.2.0/support-annotations-25.2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4a5a82a027706397fff621b22fd6fa796e91d7c5">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/support-annotations-25.2.0_310798b1ef6a8033c0af82bda58a3d57e4de080b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/cc2a3ebf678f758836033721c550f76932c6b013/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8fe8a8f77d651982ce5e18f6187dc4daf914ac57">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_3c60010e3db51e2a6e252a4ee1395cc0adc79042.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/6af2666fa54e20f23f2af85f1c6fb0988bfc03c0/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_34142c6240cede9251e40e8c63fb6b14d680eefc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/7e40646d2c42e23744fb532fd0df3982c5cfea95/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ea03bbfaed89818f233ee9918fac493f2b63895a">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_fa61c2be00bbc6dc8173594c6d3112ab13fe7cd6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/ed0843be5a8344137152cf319b4fe310b2475ee0/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e51c2f662bb72419632af5192553c37e33890a99">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_50abc7c52f2776fecc7aa01af24fefc4d28bf311.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/045929843ffb456fd8f572963994436e774e3e1e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="654b294d429b56fd18392f2b68ad79954f431f8e">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_2ca24a66ef3a583d7731ee53a40d313040cfccdd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/a955b85f7e8c1fd048c73598133486d8ee4e6a7f/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6da05b7498da036b5b37c3beb861cd2060929dcd">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_2b3923ec71cddb5d30cd39b86b8a49cc83ca8555.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/fb7dcd240a4fedf412aab393cfda7c37aab70960/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="cb454b52545859ed2f24a6c01366805b0fa04b22">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_19bcda1cd01919040429d75942bf27316a061afe.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-s3/2.3.9/8b4d1ccbb09daafd17aa3eba99af31ad8aecf505/aws-android-sdk-s3-2.3.9.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8b4d1ccbb09daafd17aa3eba99af31ad8aecf505">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/aws-android-sdk-s3-2.3.9_e1caaaa700d7d1471b7e6fc36721f27d7aae3fed.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/0fea90665e317f90c1b846b9d6f129c5f0242e8f/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a8340f8c17337c864648c13abe1416d34c80ec14">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_b94f2011b4c41cec4e0a982086e0a3d6950eb2b0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Applications/Android Studio.app/Contents/gradle/m2repository/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/gson-2.2.4_d0ce76b63ce905fbab3c5d385c8e1b8692010f19.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/picasso-2.5.2_7dc02085d5920d2624072d50dfd6d780a9bb8f8d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-core/2.3.9/2fa9ee0e95329912656c8ccd98991b195a3ea539/aws-android-sdk-core-2.3.9.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2fa9ee0e95329912656c8ccd98991b195a3ea539">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/aws-android-sdk-core-2.3.9_2998858eb5fef071874018fccd01c1d5052cedbd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/76304cbc28cdfd234b1903aba7623f66b2057d4e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d08bb32b88df3dbcbe1d498c3c57f020b8c521ec">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_8f756383db4681cbbe64b229626d636956e64c86.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/2e507aa8c436202b125503d2b5fa86834182c144/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0e1f104cf60bfe34147ef670229f2635789c79a4">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_d3c9a306c1f58f5f285732ef20fabb89d7392d5a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/fbee6ec54c47b09d4e1c258576fbfdad762504c6/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ce9112e08a027c8620ae693983e38cdbb9f6371b">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_e63ee2612d7d027765deacf0a7df0edb7793ceda.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/647f6d2dc4a2f487ced8e37711bcb321d7b00c6e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="152de8da301561dcb0946471697a420d8f7a68c5">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_f0a89779dabce7a044d8c46a4d9c55fe11667279.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.android/build-cache/3471161ebdc36264dd53571496c6528a77dc16ac/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9be5e957849eb82ad9addf9bdb2896de8bf5654b">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/classes_7724b5f70b9f307263a9229d90157de3bd30ba4a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-sns/2.3.9/4a9c68c102c695a24eb9bba09f8a472e576614e5/aws-android-sdk-sns-2.3.9.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4a9c68c102c695a24eb9bba09f8a472e576614e5">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/aws-android-sdk-sns-2.3.9_919b7f85ff6089049a47dfa83e6f9ddf0bfb26d5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alessiorossotti/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-applinks/1.4.0/8ad21bf21784dacce5f2043afb97218cc377e835/bolts-applinks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
+        <dex dex="/Users/alessiorossotti/Documents/Dropbox/Universita/Magistrale/Superati/Design Mobile Applications/BookShare/BookShare/app/build/intermediates/pre-dexed/debug/bolts-applinks-1.4.0_fd250677344bcde4c1983bfd64f878ac2bdaee5b.jar" />
+    </item>
+
+</items>
