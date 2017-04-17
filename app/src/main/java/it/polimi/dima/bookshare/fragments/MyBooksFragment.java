@@ -88,7 +88,6 @@ public class MyBooksFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 

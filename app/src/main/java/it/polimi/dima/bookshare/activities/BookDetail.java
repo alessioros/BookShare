@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -127,7 +128,7 @@ public class BookDetail extends AppCompatActivity {
                 }
 
             } catch (NullPointerException e) {
-
+                Log.v("EXCEPTION", e.toString());
             }
 
             bookAuthor.setText(book.getAuthor());
